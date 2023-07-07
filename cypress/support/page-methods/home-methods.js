@@ -9,6 +9,12 @@ Cypress.Commands.add("navigateToHomePage", () => {
   cy.url().should("contain", baseUrl);
 });
 
+Cypress.Commands.add("clickLoginOnHomePage", () => {
+  cy.log("***** Going to clickLoginOnHomePage() *****");
+  homeLocators.loginButton().should("exist").should("be.visible").click();
+  cy.log("***** Finished clickLoginOnHomePage() *****");
+});
+
 /**
  * Method to verify top bar element appearance on the 'Home' page
  */

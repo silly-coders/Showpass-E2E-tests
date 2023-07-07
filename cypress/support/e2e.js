@@ -18,6 +18,7 @@ import './commands'
 import './page-methods/login-methods'
 import './page-methods/home-methods'
 import './element-locators/home-locators'
+import './element-locators/login-locators'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
