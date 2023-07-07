@@ -6,8 +6,8 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
     baseUrl: 'https://beta.showpass.com',
-    viewportHeight: 900,
-    viewportWidth: 1440,
+    viewportHeight: 960,
+    viewportWidth: 1536,
     frontLoadingDelay: 5000,
     retries: { "runMode": 0, "openMode": 0 },
   },

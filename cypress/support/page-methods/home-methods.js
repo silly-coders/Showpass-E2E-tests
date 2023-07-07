@@ -8,13 +8,22 @@ Cypress.Commands.add("navigateToHomePage", () => {
   cy.visit("/");
   cy.url().should("contain", baseUrl);
 });
-
+/**
+ * Method to click 'Log In' button on the 'Home' page
+ */
 Cypress.Commands.add("clickLoginOnHomePage", () => {
   cy.log("***** Going to clickLoginOnHomePage() *****");
   homeLocators.loginButton().should("exist").should("be.visible").click();
   cy.log("***** Finished clickLoginOnHomePage() *****");
 });
-
+/**
+ * Method to click 'Create Account' button on the 'Home' page
+ */
+Cypress.Commands.add("clickCreateAccountOnHomePage", () => {
+  cy.log("***** Going to clickCreateAccountOnHomePage() *****");
+  homeLocators.createAccountButton().should("exist").should("be.visible").click();
+  cy.log("***** Finished clickCreateAccountOnHomePage() *****");
+});
 /**
  * Method to verify top bar element appearance on the 'Home' page
  */
