@@ -4,7 +4,7 @@ const homeLocators = new HomeLocators();
  * Method to navigate to the 'Home' page
  */
 Cypress.Commands.add("navigateToHomePage", () => {
-  const baseUrl = Cypress.config('baseUrl');
+  const baseUrl = Cypress.config("baseUrl");
   cy.visit("/");
   cy.url().should("contain", baseUrl);
 });
@@ -47,13 +47,61 @@ Cypress.Commands.add("searchDateAreaAppearance", () => {
     .should("exist")
     .should("be.visible");
   homeLocators.searchButton().should("exist").should("be.visible");
-  cy.log("***** Begin running searchDateAreaAppearance() *****");
+  cy.log("***** Finished searchDateAreaAppearance() *****");
 });
 
 /**
- * Method to very the 'Home' page bottom elements appearance
+ * Method to very the 'Home' page 'Help & Support' column elements appearance
  */
-Cypress.Commands.add("bottomElementsAppearance", () => {
-    homeLocators.officialShowpassPartnersLabel().should("exist").should("be.visible");
+Cypress.Commands.add("helpAndSupportColumnAppearance", () => {
+  cy.log("***** Begin running helpAndSupportColumnAppearance() *****");
+  homeLocators
+    .officialShowpassPartnersLabel()
+    .should("exist")
+    .should("be.visible");
+  homeLocators.facebookIconWithLink().should("exist").should("be.visible");
+  homeLocators.instagramIconWithLink().should("exist").should("be.visible");
+  homeLocators.linkedinIconWithLink().should("exist").should("be.visible");
+  homeLocators.tweeterIconWithLink().should("exist").should("be.visible");
+  homeLocators.helpAndSupportLabel().should("exist");
+  homeLocators.privacyPolicyLink().should("exist").should("be.visible");
+  homeLocators.customerSupportLink().should("exist").should("be.visible");
+  homeLocators.organizerSupportLink().should("exist").should("be.visible");
+  homeLocators.termsAndConditionsLink().should("exist").should("be.visible");
+  cy.log("***** Finished helpAndSupportColumnAppearance() *****");
+});
 
+/**
+ * Method to very the 'Home' page 'Connect With Us' column elements appearance
+ */
+Cypress.Commands.add("connectWithUsColumnAppearance", () => {
+  cy.log("***** Begin running connectWithUsColumnAppearance() *****");
+  homeLocators.connectWithUsHeader().should("exist");
+  homeLocators.angelListLink().should("exist").should("be.visible");
+  homeLocators.careersLink().should("exist").should("be.visible");
+  homeLocators.blogLink().should("exist").should("be.visible");
+  cy.log("***** Finished connectWithUsColumnAppearance() *****");
+});
+
+/**
+ * Method to very the 'Home' page 'About Showpass' column elements appearance
+ */
+Cypress.Commands.add("aboutShowpassColumnAppearance", () => {
+  cy.log("***** Begin running aboutShowpassColumnAppearance() *****");
+  homeLocators.aboutShowpassHeader().should("exist");
+  homeLocators.registerOrganizationLink().should("exist").should("be.visible");
+  homeLocators.aboutUsLink().should("exist").should("be.visible");
+  homeLocators.pricingLink().should("exist").should("be.visible");
+  cy.log("***** Finished aboutShowpassColumnAppearance() *****");
+});
+
+/**
+ * Method to very the 'Subscribe to Showpass' section on the 'Home' page
+ */
+Cypress.Commands.add("subscribeToShowpassSectionAppearance", () => {
+  cy.log("***** Begin running subscribeToShowpassSectionAppearance() *****");
+  homeLocators.subscribeToShowpassText().should("exist").should("be.visible");
+  homeLocators.enterYourEmailInputField().should("exist").should("be.visible");
+  homeLocators.subscribeButton().should("exist").should("be.visible");
+  cy.log("***** Finished subscribeToShowpassSectionAppearance() *****");
 });

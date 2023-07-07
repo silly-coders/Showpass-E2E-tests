@@ -17,9 +17,20 @@ describe("Testing Home page by ", () => {
   it("verifying Search and Date area element appearance", () => {
     cy.searchDateAreaAppearance();
   });
-  
-  it("verifying elements appearance at the bottom of the page", () => {
-    cy.bottomElementsAppearance();
+
+  it("verifying the 'Help & Support' column element appearance", () => {
+    cy.helpAndSupportColumnAppearance();
   });
 
+  it("verifying the 'Connect With Us' column element appearance", () => {
+    cy.connectWithUsColumnAppearance();
+  });
+
+  it("verifying the 'About Showpass' column element appearance", () => {
+    cy.aboutShowpassColumnAppearance();
+  });
+  
+  it("verifying the 'Subscribe to Showpass to receive the latest news' section element appearance", () => {
+    cy.subscribeToShowpassSectionAppearance();
+  });
 });

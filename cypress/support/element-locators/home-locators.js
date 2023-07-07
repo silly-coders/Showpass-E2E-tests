@@ -102,14 +102,213 @@ export class HomeLocators {
   }
 
   //--------------------------------------------------------- ELEMENTS AT THE BOTTOM OF THE PAGE --------------------------------
- /**
-  * 'Official Showpass Partners' sub header (label) at the bottom of the 'Home' page
-  */
+  /**
+   * 'Official Showpass Partners' sub header (label) at the bottom of the 'Home' page
+   */
   officialShowpassPartnersLabel() {
-    return cy.get('p[class^="css"]').contains('Official Showpass Partners');
+    return cy.get('p[class^="css"]').contains("Official Showpass Partners");
   }
-
-
-
-  
+  /**
+   * 'Facebook' icon with link at the bottom of the page
+   */
+  facebookIconWithLink() {
+    return cy.get(
+      'a[href="https://www.facebook.com/showpass"] > div > span > img'
+    );
+  }
+  /**
+   * 'Instagram' icon with link at the bottom of the page
+   */
+  instagramIconWithLink() {
+    return cy.get(
+      'a[href="http://instagram.com/ShowpassEvents"] > div > span > img'
+    );
+  }
+  /**
+   * 'Linkedin' icon with link at the bottom of the page
+   */
+  linkedinIconWithLink() {
+    return cy.get(
+      'a[href="https://ca.linkedin.com/company/showpass"] > div > span > img'
+    );
+  }
+  /**
+   * 'Tweeter' icon with link at the bottom of the page
+   */
+  tweeterIconWithLink() {
+    return cy.get(
+      'a[href="https://twitter.com/ShowpassEvents"] > div > span > img'
+    );
+  }
+  //--------- 'Help & Support' column ---------
+  /**
+   * 'Help & Support' column header
+   */
+  helpAndSupportLabel() {
+    //second element is visible, not the first (which is index=0)
+    return cy.get('p[class^="css"]').contains("Help & Support").eq(0);
+  }
+  /**
+   * 'Privacy Policy' link
+   */
+  privacyPolicyLink() {
+    //second element is visible, not the first (which is index=0)
+    return cy
+      .get('a[href="https://showpass.com/privacy-policy"]')
+      .eq(1)
+      .contains("Privacy Policy");
+  }
+  /**
+   * 'Customer Support' link
+   */
+  customerSupportLink() {
+    //second element is visible, not the first (which is index=0)
+    return cy
+      .get(
+        'a[href="https://help.showpass.com/hc/en-us/categories/360001836433-For-Ticket-Buyers"]'
+      )
+      .eq(1)
+      .contains("Customer Support");
+  }
+  /**
+   * 'Organizer Support' link
+   */
+  organizerSupportLink() {
+    //second element is visible, not the first (which is index=0)
+    return cy
+      .get(
+        'a[href="https://help.showpass.com/hc/en-us/categories/360001821154-Event-Organizers"]'
+      )
+      .eq(1)
+      .contains("Organizer Support");
+  }
+  /**
+   * 'Terms & Conditions' link
+   */
+  termsAndConditionsLink() {
+    //second element is visible, not the first (which is index=0)
+    return cy
+      .get('a[href="https://showpass.com/terms"]')
+      .eq(1)
+      .contains("Terms & Conditions");
+  }
+  //--------- 'Connect With Us' column ---------
+  /**
+   * 'Connect With Us' column header
+   */
+  connectWithUsHeader() {
+    return cy.get('p[class^="css"]').contains("Connect With Us");
+  }
+  /**
+   * 'Angel List' link within the 'Connect With Us' column
+   */
+  angelListLink() {
+    return cy
+      .get('a[href="https://angel.co/showpass"]')
+      .eq(1)
+      .contains("Angel List");
+  }
+  /**
+   * 'Careers' link within the 'Connect With Us' column
+   */
+  careersLink() {
+    return cy
+      .get('a[href="http://careers.showpass.com/"]')
+      .eq(1)
+      .contains("Careers");
+  }
+  /**
+   * 'Blog' link within the 'Connect With Us' column
+   */
+  blogLink() {
+    return cy
+      .get('a[href="https://showpass.com/sell/ticketing-blog"]')
+      .eq(1)
+      .contains("Blog");
+  }
+  //--------- 'About Showpass' column ---------
+  /**
+   * 'About Showpass' column header
+   */
+  aboutShowpassHeader() {
+    return cy.get('p[class^="css"]').contains("About Showpass");
+  }
+  /**
+   * 'Register Organization' link within the 'About Showpass' column
+   */
+  registerOrganizationLink() {
+    return cy
+      .get('a[href$="showpass.com/organizations/register"]')
+      .eq(1)
+      .contains("Register Organization");
+  }
+  /**
+   * 'About Us' link within the 'About Showpass' column
+   */
+  aboutUsLink() {
+    return cy
+      .get('a[href="https://showpass.com/sell/about-showpass"]')
+      .eq(1)
+      .contains("About Us");
+  }
+  /**
+   * 'Our Features' link within the 'About Showpass' column
+   */
+  ourFeaturesLink() {
+    return cy
+      .get('a[href="https://showpass.com/features"]')
+      .eq(1)
+      .contains("Our Features");
+  }
+  /**
+   * 'Pricing' link within the 'About Showpass' column
+   */
+  pricingLink() {
+    return cy
+      .get('a[href="https://showpass.com/pricing"]')
+      .eq(1)
+      .contains("Pricing");
+  }
+  //--------- 'Subscribe to Showpass to receive the latest news' section ---------
+  /**
+   * 'Subscribe to Showpass to receive the latest news' text at the bottom of the 'Home' page
+   */
+  subscribeToShowpassText() {
+    return cy
+      .get('p[class^="css"]')
+      .contains("Subscribe to Showpass to receive the latest news");
+  }
+  /**
+   * 'Enter your email' input field at the bottom of the 'Home' page
+   */
+  enterYourEmailInputField() {
+    return cy.get('input[name="Email Address"]');
+  }
+  /**
+   * 'Subscribe' button next to the 'Enter your email' field on the 'Home' page
+   */
+  subscribeButton() {
+    return cy.get('button[value="Subscribe"]');
+  }
+  //--------- 'Download the App' section ---------
+  /**
+   * 'Download the App' section header at the bottom of the 'Home' page
+   */
+  downloadTheAppHeader() {
+    return cy.get('p[class^="css"]').contains("Download the App");
+  }
+  /**
+   * 'Google Play' button-link at the bottom of the 'Home' page
+   */
+  googlePlayButtonLink() {
+    return cy.get(
+      'a[href="https://play.google.com/store/apps/details?id=com.showpass.android"]'
+    );
+  }
+  /**
+   * 'App Store' button-link at the bottom of the 'Home' page
+   */
+  appStoreButtonLink() {
+    return cy.get('a[href^="https://apps.apple.com/ca/app/showpass"]');
+  }
 }
