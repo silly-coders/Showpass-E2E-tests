@@ -65,4 +65,12 @@ export class LoginLocators {
   signInUsingFacebookButtion() {
     return cy.get('button[aria-label="Sign in using Facebook"]');
   }
+   /**
+   * User First and Last names on the top bar (right hand side)
+   */
+   userFirstAndLastNames() {
+    return cy.get('button[aria-haspopup="menu"] > span > div').eq(1);
+}
+
+
 }

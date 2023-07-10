@@ -23,3 +23,20 @@ Cypress.Commands.add("verifyLoginModalWindowAppearance", () => {
   loginLocators.signInUsingFacebookButtion().should("exist").should("be.visible");
   cy.log("***** Finished verifyLoginModalWindowAppearance() *****");
 });
+/**
+ * Method to log into the 'Showpass' portal
+ * @argument userObject
+ */
+Cypress.Commands.add("logIntoPortal", (userObject) => {
+  cy.log("***** Begin running logIntoPortal() *****");
+  cy.clickLoginOnHomePage();
+  loginLocators.emailAddressInputField().should("exist").should("be.visible").type(userObject.userEmail);
+  loginLocators.passwordInputField().should("exist").should("be.visible").type(userObject.userPassword);
+  loginLocators.emailAddressInputField().should('have.value', userObject.userEmail);
+  loginLocators.passwordInputField().should('have.value', userObject.userPassword);
+  loginLocators.loginButtonOnLoginModalWindow().should("exist").should("be.visible").click();
+  loginLocators.userFirstAndLastNames().should("exist").should("be.visible")
+  .should("have.text", userObject.userFirstName + ' ' + userObject.userLastName)
+  cy.log("***** Finished running logIntoPortal() *****");
+});
+
