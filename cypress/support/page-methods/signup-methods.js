@@ -32,3 +32,38 @@ Cypress.Commands.add("verifySignupModalWindowAppearance", () => {
     signupLocators.termsOfServiceLink().should("exist").should("be.visible");
     cy.log("***** Finished verifySignupModalWindowAppearance() *****");
 });
+
+/**
+ * Method to click 'Create Account' on the 'Sign-Up' modal window
+ */
+Cypress.Commands.add("clickCreateAccountOnSignUpModalWindow", () => {
+    cy.log("***** Begin running clickCreateAccountOnSignUpModalWindow() *****");
+    signupLocators.createAccountButtonOnSignupPage().should("exist").should("be.visible")
+    .click();
+    cy.log("***** Finished clickCreateAccountOnSignUpModalWindow() *****");
+});
+
+/**
+ * Method to register a new user
+ */
+Cypress.Commands.add("registerNewUser", (userDetails) => {
+    cy.log("***** Begin running registerNewUser() *****");
+    // Create a unique user email
+    var uniqueUserEmail = "test-user-" + Math.floor(Date.now() / 1000) + "@mailinator.com";
+    cy.clickCreateAccountOnHomePage();
+    signupLocators.firstNameInputField().should("exist").should("be.visible")
+    .type(userDetails.userFirstName);
+    signupLocators.lastNameInputField().should("exist").should("be.visible")
+    .type(userDetails.userLastName);
+    signupLocators.emailAddressInputField().should("exist").should("be.visible")
+    .type(uniqueUserEmail);
+    signupLocators.passwordInputField().should("exist").should("be.visible")
+    .type(userDetails.userPassword);
+    signupLocators.confirmPasswordInputField().should("exist").should("be.visible")
+    .type(userDetails.userPassword);
+    signupLocators.createAccountButton().should("exist").should("be.visible");
+    cy.clickCreateAccountOnSignUpModalWindow();
+    homeLocators.accountCreatedMessage().should("exist").should("be.visible");
+    cy.log("***** Finished registerNewUser() *****");
+});
+

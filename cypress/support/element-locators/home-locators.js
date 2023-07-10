@@ -317,4 +317,11 @@ export class HomeLocators {
   appStoreButtonLink() {
     return cy.get('a[href^="https://apps.apple.com/ca/app/showpass"]');
   }
+/**
+ * 'Account created!' a little toast message on the top right hand side
+ */
+accountCreatedMessage() {
+  return cy.get('div[status="success"] > div > div > p').contains("Account created!");
+}
+
 }

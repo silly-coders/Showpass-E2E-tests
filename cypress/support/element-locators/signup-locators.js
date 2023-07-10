@@ -103,4 +103,10 @@ export class SignupLocators {
   termsOfServiceLink() {
     return cy.get('a[href="/sell/terms-of-service"]');
   }
+  /**
+   * 'Create Account' button on the 'Sign-up' (Create Account) page
+   */
+  createAccountButtonOnSignupPage() {
+    return cy.get('button[type="submit"]').contains("Create Account");
+  }
 }
