@@ -9,7 +9,7 @@ const loginLocators = new LoginLocators();
 Cypress.Commands.add("verifyLoginModalWindowAppearance", () => {
   cy.log("***** Begin running verifyLoginModalWindowAppearance() *****");
   cy.clickLoginOnHomePage();
-  homeLocators.showpassLogo().should("exist").should("be.visible");
+  loginLocators.showpassLogoOnModalWindow().should("exist").should("be.visible");
   loginLocators.welcomeBackHeader().should("exist").should("be.visible");
   loginLocators.dontHaveAnAccountText().should("exist").should("be.visible");
   loginLocators.signUpLink().should("exist").should("be.visible");

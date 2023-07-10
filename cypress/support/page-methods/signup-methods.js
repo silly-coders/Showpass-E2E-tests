@@ -11,7 +11,7 @@ const signupLocators = new SignupLocators();
 Cypress.Commands.add("verifySignupModalWindowAppearance", () => {
     cy.log("***** Begin running verifySignupModalWindowAppearance() *****");
     cy.clickCreateAccountOnHomePage();
-    homeLocators.showpassLogo().should("exist").should("be.visible");
+    loginLocators.showpassLogoOnModalWindow().should("exist").should("be.visible");
     signupLocators.createAccountHeader().should("exist").should("be.visible");
     signupLocators.alreadyHaveAccountText().should("exist").should("be.visible");
     signupLocators.firstNameLabel().should("exist").should("be.visible");

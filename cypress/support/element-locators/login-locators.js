@@ -1,5 +1,11 @@
 export class LoginLocators {
   /**
+   * 'Showpass' logo on a modal window (Login, Sign-Up etc)
+   */
+  showpassLogoOnModalWindow() {
+    return cy.get('img[alt="showpass"]');
+  }
+  /**
    * 'Welcome Back' header on the 'Login' modal window
    */
   welcomeBackHeader() {
