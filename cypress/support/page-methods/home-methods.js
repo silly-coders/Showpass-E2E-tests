@@ -34,6 +34,7 @@ Cypress.Commands.add("topBarElementAppearance", () => {
     .should("exist")
     .should("be.visible")
     .should("have.text", "Log In");
+  homeLocators.showpassLogo().should("exist").should("be.visible");
   homeLocators.createAccountButton().should("exist").should("be.visible");
   homeLocators.hostAnEventDropDown().should("exist").should("be.visible");
   homeLocators.hostAnEventDropDown().click({ force: true });
@@ -51,6 +52,8 @@ Cypress.Commands.add("topBarElementAppearance", () => {
  */
 Cypress.Commands.add("searchDateAreaAppearance", () => {
   cy.log("***** Begin running searchDateAreaAppearance() *****");
+  homeLocators.calgaryButton().should("exist").scrollIntoView()
+  .should("be.visible").click();
   homeLocators.searchLabel().should("exist").should("be.visible");
   homeLocators
     .searchLocationOrEventInputField()

@@ -52,7 +52,7 @@ export class HomeLocators {
    * Logo 'Showpass' on the top bar
    */
   showpassLogo() {
-    return cy.get('img[alt="showpass"]');
+    return cy.get('a[aria-label="showpass logo"]');
   }
 
   //--------------------------------------------------------- MIDDLE PAGE ELEMENTS ----------------------------------------------
@@ -99,6 +99,12 @@ export class HomeLocators {
    */
   searchButton() {
     return cy.get('button[aria-label="search"]').first();
+  }
+  /**
+   * 'Calgary' button to select a location
+   */
+  calgaryButton() {
+    return cy.get('p[data-testid="Text"]').contains('Calgary');
   }
 
   //--------------------------------------------------------- ELEMENTS AT THE BOTTOM OF THE PAGE --------------------------------
