@@ -323,5 +323,16 @@ export class HomeLocators {
 accountCreatedMessage() {
   return cy.get('div[status="success"] > div > div > p').contains("Account created!");
 }
+/**
+ * 'User First and Last name' button
+ */
+usernameButton() {
+  return cy.get('button[class^="chakra-button chakra-menu__menu-button"]').eq(1);
+}
+ //--------- Drop-down menu items under the username when logged in ---------
+
+
+
+
 
 }

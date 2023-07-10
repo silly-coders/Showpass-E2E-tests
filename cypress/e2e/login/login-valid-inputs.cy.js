@@ -10,7 +10,7 @@ describe("Testing login inputs", () => {
 
   it("by providing valid credentials", () => {
     cy.readFile("cypress/fixtures/testdata.json").then((userObject) => {
-      cy.logIntoPortal(userObject);
+      cy.logIntoPortal(userObject.userDetails);
     });
   });
 });

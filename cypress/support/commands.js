@@ -30,3 +30,10 @@
 Cypress.Commands.add("getByDataTestId", (dataTestId) => {
   return cy.get(`[data-testid="${dataTestId}"]`);
 });
+/**
+ * Get drop-down menu item by it's text
+ * @param itemText
+ */
+Cypress.Commands.add("getDropDownItem", (itemText) => {
+  return cy.get(`button[class^="chakra-menu__menuitem"]`).contains(itemText);
+});

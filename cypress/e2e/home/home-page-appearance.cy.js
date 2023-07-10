@@ -1,4 +1,4 @@
-import { HomePageLocators } from "../../support/page-methods/home-methods";
+
 
 describe("Testing Home page by ", () => {
   before("clean-up", () => {
@@ -32,5 +32,16 @@ describe("Testing Home page by ", () => {
   
   it("verifying the 'Subscribe to Showpass to receive the latest news' section element appearance", () => {
     cy.subscribeToShowpassSectionAppearance();
+  });
+
+  it("verifying drop-down items under username after logging in", () => {
+    cy.readFile("cypress/fixtures/testdata.json").then((userObject) => {
+      cy.logIntoPortal(userObject.userDetails);
+      cy.clickUsernameAfterLoggingIn();
+      cy.verifyDropDownItemExists(userObject.topRightHandDropDownList);
+    });
+  
+
+
   });
 });

@@ -1,6 +1,20 @@
 {
-"userEmail": "test-user@mailinator.com",
-"userPassword": "!@Newuser2023",
-"userFirstName": "User",
-"userLastName": "ForTesting"
+  "userDetails": {
+    "userEmail": "test-user@mailinator.com",
+    "userPassword": "!@Newuser2023",
+    "userFirstName": "User",
+    "userLastName": "ForTesting"
+  },
+  "topRightHandDropDownList": {
+    "stopImpersonate": "Stop Impersonate",
+    "upcoming": "Upcoming",
+    "orders": "Orders",
+    "memberships": "Memberships",
+    "credits": "Credits",
+    "products": "Products",
+    "savedEvents": "Saved Events",
+    "profile": "Profile",
+    "support": "Support",
+    "logOut": "Log Out"
+  }
 }

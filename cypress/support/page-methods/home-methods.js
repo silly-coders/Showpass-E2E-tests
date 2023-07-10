@@ -1,5 +1,9 @@
+import { Entry } from "yauzl";
 import { HomeLocators } from "../element-locators/home-locators";
+import { LoginLocators } from "../element-locators/login-locators";
 const homeLocators = new HomeLocators();
+const loginLocators = new LoginLocators();
+
 /**
  * Method to navigate to the 'Home' page
  */
@@ -122,4 +126,26 @@ Cypress.Commands.add("subscribeToShowpassSectionAppearance", () => {
   homeLocators.enterYourEmailInputField().should("exist").should("be.visible");
   homeLocators.subscribeButton().should("exist").should("be.visible");
   cy.log("***** Finished subscribeToShowpassSectionAppearance() *****");
+});
+
+/**
+ * Click username after logging in
+ */
+Cypress.Commands.add("clickUsernameAfterLoggingIn", () => {
+  cy.log("Going to clickUsernameAfterLoggingIn()");
+  loginLocators.userFirstAndLastNames().should("exist").should("be.visible").click({force: true});
+});
+
+/**
+ * Verify that drop-down menu item exist
+ * @param dataObject
+ */
+Cypress.Commands.add("verifyDropDownItemExists", (topRightHandDropDownList) => {
+// Loop through all items within the dataObject.topRightHandDropDownList JSON to verify menu items
+  for(const key in topRightHandDropDownList) {
+    Object.entries(topRightHandDropDownList).forEach((entry) => {
+      const [key, value] = entry
+      cy.getDropDownItem(value).should("exist").should("be.visible");
+    });
+  }
 });
