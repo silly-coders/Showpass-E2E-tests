@@ -26,14 +26,23 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 
-
+/**
+ * Get locator by data-testid
+ */
 Cypress.Commands.add("getByDataTestId", (dataTestId) => {
   return cy.get(`[data-testid="${dataTestId}"]`);
 });
 /**
- * Get drop-down menu item by it's text
+ * Get a drop-down menu item by it's text
  * @param itemText
  */
 Cypress.Commands.add("getDropDownItem", (itemText) => {
   return cy.get(`button[class^="chakra-menu__menuitem"]`).contains(itemText);
+});
+/**
+ * Get a left side menu item by its text
+ * @param itemText
+ */
+Cypress.Commands.add("getLeftSideMenuItemByText", (itemText) => {
+  return cy.get(`span[class="snapnav"]`).contains(itemText,  { matchCase: false });
 });

@@ -7,6 +7,12 @@ export class HomeLocators {
     return cy.get("button.chakra-button").contains("Log In");
   }
   /**
+   * Button 'Dashboard' on the top bar
+   */
+  dashboardButtonOnTopBar() {
+    return cy.get('button[class^="chakra-button"]').contains("Dashboard");
+  }
+  /**
    * Button 'Create Account' on the 'Home' page.
    */
   createAccountButton() {

@@ -21,6 +21,13 @@ import './page-methods/signup-methods'
 import './element-locators/home-locators'
 import './element-locators/login-locators'
 import './element-locators/signup-locators'
+import './element-locators/dashboard-locators'
+import './page-methods/dashboard-methods'
+import './element-locators/login-locators'
+import './element-locators/create-event-forms-locators'
+import './page-methods/create-event-methods'
+
+
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

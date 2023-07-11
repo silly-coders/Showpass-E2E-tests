@@ -10,8 +10,8 @@ describe("Test user registration by", () => {
     });
 
     it.skip("providing valid input values", () => {
-        cy.readFile("cypress/fixtures/testdata.json").then((userObject) => {
-        cy.registerNewUser(userObject.userDetails);
+        cy.readFile("cypress/fixtures/testdata.json").then((testData) => {
+        cy.registerNewUser(testData.userDetails);
       });
     });
       

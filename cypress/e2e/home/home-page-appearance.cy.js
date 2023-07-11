@@ -35,10 +35,10 @@ describe("Testing Home page by ", () => {
   });
 
   it("verifying drop-down items under username after logging in", () => {
-    cy.readFile("cypress/fixtures/testdata.json").then((userObject) => {
-      cy.logIntoPortal(userObject.userDetails);
+    cy.readFile("cypress/fixtures/testdata.json").then((testData) => {
+      cy.logIntoPortal(testData.userDetails);
       cy.clickUsernameAfterLoggingIn();
-      cy.verifyDropDownItemExists(userObject.topRightHandDropDownList);
+      cy.verifyDropDownItemExists(testData.topRightHandDropDownList);
     });
   
 

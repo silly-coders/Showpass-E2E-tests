@@ -1,8 +1,9 @@
-import { Entry } from "yauzl";
 import { HomeLocators } from "../element-locators/home-locators";
 import { LoginLocators } from "../element-locators/login-locators";
+import { DashboardLocators } from "../element-locators/dashboard-locators";
 const homeLocators = new HomeLocators();
 const loginLocators = new LoginLocators();
+const dashboardLocators = new DashboardLocators();
 
 /**
  * Method to navigate to the 'Home' page
@@ -148,4 +149,14 @@ Cypress.Commands.add("verifyDropDownItemExists", (topRightHandDropDownList) => {
       cy.getDropDownItem(value).should("exist").should("be.visible");
     });
   }
+});
+
+/**
+ * Navigate to 'Dashboard' from 'Home' page
+ */
+Cypress.Commands.add("navigateToDashboard", (userDetails) => {
+  cy.log("Going to navigateToDashboard()");
+  homeLocators.dashboardButtonOnTopBar().should("exist").should("be.visible").click();
+  dashboardLocators.dashboardHeader().should("exist").should("be.visible")
+  .contains("Welcome " + userDetails.userFirstName + ' ' + userDetails.userLastName);
 });
