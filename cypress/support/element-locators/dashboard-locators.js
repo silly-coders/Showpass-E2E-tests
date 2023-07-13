@@ -2,15 +2,14 @@ export class DashboardLocators {
   /**
    * Dashboard Welcome header with user First and Last names
    */
-dashboardHeader() {
+  dashboardHeader() {
     return cy.get('h3[class="title"] > div').contains("Welcome");
   }
 
   /**
    * Top left hamburger menu on the 'Dashboard' page
    */
-topLeftHamburgerMenu() {
+  topLeftHamburgerMenu() {
     return cy.get('button[ng-click="$showSideMenu()"]');
   }
-
 }

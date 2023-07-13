@@ -110,7 +110,7 @@ export class HomeLocators {
    * 'Calgary' button to select a location
    */
   calgaryButton() {
-    return cy.get('p[data-testid="Text"]').contains('Calgary');
+    return cy.get('p[data-testid="Text"]').contains("Calgary");
   }
 
   //--------------------------------------------------------- ELEMENTS AT THE BOTTOM OF THE PAGE --------------------------------
@@ -323,22 +323,21 @@ export class HomeLocators {
   appStoreButtonLink() {
     return cy.get('a[href^="https://apps.apple.com/ca/app/showpass"]');
   }
-/**
- * 'Account created!' a little toast message on the top right hand side
- */
-accountCreatedMessage() {
-  return cy.get('div[status="success"] > div > div > p').contains("Account created!");
-}
-/**
- * 'User First and Last name' button
- */
-usernameButton() {
-  return cy.get('button[class^="chakra-button chakra-menu__menu-button"]').eq(1);
-}
- //--------- Drop-down menu items under the username when logged in ---------
-
-
-
-
-
+  /**
+   * 'Account created!' a little toast message on the top right hand side
+   */
+  accountCreatedMessage() {
+    return cy
+      .get('div[status="success"] > div > div > p')
+      .contains("Account created!");
+  }
+  /**
+   * 'User First and Last name' button
+   */
+  usernameButton() {
+    return cy
+      .get('button[class^="chakra-button chakra-menu__menu-button"]')
+      .eq(1);
+  }
+  //--------- Drop-down menu items under the username when logged in ---------
 }

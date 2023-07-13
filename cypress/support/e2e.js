@@ -26,6 +26,8 @@ import './page-methods/dashboard-methods'
 import './element-locators/login-locators'
 import './element-locators/create-event-forms-locators'
 import './page-methods/create-event-methods'
+import './element-locators/user-settings-locators'
+import './page-methods/user-settings-methods'
 
 
 

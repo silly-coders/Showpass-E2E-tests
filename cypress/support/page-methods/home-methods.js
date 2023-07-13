@@ -9,6 +9,7 @@ const dashboardLocators = new DashboardLocators();
  * Method to navigate to the 'Home' page
  */
 Cypress.Commands.add("navigateToHomePage", () => {
+  cy.log("Going to navigateToHomePage()");
   const baseUrl = Cypress.config("baseUrl");
   cy.visit("/");
   cy.url().should("contain", baseUrl);
@@ -17,23 +18,32 @@ Cypress.Commands.add("navigateToHomePage", () => {
  * Method to click 'Log In' button on the 'Home' page
  */
 Cypress.Commands.add("clickLoginOnHomePage", () => {
-  cy.log("***** Going to clickLoginOnHomePage() *****");
+  cy.log("Going to clickLoginOnHomePage()");
   homeLocators.loginButton().should("exist").should("be.visible").click();
-  cy.log("***** Finished clickLoginOnHomePage() *****");
 });
 /**
  * Method to click 'Create Account' button on the 'Home' page
  */
 Cypress.Commands.add("clickCreateAccountOnHomePage", () => {
-  cy.log("***** Going to clickCreateAccountOnHomePage() *****");
-  homeLocators.createAccountButton().should("exist").should("be.visible").click();
-  cy.log("***** Finished clickCreateAccountOnHomePage() *****");
+  cy.log("Going to clickCreateAccountOnHomePage()");
+  homeLocators
+    .createAccountButton()
+    .should("exist")
+    .should("be.visible")
+    .click();
+});
+/**
+ * Method to select 'Profile' within the drop-down list on the 'Home' page
+ */
+Cypress.Commands.add("selectProfileDropDownItem", () => {
+  cy.log("Going to selectProfileDropDownItem()");
+  cy.getDropDownItem("Profile").should("be.visible").click();
 });
 /**
  * Method to verify top bar element appearance on the 'Home' page
  */
 Cypress.Commands.add("topBarElementAppearance", () => {
-  cy.log("***** Begin running topBarElementAppearance() *****");
+  cy.log("Going to topBarElementAppearance()");
   homeLocators
     .loginButton()
     .should("exist")
@@ -49,16 +59,19 @@ Cypress.Commands.add("topBarElementAppearance", () => {
   homeLocators.supportMenuItem().should("exist").should("be.visible");
   homeLocators.toggleEnFr().should("exist").should("be.visible");
   homeLocators.showpassLogo().should("exist").should("be.visible");
-  cy.log("***** Finished topBarElementAppearance() *****");
 });
 
 /**
  * Method to verify 'Search' and 'Date' area appearance on the 'Home' page
  */
 Cypress.Commands.add("searchDateAreaAppearance", () => {
-  cy.log("***** Begin running searchDateAreaAppearance() *****");
-  homeLocators.calgaryButton().should("exist").scrollIntoView()
-  .should("be.visible").click();
+  cy.log("Going to searchDateAreaAppearance()");
+  homeLocators
+    .calgaryButton()
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible")
+    .click();
   homeLocators.searchLabel().should("exist").should("be.visible");
   homeLocators
     .searchLocationOrEventInputField()
@@ -70,14 +83,13 @@ Cypress.Commands.add("searchDateAreaAppearance", () => {
     .should("exist")
     .should("be.visible");
   homeLocators.searchButton().should("exist").should("be.visible");
-  cy.log("***** Finished searchDateAreaAppearance() *****");
 });
 
 /**
  * Method to very the 'Home' page 'Help & Support' column elements appearance
  */
 Cypress.Commands.add("helpAndSupportColumnAppearance", () => {
-  cy.log("***** Begin running helpAndSupportColumnAppearance() *****");
+  cy.log("Going to helpAndSupportColumnAppearance()");
   homeLocators
     .officialShowpassPartnersLabel()
     .should("exist")
@@ -91,42 +103,38 @@ Cypress.Commands.add("helpAndSupportColumnAppearance", () => {
   homeLocators.customerSupportLink().should("exist").should("be.visible");
   homeLocators.organizerSupportLink().should("exist").should("be.visible");
   homeLocators.termsAndConditionsLink().should("exist").should("be.visible");
-  cy.log("***** Finished helpAndSupportColumnAppearance() *****");
 });
 
 /**
  * Method to very the 'Home' page 'Connect With Us' column elements appearance
  */
 Cypress.Commands.add("connectWithUsColumnAppearance", () => {
-  cy.log("***** Begin running connectWithUsColumnAppearance() *****");
+  cy.log("Going to connectWithUsColumnAppearance()");
   homeLocators.connectWithUsHeader().should("exist");
   homeLocators.angelListLink().should("exist").should("be.visible");
   homeLocators.careersLink().should("exist").should("be.visible");
   homeLocators.blogLink().should("exist").should("be.visible");
-  cy.log("***** Finished connectWithUsColumnAppearance() *****");
 });
 
 /**
  * Method to very the 'Home' page 'About Showpass' column elements appearance
  */
 Cypress.Commands.add("aboutShowpassColumnAppearance", () => {
-  cy.log("***** Begin running aboutShowpassColumnAppearance() *****");
+  cy.log("Going to aboutShowpassColumnAppearance()");
   homeLocators.aboutShowpassHeader().should("exist");
   homeLocators.registerOrganizationLink().should("exist").should("be.visible");
   homeLocators.aboutUsLink().should("exist").should("be.visible");
   homeLocators.pricingLink().should("exist").should("be.visible");
-  cy.log("***** Finished aboutShowpassColumnAppearance() *****");
 });
 
 /**
  * Method to very the 'Subscribe to Showpass' section on the 'Home' page
  */
 Cypress.Commands.add("subscribeToShowpassSectionAppearance", () => {
-  cy.log("***** Begin running subscribeToShowpassSectionAppearance() *****");
+  cy.log("Going to subscribeToShowpassSectionAppearance()");
   homeLocators.subscribeToShowpassText().should("exist").should("be.visible");
   homeLocators.enterYourEmailInputField().should("exist").should("be.visible");
   homeLocators.subscribeButton().should("exist").should("be.visible");
-  cy.log("***** Finished subscribeToShowpassSectionAppearance() *****");
 });
 
 /**
@@ -134,18 +142,23 @@ Cypress.Commands.add("subscribeToShowpassSectionAppearance", () => {
  */
 Cypress.Commands.add("clickUsernameAfterLoggingIn", () => {
   cy.log("Going to clickUsernameAfterLoggingIn()");
-  loginLocators.userFirstAndLastNames().should("exist").should("be.visible").click({force: true});
+  loginLocators
+    .userFirstAndLastNames()
+    .should("exist")
+    .should("be.visible")
+    .click({ force: true });
 });
 
 /**
- * Verify that drop-down menu item exist
+ * Verify that drop-down menu items under user's First and Last names exist
  * @param dataObject
  */
 Cypress.Commands.add("verifyDropDownItemExists", (topRightHandDropDownList) => {
-// Loop through all items within the dataObject.topRightHandDropDownList JSON to verify menu items
-  for(const key in topRightHandDropDownList) {
+  cy.log("Going to verifyDropDownItemExists()");
+  // Loop through all items within the dataObject.topRightHandDropDownList JSON to verify menu items
+  for (const key in topRightHandDropDownList) {
     Object.entries(topRightHandDropDownList).forEach((entry) => {
-      const [key, value] = entry
+      const [key, value] = entry;
       cy.getDropDownItem(value).should("exist").should("be.visible");
     });
   }
@@ -156,7 +169,16 @@ Cypress.Commands.add("verifyDropDownItemExists", (topRightHandDropDownList) => {
  */
 Cypress.Commands.add("navigateToDashboard", (userDetails) => {
   cy.log("Going to navigateToDashboard()");
-  homeLocators.dashboardButtonOnTopBar().should("exist").should("be.visible").click();
-  dashboardLocators.dashboardHeader().should("exist").should("be.visible")
-  .contains("Welcome " + userDetails.userFirstName + ' ' + userDetails.userLastName);
+  homeLocators
+    .dashboardButtonOnTopBar()
+    .should("exist")
+    .should("be.visible")
+    .click();
+  dashboardLocators
+    .dashboardHeader()
+    .should("exist")
+    .should("be.visible")
+    .contains(
+      "Welcome " + userDetails.userFirstName + " " + userDetails.userLastName
+    );
 });

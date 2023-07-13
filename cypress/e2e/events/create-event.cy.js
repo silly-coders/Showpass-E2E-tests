@@ -15,8 +15,5 @@ describe("Create a new event by", () => {
     cy.clickCreateEventButton();
   });
 
-  it("by populating forms with valid input", function () {});
-
-
-  
+  it("populating forms with valid input", function () {});
 });

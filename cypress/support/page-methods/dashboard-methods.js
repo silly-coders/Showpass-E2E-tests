@@ -9,13 +9,17 @@ const dashboardLocators = new DashboardLocators();
  * Click top left hamburger menu on the 'Dashboard' page
  */
 Cypress.Commands.add("clickHamburgerMenu", () => {
-    cy.log("Going to clickHamburgerMenu()");
-    dashboardLocators.topLeftHamburgerMenu().should("exist").should("be.visible").click();
-  });
+  cy.log("Going to clickHamburgerMenu()");
+  dashboardLocators
+    .topLeftHamburgerMenu()
+    .should("exist")
+    .should("be.visible")
+    .click();
+});
 /**
  * Click the 'Create event' button within the left hand menu on the 'Dashboard' page
  */
 Cypress.Commands.add("clickCreateEventButton", () => {
-    cy.log("Going to clickCreateEventButton()");
-    cy.getLeftSideMenuItemByText('Create Event').click();
-  });
+  cy.log("Going to clickCreateEventButton()");
+  cy.getLeftSideMenuItemByText("Create Event").click();
+});

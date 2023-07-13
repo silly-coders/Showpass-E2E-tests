@@ -1,6 +1,5 @@
 
 # ShowpassE2E
- Showpass E2E tests
  Showpass E2E tests are being executed using Cypress test automation tool.
  https://docs.cypress.io/guides/overview/why-cypress
 

@@ -1,4 +1,4 @@
-describe("Testing login inputs", () => {
+describe("Testing login inputs by", () => {
   before("clean-up", () => {
     cy.clearLocalStorage();
     cy.clearCookies();
@@ -8,7 +8,7 @@ describe("Testing login inputs", () => {
     cy.navigateToHomePage();
   });
 
-  it("by providing valid credentials", () => {
+  it("providing valid credentials", () => {
     cy.readFile("cypress/fixtures/testdata.json").then((testData) => {
       cy.logIntoPortal(testData.userDetails);
     });

@@ -15,7 +15,7 @@ export class LoginLocators {
    * 'Don't have an account?' text on the 'Login' modal window
    */
   dontHaveAnAccountText() {
-    return cy.get('div').contains("Don't have an account?");
+    return cy.get("div").contains("Don't have an account?");
   }
   /**
    * 'Sign Up' link on the 'Login' modal window
@@ -51,7 +51,9 @@ export class LoginLocators {
    * 'Forgot your password?' link on the 'Login' modal window
    */
   forgotYourPasswordLink() {
-    return cy.get('button[class^="chakra-button"').contains("Forgot your password?");
+    return cy
+      .get('button[class^="chakra-button"')
+      .contains("Forgot your password?");
   }
   /**
    * 'Log In' button on the 'Login' modal window
@@ -71,12 +73,10 @@ export class LoginLocators {
   signInUsingFacebookButtion() {
     return cy.get('button[aria-label="Sign in using Facebook"]');
   }
-   /**
+  /**
    * User First and Last names on the top bar (right hand side)
    */
-   userFirstAndLastNames() {
-    return cy.get('button[aria-haspopup="menu"] > span > div').eq(1);
-}
-
-
+  userFirstAndLastNames() {
+    return cy.get('button[class*="chakra-menu__menu-button"]').eq(1);
+  }
 }

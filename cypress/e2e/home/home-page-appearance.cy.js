@@ -1,5 +1,3 @@
-
-
 describe("Testing Home page by ", () => {
   before("clean-up", () => {
     cy.clearLocalStorage();
@@ -29,7 +27,7 @@ describe("Testing Home page by ", () => {
   it("verifying the 'About Showpass' column element appearance", () => {
     cy.aboutShowpassColumnAppearance();
   });
-  
+
   it("verifying the 'Subscribe to Showpass to receive the latest news' section element appearance", () => {
     cy.subscribeToShowpassSectionAppearance();
   });
@@ -40,8 +38,5 @@ describe("Testing Home page by ", () => {
       cy.clickUsernameAfterLoggingIn();
       cy.verifyDropDownItemExists(testData.topRightHandDropDownList);
     });
-  
-
-
   });
 });
