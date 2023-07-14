@@ -51,4 +51,14 @@ describe("Verify user's profile by ", () => {
     cy.verifyNotificationSelectors(i);
   }
   });
+
+  it("verifying that notifications can be turned on and off", function () {
+    cy.clickNotificationsButton();
+    for(let i=0; i<16; i++) {
+    const allNotificationLabelsAtProfile = ["All Notifications","SMS Notifications","Guestlists",
+    "New Purchases","Ticket Transfers","Campaigns","Push Notifications","Guestlists","New Purchases",
+    "Transfers","Email Notifications","Guestlists","New Purchases","Events","Abandoned Carts","Subscribe to promotions from Showpass"];
+    cy.verifyToggleLabelsOnNotificationsPage(i, allNotificationLabelsAtProfile.at(i));
+};
+  });
 });

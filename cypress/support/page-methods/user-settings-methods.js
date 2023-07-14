@@ -18,7 +18,7 @@ Cypress.Commands.add("clickNotificationsButton", () => {
     .should("exist")
     .scrollIntoView()
     .should("be.visible")
-    .click();
+    .click({ force: true });
 });
 /**
  * Click the 'Add payment method' button
@@ -217,4 +217,12 @@ Cypress.Commands.add("verifySwitchSelectorIsOff", (elementIndex) => {
     "have.attr",
     "data-gtm-form-interact-field-id"
   );
+});
+/**
+ * Verify toggle labels on the 'Notifications' page
+ */
+Cypress.Commands.add("verifyToggleLabelsOnNotificationsPage", (elementIndex, elementLabel) => {
+  cy.log("Going to verifyToggleLabelsOnNotificationsPage()");
+  cy.log("Verifying the following label text: " + elementLabel);
+  cy.getChakraTextLabelByIndex(elementIndex).should('have.text', elementLabel);
 });
