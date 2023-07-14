@@ -5,6 +5,18 @@ Cypress.Commands.add("clickPaymentButton", () => {
   cy.log("Going to clickPaymentButton()");
   cy.getChakraButtonByText("Payment")
     .should("exist")
+    .scrollIntoView()
+    .should("be.visible")
+    .click();
+});
+/**
+ * Click the 'Notifications' button under 'Profile'
+ */
+Cypress.Commands.add("clickNotificationsButton", () => {
+  cy.log("Going to clickNotificationsButton()");
+  cy.getChakraButtonByText("Notifications")
+    .should("exist")
+    .scrollIntoView()
     .should("be.visible")
     .click();
 });
@@ -107,8 +119,7 @@ Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
   cy.getChakraInputFieldByAttr("id", "search-address-input").type(
     userAddress.fullAddress
   );
-  cy.get('p[class^="chakra-text"]')
-  .contains(userAddress.fullAddress).click();
+  cy.get('p[class^="chakra-text"]').contains(userAddress.fullAddress).click();
   cy.getChakraInputFieldByAttr("id", "search-address-input").should(
     "have.attr",
     "value",
@@ -180,4 +191,30 @@ Cypress.Commands.add("getStripeCardField", (selector, attempts = 0) => {
         return cy.wrap(cardField);
       }
     });
+});
+/**
+ * Verify that 'Notifications' toggle can be turned on and off
+ */
+Cypress.Commands.add("verifyNotificationSelectors", (elementIndex) => {
+  cy.log("Going to verifyNotificationSelectors()");
+  cy.toggleSwitchSelector(elementIndex);
+  cy.verifySwitchSelectorIsOff(elementIndex);
+  cy.toggleSwitchSelector(elementIndex);
+});
+/**
+ * Toggle chakra-switch-selector
+ */
+Cypress.Commands.add("toggleSwitchSelector", (elementIndex) => {
+  cy.log("Going to toggleSwitchSelector()");
+  cy.getChakraSwitchSelectorByIndex(elementIndex).click({ force: true });
+});
+/**
+ * Verify that a 'Notifications' toggle is off
+ */
+Cypress.Commands.add("verifySwitchSelectorIsOff", (elementIndex) => {
+  cy.log("Going to verifySwitchSelectorIsOff()");
+  cy.getChakraSwitchSelectorByIndex(elementIndex).should(
+    "have.attr",
+    "data-gtm-form-interact-field-id"
+  );
 });

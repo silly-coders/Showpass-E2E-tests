@@ -154,7 +154,27 @@ Cypress.Commands.add("getSelectedDropDownValueByText", (id,itemText) => {
     .should("exist")
     .should("be.visible");
 });
-
+/**
+ * Get chakra-switch-input by its index on the page
+ * @param index
+ */
+Cypress.Commands.add("getChakraSwitchSelectorByIndex", (index) => {
+  cy.log(`Requested switch-input-selector index is: ${index}`);
+  return cy.get('input[class="chakra-switch__input"]').eq(index)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Get chakra-text by the label index on the page
+ * Once identified the text verification can be performed
+ * @param index
+ */
+Cypress.Commands.add("getChakraTextLabelByIndex", (index) => {
+  cy.log(`Requested text label index is: ${index}`);
+  return cy.get('div[class^="css"] > p[class^="chakra-text"]').eq(index)
+    .should("exist")
+    .should("be.visible");
+});
 /**
  * Get an iFrame body by name
  * @param iFrameName
