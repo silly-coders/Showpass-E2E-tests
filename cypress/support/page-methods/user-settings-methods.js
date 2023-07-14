@@ -107,7 +107,8 @@ Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
   cy.getChakraInputFieldByAttr("id", "search-address-input").type(
     userAddress.fullAddress
   );
-  cy.get('p[class^="chakra-text"]').contains("905 West Pender Street").click();
+  cy.get('p[class^="chakra-text"]')
+  .contains(userAddress.fullAddress).click();
   cy.getChakraInputFieldByAttr("id", "search-address-input").should(
     "have.attr",
     "value",

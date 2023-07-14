@@ -29,7 +29,13 @@ describe("Verify user's profile by ", () => {
     cy.clickCancelButton();
   });
 
-  it.skip("adding and deleting a billing address", function () {
+  it("verifying that a 'Billing Address' form can be populated", function () {
+    cy.clickAddPaymentMethodButton();
+    cy.populateBillingAddressForm(this.testdata.userAddress);
+    cy.clickCancelButton();
+  });
+
+  it.skip("adding and deleting a new payment method", function () {
     // TODO: figure out how to populate the iFrame credit card info 
     //cy.populateBillingAddressForm(this.testdata.userAddress);
     //cy.populateCardInformationForm();
