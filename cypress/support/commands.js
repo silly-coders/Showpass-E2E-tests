@@ -143,6 +143,19 @@ Cypress.Commands.add("getInputElementByAttr", (attrType, attrValue) => {
     .should("be.visible");
 });
 /**
+ * Get selected drop-down value by id and text
+ * @param id
+ * @param itemText
+ */
+Cypress.Commands.add("getSelectedDropDownValueByText", (id,itemText) => {
+  cy.log(`Requested element by id: ${id} + and by text: ${itemText}`);
+  return cy.get(`button[id="${id}"] > div`)
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+
+/**
  * Get an iFrame body by name
  * @param iFrameName
  */
@@ -161,4 +174,15 @@ Cypress.Commands.add("getInlineError", (errorText) => {
     .contains(errorText)
     .should("exist")
     .should("be.visible");
+});
+/**
+ * Click the 'Cancel' button
+ */
+Cypress.Commands.add("clickCancelButton", () => {
+  cy.log("Going to clickCancelButton()");
+  cy.getChakraButtonByText("Cancel").scrollIntoView();
+  cy.getChakraButtonByText("Cancel")
+    .should("exist")
+    .should("be.visible")
+    .click({ force: true });
 });

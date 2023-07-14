@@ -10,5 +10,6 @@ module.exports = defineConfig({
     viewportWidth: 1536,
     frontLoadingDelay: 5000,
     retries: { "runMode": 0, "openMode": 0 },
+    chromeWebSecurity: false
   },
 });

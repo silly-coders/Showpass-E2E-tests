@@ -11,16 +11,27 @@ describe("Verify user's profile by ", () => {
       cy.logIntoPortal(this.testdata.userDetails);
       cy.clickUsernameAfterLoggingIn();
       cy.selectProfileDropDownItem();
+      cy.clickPaymentButton();
     });
   });
 
   it("checking the 'Card Information' form appearance", function () {
-    cy.clickPaymentButton();
+    cy.clickAddPaymentMethodButton();
     cy.verifyCardInfoFormAppearance();
+    cy.verifyCardInfoInlineErrors();
+    cy.clickCancelButton();
   });
 
   it("checking the 'Billing Address' form appearance", function () {
-    cy.clickPaymentButton();
+    cy.clickAddPaymentMethodButton();
     cy.verifyBillingAddressFormAppearance();
+    cy.verifyBillingAddressInlineErrors();
+    cy.clickCancelButton();
+  });
+
+  it.skip("adding and deleting a billing address", function () {
+    // TODO: figure out how to populate the iFrame credit card info 
+    //cy.populateBillingAddressForm(this.testdata.userAddress);
+    //cy.populateCardInformationForm();
   });
 });

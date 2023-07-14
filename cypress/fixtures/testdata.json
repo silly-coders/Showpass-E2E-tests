@@ -16,5 +16,13 @@
     "profile": "Profile",
     "support": "Support",
     "logOut": "Log Out"
+  },
+  "userAddress": {
+    "fullAddress": "905 West Pender Street, Vancouver, BC, Canada",
+    "streetAddressForVerification": "905 W Pender St",
+    "city": "Vancouver",
+    "country": "Canada",
+    "regionForVerification": "British Columbia",
+    "postalCode": "V6C 1L6"
   }
 }
