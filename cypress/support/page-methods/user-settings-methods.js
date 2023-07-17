@@ -198,8 +198,10 @@ Cypress.Commands.add("getStripeCardField", (selector, attempts = 0) => {
 Cypress.Commands.add("verifyNotificationSelectors", (elementIndex) => {
   cy.log("Going to verifyNotificationSelectors()");
   cy.toggleSwitchSelector(elementIndex);
-  cy.verifySwitchSelectorIsOff(elementIndex);
+  cy.verifyChakraSwitchSelectorIsDisabled(elementIndex);
   cy.toggleSwitchSelector(elementIndex);
+  cy.verifyChakraSwitchSelectorIsEnabled(elementIndex);
+  cy.log("Finished verifyNotificationSelectors()");
 });
 /**
  * Toggle chakra-switch-selector
@@ -207,26 +209,6 @@ Cypress.Commands.add("verifyNotificationSelectors", (elementIndex) => {
 Cypress.Commands.add("toggleSwitchSelector", (elementIndex) => {
   cy.log("Going to toggleSwitchSelector()");
   cy.getChakraSwitchSelectorByIndex(elementIndex).click({ force: true });
-});
-/**
- * Verify that a 'Notifications' toggle is off
- */
-Cypress.Commands.add("verifySwitchSelectorIsOff", (elementIndex) => {
-  cy.log("Going to verifySwitchSelectorIsOff()");
-  cy.getChakraSwitchSelectorByIndex(elementIndex).should(
-    "have.attr",
-    "data-gtm-form-interact-field-id"
-  );
-});
-/**
- * Verify that a 'Notifications' toggle is enabled
- */
-Cypress.Commands.add("verifySwitchSelectorIsEnabled", (elementIndex) => {
-  cy.log("Going to verifySwitchSelectorIsEnabled()");
-  cy.getChakraSwitchSelectorByIndex(elementIndex).should(
-    "not.have.attr",
-    "data-gtm-form-interact-field-id"
-  );
 });
 /**
  * Verify toggle labels on the 'Notifications' page
