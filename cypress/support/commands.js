@@ -206,3 +206,14 @@ Cypress.Commands.add("clickCancelButton", () => {
     .should("be.visible")
     .click({ force: true });
 });
+/**
+ * Verify that an element does NOT exist
+ * @param elementLocator
+ * @param elementIndex
+ */
+Cypress.Commands.add("verifyElementDoesNotExist", (elementLocator,elementIndex) => {
+  cy.log(`Requested element: ${elementLocator}`);
+  return cy
+    .get(elementLocator).eq(elementIndex)
+    .should("not.exist");
+});

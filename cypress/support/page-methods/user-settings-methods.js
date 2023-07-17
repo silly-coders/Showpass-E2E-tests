@@ -219,6 +219,16 @@ Cypress.Commands.add("verifySwitchSelectorIsOff", (elementIndex) => {
   );
 });
 /**
+ * Verify that a 'Notifications' toggle is enabled
+ */
+Cypress.Commands.add("verifySwitchSelectorIsEnabled", (elementIndex) => {
+  cy.log("Going to verifySwitchSelectorIsEnabled()");
+  cy.getChakraSwitchSelectorByIndex(elementIndex).should(
+    "not.have.attr",
+    "data-gtm-form-interact-field-id"
+  );
+});
+/**
  * Verify toggle labels on the 'Notifications' page
  */
 Cypress.Commands.add("verifyToggleLabelsOnNotificationsPage", (elementIndex, elementLabel) => {

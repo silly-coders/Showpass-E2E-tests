@@ -61,4 +61,20 @@ describe("Verify user's profile by ", () => {
     cy.verifyToggleLabelsOnNotificationsPage(i, allNotificationLabelsAtProfile.at(i));
 };
   });
+  it("verifying that notifications toggles disappear once 'All Notifications' selector is off", function () {
+    cy.clickNotificationsButton();
+    cy.verifySwitchSelectorIsEnabled(0);
+    cy.toggleSwitchSelector(0);
+    // Verify that 'All Notifications' toggle is off
+    cy.verifyToggleLabelsOnNotificationsPage(0,'All Notifications');
+    cy.verifySwitchSelectorIsOff(0);
+    // Verify that the 'Subscribe to promotions from Showpass' toggle is still enabled
+    cy.verifySwitchSelectorIsEnabled(1);
+    cy.verifyToggleLabelsOnNotificationsPage(1,'Subscribe to promotions from Showpass');
+    // Verify that all the other selectors are not present
+    for(let i=2; i<16; i++) {
+    cy.verifyElementDoesNotExist('input[class="chakra-switch__input"]',i);
+    };
+  });  
+
 });
