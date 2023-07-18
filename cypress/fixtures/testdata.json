@@ -24,5 +24,15 @@
     "country": "Canada",
     "regionForVerification": "British Columbia",
     "postalCode": "V6C 1L6"
+  },
+  "invalidPasswordInputsAndErrors": {
+    "newValidPassword": "!@()FgjhjU753ABC",
+    "notMatchingPwd": "!@()FgjhjU753Ahy",
+    "noSpecialCharPassword": "FgjhjU753ABC",
+    "below7Characters": "@ertuy",
+    "oldPwdInvalidPwdMessage": "Old Password: Invalid password",
+    "pwdIsRequired": "Password is required",
+    "pwdMustMatch": "Passwords must match",
+    "mustBeAtLeast7Char": "Password needs to be at least 7 characters"
   }
 }

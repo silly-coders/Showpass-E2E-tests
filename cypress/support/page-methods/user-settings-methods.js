@@ -41,8 +41,9 @@ Cypress.Commands.add("clickAddPaymentMethodButton", () => {
   cy.log("Going to clickAddPaymentMethodButton()");
   cy.getChakraButtonByText("Add payment method")
     .should("exist")
+    .scrollIntoView()
     .should("be.visible")
-    .click();
+    .click({force: true});
 });
 /**
  * Verify 'Card Information' form element appearance
@@ -77,7 +78,7 @@ Cypress.Commands.add("verifyCardInfoFormAppearance", () => {
  */
 Cypress.Commands.add("verifyCardInfoInlineErrors", () => {
   cy.log("Going to verifyCardInfoInlineErrors()");
-  cy.getSaveButton().click({ force: true });
+  cy.clickSaveButton();
   cy.getInlineError("Name on Card is required");
   cy.getInlineError("Card Number is required");
   cy.getInlineError("Expiry is required");
@@ -269,4 +270,28 @@ Cypress.Commands.add("verifyPasswordFormInlineValidation", () => {
     ];
     cy.getChakraInlineValidationError(i, inlineValidationErrors.at(i));
   }
+});
+/**
+ * Populate 'Old', 'New' and 'Confirm' password field at 'Profile'.
+ */
+Cypress.Commands.add("populateOldNewAndConfirmPwdFields", (oldPwd, newPwd, confirmPwd) => {
+  cy.log("Going to populateOldNewAndConfirmPwdFields()");
+  cy.log("oldPwd = " + oldPwd + "; newPwd = " + newPwd + "; confirmPwd = " + confirmPwd);
+  cy.getInputElementByAttr('placeholder','Old Password').type(oldPwd,{ force: true });
+  cy.getInputElementByAttr('placeholder','New Password').type(newPwd,{ force: true });
+  cy.getInputElementByAttr('placeholder','Confirm New Password').type(confirmPwd,{ force: true });
+});
+/**
+ * Clear 'Old', 'New' and 'Confirm' password fields
+ */
+Cypress.Commands.add("clearOldNewAndConfirmPwdFields", () => {
+  cy.log("Going to clearOldNewAndConfirmPwdFields()");
+  for (let i = 0; i < 3; i++) {
+    const fieldPlaceholders = [
+      "Old Password",
+      "New Password",
+      "Confirm New Password",
+    ];
+    cy.clearInputFieldByAttr('placeholder', fieldPlaceholders.at(i));
+    };
 });

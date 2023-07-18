@@ -67,11 +67,12 @@ Cypress.Commands.add("clickButtonXtoCloseMessage", () => {
     .get('button[aria-label="Close alert message"]')
     .eq(0)
     .should("exist")
+    .scrollIntoView()
     .should("be.visible")
     .click({ force: true });
 });
 /*
- * Top right 'Success' message
+ * Verify top right 'Success' message content
  */
 Cypress.Commands.add("verifyTopRightSuccessMessage", (messageText) => {
   cy.log(
@@ -81,6 +82,22 @@ Cypress.Commands.add("verifyTopRightSuccessMessage", (messageText) => {
   );
   return cy
     .get('div[status="success"]')
+    .eq(0)
+    .contains(messageText)
+    .should("exist")
+    .should("be.visible");
+});
+/*
+ * Verify top right 'Error' message content
+ */
+Cypress.Commands.add("verifyTopRightErrorMessage", (messageText) => {
+  cy.log(
+    "Going to verifyTopRightErrorMessage with the following text: [ " +
+      messageText +
+      " ]"
+  );
+  return cy
+    .get('div[status="error"]')
     .eq(0)
     .contains(messageText)
     .should("exist")
@@ -223,6 +240,7 @@ Cypress.Commands.add("getInputElementByAttr", (attrType, attrValue) => {
   return cy
     .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
     .should("exist")
+    .scrollIntoView()
     .should("be.visible");
 });
 /**
@@ -232,7 +250,10 @@ Cypress.Commands.add("clearInputFieldByAttr", (attrType, attrValue) => {
   cy.log(
     `Requested clearInputFieldByAttr element: input[${attrType}="${attrValue}`
   );
-  return cy.getInputElementByAttr(attrType, attrValue).clear();
+  return cy.getInputElementByAttr(attrType, attrValue)
+  .scrollIntoView()
+  .should("be.visible")
+  .clear({ force: true });
 });
 /**
  * Get selected drop-down value by id and text

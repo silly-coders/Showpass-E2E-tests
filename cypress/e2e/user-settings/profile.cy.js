@@ -156,4 +156,73 @@ describe("Verify user's profile by ", () => {
     cy.clickSaveButton();
     cy.verifyPasswordFormInlineValidation();
   });
+
+  it("verifying invalid password inputs-TA-28", function () {
+    cy.clickPasswordButton();
+    // Case 1: Invalid old pwd, Valid new pwd, Valid confirm pwd
+    cy.populateOldNewAndConfirmPwdFields(
+      this.testdata.invalidPasswordInputsAndErrors.noSpecialCharPassword,
+      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
+      this.testdata.invalidPasswordInputsAndErrors.newValidPassword
+    );
+    cy.clickSaveButton();
+    cy.verifyTopRightErrorMessage(
+      this.testdata.invalidPasswordInputsAndErrors.oldPwdInvalidPwdMessage
+    );
+    cy.clickButtonXtoCloseMessage();
+    cy.clearOldNewAndConfirmPwdFields();
+    // Case 2: Valid old pwd, Valid new pwd, Invalid confirm pwd
+    cy.populateOldNewAndConfirmPwdFields(
+      this.testdata.userDetails.userPassword,
+      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
+      this.testdata.invalidPasswordInputsAndErrors.noSpecialCharPassword
+    );
+    cy.clickSaveButton();
+    cy.getChakraInlineValidationError(
+      0,
+      this.testdata.invalidPasswordInputsAndErrors.mustBeAtLeast7Char
+    );
+    cy.clearOldNewAndConfirmPwdFields();
+    // Case 3: Valid old pwd, No new pwd, Valid confirm pwd
+    cy.getInputElementByAttr("placeholder", "Old Password").type(
+      this.testdata.userDetails.userPassword,
+      { force: true }
+    );
+    cy.getInputElementByAttr("placeholder", "Confirm New Password").type(
+      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
+      { force: true }
+    );
+    cy.clickSaveButton();
+    cy.getChakraInlineValidationError(
+      0,
+      this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
+    );
+    cy.clearOldNewAndConfirmPwdFields();
+    // Case 4: Valid old pwd, Valid new pwd, Not matching confirm pwd
+    cy.populateOldNewAndConfirmPwdFields(
+      this.testdata.userDetails.userPassword,
+      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
+      this.testdata.invalidPasswordInputsAndErrors.notMatchingPwd
+    );
+    cy.clickSaveButton();
+    cy.getChakraInlineValidationError(
+      0,
+      this.testdata.invalidPasswordInputsAndErrors.pwdMustMatch
+    );
+    cy.clearOldNewAndConfirmPwdFields();
+    // Case 5: Valid old pwd, No new pwd, No confirm pwd
+    cy.getInputElementByAttr("placeholder", "Old Password").type(
+      this.testdata.userDetails.userPassword,
+      { force: true }
+    );
+    cy.clickSaveButton();
+    cy.getChakraInlineValidationError(
+      0,
+      this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
+    );
+    cy.getChakraInlineValidationError(
+      1,
+      this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
+    );
+  });
 });
