@@ -8,7 +8,7 @@ describe("Testing Login modal window by ", () => {
     cy.navigateToHomePage();
   });
 
-  it("verifying element appearance", () => {
+  it("verifying element appearance-TA-1", () => {
     cy.verifyLoginModalWindowAppearance();
   });
 });

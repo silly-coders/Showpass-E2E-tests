@@ -130,6 +130,19 @@ Cypress.Commands.add("getChakraFormLabel", (itemText) => {
     .should("be.visible");
 });
 /**
+ * Get a 'chakra-form-label by index and text
+ * @param elementIndex
+ * @param labelText
+ */
+Cypress.Commands.add("getChakraFormLabelByIndexAndText", (elementIndex,labelText) => {
+  cy.log(`Requested getChakraFormLabelByIndexAndText with this text: ${labelText}`);
+  return cy
+    .get(`label[class^="chakra-form__label"]`).eq(elementIndex)
+    .contains(labelText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
  * Get h1 header by text
  * @param itemText
  */
@@ -162,6 +175,17 @@ Cypress.Commands.add("getChakraInputFieldByAttr", (attrType, attrValue) => {
   cy.log(`Requested getChakraInputFieldByAttr element: input[${attrType}="${attrValue}`);
   return cy
     .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Get a 'chakra-form-error-message' inline validation by text
+ * @param messageText
+ */
+Cypress.Commands.add("getChakraInlineValidationError", (messageText) => {
+  cy.log("Requested getChakraInlineValidationError element text: " + messageText);
+  return cy
+    .get('div[class^="chakra-form__error-message"]')
     .should("exist")
     .should("be.visible");
 });

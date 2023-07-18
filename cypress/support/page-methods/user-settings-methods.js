@@ -1,3 +1,6 @@
+import { UserSettingLocators } from "../element-locators/user-settings-locators";
+const userSettingLocators = new UserSettingLocators();
+
 /**
  * Click the 'Payment' button under 'Profile'
  */
@@ -15,6 +18,17 @@ Cypress.Commands.add("clickPaymentButton", () => {
 Cypress.Commands.add("clickNotificationsButton", () => {
   cy.log("Going to clickNotificationsButton()");
   cy.getChakraButtonByText("Notifications")
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible")
+    .click({ force: true });
+});
+/**
+ * Click the 'Password' button under 'Profile'
+ */
+Cypress.Commands.add("clickPasswordButton", () => {
+  cy.log("Going to clickPasswordButton()");
+  cy.getChakraButtonByText("Password")
     .should("exist")
     .scrollIntoView()
     .should("be.visible")
@@ -217,4 +231,22 @@ Cypress.Commands.add("verifyToggleLabelsOnNotificationsPage", (elementIndex, ele
   cy.log("Going to verifyToggleLabelsOnNotificationsPage()");
   cy.log("Verifying the following label text: " + elementLabel);
   cy.getChakraTextLabelByIndex(elementIndex).should('have.text', elementLabel);
+});
+/**
+ * Verify 'Password' form element appearance
+ */
+Cypress.Commands.add("verifyPasswordFormAppearance", () => {
+  cy.log("Going to verifyPasswordFormAppearance()");
+  cy.getH1HeaderByText('Password');
+  for(let i=0; i<3; i++) {
+    const allNotificationLabelsAtProfile = ["Old Password","New Password","Confirm New Password"];
+    // Verify labels appearance
+    cy.getChakraFormLabelByIndexAndText(i,allNotificationLabelsAtProfile.at(i));
+    // Verify input fields appearance
+    cy.getChakraInputFieldByAttr('placeholder',allNotificationLabelsAtProfile.at(i));
+  }
+    // Verify 'Password Strength: 0%' label
+    cy.getChakraFormLabelByIndexAndText(3, "Password Strength: 0%");
+    // Verify password progress bar appearance
+    userSettingLocators.getPasswordStrengthProgressBar();
 });

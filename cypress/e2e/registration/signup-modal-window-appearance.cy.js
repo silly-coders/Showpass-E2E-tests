@@ -8,7 +8,7 @@ describe("Testing Sign-Up modal window by ", () => {
     cy.navigateToHomePage();
   });
 
-  it("verifying element appearance", () => {
+  it("verifying element appearance-TA-2", () => {
     cy.verifySignupModalWindowAppearance();
   });
 });

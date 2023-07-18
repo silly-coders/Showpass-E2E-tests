@@ -8,7 +8,7 @@ describe("Testing login inputs by", () => {
     cy.navigateToHomePage();
   });
 
-  it("providing valid credentials", () => {
+  it("providing valid credentials-TA-4", () => {
     cy.readFile("cypress/fixtures/testdata.json").then((testData) => {
       cy.logIntoPortal(testData.userDetails);
     });
