@@ -64,17 +64,24 @@ Cypress.Commands.add("clickSaveButton", () => {
 Cypress.Commands.add("clickButtonXtoCloseMessage", () => {
   cy.log("Going to clickButtonXtoCloseMessage");
   return cy
-    .get('button[aria-label="Close alert message"]').eq(0)
+    .get('button[aria-label="Close alert message"]')
+    .eq(0)
     .should("exist")
-    .should("be.visible").click({ force: true });
+    .should("be.visible")
+    .click({ force: true });
 });
 /*
  * Top right 'Success' message
  */
 Cypress.Commands.add("verifyTopRightSuccessMessage", (messageText) => {
-  cy.log("Going to verifyTopRightSuccessMessage with the following text: [ " + messageText + " ]");
+  cy.log(
+    "Going to verifyTopRightSuccessMessage with the following text: [ " +
+      messageText +
+      " ]"
+  );
   return cy
-    .get('div[status="success"]').eq(0)
+    .get('div[status="success"]')
+    .eq(0)
     .contains(messageText)
     .should("exist")
     .should("be.visible");
@@ -134,14 +141,20 @@ Cypress.Commands.add("getChakraFormLabel", (itemText) => {
  * @param elementIndex
  * @param labelText
  */
-Cypress.Commands.add("getChakraFormLabelByIndexAndText", (elementIndex,labelText) => {
-  cy.log(`Requested getChakraFormLabelByIndexAndText with this text: ${labelText}`);
-  return cy
-    .get(`label[class^="chakra-form__label"]`).eq(elementIndex)
-    .contains(labelText)
-    .should("exist")
-    .should("be.visible");
-});
+Cypress.Commands.add(
+  "getChakraFormLabelByIndexAndText",
+  (elementIndex, labelText) => {
+    cy.log(
+      `Requested getChakraFormLabelByIndexAndText with this text: ${labelText}`
+    );
+    return cy
+      .get(`label[class^="chakra-form__label"]`)
+      .eq(elementIndex)
+      .contains(labelText)
+      .should("exist")
+      .should("be.visible");
+  }
+);
 /**
  * Get h1 header by text
  * @param itemText
@@ -172,43 +185,64 @@ Cypress.Commands.add("getH2HeaderByText", (itemText) => {
  * @param attrValue
  */
 Cypress.Commands.add("getChakraInputFieldByAttr", (attrType, attrValue) => {
-  cy.log(`Requested getChakraInputFieldByAttr element: input[${attrType}="${attrValue}`);
+  cy.log(
+    `Requested getChakraInputFieldByAttr element: input[${attrType}="${attrValue}`
+  );
   return cy
     .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
     .should("exist")
     .should("be.visible");
 });
 /**
- * Get a 'chakra-form-error-message' inline validation by text
+ * Get a 'chakra-form-error-message' inline validation by index and text
+ * @param elementIndex
  * @param messageText
  */
-Cypress.Commands.add("getChakraInlineValidationError", (messageText) => {
-  cy.log("Requested getChakraInlineValidationError element text: " + messageText);
-  return cy
-    .get('div[class^="chakra-form__error-message"]')
-    .should("exist")
-    .should("be.visible");
-});
+Cypress.Commands.add(
+  "getChakraInlineValidationError",
+  (elementIndex, messageText) => {
+    cy.log(
+      "Requested getChakraInlineValidationError element text: " + messageText
+    );
+    return cy
+      .get('div[class^="chakra-form__error-message"]')
+      .eq(elementIndex)
+      .should("exist")
+      .should("be.visible");
+  }
+);
 /**
  * Get an 'input-element' by a particular attribute
  * @param attrType
  * @param attrValue
  */
 Cypress.Commands.add("getInputElementByAttr", (attrType, attrValue) => {
-  cy.log(`Requested getInputElementByAttr element: input[${attrType}="${attrValue}`);
+  cy.log(
+    `Requested getInputElementByAttr element: input[${attrType}="${attrValue}`
+  );
   return cy
     .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
     .should("exist")
     .should("be.visible");
 });
 /**
+ * Clear a chakra-input-field by providing a field attribute
+ */
+Cypress.Commands.add("clearInputFieldByAttr", (attrType, attrValue) => {
+  cy.log(
+    `Requested clearInputFieldByAttr element: input[${attrType}="${attrValue}`
+  );
+  return cy.getInputElementByAttr(attrType, attrValue).clear();
+});
+/**
  * Get selected drop-down value by id and text
  * @param id
  * @param itemText
  */
-Cypress.Commands.add("getSelectedDropDownValueByText", (id,itemText) => {
+Cypress.Commands.add("getSelectedDropDownValueByText", (id, itemText) => {
   cy.log(`getSelectedDropDownValueByText  id: ${id} + text: ${itemText}`);
-  return cy.get(`button[id="${id}"] > div`)
+  return cy
+    .get(`button[id="${id}"] > div`)
     .contains(itemText)
     .should("exist")
     .should("be.visible");
@@ -219,7 +253,9 @@ Cypress.Commands.add("getSelectedDropDownValueByText", (id,itemText) => {
  */
 Cypress.Commands.add("getChakraSwitchSelectorByIndex", (index) => {
   cy.log(`Requested switch-input-selector index is: ${index}`);
-  return cy.get('input[class="chakra-switch__input"]').eq(index)
+  return cy
+    .get('input[class="chakra-switch__input"]')
+    .eq(index)
     .should("exist")
     .should("be.visible");
 });
@@ -229,12 +265,12 @@ Cypress.Commands.add("getChakraSwitchSelectorByIndex", (index) => {
  */
 Cypress.Commands.add("verifyChakraSwitchSelectorIsEnabled", (index) => {
   cy.log("Going to verifyChakraSwitchSelectorIsEnabled");
-  return cy.get('label[class^="chakra-switch"]').eq(index)
+  return cy
+    .get('label[class^="chakra-switch"]')
+    .eq(index)
     .should("exist")
-    .should("be.visible").should(
-      "have.attr",
-      "data-checked"
-    );
+    .should("be.visible")
+    .should("have.attr", "data-checked");
 });
 /**
  * Verify that chakra-switch selector is disabled
@@ -242,12 +278,12 @@ Cypress.Commands.add("verifyChakraSwitchSelectorIsEnabled", (index) => {
  */
 Cypress.Commands.add("verifyChakraSwitchSelectorIsDisabled", (index) => {
   cy.log("Going to verifyChakraSwitchSelectorIsDisabled");
-  return cy.get('label[class^="chakra-switch"]').eq(index)
+  return cy
+    .get('label[class^="chakra-switch"]')
+    .eq(index)
     .should("exist")
-    .should("be.visible").should(
-      "not.have.attr",
-      "data-checked"
-    );
+    .should("be.visible")
+    .should("not.have.attr", "data-checked");
 });
 /**
  * Get chakra-text by the label index on the page
@@ -256,7 +292,9 @@ Cypress.Commands.add("verifyChakraSwitchSelectorIsDisabled", (index) => {
  */
 Cypress.Commands.add("getChakraTextLabelByIndex", (index) => {
   cy.log(`Requested text label index is: ${index}`);
-  return cy.get('div[class^="css"] > p[class^="chakra-text"]').eq(index)
+  return cy
+    .get('div[class^="css"] > p[class^="chakra-text"]')
+    .eq(index)
     .should("exist")
     .should("be.visible");
 });
@@ -296,25 +334,36 @@ Cypress.Commands.add("clickCancelButton", () => {
  * @param elementLocator
  * @param elementIndex
  */
-Cypress.Commands.add("verifyElementDoesNotExist", (elementLocator,elementIndex) => {
-  cy.log("Going to verifyElementDoesNotExist. Element locator: " + elementLocator + "Element index: " + elementIndex);
-  return cy
-    .get(elementLocator).eq(elementIndex)
-    .should("not.exist");
-});
+Cypress.Commands.add(
+  "verifyElementDoesNotExist",
+  (elementLocator, elementIndex) => {
+    cy.log(
+      "Going to verifyElementDoesNotExist. Element locator: " +
+        elementLocator +
+        "Element index: " +
+        elementIndex
+    );
+    return cy.get(elementLocator).eq(elementIndex).should("not.exist");
+  }
+);
 /**
  * Check if a chakra-switch selector is NOT enabled and enable it
  */
-Cypress.Commands.add("verifyAndTurnOnChakraSwitchSelectorIfDisabled", (index) => {
-  cy.log("Going to verifyAndTurnOnChakraSwitchSelectorIfDisabled()");
-  // If the chakra-switch selector is disabled from the get go enable it first to run the test
-  cy.get('label[class^="chakra-switch"]').eq(index).then(($label) => {
-    var attr = $label.attr('data-checked');
-    cy.log("Attribute was: " + attr);
-    if (typeof attr == 'undefined') {
-      cy.toggleSwitchSelector(index);
-      // Verify the 'All Notifications' selector is ENABLED
-      cy.verifyChakraSwitchSelectorIsEnabled(index);
-    }
-  });
-});
+Cypress.Commands.add(
+  "verifyAndTurnOnChakraSwitchSelectorIfDisabled",
+  (index) => {
+    cy.log("Going to verifyAndTurnOnChakraSwitchSelectorIfDisabled()");
+    // If the chakra-switch selector is disabled from the get go enable it first to run the test
+    cy.get('label[class^="chakra-switch"]')
+      .eq(index)
+      .then(($label) => {
+        var attr = $label.attr("data-checked");
+        cy.log("Attribute was: " + attr);
+        if (typeof attr == "undefined") {
+          cy.toggleSwitchSelector(index);
+          // Verify the 'All Notifications' selector is ENABLED
+          cy.verifyChakraSwitchSelectorIsEnabled(index);
+        }
+      });
+  }
+);

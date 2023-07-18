@@ -227,26 +227,46 @@ Cypress.Commands.add("toggleSwitchSelector", (elementIndex) => {
 /**
  * Verify toggle labels on the 'Notifications' page
  */
-Cypress.Commands.add("verifyToggleLabelsOnNotificationsPage", (elementIndex, elementLabel) => {
-  cy.log("Going to verifyToggleLabelsOnNotificationsPage()");
-  cy.log("Verifying the following label text: " + elementLabel);
-  cy.getChakraTextLabelByIndex(elementIndex).should('have.text', elementLabel);
-});
+Cypress.Commands.add(
+  "verifyToggleLabelsOnNotificationsPage",
+  (elementIndex, elementLabel) => {
+    cy.log("Going to verifyToggleLabelsOnNotificationsPage()");
+    cy.log("Verifying the following label text: " + elementLabel);
+    cy.getChakraTextLabelByIndex(elementIndex).should(
+      "have.text",
+      elementLabel
+    );
+  }
+);
 /**
  * Verify 'Password' form element appearance
  */
 Cypress.Commands.add("verifyPasswordFormAppearance", () => {
   cy.log("Going to verifyPasswordFormAppearance()");
-  cy.getH1HeaderByText('Password');
-  for(let i=0; i<3; i++) {
-    const allNotificationLabelsAtProfile = ["Old Password","New Password","Confirm New Password"];
+  cy.getH1HeaderByText("Password");
+  for (let i = 0; i < 3; i++) {
+    const labels = ["Old Password", "New Password", "Confirm New Password"];
     // Verify labels appearance
-    cy.getChakraFormLabelByIndexAndText(i,allNotificationLabelsAtProfile.at(i));
+    cy.getChakraFormLabelByIndexAndText(i, labels.at(i));
     // Verify input fields appearance
-    cy.getChakraInputFieldByAttr('placeholder',allNotificationLabelsAtProfile.at(i));
+    cy.getChakraInputFieldByAttr("placeholder", labels.at(i));
   }
-    // Verify 'Password Strength: 0%' label
-    cy.getChakraFormLabelByIndexAndText(3, "Password Strength: 0%");
-    // Verify password progress bar appearance
-    userSettingLocators.getPasswordStrengthProgressBar();
+  // Verify 'Password Strength: 0%' label
+  cy.getChakraFormLabelByIndexAndText(3, "Password Strength: 0%");
+  // Verify password progress bar appearance
+  userSettingLocators.getPasswordStrengthProgressBar();
+});
+/**
+ * Verify 'Password' form inline validation
+ */
+Cypress.Commands.add("verifyPasswordFormInlineValidation", () => {
+  cy.log("Going to verifyPasswordFormInlineValidation()");
+  for (let i = 0; i < 3; i++) {
+    const inlineValidationErrors = [
+      "Password is required",
+      "Password is required",
+      "Passwords must match",
+    ];
+    cy.getChakraInlineValidationError(i, inlineValidationErrors.at(i));
+  }
 });

@@ -142,4 +142,18 @@ describe("Verify user's profile by ", () => {
     cy.verifyPasswordFormAppearance();
     cy.getSaveButton();
   });
+
+  it("verifying 'Password' form inline validation-TA-26", function () {
+    cy.clickPasswordButton();
+    for (let i = 0; i < 3; i++) {
+      const fieldPlaceholders = [
+        "Old Password",
+        "New Password",
+        "Confirm New Password",
+      ];
+      cy.clearInputFieldByAttr("placeholder", fieldPlaceholders.at(i));
+    }
+    cy.clickSaveButton();
+    cy.verifyPasswordFormInlineValidation();
+  });
 });
