@@ -20,6 +20,7 @@ Cypress.Commands.add("navigateToHomePage", () => {
 Cypress.Commands.add("clickLoginOnHomePage", () => {
   cy.log("Going to clickLoginOnHomePage()");
   homeLocators.loginButton().should("exist").should("be.visible").click();
+  loginLocators.emailAddressInputField().should("exist").should("be.visible");
 });
 /**
  * Method to click 'Create Account' button on the 'Home' page

@@ -4,7 +4,7 @@ export class HomeLocators {
    * Button 'Log in' on the 'Home' page.
    */
   loginButton() {
-    return cy.get("button.chakra-button").contains("Log In");
+    return cy.get('button[class^="chakra-button"]').contains("Log In");
   }
   /**
    * Button 'Dashboard' on the top bar
@@ -53,6 +53,12 @@ export class HomeLocators {
    */
   toggleEnFr() {
     return cy.get("button.chakra-button > span > div").contains("EN");
+  }
+  /**
+   * 'Search events' input field
+   */
+  searchEventsInputField() {
+    return cy.get('input[id="EventSearchInput-input"]');
   }
   /**
    * Logo 'Showpass' on the top bar

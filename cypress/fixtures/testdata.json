@@ -5,6 +5,13 @@
     "userFirstName": "User",
     "userLastName": "ForTesting"
   },
+  "userForUpdates": {
+    "userEmail": "user-for-updates@mailinator.com",
+    "userPassword": "!@Newuser2023",
+    "pwdUpdateSuccessMsg": "Your password has been updated",
+    "userFirstName": "Userfor",
+    "userLastName": "Updates"
+  },
   "topRightHandDropDownList": {
     "stopImpersonate": "Stop Impersonate",
     "upcoming": "Upcoming",

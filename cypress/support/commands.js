@@ -23,7 +23,10 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
+import { HomeLocators } from "../support/element-locators/home-locators"
+import { LoginLocators } from "../support/element-locators/login-locators"
+const homeLocators = new HomeLocators();
+const loginLocators = new LoginLocators();
 /*
  * Get locator by data-testid
  */
@@ -53,6 +56,17 @@ Cypress.Commands.add("clickSaveButton", () => {
   return cy
     .get('button[type="submit"]')
     .contains("Save")
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible")
+    .click({ force: true });
+});
+/*
+ * Click 'Log In' button
+ */
+Cypress.Commands.add("clickLogInButtonOnModalWindow", () => {
+  cy.log("Going to clickLogInButton");
+  loginLocators.loginButtonOnLoginModalWindow()
     .should("exist")
     .scrollIntoView()
     .should("be.visible")
@@ -388,3 +402,13 @@ Cypress.Commands.add(
       });
   }
 );
+/**
+ * Click the 'Log Out' button
+ */
+Cypress.Commands.add("signOut", () => {
+  cy.log("Going to signOut()");
+  cy.getDropDownItem('Log Out').click({ force: true });
+  homeLocators.searchEventsInputField()
+  .should("exist")
+  .should("be.visible")
+});
