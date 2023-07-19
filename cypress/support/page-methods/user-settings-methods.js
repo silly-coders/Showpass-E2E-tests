@@ -24,6 +24,19 @@ Cypress.Commands.add("clickNotificationsButton", () => {
     .click({ force: true });
 });
 /**
+ * Click the 'Email' button under 'Profile'
+ */
+Cypress.Commands.add("clickEmailButton", () => {
+  cy.log("Going to clickEmailButton()");
+  cy.getChakraButtonByText("Email")
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible")
+    .click({ force: true })
+    // An additional click is needed as the form doesn't show up
+    .click({ force: true });
+});
+/**
  * Click the 'Password' button under 'Profile'
  */
 Cypress.Commands.add("clickPasswordButton", () => {
@@ -43,7 +56,7 @@ Cypress.Commands.add("clickAddPaymentMethodButton", () => {
     .should("exist")
     .scrollIntoView()
     .should("be.visible")
-    .click({force: true});
+    .click({ force: true });
 });
 /**
  * Verify 'Card Information' form element appearance
@@ -84,7 +97,6 @@ Cypress.Commands.add("verifyCardInfoInlineErrors", () => {
   cy.getInlineError("Expiry is required");
   cy.getInlineError("Security code is required");
 });
-
 /**
  * Verify 'Billing Address' form element appearance
  */
@@ -112,7 +124,6 @@ Cypress.Commands.add("verifyBillingAddressFormAppearance", () => {
   cy.getChakraFormLabel("Postal Code");
   cy.getChakraInputFieldByAttr("id", "address_zip");
 });
-
 /**
  * Verify 'Billing Address' form inline errors
  */
@@ -124,7 +135,6 @@ Cypress.Commands.add("verifyBillingAddressInlineErrors", () => {
   cy.getInlineError("Country is required");
   cy.getInlineError("Postal code is required");
 });
-
 /**
  * Populate 'Billing Address' form
  */
@@ -169,7 +179,6 @@ Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
     userAddress.city
   );
 });
-
 /**
  * Populate 'Card Information' form
  * @todo figure out how to populate the iFrame credit card form
@@ -274,13 +283,30 @@ Cypress.Commands.add("verifyPasswordFormInlineValidation", () => {
 /**
  * Populate 'Old', 'New' and 'Confirm' password field at 'Profile'.
  */
-Cypress.Commands.add("populateOldNewAndConfirmPwdFields", (oldPwd, newPwd, confirmPwd) => {
-  cy.log("Going to populateOldNewAndConfirmPwdFields()");
-  cy.log("oldPwd = " + oldPwd + "; newPwd = " + newPwd + "; confirmPwd = " + confirmPwd);
-  cy.getInputElementByAttr('placeholder','Old Password').type(oldPwd,{ force: true });
-  cy.getInputElementByAttr('placeholder','New Password').type(newPwd,{ force: true });
-  cy.getInputElementByAttr('placeholder','Confirm New Password').type(confirmPwd,{ force: true });
-});
+Cypress.Commands.add(
+  "populateOldNewAndConfirmPwdFields",
+  (oldPwd, newPwd, confirmPwd) => {
+    cy.log("Going to populateOldNewAndConfirmPwdFields()");
+    cy.log(
+      "oldPwd = " +
+        oldPwd +
+        "; newPwd = " +
+        newPwd +
+        "; confirmPwd = " +
+        confirmPwd
+    );
+    cy.getInputElementByAttr("placeholder", "Old Password").type(oldPwd, {
+      force: true,
+    });
+    cy.getInputElementByAttr("placeholder", "New Password").type(newPwd, {
+      force: true,
+    });
+    cy.getInputElementByAttr("placeholder", "Confirm New Password").type(
+      confirmPwd,
+      { force: true }
+    );
+  }
+);
 /**
  * Clear 'Old', 'New' and 'Confirm' password fields
  */
@@ -292,6 +318,6 @@ Cypress.Commands.add("clearOldNewAndConfirmPwdFields", () => {
       "New Password",
       "Confirm New Password",
     ];
-    cy.clearInputFieldByAttr('placeholder', fieldPlaceholders.at(i));
-    };
+    cy.clearInputFieldByAttr("placeholder", fieldPlaceholders.at(i));
+  }
 });

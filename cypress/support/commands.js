@@ -23,8 +23,8 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-import { HomeLocators } from "../support/element-locators/home-locators"
-import { LoginLocators } from "../support/element-locators/login-locators"
+import { HomeLocators } from "../support/element-locators/home-locators";
+import { LoginLocators } from "../support/element-locators/login-locators";
 const homeLocators = new HomeLocators();
 const loginLocators = new LoginLocators();
 /*
@@ -66,7 +66,8 @@ Cypress.Commands.add("clickSaveButton", () => {
  */
 Cypress.Commands.add("clickLogInButtonOnModalWindow", () => {
   cy.log("Going to clickLogInButton");
-  loginLocators.loginButtonOnLoginModalWindow()
+  loginLocators
+    .loginButtonOnLoginModalWindow()
     .should("exist")
     .scrollIntoView()
     .should("be.visible")
@@ -264,10 +265,11 @@ Cypress.Commands.add("clearInputFieldByAttr", (attrType, attrValue) => {
   cy.log(
     `Requested clearInputFieldByAttr element: input[${attrType}="${attrValue}`
   );
-  return cy.getInputElementByAttr(attrType, attrValue)
-  .scrollIntoView()
-  .should("be.visible")
-  .clear({ force: true });
+  return cy
+    .getInputElementByAttr(attrType, attrValue)
+    .scrollIntoView()
+    .should("be.visible")
+    .clear({ force: true });
 });
 /**
  * Get selected drop-down value by id and text
@@ -407,8 +409,25 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add("signOut", () => {
   cy.log("Going to signOut()");
-  cy.getDropDownItem('Log Out').click({ force: true });
-  homeLocators.searchEventsInputField()
-  .should("exist")
-  .should("be.visible")
+  cy.getDropDownItem("Log Out").click({ force: true });
+  homeLocators.searchEventsInputField().should("exist").should("be.visible");
 });
+/**
+ * Verify input field attribute and its value
+ * @param attrType
+ * @param attrValue
+ * @param attrToCheck
+ * @param attrValueToCheck
+ */
+Cypress.Commands.add(
+  "verifyInputFieldAttr",
+  (attrType, attrValue, fieldValueToCheck, attrValueToCheck) => {
+    cy.log(`Requested element: input[${attrType}="${attrValue}`);
+    return cy
+      .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
+      .should("exist")
+      .scrollIntoView()
+      .should("exist")
+      .should("have.attr", fieldValueToCheck, attrValueToCheck);
+  }
+);
