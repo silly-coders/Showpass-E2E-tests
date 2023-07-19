@@ -11,7 +11,7 @@
     "pwdUpdateSuccessMsg": "Your password has been updated",
     "userFirstName": "Userfor",
     "userLastName": "Updates",
-    "newEmail": "test-email@mailinator.com",
+    "emailForPwdChange": "password-change@mailinator.com",
     "emailWasUpdatedMsg": "Your email has been updated"
   },
   "topRightHandDropDownList": {
