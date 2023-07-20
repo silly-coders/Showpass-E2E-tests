@@ -43,5 +43,17 @@
     "pwdIsRequired": "Password is required",
     "pwdMustMatch": "Passwords must match",
     "mustBeAtLeast7Char": "Password needs to be at least 7 characters"
+  },
+  "errorMessages": {
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "invalidPwd": "Invalid password"
+  },
+  "inputFieldPlaceholders": {
+    "newEmail": "New Email",
+    "password": "Password",
+    "oldPwd": "Old Password",
+    "newPwd": "New Password",
+    "confirmNewPwd": "Confirm New Password"
   }
 }

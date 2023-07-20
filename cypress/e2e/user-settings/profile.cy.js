@@ -147,9 +147,9 @@ describe("Verify user's profile by ", () => {
     cy.clickPasswordButton();
     for (let i = 0; i < 3; i++) {
       const fieldPlaceholders = [
-        "Old Password",
-        "New Password",
-        "Confirm New Password",
+        this.testdata.inputFieldPlaceholders.oldPwd,
+        this.testdata.inputFieldPlaceholders.newPwd,
+        this.testdata.inputFieldPlaceholders.confirmNewPwd,
       ];
       cy.clearInputFieldByAttr("placeholder", fieldPlaceholders.at(i));
     }
@@ -225,9 +225,61 @@ describe("Verify user's profile by ", () => {
       this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
     );
   });
-  
+
   it("verifying 'Email' form appearance-TA-32", function () {
     cy.clickEmailButton();
     cy.verifyEmailFormAppearance(this.testdata.userDetails.userEmail);
+  });
+
+  it("verifying 'Email' form inline validation errors-TA-33", function () {
+    cy.clickEmailButton();
+    // Case 1:
+    for (let i = 0; i < 2; i++) {
+      const placeholders = [
+        this.testdata.inputFieldPlaceholders.newEmail,
+        this.testdata.inputFieldPlaceholders.password,
+      ];
+      cy.clearInputFieldByAttr("placeholder", placeholders.at(i));
+    }
+    cy.clickSaveButton();
+    cy.getChakraInlineValidationError(
+      0,
+      this.testdata.errorMessages.emailRequired
+    );
+    cy.getChakraInlineValidationError(
+      1,
+      this.testdata.errorMessages.passwordRequired
+    );
+    // Case 2:
+    cy.getInputElementByAttr(
+      "placeholder",
+      this.testdata.inputFieldPlaceholders.password
+    ).type(this.testdata.userDetails.userPassword, { force: true });
+    cy.clickSaveButton();
+    cy.getChakraInlineValidationError(
+      0,
+      this.testdata.errorMessages.emailRequired
+    );
+    cy.clearInputFieldByAttr(
+      "placeholder",
+      this.testdata.inputFieldPlaceholders.password
+    );
+    // Case 3:
+    cy.getInputElementByAttr(
+      "placeholder",
+      this.testdata.inputFieldPlaceholders.newEmail
+    ).type(this.testdata.userDetails.userEmail, { force: true });
+    cy.clickSaveButton();
+    cy.getChakraInlineValidationError(
+      0,
+      this.testdata.errorMessages.passwordRequired
+    );
+    // Case 4:
+    cy.getInputElementByAttr(
+      "placeholder",
+      this.testdata.inputFieldPlaceholders.password
+    ).type("!*InvalidPassword#", { force: true });
+    cy.clickSaveButton();
+    cy.verifyTopRightErrorMessage(this.testdata.errorMessages.invalidPwd);
   });
 });
