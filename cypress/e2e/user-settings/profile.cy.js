@@ -225,4 +225,9 @@ describe("Verify user's profile by ", () => {
       this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
     );
   });
+  
+  it("verifying 'Email' form appearance-TA-32", function () {
+    cy.clickEmailButton();
+    cy.verifyEmailFormAppearance(this.testdata.userDetails.userEmail);
+  });
 });

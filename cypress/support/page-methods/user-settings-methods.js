@@ -321,3 +321,21 @@ Cypress.Commands.add("clearOldNewAndConfirmPwdFields", () => {
     cy.clearInputFieldByAttr("placeholder", fieldPlaceholders.at(i));
   }
 });
+/**
+ * Verify 'Email' form overall appearance
+ */
+Cypress.Commands.add("verifyEmailFormAppearance", (emailAddress) => {
+  cy.log("Going to verifyEmailFormAppearance()");
+  cy.getH1HeaderByText("Email");
+  for (let i = 0; i < 3; i++) {
+    for (let j = 1; i < 3; i++) {
+      const labels = ["Current Email", "New Email", "Password"];
+      // Verify labels appearance
+      cy.getChakraFormLabelByIndexAndText(i, labels.at(i));
+      // Verify input fields appearance
+      cy.getChakraInputFieldByAttr("placeholder", labels.at(j));
+    }
+  }
+  cy.getChakraInputFieldByAttr("value", emailAddress);
+  cy.getSaveButton();
+});
