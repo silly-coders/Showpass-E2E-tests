@@ -29,8 +29,8 @@ describe("Verify destructive profile updates by ", () => {
     // Change the current password
     cy.populateOldNewAndConfirmPwdFields(
       this.testdata.userForUpdates.userPassword,
-      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
-      this.testdata.invalidPasswordInputsAndErrors.newValidPassword
+      this.testdata.userDetails.userPassword,
+      this.testdata.userDetails.userPassword
     );
     cy.clickSaveButton();
     cy.verifyTopRightSuccessMessage(
@@ -48,14 +48,14 @@ describe("Verify destructive profile updates by ", () => {
     cy.getInputElementByAttr("placeholder", "Password")
       .should("exist")
       .should("be.visible")
-      .type(this.testdata.invalidPasswordInputsAndErrors.newValidPassword);
+      .type(this.testdata.userDetails.userPassword);
     cy.clickLogInButtonOnModalWindow();
     cy.clickUsernameAfterLoggingIn();
     cy.selectProfileDropDownItem();
     cy.clickPasswordButton();
     // Change back the password
     cy.populateOldNewAndConfirmPwdFields(
-      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
+      this.testdata.userDetails.userPassword,
       this.testdata.userForUpdates.userPassword,
       this.testdata.userForUpdates.userPassword
     );
@@ -97,5 +97,60 @@ describe("Verify destructive profile updates by ", () => {
       this.testdata.userForUpdates.emailWasUpdatedMsg
     );
     cy.clickButtonXtoCloseMessage();
+  });
+
+  it("verifying that 'Personal Info' can be updated-TA-34", function () {
+    cy.logIntoPortal(this.testdata.userForUpdates);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
+    cy.clickPersonalInfoButton();
+    // Clear and populate input fields
+    for (let i = 0; i < 2; i++) {
+      const placeholders = [
+        this.testdata.inputFieldPlaceholders.firstName,
+        this.testdata.inputFieldPlaceholders.lastName,
+      ];
+      const values = [
+        this.testdata.userForUpdates.userFirstName,
+        this.testdata.userForUpdates.userLastName,
+      ];
+      cy.clearInputFieldByAttr("placeholder", placeholders.at(i));
+      cy.getChakraInputFieldByAttr("placeholder", placeholders.at(i)).type(
+        values.at(i),
+        {
+          force: true,
+        }
+      );
+    }
+    cy.getPhoneInputFieldByPlaceholder(
+      this.testdata.inputFieldPlaceholders.phoneNumber
+    )
+      .clear({ force: true })
+      .type(this.testdata.userDetails.phoneNumber, { force: true });
+    cy.clickSaveButton();
+    cy.verifyTopRightSuccessMessage(
+      this.testdata.userForUpdates.profileUpdateSuccess
+    );
+    // Verify input field values after saving changes
+    for (let i = 0; i < 2; i++) {
+      const placeholders = [
+        this.testdata.inputFieldPlaceholders.firstName,
+        this.testdata.inputFieldPlaceholders.lastName,
+      ];
+      const values = [
+        this.testdata.userForUpdates.userFirstName,
+        this.testdata.userForUpdates.userLastName,
+      ];
+      cy.verifyChakraInputFieldValue(
+        "placeholder",
+        placeholders.at(i),
+        values.at(i)
+      );
+    }
+    cy.getPhoneInputFieldByPlaceholder(
+      this.testdata.inputFieldPlaceholders.phoneNumber
+    )
+      .should("have.attr", "value", this.testdata.userDetails.phoneNumber)
+      .should("be.visible");
   });
 });

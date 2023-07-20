@@ -49,6 +49,16 @@ Cypress.Commands.add("getSaveButton", () => {
     .should("be.visible");
 });
 /*
+ * Get 'Phone' input field by 'Placeholder'
+ */
+Cypress.Commands.add("getPhoneInputFieldByPlaceholder", (placeholder) => {
+  return cy
+    .get(`div[class*="react-tel-input"] > input[placeholder="${placeholder}"]`)
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible");
+});
+/*
  * Click 'Save' button
  */
 Cypress.Commands.add("clickSaveButton", () => {
@@ -159,18 +169,6 @@ Cypress.Commands.add("getLeftSideMenuItemByText", (itemText) => {
     .should("be.visible");
 });
 /**
- * Get a 'chakra' button by its text
- * @param itemText
- */
-Cypress.Commands.add("getChakraButtonByText", (itemText) => {
-  cy.log(`Requested getChakraButtonByText element: ${itemText}`);
-  return cy
-    .get(`button[class^="chakra-button"]`)
-    .contains(itemText)
-    .should("exist")
-    .should("be.visible");
-});
-/**
  * Get a 'chakra' form label by its text
  * @param itemText
  */
@@ -237,6 +235,21 @@ Cypress.Commands.add("getChakraInputFieldByAttr", (attrType, attrValue) => {
   return cy
     .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
     .should("exist")
+    .should("be.visible");
+});
+/**
+ * Verify a 'chakra-input' field value
+ * @param attrType
+ * @param attrValue
+ * @param inputValue
+ */
+Cypress.Commands.add("verifyChakraInputFieldValue", (attrType, attrValue, inputValue) => {
+  cy.log(
+    `Requested verifyChakraInputFieldValue element: input[${attrType}="${attrValue}`
+  );
+  return cy
+    .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
+    .should("have.attr","value",inputValue)
     .should("be.visible");
 });
 /**

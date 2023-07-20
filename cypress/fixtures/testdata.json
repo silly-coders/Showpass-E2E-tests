@@ -3,7 +3,8 @@
     "userEmail": "test-user@mailinator.com",
     "userPassword": "!@Newuser2023",
     "userFirstName": "User",
-    "userLastName": "ForTesting"
+    "userLastName": "ForTesting",
+    "phoneNumber": "18883331155"
   },
   "userForUpdates": {
     "userEmail": "user-for-updates@mailinator.com",
@@ -12,7 +13,8 @@
     "userFirstName": "Userfor",
     "userLastName": "Updates",
     "emailForPwdChange": "password-change@mailinator.com",
-    "emailWasUpdatedMsg": "Your email has been updated"
+    "emailWasUpdatedMsg": "Your email has been updated",
+    "profileUpdateSuccess": "Your profile has been updated"
   },
   "topRightHandDropDownList": {
     "stopImpersonate": "Stop Impersonate",
@@ -54,6 +56,9 @@
     "password": "Password",
     "oldPwd": "Old Password",
     "newPwd": "New Password",
-    "confirmNewPwd": "Confirm New Password"
+    "confirmNewPwd": "Confirm New Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phoneNumber": "Phone Number"
   }
 }

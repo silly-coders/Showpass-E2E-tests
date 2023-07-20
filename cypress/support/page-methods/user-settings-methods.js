@@ -48,6 +48,17 @@ Cypress.Commands.add("clickPasswordButton", () => {
     .click({ force: true });
 });
 /**
+ * Click the 'Personal Info' button under 'Profile'
+ */
+Cypress.Commands.add("clickPersonalInfoButton", () => {
+  cy.log("Going to clickPersonalInfoButton()");
+  cy.getChakraButtonByText("Personal Info")
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible")
+    .click({ force: true });
+});
+/**
  * Click the 'Add payment method' button
  */
 Cypress.Commands.add("clickAddPaymentMethodButton", () => {
