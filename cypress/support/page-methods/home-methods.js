@@ -183,3 +183,22 @@ Cypress.Commands.add("navigateToDashboard", (userDetails) => {
       "Welcome " + userDetails.userFirstName + " " + userDetails.userLastName
     );
 });
+
+/**
+ * Method to very the 'Password Reset' modal window appearance
+ */
+Cypress.Commands.add("verifyPasswordResetWindowAppearance", () => {
+  cy.log("Going to verifyPasswordResetWindowAppearance()");
+  cy.getChakraButtonByText("Forgot your password?").click({ force: true });
+  cy.verifyShowpassLogoAppearance();
+  cy.getH1HeaderByText("Password Reset");
+  cy.get('div[class^="css"]')
+    .contains(
+      "Forgot your password? No worries! We'll send you a link to reset it, just enter your email below."
+    )
+    .should("exist")
+    .should("be.visible");
+  cy.getChakraFormLabelByIndexAndText(0, "Email Address");
+  cy.getChakraInputFieldByAttr("name", "email");
+  cy.getChakraButtonByText("Send Reset Link");
+});

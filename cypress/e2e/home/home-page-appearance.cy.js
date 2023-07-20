@@ -1,11 +1,14 @@
 describe("Testing Home page by ", () => {
-  before("clean-up", () => {
+  before(function () {
     cy.clearLocalStorage();
     cy.clearCookies();
   });
 
-  beforeEach("navigate to Home page", () => {
-    cy.navigateToHomePage();
+  beforeEach("navigate to Home page", function () {
+    cy.fixture("testdata.json").then(function (testdata) {
+      this.testdata = testdata;
+      cy.navigateToHomePage();
+    });
   });
 
   it("verifying top bar element appearance-TA-7", () => {
@@ -32,11 +35,14 @@ describe("Testing Home page by ", () => {
     cy.subscribeToShowpassSectionAppearance();
   });
 
-  it("verifying drop-down items under username after logging in-TA-11", () => {
-    cy.readFile("cypress/fixtures/testdata.json").then((testData) => {
-      cy.logIntoPortal(testData.userDetails);
-      cy.clickUsernameAfterLoggingIn();
-      cy.verifyDropDownItemExists(testData.topRightHandDropDownList);
-    });
+  it("verifying drop-down items under username after logging in-TA-11", function () {
+    cy.logIntoPortal(this.testdata.userDetails);
+    cy.clickUsernameAfterLoggingIn();
+    cy.verifyDropDownItemExists(this.testdata.topRightHandDropDownList);
+  });
+
+  it.only("verifying the 'Password Reset' modal windows appearance-TA-6", () => {
+    cy.clickLoginOnHomePage();
+    cy.verifyPasswordResetWindowAppearance();
   });
 });

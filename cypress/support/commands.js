@@ -133,6 +133,20 @@ Cypress.Commands.add("getDropDownItem", (itemText) => {
     .should("be.visible");
 });
 /**
+ * Get a chakra-button by text
+ * @param itemText
+ */
+Cypress.Commands.add("getChakraButtonByText", (itemText) => {
+  cy.log(
+    `Requested getChakraButtonByText element: button[class^="chakra-button"].contains(${itemText})`
+  );
+  return cy
+    .get('button[class^="chakra-button"]')
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
  * Get a left side menu item by its text
  * @param itemText
  */
@@ -427,7 +441,14 @@ Cypress.Commands.add(
       .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
       .should("exist")
       .scrollIntoView()
-      .should("exist")
+      .should("be.visible")
       .should("have.attr", fieldValueToCheck, attrValueToCheck);
   }
 );
+/**
+ * Verify 'Showpass' logo appearance
+ */
+Cypress.Commands.add("verifyShowpassLogoAppearance", () => {
+  cy.log("Going to verifyShowpassLogoAppearance()");
+  cy.get('img[alt="showpass"]').should("exist").should("be.visible");
+});
