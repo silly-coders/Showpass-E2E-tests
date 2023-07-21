@@ -41,10 +41,10 @@ Cypress.Commands.add("verifyEvent1ApiPayload", (event1) => {
     );
 
     expect(response.body.event.location.venue).to.eq(
-      response.body.event.location.venue
+        event1.event.location.venue
     );
     expect(response.body.event.location.name).to.eq(
-      response.body.event.location.name
+        event1.event.location.name
     );
     expect(response.body.event.location.country).to.eq(
       event1.event.location.country
@@ -76,7 +76,7 @@ Cypress.Commands.add("verifyEvent1ApiPayload", (event1) => {
     // Event 1 - ticket type 2
 
     expect(response.body.event.ticket_types[1].id).to.eq(
-      response.body.event.ticket_types[1].id
+        event1.event.ticket_types[1].id
     );
     expect(response.body.event.ticket_types[1].event).to.eq(
       event1.event.ticket_types[1].event
