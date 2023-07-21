@@ -350,3 +350,16 @@ Cypress.Commands.add("verifyEmailFormAppearance", (emailAddress) => {
   cy.getChakraInputFieldByAttr("value", emailAddress);
   cy.getSaveButton();
 });
+/**
+ * Verify 'My Showpass' page element appearance
+ */
+Cypress.Commands.add("verifyMyShowpassPageAppearance", () => {
+  cy.log("Going to verifyMyShowpassPageAppearance()");
+  cy.getH1HeaderByText("My Showpass");
+  cy.getChakraHeaderH2("Universal QR Code");
+  cy.get('p[class^="chakra-text"]')
+    .contains("Use this QR code to scan everything attached to your account!")
+    .should("exist")
+    .should("be.visible");
+  cy.verifyQrCodeAppearance();  
+});

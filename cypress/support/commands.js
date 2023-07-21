@@ -224,6 +224,18 @@ Cypress.Commands.add("getH2HeaderByText", (itemText) => {
     .should("be.visible");
 });
 /**
+ * Get a chakra-header-h2 by text
+ * @param itemText
+ */
+Cypress.Commands.add("getChakraHeaderH2", (itemText) => {
+  cy.log("getChakraHeaderH2 element with the following text: " + itemText);
+  return cy
+    .get(`h2[class^="chakra-heading"]`)
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
  * Get a 'chakra-input' field by a particular attribute
  * @param attrType
  * @param attrValue
@@ -464,4 +476,11 @@ Cypress.Commands.add(
 Cypress.Commands.add("verifyShowpassLogoAppearance", () => {
   cy.log("Going to verifyShowpassLogoAppearance()");
   cy.get('img[alt="showpass"]').should("exist").should("be.visible");
+});
+/**
+ * Verify 'Universal QR Code' appearance
+ */
+Cypress.Commands.add("verifyQrCodeAppearance", () => {
+  cy.log("Going to verifyQrCodeAppearance()");
+  cy.get('img[alt="Universal QR Code"]').should("exist").should("be.visible");
 });
