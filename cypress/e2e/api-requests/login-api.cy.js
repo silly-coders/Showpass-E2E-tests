@@ -1,5 +1,5 @@
-describe("Testing login inputs by ", () => {
-  before(function () {
+describe("Testing API Login", function () {
+  before("clean-up", () => {
     cy.clearLocalStorage();
     cy.clearCookies();
   });
@@ -11,8 +11,8 @@ describe("Testing login inputs by ", () => {
     });
   });
 
-  it("providing valid credentials-TA-4", function () {
-    cy.logIntoPortal(this.testdata.userDetails);
-    cy.verifySuccessfulLoginApiResponse(this.testdata.userDetails);
+  it("verifying user can log in via API", function () {
+    cy.loginViaApi(this.testdata.userDetails);
+    cy.visit("/account/profile/personal-info/");
   });
 });

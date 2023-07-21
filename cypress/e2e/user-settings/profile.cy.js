@@ -281,5 +281,6 @@ describe("Verify user's profile by ", () => {
     ).type("!*InvalidPassword#", { force: true });
     cy.clickSaveButton();
     cy.verifyTopRightErrorMessage(this.testdata.errorMessages.invalidPwd);
+    cy.clickButtonXtoCloseMessage();
   });
 });

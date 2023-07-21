@@ -70,4 +70,10 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
       "have.text",
       userObject.userFirstName + " " + userObject.userLastName
     );
+  cy.request({
+    method: "GET",
+    url: "/api/auth/profile/",
+  }).then((response) => {
+    expect(response.status).to.eq(200);
+  });
 });

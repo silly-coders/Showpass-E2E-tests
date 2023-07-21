@@ -4,7 +4,9 @@
     "userPassword": "!@Newuser2023",
     "userFirstName": "User",
     "userLastName": "ForTesting",
-    "phoneNumber": "18883331155"
+    "phoneNumber": "18883331155",
+    "username": "User ForTesting",
+    "userId": 1994
   },
   "userForUpdates": {
     "userEmail": "user-for-updates@mailinator.com",
