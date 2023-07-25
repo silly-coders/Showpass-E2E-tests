@@ -202,16 +202,43 @@ Cypress.Commands.add("verifyPasswordResetWindowAppearance", () => {
   cy.getChakraInputFieldByAttr("name", "email");
   cy.getChakraButtonByText("Send Reset Link");
 });
-
 /**
- * Method to search for an event by event name
+ * Method to enter event name into the search field
  */
-Cypress.Commands.add("searchForAnEventByName", (eventName) => {
-  cy.log("Going to searchForAnEventByName()");
+Cypress.Commands.add("enterEventNameIntoSearchField", (eventName) => {
+  cy.log("Going to enterEventNameIntoSearchField()");
   homeLocators.searchEventsInputField().should("not.be.disabled");
   homeLocators
     .searchEventsInputField()
     .clear({ force: true })
     .type(eventName, { force: true });
+});
+/**
+ * Method to search for an event by event name
+ */
+Cypress.Commands.add("searchForAnEventByName", (eventName) => {
+  cy.log("Going to searchForAnEventByName()");
+  cy.enterEventNameIntoSearchField(eventName);
   homeLocators.searchButton().click({ force: true });
+});
+/**
+ * Method to select a search item by item name
+ * @param itemName
+ */
+Cypress.Commands.add("selectSearchItemByItemName", (itemName) => {
+  cy.log("Going to searchForAnEventByName()");
+  homeLocators
+    .searchResultItemByName(itemName)
+    .scrollIntoView()
+    .click({ force: true });
+});
+/**
+* Get 'Search results' modal window
+*/
+Cypress.Commands.add("getSearchResultModalWindow", () => {
+  cy.log("Going to getSearchResultModalWindow()");
+  homeLocators.searchResultModalWindow()
+    .should("exist")
+    .should("be.visible")
+    .should("not.be.disabled");
 });

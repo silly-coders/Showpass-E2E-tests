@@ -157,6 +157,16 @@ Cypress.Commands.add("getChakraButtonByText", (itemText) => {
     .should("be.visible");
 });
 /**
+ * Get chakra-paragraph-button by text
+ * @param buttonText
+ */
+Cypress.Commands.add("chakraParagraphButtonByText", (buttonText) => {
+  cy.log("Requested getChakraParagraphButtonByText element: " + buttonText);
+  return cy
+    .get('button[class^="chakra-button"] > p[class^="chakra-text"]')
+    .contains(buttonText);
+});
+/**
  * Get a left side menu item by its text
  * @param itemText
  */
@@ -227,6 +237,42 @@ Cypress.Commands.add("getH1HeaderByText", (itemText) => {
   cy.log(`Requested getH1HeaderByText element: ${itemText}`);
   return cy
     .get(`h1[class^="css"]`)
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Get chakra-skeleton-h1 header by text
+ * @param itemText
+ */
+Cypress.Commands.add("getChakraSkeletonH1HeaderByText", (itemText) => {
+  cy.log(`Requested getChakraSkeletonH1HeaderByText element: ${itemText}`);
+  return cy
+    .get('div[class^="chakra-skeleton"] > h1[class^="chakra-text"]')
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Get a chakra-header-h3 by text
+ * @param itemText
+ */
+Cypress.Commands.add("getChakraHeaderH3", (itemText) => {
+  cy.log("getChakraHeaderH3 element with the following text: " + itemText);
+  return cy
+    .get(`h3[class^="chakra-heading"]`)
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Get h3-href header by text
+ * @param itemText
+ */
+Cypress.Commands.add("getH3HrefHeaderByText", (itemText) => {
+  cy.log(`Requested getH3HrefHeaderByText element: ${itemText}`);
+  return cy
+    .get('h3[class^="chakra-text"] > a[class^="chakra-link"]')
     .contains(itemText)
     .should("exist")
     .should("be.visible");
@@ -526,9 +572,10 @@ Cypress.Commands.add("getChakraSkeletonItem", () => {
  */
 Cypress.Commands.add("verifyChakraSkeletonItemText", (itemIndex, itemText) => {
   cy.log(`Going to verifyChakraSkeletonItemText(${itemText})`);
-  cy.getChakraSkeletonItem().eq(itemIndex)
-  .should("exist")
-  .scrollIntoView()
-  .should("be.visible")
-  .should("contain", itemText);
+  cy.getChakraSkeletonItem()
+    .eq(itemIndex)
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible")
+    .should("contain", itemText);
 });

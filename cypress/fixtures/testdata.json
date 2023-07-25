@@ -65,10 +65,20 @@
   },
   "events": {
     "event1": {
+      "organization": "QA team organization",
       "eventName": "Test Automation event 1 (DO NOT DELETE)",
       "activeFilterLabel": "Test Automation event 1",
       "eventDate": "Jul 21 2030",
+      "startDay": "Friday July 21st, 2023",
+      "startTime": "Starts: 7:00 AM MDT",
+      "endDay": "Ends: Sunday July 21st, 2030",
+      "endTime": "Ends: 12:00 AM MDT",
+      "eventType": "Online Event",
       "eventCity": "Calgary",
+      "ticketPrice1": "$2.55",
+      "ticketPrice2": "$3.64",
+      "ticketName1": "Main event",
+      "ticketName2": "General Admission",
       "eventPriceRange": "$3 - $4",
       "eventTime": "7:00 AM MDT"
     },

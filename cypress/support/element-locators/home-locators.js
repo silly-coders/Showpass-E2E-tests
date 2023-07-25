@@ -58,11 +58,30 @@ export class HomeLocators {
    * 'Search events' input field
    */
   searchEventsInputField() {
-    return cy.get('input[id="EventSearchInput-input"]')
-    .should("exist")
-    .scrollIntoView()
-    .should("be.visible")
-    .should("not.be.disabled");
+    return cy
+      .get('input[id="EventSearchInput-input"]')
+      .should("exist")
+      .scrollIntoView()
+      .should("be.visible")
+      .should("not.be.disabled");
+  }
+  /**
+   * 'Search results' modal window
+   */
+  searchResultModalWindow() {
+    return cy.get('div[id="search-event-desktop-modal"]');
+  }
+  /**
+   * 'Search result' item by name
+   * @param itemName
+   */
+  searchResultItemByName(itemName) {
+    return cy
+      .get('h6[class^="chakra-text"]')
+      .contains(itemName)
+      .should("exist")
+      .scrollIntoView()
+      .should("be.visible");
   }
   /**
    * Logo 'Showpass' on the top bar
@@ -119,10 +138,11 @@ export class HomeLocators {
    * 'Search' button within the 'Search' and 'Date' area
    */
   searchButton() {
-    return cy.get('button[aria-label="Search"]')
-    .should("exist")
-    .scrollIntoView()
-    .should("be.visible");
+    return cy
+      .get('button[aria-label="Search"]')
+      .should("exist")
+      .scrollIntoView()
+      .should("be.visible");
   }
   /**
    * 'Calgary' button to select a location
