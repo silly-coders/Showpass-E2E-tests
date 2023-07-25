@@ -25,6 +25,13 @@ describe("Test existing event details by ", () => {
     cy.enterEventNameIntoSearchField(this.testdata.events.event1.eventName);
     cy.getSearchResultModalWindow();
     cy.selectSearchItemByItemName(this.testdata.events.event1.eventName);
-    cy.verifyEventPageDetails(this.testdata.events.event1);
+    cy.verifyEvent1PageDetails(this.testdata.events.event1);
+  });
+
+  it("verifying the event-2 page details-TA-39", function () {
+    cy.enterEventNameIntoSearchField(this.testdata.events.event2.eventName);
+    cy.getSearchResultModalWindow();
+    cy.selectSearchItemByItemName(this.testdata.events.event2.eventName);
+    cy.verifyEvent2PageDetails(this.testdata.events.event2);
   });
 });

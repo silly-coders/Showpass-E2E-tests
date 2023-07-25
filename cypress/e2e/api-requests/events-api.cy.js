@@ -12,20 +12,20 @@ describe("Test various events by ", function () {
   });
 
   it("verifying event 1 payload-TA-37", function () {
-    cy.fixture("event-1.json").then(function (event1) {
+    cy.fixture("event-1.json").then(function (eventPayload) {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.visit("/ta-event-1/");
-      cy.verifyEvent1ApiPayload(event1);
+      cy.visit(this.testdata.events.event1.eventUrl);
+      cy.verifyEvent1ApiPayload(eventPayload);
     });
   });
 
   it("verifying event 2 payload-TA-38", function () {
-    cy.fixture("event-2.json").then(function (event2) {
+    cy.fixture("event-2.json").then(function (eventPayload) {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.visit("/event-2-do-not-modify/");
-      cy.verifyEvent2ApiPayload(event2);
+      cy.visit(this.testdata.events.event2.eventUrl);
+      cy.verifyEvent2ApiPayload(eventPayload);
     });
   });
 });
