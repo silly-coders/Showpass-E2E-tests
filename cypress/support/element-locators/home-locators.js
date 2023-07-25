@@ -58,7 +58,11 @@ export class HomeLocators {
    * 'Search events' input field
    */
   searchEventsInputField() {
-    return cy.get('input[id="EventSearchInput-input"]');
+    return cy.get('input[id="EventSearchInput-input"]')
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible")
+    .should("not.be.disabled");
   }
   /**
    * Logo 'Showpass' on the top bar
@@ -66,7 +70,12 @@ export class HomeLocators {
   showpassLogo() {
     return cy.get('a[aria-label="showpass logo"]');
   }
-
+  /**
+   * 'Best Sellers' modal window below the 'Search' field
+   */
+  bestSellersModalWindow() {
+    return cy.get('div[id="search-event-desktop-modal"]');
+  }
   //--------------------------------------------------------- MIDDLE PAGE ELEMENTS ----------------------------------------------
   /**
    * 'Chase That Feeling' jumbotron header above the 'Search' and 'Date' area
@@ -110,7 +119,10 @@ export class HomeLocators {
    * 'Search' button within the 'Search' and 'Date' area
    */
   searchButton() {
-    return cy.get('button[aria-label="search"]').first();
+    return cy.get('button[aria-label="Search"]')
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible");
   }
   /**
    * 'Calgary' button to select a location

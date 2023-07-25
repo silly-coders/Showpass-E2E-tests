@@ -25,12 +25,13 @@ import './element-locators/dashboard-locators'
 import './page-methods/dashboard-methods'
 import './element-locators/login-locators'
 import './element-locators/create-event-forms-locators'
-import './page-methods/create-event-methods'
+import './page-methods/event-methods'
 import './element-locators/user-settings-locators'
 import './page-methods/user-settings-methods'
 import './page-methods/api-methods/api-login'
 import './page-methods/api-methods/api-event1'
-
+import './page-methods/api-methods/api-event2'
+import './element-locators/events-and-filters-locators'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

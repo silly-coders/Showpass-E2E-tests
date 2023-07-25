@@ -1,3 +1,4 @@
+// Test Automation event 1
 Cypress.Commands.add("verifyEvent1ApiPayload", (event1) => {
   cy.request({
     method: "GET",
@@ -89,3 +90,4 @@ Cypress.Commands.add("verifyEvent1ApiPayload", (event1) => {
     );
   });
 });
+

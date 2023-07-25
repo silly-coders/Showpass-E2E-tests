@@ -202,3 +202,16 @@ Cypress.Commands.add("verifyPasswordResetWindowAppearance", () => {
   cy.getChakraInputFieldByAttr("name", "email");
   cy.getChakraButtonByText("Send Reset Link");
 });
+
+/**
+ * Method to search for an event by event name
+ */
+Cypress.Commands.add("searchForAnEventByName", (eventName) => {
+  cy.log("Going to searchForAnEventByName()");
+  homeLocators.searchEventsInputField().should("not.be.disabled");
+  homeLocators
+    .searchEventsInputField()
+    .clear({ force: true })
+    .type(eventName, { force: true });
+  homeLocators.searchButton().click({ force: true });
+});

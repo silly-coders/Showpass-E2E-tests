@@ -181,6 +181,18 @@ Cypress.Commands.add("getChakraFormLabel", (itemText) => {
     .should("be.visible");
 });
 /**
+ * Get a paragraph sub-header by text
+ * @param itemText
+ */
+Cypress.Commands.add("getParagraphSubHeaderByText", (itemText) => {
+  cy.log(`Requested getParagraphSubHeaderByText element: ${itemText}`);
+  return cy
+    .get(`p[class^="chakra-text"]`)
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
  * Get a 'chakra-form-label by index and text
  * @param elementIndex
  * @param labelText
@@ -199,6 +211,14 @@ Cypress.Commands.add(
       .should("be.visible");
   }
 );
+/**
+ * Get image by the 'alt' attribute
+ * @param altAttr
+ */
+Cypress.Commands.add("getImageByAlt", (altAttr) => {
+  cy.log(`Requested getImageByAlt element: ${altAttr}`);
+  return cy.get(`img[alt="${altAttr}"]`).should("exist").should("be.visible");
+});
 /**
  * Get h1 header by text
  * @param itemText
@@ -255,15 +275,18 @@ Cypress.Commands.add("getChakraInputFieldByAttr", (attrType, attrValue) => {
  * @param attrValue
  * @param inputValue
  */
-Cypress.Commands.add("verifyChakraInputFieldValue", (attrType, attrValue, inputValue) => {
-  cy.log(
-    `Requested verifyChakraInputFieldValue element: input[${attrType}="${attrValue}`
-  );
-  return cy
-    .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
-    .should("have.attr","value",inputValue)
-    .should("be.visible");
-});
+Cypress.Commands.add(
+  "verifyChakraInputFieldValue",
+  (attrType, attrValue, inputValue) => {
+    cy.log(
+      `Requested verifyChakraInputFieldValue element: input[${attrType}="${attrValue}`
+    );
+    return cy
+      .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
+      .should("have.attr", "value", inputValue)
+      .should("be.visible");
+  }
+);
 /**
  * Get a 'chakra-form-error-message' inline validation by index and text
  * @param elementIndex
@@ -483,4 +506,29 @@ Cypress.Commands.add("verifyShowpassLogoAppearance", () => {
 Cypress.Commands.add("verifyQrCodeAppearance", () => {
   cy.log("Going to verifyQrCodeAppearance()");
   cy.get('img[alt="Universal QR Code"]').should("exist").should("be.visible");
+});
+/**
+ * Get a chakra-skeleton paragraph item text
+ */
+Cypress.Commands.add("getChakraSkeletonItem", () => {
+  cy.log(
+    `Requested getChakraSkeletonItem element: div[class^="chakra-skeleton"] > p`
+  );
+  return cy
+    .get('div[class^="chakra-skeleton"] > p')
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Verify 'chakra-skeleton' item text by item index
+ * @param itemText
+ * @param itemIndex
+ */
+Cypress.Commands.add("verifyChakraSkeletonItemText", (itemIndex, itemText) => {
+  cy.log(`Going to verifyChakraSkeletonItemText(${itemText})`);
+  cy.getChakraSkeletonItem().eq(itemIndex)
+  .should("exist")
+  .scrollIntoView()
+  .should("be.visible")
+  .should("contain", itemText);
 });

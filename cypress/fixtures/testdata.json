@@ -62,5 +62,23 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "phoneNumber": "Phone Number"
+  },
+  "events": {
+    "event1": {
+      "eventName": "Test Automation event 1 (DO NOT DELETE)",
+      "activeFilterLabel": "Test Automation event 1",
+      "eventDate": "Jul 21 2030",
+      "eventCity": "Calgary",
+      "eventPriceRange": "$3 - $4",
+      "eventTime": "7:00 AM MDT"
+    },
+    "event2": {
+      "eventName": "Test Automation event 2 (DO NOT MODIFY)",
+      "activeFilterLabel": "Test Automation event 2",
+      "eventDate": "Aug 1 2030",
+      "eventCity": "Buenos Aires",
+      "eventPriceRange": "$5 - $548",
+      "eventTime": "9:00 PM MDT"
+    }
   }
 }
