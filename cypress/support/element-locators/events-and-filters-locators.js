@@ -23,9 +23,10 @@ export class EventsAndFiltersLocators {
   /**
    * Minus sign (-) to remove item from cart (enabled)
    */
-  removeItemButtonActive() {
+  removeItemButtonActive(buttonIndex) {
     return cy
       .get('button[class^="chakra-button"][aria-label="Remove item"]')
+      .eq(buttonIndex)
       .should("exist")
       .scrollIntoView()
       .should("be.visible")
@@ -40,27 +41,18 @@ export class EventsAndFiltersLocators {
       .should("not.be.enabled");
   }
   /**
-   * Plus sign (+) to add item to cart (enabled)
-   */
-  addItemButtonActive(index) {
-    return cy
-      .get('button[class^="chakra-button"][aria-label="Add item"]')
-      .eq(index)
-      .should("exist")
-      .should("be.visible")
-      .should("not.be.disabled");
-  }
-  /**
    * Plus sign (+) to add item to cart (disabled)
    */
   addItemButtonActive(index) {
     return cy
       .get('button[class^="chakra-button"][aria-label="Add item"]')
       .eq(index)
+      .as("btn")
+      .get("@btn")
       .should("exist")
       .scrollIntoView()
-      .should("be.visible")
-      .should("not.be.disabled");
+      .should("not.be.disabled")
+      .should("be.visible");
   }
   /**
    * Active 'Checkout' button (enabled)
@@ -90,5 +82,16 @@ export class EventsAndFiltersLocators {
       .eq(itemIndex)
       .should("exist")
       .should("be.visible");
+  }
+  /**
+   * Added ticket by index on the event page above 'Checkout' button
+   * @param itemIndex
+   */
+  addedTicketNameByIndex(itemIndex) {
+    cy.log("ticketPriceLabelByIndex: [" + itemIndex + "]");
+    return cy
+      .get(`[data-testid^='cart-item'] > div > div > div > p`)
+      .eq(itemIndex)
+      .should("exist");
   }
 }

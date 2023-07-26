@@ -64,8 +64,8 @@ Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
   cy.getChakraTextLabelByIndex(4).should("contain", eventDetails.endTime); // End time label
   cy.getChakraTextLabelByIndex(6).should("contain", eventDetails.eventType); // Even type (Online Event)
   // Tickets
-  cy.getChakraHeaderH2(eventDetails.ticketName1); // 'Main event' ticket type label
-  cy.getChakraHeaderH2(eventDetails.ticketName2); // 'General Admission' ticket type label
+  cy.getChakraHeaderH2(eventDetails.ticketName1); // Ticket type label 1
+  cy.getChakraHeaderH2(eventDetails.ticketName2); // Ticket type label 2
   eventsAndFiltersLocators
     .ticketPriceLabelByIndex(0)
     .should("contain", eventDetails.ticketPrice1); // First ticket type price
@@ -73,7 +73,6 @@ Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
     .ticketPriceLabelByIndex(1)
     .should("contain", eventDetails.ticketPrice2); // Second ticket type price
   // Ticket counter
-  cy.get('div[class^="css"]').contains("0");
   cy.get('div[class^="css"]').contains("0");
 });
 /**
@@ -96,15 +95,54 @@ Cypress.Commands.add("verifyEvent2PageDetails", (eventDetails) => {
   cy.getChakraTextLabelByIndex(3).should("contain", eventDetails.startTime); // Start time label
   cy.getChakraTextLabelByIndex(4).should("contain", eventDetails.endTime); // End time label
   // Tickets
-  cy.getChakraHeaderH2(eventDetails.ticketName1); // 'Main event' ticket type label
-  cy.getChakraHeaderH2(eventDetails.ticketName2); // 'General Admission' ticket type label
+  cy.getChakraHeaderH2(eventDetails.ticketName1); // Ticket type label 1
+  cy.getChakraHeaderH2(eventDetails.ticketName2); // Ticket type label 2
+  cy.getChakraHeaderH2(eventDetails.ticketName3); // Ticket type label 3
   eventsAndFiltersLocators
     .ticketPriceLabelByIndex(0)
     .should("contain", eventDetails.ticketPrice1); // First ticket type price
   eventsAndFiltersLocators
     .ticketPriceLabelByIndex(1)
     .should("contain", eventDetails.ticketPrice2); // Second ticket type price
+  eventsAndFiltersLocators
+    .ticketPriceLabelByIndex(2)
+    .should("contain", eventDetails.ticketPrice3); // Second ticket type price
   // Ticket counter
   cy.get('div[class^="css"]').contains("0");
-  cy.get('div[class^="css"]').contains("0");
 });
+/**
+ * Method to add tickets to the cart
+ * @param totalTicketTypes (total number of ticket types)
+ * @param numberOfTicketsForEach (how many tickets to add from each type)
+ */
+Cypress.Commands.add(
+  "addTicketsToCart",
+  (totalTicketTypes, numberOfTicketsForEach) => {
+    cy.log("Going to addTicketsToCart()");
+    for (let j = 1; j <= numberOfTicketsForEach; j++) {
+      for (let i = 0; i < totalTicketTypes; i++) {
+        eventsAndFiltersLocators.addItemButtonActive(i).click();
+        eventsAndFiltersLocators.removeItemButtonActive(i);
+        cy.wait(1000);
+      }
+    }
+  }
+);
+/**
+ * Method to verify names of tickets added to cart
+ * Verify names and types of tickets added to cart on the event page based on their index on the list
+ * @param ticketType
+ * @param eventName
+ * @param totalNumberOfTickets
+ */
+Cypress.Commands.add(
+  "verifyAddedTicketNames",
+  (ticketType, eventName, addedTicketIndex) => {
+    cy.log("Going to verifyAddedTicketNames()");
+    const addedTicketName = ticketType + " - " + eventName;
+    cy.log("Verifying the following ticket type: " + addedTicketName);
+    eventsAndFiltersLocators
+      .addedTicketNameByIndex(addedTicketIndex)
+      .should("contain", addedTicketName);
+  }
+);
