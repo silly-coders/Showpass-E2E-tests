@@ -94,4 +94,22 @@ export class EventsAndFiltersLocators {
       .eq(itemIndex)
       .should("exist");
   }
+  /**
+   * Transparent heart icon representing an unsaved event
+   */
+  transparentHeartIconButton() {
+    return cy.get(
+      `div[data-testid='card-image-heart-container-box'] > div > svg`
+    );
+  }
+  /**
+   * Get a saved card name
+   * @param index
+   */
+  getSavedCardName(index) {
+    return cy
+      .get('div[class^="chakra-skeleton"] > p')
+      .eq(index)
+      .should("exist");
+  }
 }

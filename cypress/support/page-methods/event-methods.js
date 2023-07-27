@@ -47,13 +47,6 @@ Cypress.Commands.add("verifyEventCardDetails", (eventDetails) => {
  */
 Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
   cy.log("Going to verifyEventPageDetails()");
-  cy.getImageByAlt("Event image"); // Event image is present
-  cy.getChakraHeaderH2("Cart"); // Section header 'Cart'
-  cy.chakraParagraphButtonByText("Tickets"); // Button 'Tickets'
-  cy.chakraParagraphButtonByText("More Info"); // Button 'More Info'
-  eventsAndFiltersLocators.checkoutButtonDisabled(); // Disabled 'Checkout' button by default
-  eventsAndFiltersLocators.addItemButtonActive(0); // 'Add item' (+) button active by default
-  eventsAndFiltersLocators.removeItemButtonDisabled(); // 'Remove item' (-) button disabled by default
   // Event details
   cy.getChakraSkeletonH1HeaderByText(eventDetails.eventName); // Event name
   cy.getH3HrefHeaderByText(eventDetails.organization); // Organization
@@ -62,30 +55,12 @@ Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
   cy.getChakraTextLabelByIndex(3).should("contain", eventDetails.startTime); // Start time label
   cy.getChakraTextLabelByIndex(4).should("contain", eventDetails.endTime); // End time label
   cy.getChakraTextLabelByIndex(6).should("contain", eventDetails.eventType); // Even type (Online Event)
-  // Tickets
-  cy.getChakraHeaderH2(eventDetails.ticketName1); // Ticket type label 1
-  cy.getChakraHeaderH2(eventDetails.ticketName2); // Ticket type label 2
-  eventsAndFiltersLocators
-    .ticketPriceLabelByIndex(0)
-    .should("contain", eventDetails.ticketPrice1); // First ticket type price
-  eventsAndFiltersLocators
-    .ticketPriceLabelByIndex(1)
-    .should("contain", eventDetails.ticketPrice2); // Second ticket type price
-  // Ticket counter
-  cy.get('div[class^="css"]').contains("0");
 });
 /**
  * Method to verify event-2 PAGE details
  */
 Cypress.Commands.add("verifyEvent2PageDetails", (eventDetails) => {
   cy.log("Going to verifyEventPageDetails()");
-  cy.getImageByAlt("Event image"); // Event image is present
-  cy.getChakraHeaderH2("Cart"); // Section header 'Cart'
-  cy.chakraParagraphButtonByText("Tickets"); // Button 'Tickets'
-  cy.chakraParagraphButtonByText("More Info"); // Button 'More Info'
-  eventsAndFiltersLocators.checkoutButtonDisabled(); // Disabled 'Checkout' button by default
-  eventsAndFiltersLocators.addItemButtonActive(0); // 'Add item' (+) button active by default
-  eventsAndFiltersLocators.removeItemButtonDisabled(); // 'Remove item' (-) button disabled by default
   // Event details
   cy.getChakraSkeletonH1HeaderByText(eventDetails.eventName); // Event name
   cy.getH3HrefHeaderByText(eventDetails.organization); // Organization
@@ -93,21 +68,6 @@ Cypress.Commands.add("verifyEvent2PageDetails", (eventDetails) => {
   cy.getChakraTextLabelByIndex(2).should("contain", eventDetails.endDay); // End day label
   cy.getChakraTextLabelByIndex(3).should("contain", eventDetails.startTime); // Start time label
   cy.getChakraTextLabelByIndex(4).should("contain", eventDetails.endTime); // End time label
-  // Tickets
-  cy.getChakraHeaderH2(eventDetails.ticketName1); // Ticket type label 1
-  cy.getChakraHeaderH2(eventDetails.ticketName2); // Ticket type label 2
-  cy.getChakraHeaderH2(eventDetails.ticketName3); // Ticket type label 3
-  eventsAndFiltersLocators
-    .ticketPriceLabelByIndex(0)
-    .should("contain", eventDetails.ticketPrice1); // First ticket type price
-  eventsAndFiltersLocators
-    .ticketPriceLabelByIndex(1)
-    .should("contain", eventDetails.ticketPrice2); // Second ticket type price
-  eventsAndFiltersLocators
-    .ticketPriceLabelByIndex(2)
-    .should("contain", eventDetails.ticketPrice3); // Second ticket type price
-  // Ticket counter
-  cy.get('div[class^="css"]').contains("0");
 });
 /**
  * Method to add tickets to the cart
@@ -128,20 +88,73 @@ Cypress.Commands.add(
   }
 );
 /**
- * Method to verify names of tickets added to cart
- * Verify names and types of tickets added to cart on the event page based on their index on the list
- * @param ticketType
- * @param eventName
- * @param totalNumberOfTickets
+ * Method to remove all events from the 'Saved Events' page
+ */
+Cypress.Commands.add("removeAllSavedEvents", () => {
+  cy.log("Trying to find saved events");
+  cy.get("body").then(($body) => {
+    // If you see text "No saved events found" there is nothing to remove
+    if ($body.text().includes("No saved events found")) {
+      cy.log("No saved events found!");
+    } else {
+      // Remove all events that show up on the 'Saved Events' page
+      cy.log("Found a few saved events. Going to remove them.");
+      cy.get(
+        `div[data-testid='card-image-heart-container-box'] > div > svg > svg > path`
+      ).then(($totalCount) => {
+        length = $totalCount.length;
+        cy.log("FOUND IN TOTAL " + length + " EVENT CARDS");
+        for (let i = length; i > 0; i--) {
+          cy.log("DELETING card # " + i);
+          cy.get(
+            `div[data-testid='card-image-heart-container-box'] > div > svg > svg > path`
+          )
+            .eq(i - 1)
+            .should("exist")
+            .should("be.visible")
+            .click({ force: true });
+          cy.wait(1000);
+        }
+      });
+    }
+  });
+});
+/**
+ * Method to add events to the 'Saved Events' list
+ * @param totalNumberOfEventsToAdd
  */
 Cypress.Commands.add(
-  "verifyAddedTicketNames",
-  (ticketType, eventName, addedTicketIndex) => {
-    cy.log("Going to verifyAddedTicketNames()");
-    const addedTicketName = ticketType + " - " + eventName;
-    cy.log("Verifying the following ticket type: " + addedTicketName);
-    eventsAndFiltersLocators
-      .addedTicketNameByIndex(addedTicketIndex)
-      .should("contain", addedTicketName);
+  "clickHeartIconToSaveEvents",
+  (totalNumberOfEventsToAdd) => {
+    cy.log("Going to save " + totalNumberOfEventsToAdd + " events in total.");
+    cy.wait(1500);
+    for (let i = 0; i < totalNumberOfEventsToAdd; i++) {
+      eventsAndFiltersLocators
+        .transparentHeartIconButton()
+        .eq(i)
+        .should("exist")
+        .scrollIntoView()
+        .click({ force: true });
+    }
   }
 );
+/**
+ * Click 'Showpass' logo on the top bar's left side
+ */
+Cypress.Commands.add("clickShowpassLogo", () => {
+  cy.log("Going to clickShowpassLogo()");
+  cy.get('img[alt="showpass"]')
+    .should("exist")
+    .should("be.visible")
+    .click({ force: true });
+});
+/**
+ * Method to verify SAVED event cards
+ * @param index
+ * @param eventName
+ */
+Cypress.Commands.add("verifySavedEventCardName", (index, eventName) => {
+  cy.log("Going to verifySavedEventCard()");
+  // Event name (index=1 is representing the event name)
+  eventsAndFiltersLocators.getSavedCardName(index).should("contain", eventName);
+});

@@ -161,7 +161,7 @@ Cypress.Commands.add("getChakraButtonByText", (itemText) => {
  * @param attrType
  * @param attrValue
  */
-Cypress.Commands.add("getChakraButtonByAttribute", (attrType,attrValue) => {
+Cypress.Commands.add("getChakraButtonByAttribute", (attrType, attrValue) => {
   cy.log(
     `Requested getChakraButtonByAttribute element: button[class^="chakra-button"][${attrType}="${attrValue}"]`
   );
@@ -613,9 +613,9 @@ Cypress.Commands.add(
   (eventName) => {
     cy.log("Going to enterEventNameIntoSearchLocationOrEventField()");
     // Not always the search criteria gets properly entered from the first time
-    for(let i=1; i<3; i++) {
-    cy.getSearchLocationOrEventInputField().clear({ force: true });
-    cy.getSearchLocationOrEventInputField().type(eventName, { force: true });
-  }
+    for (let i = 1; i < 3; i++) {
+      cy.getSearchLocationOrEventInputField().clear({ force: true });
+      cy.getSearchLocationOrEventInputField().type(eventName, { force: true });
+    }
   }
 );
