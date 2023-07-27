@@ -208,10 +208,14 @@ Cypress.Commands.add("verifyPasswordResetWindowAppearance", () => {
 Cypress.Commands.add("enterEventNameIntoSearchField", (eventName) => {
   cy.log("Going to enterEventNameIntoSearchField()");
   homeLocators.searchEventsInputField().should("not.be.disabled");
-  homeLocators
-    .searchEventsInputField()
-    .clear({ force: true })
-    .type(eventName, { force: true });
+  // The for loop is absolutely needed
+  // Not always the search criteria gets entered properly from the first time
+  for (let i = 1; i < 3; i++) {
+    homeLocators
+      .searchEventsInputField()
+      .clear({ force: true })
+      .type(eventName, { force: true });
+  }
 });
 /**
  * Method to search for an event by event name
@@ -233,11 +237,12 @@ Cypress.Commands.add("selectSearchItemByItemName", (itemName) => {
     .click({ force: true });
 });
 /**
-* Get 'Search results' modal window
-*/
+ * Get 'Search results' modal window
+ */
 Cypress.Commands.add("getSearchResultModalWindow", () => {
   cy.log("Going to getSearchResultModalWindow()");
-  homeLocators.searchResultModalWindow()
+  homeLocators
+    .searchResultModalWindow()
     .should("exist")
     .should("be.visible")
     .should("not.be.disabled");

@@ -24,7 +24,6 @@ Cypress.Commands.add("clickEventCardByIndex", (eventIndex) => {
  */
 Cypress.Commands.add("verifyEventCardDetails", (eventDetails) => {
   cy.log("Going to verifyEventCardDetails()");
-  cy.searchForAnEventByName(eventDetails.eventName);
   cy.verifyEventActiveFilterText(eventDetails.activeFilterLabel);
   // Verify event card details
   // Event dates

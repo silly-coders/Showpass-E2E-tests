@@ -152,6 +152,7 @@ Cypress.Commands.add("verifyBillingAddressInlineErrors", () => {
 Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
   cy.log("Going to populateBillingAddressForm()");
   // Search Address field
+  cy.getChakraInputFieldByAttr("id", "search-address-input").clear();
   cy.getChakraInputFieldByAttr("id", "search-address-input").type(
     userAddress.fullAddress
   );

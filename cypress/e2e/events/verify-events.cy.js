@@ -13,11 +13,13 @@ describe("Test existing event details by ", () => {
 
   it("verifying 'event 1' CARD content-TA-38", function () {
     cy.logIntoPortal(this.testdata.userDetails);
+    cy.searchForAnEventByName(this.testdata.events.event1.eventName);
     cy.verifyEventCardDetails(this.testdata.events.event1);
   });
 
   it("verifying 'event 2' CARD content-TA-38", function () {
     cy.logIntoPortal(this.testdata.userDetails);
+    cy.searchForAnEventByName(this.testdata.events.event2.eventName);
     cy.verifyEventCardDetails(this.testdata.events.event2);
   });
 

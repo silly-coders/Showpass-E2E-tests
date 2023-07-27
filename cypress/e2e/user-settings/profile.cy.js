@@ -97,7 +97,7 @@ describe("Verify user's profile by ", () => {
       1,
       "Subscribe to promotions from Showpass"
     );
-    // Verify that all the disabled selectors are not present
+    // Verify that all the disabled selectors are not present in DOM
     for (let i = 2; i < 16; i++) {
       cy.verifyElementDoesNotExist('input[class="chakra-switch__input"]', i);
     }
@@ -159,7 +159,7 @@ describe("Verify user's profile by ", () => {
 
   it("verifying invalid password inputs-TA-28", function () {
     cy.clickPasswordButton();
-    // Case 1: Invalid old pwd, Valid new pwd, Valid confirm pwd
+    cy.log("Case 1: Invalid old pwd, Valid new pwd, Valid confirm pwd");
     cy.populateOldNewAndConfirmPwdFields(
       this.testdata.invalidPasswordInputsAndErrors.noSpecialCharPassword,
       this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
@@ -171,7 +171,7 @@ describe("Verify user's profile by ", () => {
     );
     cy.clickButtonXtoCloseMessage();
     cy.clearOldNewAndConfirmPwdFields();
-    // Case 2: Valid old pwd, Valid new pwd, Invalid confirm pwd
+    cy.log("Case 2: Valid old pwd, Valid new pwd, Invalid confirm pwd");
     cy.populateOldNewAndConfirmPwdFields(
       this.testdata.userDetails.userPassword,
       this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
@@ -183,7 +183,7 @@ describe("Verify user's profile by ", () => {
       this.testdata.invalidPasswordInputsAndErrors.mustBeAtLeast7Char
     );
     cy.clearOldNewAndConfirmPwdFields();
-    // Case 3: Valid old pwd, No new pwd, Valid confirm pwd
+    cy.log("Case 3: Valid old pwd, No new pwd, Valid confirm pwd");
     cy.getInputElementByAttr("placeholder", "Old Password").type(
       this.testdata.userDetails.userPassword,
       { force: true }
@@ -198,7 +198,7 @@ describe("Verify user's profile by ", () => {
       this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
     );
     cy.clearOldNewAndConfirmPwdFields();
-    // Case 4: Valid old pwd, Valid new pwd, Not matching confirm pwd
+    cy.log("Case 4: Valid old pwd, Valid new pwd, Not matching confirm pwd");
     cy.populateOldNewAndConfirmPwdFields(
       this.testdata.userDetails.userPassword,
       this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
@@ -210,7 +210,7 @@ describe("Verify user's profile by ", () => {
       this.testdata.invalidPasswordInputsAndErrors.pwdMustMatch
     );
     cy.clearOldNewAndConfirmPwdFields();
-    // Case 5: Valid old pwd, No new pwd, No confirm pwd
+    cy.log("Case 5: Valid old pwd, No new pwd, No confirm pwd");
     cy.getInputElementByAttr("placeholder", "Old Password").type(
       this.testdata.userDetails.userPassword,
       { force: true }
@@ -233,7 +233,7 @@ describe("Verify user's profile by ", () => {
 
   it("verifying 'Email' form inline validation errors-TA-33", function () {
     cy.clickEmailButton();
-    // Case 1:
+    cy.log("TA-33 Case 1");
     for (let i = 0; i < 2; i++) {
       const placeholders = [
         this.testdata.inputFieldPlaceholders.newEmail,
@@ -250,7 +250,7 @@ describe("Verify user's profile by ", () => {
       1,
       this.testdata.errorMessages.passwordRequired
     );
-    // Case 2:
+    cy.log("TA-33 Case 2");
     cy.getInputElementByAttr(
       "placeholder",
       this.testdata.inputFieldPlaceholders.password
@@ -264,7 +264,7 @@ describe("Verify user's profile by ", () => {
       "placeholder",
       this.testdata.inputFieldPlaceholders.password
     );
-    // Case 3:
+    cy.log("TA-33 Case 3");
     cy.getInputElementByAttr(
       "placeholder",
       this.testdata.inputFieldPlaceholders.newEmail
@@ -274,7 +274,7 @@ describe("Verify user's profile by ", () => {
       0,
       this.testdata.errorMessages.passwordRequired
     );
-    // Case 4:
+    cy.log("TA-33 Case 4");
     cy.getInputElementByAttr(
       "placeholder",
       this.testdata.inputFieldPlaceholders.password

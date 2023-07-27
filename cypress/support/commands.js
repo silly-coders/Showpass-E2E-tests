@@ -157,6 +157,20 @@ Cypress.Commands.add("getChakraButtonByText", (itemText) => {
     .should("be.visible");
 });
 /**
+ * Get a chakra-button by an attribute
+ * @param attrType
+ * @param attrValue
+ */
+Cypress.Commands.add("getChakraButtonByAttribute", (attrType,attrValue) => {
+  cy.log(
+    `Requested getChakraButtonByAttribute element: button[class^="chakra-button"][${attrType}="${attrValue}"]`
+  );
+  return cy
+    .get(`button[class^="chakra-button"][${attrType}="${attrValue}"]`)
+    .should("exist")
+    .should("be.visible");
+});
+/**
  * Get chakra-paragraph-button by text
  * @param buttonText
  */
@@ -579,3 +593,29 @@ Cypress.Commands.add("verifyChakraSkeletonItemText", (itemIndex, itemText) => {
     .should("be.visible")
     .should("contain", itemText);
 });
+/**
+ * 'Search location or event' input field within the 'Search' and 'Date' section
+ */
+Cypress.Commands.add("getSearchLocationOrEventInputField", () => {
+  cy.log(`Going to getSearchLocationOrEventInputField()`);
+  return cy
+    .get('input[id="search-places-and-events-input"][role="combobox"]')
+    .as("searchField")
+    .get("@searchField")
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Method to enter event name into the 'Search location or event' field
+ */
+Cypress.Commands.add(
+  "enterEventNameIntoSearchLocationOrEventField",
+  (eventName) => {
+    cy.log("Going to enterEventNameIntoSearchLocationOrEventField()");
+    // Not always the search criteria gets properly entered from the first time
+    for(let i=1; i<3; i++) {
+    cy.getSearchLocationOrEventInputField().clear({ force: true });
+    cy.getSearchLocationOrEventInputField().type(eventName, { force: true });
+  }
+  }
+);

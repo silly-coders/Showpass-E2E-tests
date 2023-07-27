@@ -42,11 +42,9 @@ Cypress.Commands.add("verifyEvent1ApiPayload", (event1) => {
     );
 
     expect(response.body.event.location.venue).to.eq(
-        event1.event.location.venue
+      event1.event.location.venue
     );
-    expect(response.body.event.location.name).to.eq(
-        event1.event.location.name
-    );
+    expect(response.body.event.location.name).to.eq(event1.event.location.name);
     expect(response.body.event.location.country).to.eq(
       event1.event.location.country
     );
@@ -73,11 +71,17 @@ Cypress.Commands.add("verifyEvent1ApiPayload", (event1) => {
     expect(response.body.event.ticket_types[0].price).to.eq(
       event1.event.ticket_types[0].price
     );
+    expect(response.body.event.ticket_types[0].inventory).to.eq(
+      event1.event.ticket_types[0].inventory
+    );
+    expect(response.body.event.ticket_types[0].payment_scheme).to.eq(
+      event1.event.ticket_types[0].payment_scheme
+    );
 
     // Event 1 - ticket type 2
 
     expect(response.body.event.ticket_types[1].id).to.eq(
-        event1.event.ticket_types[1].id
+      event1.event.ticket_types[1].id
     );
     expect(response.body.event.ticket_types[1].event).to.eq(
       event1.event.ticket_types[1].event
@@ -88,6 +92,11 @@ Cypress.Commands.add("verifyEvent1ApiPayload", (event1) => {
     expect(response.body.event.ticket_types[1].price).to.eq(
       event1.event.ticket_types[1].price
     );
+    expect(response.body.event.ticket_types[1].inventory).to.eq(
+      event1.event.ticket_types[1].inventory
+    );
+    expect(response.body.event.ticket_types[1].payment_scheme).to.eq(
+      event1.event.ticket_types[1].payment_scheme
+    );
   });
 });
-
