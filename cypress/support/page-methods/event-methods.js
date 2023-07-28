@@ -5,10 +5,23 @@ const eventsAndFiltersLocators = new EventsAndFiltersLocators();
 
 /**
  * Method to verify event active filter text
+ * @param eventName
  */
 Cypress.Commands.add("verifyEventActiveFilterText", (eventName) => {
   cy.log(`Going to verifyEventActiveFilterText(${eventName})`);
   eventsAndFiltersLocators.activeFilterText(eventName);
+});
+
+/**
+ * Method to verify active filter by aria-label
+ * @param ariaLabel
+ */
+Cypress.Commands.add("verifyActiveFilterByAriaLabel", (ariaLabel) => {
+  cy.log(`Going to verifyEventActiveFilterText(${ariaLabel})`);
+  cy.get(`div[class^="active-filters"] > button[aria-label="${ariaLabel}"]`)
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible");
 });
 
 /**
@@ -154,7 +167,65 @@ Cypress.Commands.add("clickShowpassLogo", () => {
  * @param eventName
  */
 Cypress.Commands.add("verifySavedEventCardName", (index, eventName) => {
-  cy.log("Going to verifySavedEventCard()");
+  cy.log("Going to verifySavedEventCard(index, eventName)");
   // Event name (index=1 is representing the event name)
   eventsAndFiltersLocators.getSavedCardName(index).should("contain", eventName);
+});
+/**
+ * Method to click (X) button to remove a particular filter
+ * @param ariaLabel
+ */
+Cypress.Commands.add("clickButtonxToRemoveFilterByArialabel", (ariaLabel) => {
+  cy.log("Going to clickButtonxToRemoveFilterByArialabel(ariaLabel)");
+  eventsAndFiltersLocators.getButtonxToRemoveSelecetedFilter(ariaLabel).click();
+});
+/**
+ * Method to verify the 'No events available ...' message
+ */
+Cypress.Commands.add("verifyNoEventsAvailableMsg", () => {
+  cy.log("Going to verifyNoEventsAvailableMsg()");
+  cy.get('div[class^="css"] > span[class^="css"]')
+    .contains("No events available with your search criteria.")
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Method to select a preset date range
+ * @param label
+ */
+Cypress.Commands.add("selectDateRangeByLabel", (label) => {
+  cy.log("Going to selectDateRangeByLabel()");
+  eventsAndFiltersLocators.getDatePicker().click();
+  eventsAndFiltersLocators.getDateRangeButtonByLabel(label).click();
+});
+/**
+ * Method to clear 'Date Range' selection
+ */
+Cypress.Commands.add("clearDateRangeSelection", () => {
+  cy.log("Going to clearDateRangeSelection()");
+  eventsAndFiltersLocators.getClearSelectionButtonForDateRange().click();
+});
+/**
+ * Method to select a category
+ */
+Cypress.Commands.add("selectCategoryByText", (text) => {
+  cy.log("Going to selectCategoryByText(text)");
+  // Click the 'Select categories' field
+  cy.getChakraInputFieldByAttr("placeholder", "Select categories").as(
+    "category"
+  );
+  cy.get("@category").click();
+  cy.getChakraTextLabelByText(text).click();
+});
+/**
+ * Method to select a tag
+ */
+Cypress.Commands.add("selectTagByText", (text) => {
+  cy.log("Going to selectTagByText(text)");
+  // Click the 'Select tags' field
+  cy.getChakraInputFieldByAttr("placeholder", "Select tags").as(
+    "tags"
+  );
+  cy.get("@tags").click();
+  cy.getChakraTextLabelByText(text).click();
 });

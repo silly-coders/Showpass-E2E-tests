@@ -112,4 +112,48 @@ export class EventsAndFiltersLocators {
       .eq(index)
       .should("exist");
   }
+  /**
+   * Button (x) by aria-label to remove a selected filter
+   * @param ariaLabel
+   */
+  getButtonxToRemoveSelecetedFilter(ariaLabel) {
+    return cy
+      .get(`button[aria-label="${ariaLabel}"]`)
+      .should("exist")
+      .should("be.visible");
+  }
+  /**
+   * Get the 'Select a date' date-picker
+   */
+  getDatePicker() {
+    return cy
+      .get(`button[id="event-search-select-date-range"]`)
+      .should("exist")
+      .scrollIntoView()
+      .should("be.visible");
+  }
+  /**
+   * Get a preset date range button by label
+   * @param label
+   * @example label="Today","Tomorrow","This Weekend","Next Week" etc
+   */
+  getDateRangeButtonByLabel(label) {
+    return cy
+      .getChakraButtonByAttribute("aria-label", label)
+      .should("exist")
+      .scrollIntoView()
+      .should("be.visible");
+  }
+  /**
+   * Clear 'Date Range' selection button (X)
+   */
+  getClearSelectionButtonForDateRange() {
+    return cy
+      .get(
+        'button[id="event-search-select-date-range"] > div[aria-label="clear selection"]'
+      )
+      .should("exist")
+      .scrollIntoView()
+      .should("be.visible");
+  }
 }

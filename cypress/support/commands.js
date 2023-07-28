@@ -458,6 +458,18 @@ Cypress.Commands.add("getChakraTextLabelByIndex", (index) => {
     .should("be.visible");
 });
 /**
+ * Get chakra-text by the label text
+ * @param text
+ */
+Cypress.Commands.add("getChakraTextLabelByText", (text) => {
+  cy.log(`Requested text label index is: ${text}`);
+  return cy
+    .get('div[class^="css"] > p[class^="chakra-text"]')
+    .contains(text)
+    .should("exist")
+    .should("be.visible");
+});
+/**
  * Get an iFrame body by name
  * @param iFrameName
  */
@@ -619,3 +631,15 @@ Cypress.Commands.add(
     }
   }
 );
+/**
+ * Method to enter a custom value into combobox
+ * @param text
+ * @param elementIndex
+ */
+Cypress.Commands.add("inputCustomValueIntoCombobox", (elementIndex,text) => {
+  cy.log("Going to inputCustomValueIntoCombobox(text)");
+  // Click the combobox
+  cy.getChakraInputFieldByAttr("role", "combobox").as("combobox");
+  cy.get("@combobox").eq(elementIndex).click().type(text);
+  cy.get("@combobox").eq(elementIndex).type("{enter}");
+});
