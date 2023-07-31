@@ -8,7 +8,7 @@ describe("Verify user's profile by ", () => {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
       cy.navigateToHomePage();
-      cy.logIntoPortal(this.testdata.userDetails);
+      cy.logIntoPortal(this.testdata.userForNotifications);
       cy.clickUsernameAfterLoggingIn();
       cy.selectProfileDropDownItem();
     });
@@ -46,10 +46,9 @@ describe("Verify user's profile by ", () => {
 
   it("verifying that notifications can be turned on and off-TA-22", function () {
     cy.clickNotificationsButton();
-    // If the chakra-switch selector is disabled from the get go enable it first to run the test
-    cy.verifyAndTurnOnChakraSwitchSelectorIfDisabled(0);
-    // Total number of notification toggles on the page is 16
     for (var i = 0; i < 16; i++) {
+      // If the chakra-switch selector is disabled enable it before test
+      cy.verifyAndTurnOnChakraSwitchSelectorIfDisabled(i);
       cy.verifyNotificationSelectors(i);
     }
     cy.clickSaveButton();
@@ -85,8 +84,10 @@ describe("Verify user's profile by ", () => {
 
   it("verifying that notifications toggles disappear once 'All Notifications' selector is off-TA-24", function () {
     cy.clickNotificationsButton();
-    // If the chakra-switch selector is disabled from the get go enable it first to run the test
-    cy.verifyAndTurnOnChakraSwitchSelectorIfDisabled(0);
+    // If the chakra-switch selector is disabled enable it before test
+    for (var i = 0; i < 16; i++) {
+      cy.verifyAndTurnOnChakraSwitchSelectorIfDisabled(i);
+    }
     cy.toggleSwitchSelector(0);
     // Verify that 'All Notifications' toggle is off
     cy.verifyToggleLabelsOnNotificationsPage(0, "All Notifications");
@@ -107,8 +108,10 @@ describe("Verify user's profile by ", () => {
     cy.log("***** Part 1: verify the toggle is ENABLED from the get go *****");
     cy.clickNotificationsButton();
     cy.verifyToggleLabelsOnNotificationsPage(0, "All Notifications");
-    // If the chakra-switch selector is disabled from the get go enable it first to run the test
-    cy.verifyAndTurnOnChakraSwitchSelectorIfDisabled(0);
+     // If the chakra-switch selector is disabled enable it before test
+     for (var i = 0; i < 16; i++) {
+      cy.verifyAndTurnOnChakraSwitchSelectorIfDisabled(i);
+    }
     // Turn off the 'All Notifications' selector
     cy.toggleSwitchSelector(0);
     // Save and verify changes
@@ -228,7 +231,7 @@ describe("Verify user's profile by ", () => {
 
   it("verifying 'Email' form appearance-TA-32", function () {
     cy.clickEmailButton();
-    cy.verifyEmailFormAppearance(this.testdata.userDetails.userEmail);
+    cy.verifyEmailFormAppearance(this.testdata.userForNotifications.userEmail);
   });
 
   it("verifying 'Email' form inline validation errors-TA-33", function () {

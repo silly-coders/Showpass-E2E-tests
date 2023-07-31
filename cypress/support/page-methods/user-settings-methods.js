@@ -240,6 +240,13 @@ Cypress.Commands.add("verifyNotificationSelectors", (elementIndex) => {
   cy.log("Finished verifyNotificationSelectors()");
 });
 /**
+ * Turn on disabled notifications and save changes
+ */
+Cypress.Commands.add("turnOnDisabledNotifications", () => {
+  cy.log("Going to turnOnDisabledNotifications()");
+});
+
+/**
  * Toggle chakra-switch-selector
  */
 Cypress.Commands.add("toggleSwitchSelector", (elementIndex) => {
@@ -362,5 +369,5 @@ Cypress.Commands.add("verifyMyShowpassPageAppearance", () => {
     .contains("Use this QR code to scan everything attached to your account!")
     .should("exist")
     .should("be.visible");
-  cy.verifyQrCodeAppearance();  
+  cy.verifyQrCodeAppearance();
 });

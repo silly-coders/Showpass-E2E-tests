@@ -8,6 +8,24 @@
     "username": "User ForTesting",
     "userId": 1994
   },
+  "userForNotifications": {
+    "userEmail": "user-notifications@mailinator.com",
+    "userPassword": "!@Newuser2023",
+    "userFirstName": "User",
+    "userLastName": "ForTesting",
+    "phoneNumber": "18883331155",
+    "username": "User ForTesting",
+    "userId": 2081
+  },
+  "userForUpcoming": {
+    "userEmail": "user-upcoming@mailinator.com",
+    "userPassword": "!@Newuser2023",
+    "userFirstName": "User",
+    "userLastName": "ForTesting",
+    "phoneNumber": "18883331155",
+    "username": "User ForTesting",
+    "userId": 2085
+  },
   "userForUpdates": {
     "userEmail": "user-for-updates@mailinator.com",
     "userPassword": "!@Newuser2023",

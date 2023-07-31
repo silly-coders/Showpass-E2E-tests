@@ -8,7 +8,7 @@ describe("Test existing event details by ", () => {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
       cy.navigateToHomePage();
-      cy.logIntoPortal(this.testdata.userDetails);
+      cy.logIntoPortal(this.testdata.userForUpcoming);
       cy.clickUsernameAfterLoggingIn();
       // Navigate to the 'Upcoming' page
       cy.getDropDownItem("Upcoming").click({ force: true });
