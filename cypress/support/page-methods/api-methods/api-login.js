@@ -1,3 +1,6 @@
+
+// cy.intercept('GET', '**/events/*').as('getEvents')
+
 Cypress.Commands.add("loginViaApi", (user) => {
   cy.request({
     method: "POST",

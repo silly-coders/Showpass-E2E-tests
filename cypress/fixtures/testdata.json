@@ -99,7 +99,8 @@
       "ticketName1": "Main event",
       "ticketName2": "General Admission",
       "eventPriceRange": "$3 - $4",
-      "eventTime": "7:00 AM MDT"
+      "eventTime": "7:00 AM MDT",
+      "upcomingEventStartDate": "Fri, Jul 21, 2023 · 7:00 AM (MDT)"
     },
     "event2": {
       "eventUrl": "/event-2-do-not-modify/",
@@ -120,7 +121,8 @@
       "ticketName2": "Advanced event2",
       "ticketName3": "VIP event2",
       "eventPriceRange": "$5 - $548",
-      "eventTime": "9:00 PM MDT"
+      "eventTime": "9:00 PM MDT",
+      "upcomingEventStartDate": "Mon, Jul 24, 2023 · 9:00 PM (MDT)"
     }
   }
 }

@@ -27,6 +27,25 @@ import { HomeLocators } from "../support/element-locators/home-locators";
 import { LoginLocators } from "../support/element-locators/login-locators";
 const homeLocators = new HomeLocators();
 const loginLocators = new LoginLocators();
+
+/*
+ * Wait for the API amplitude success
+ */
+Cypress.Commands.add("waitForApiAmplitudeSuccess", () => {
+  cy.log(`Request URL https://api.amplitude.com/`);
+  cy.intercept('https://api.amplitude.com/').as('amplitude');
+  cy.wait('@amplitude');
+});
+/*
+ * Get data loading indicator (chakra-spinner)
+ */
+Cypress.Commands.add("getChakraSpinnerLoadingIndicator", () => {
+  cy.log(`Requested element: getChakraSpinnerLoadingIndicator`);
+  return cy
+    .get('.chakra-spinner');
+});
+
+// cy.get('.chakra-spinner')
 /*
  * Get locator by data-testid
  */
@@ -154,7 +173,18 @@ Cypress.Commands.add("getChakraButtonByText", (itemText) => {
     .get('button[class^="chakra-button"]')
     .contains(itemText)
     .should("exist")
+    .scrollIntoView()
     .should("be.visible");
+});
+/**
+ * Click a chakra button by text
+ * @param itemText
+ */
+Cypress.Commands.add("clickChakraButtonByText", (itemText) => {
+  cy.log(
+    `Going to click the following button: button[class^="chakra-button"].contains(${itemText})`
+  );
+  cy.getChakraButtonByText(itemText).click({ force: true });
 });
 /**
  * Get a chakra-button by an attribute
@@ -636,7 +666,7 @@ Cypress.Commands.add(
  * @param text
  * @param elementIndex
  */
-Cypress.Commands.add("inputCustomValueIntoCombobox", (elementIndex,text) => {
+Cypress.Commands.add("inputCustomValueIntoCombobox", (elementIndex, text) => {
   cy.log("Going to inputCustomValueIntoCombobox(text)");
   // Click the combobox
   cy.getChakraInputFieldByAttr("role", "combobox").as("combobox");

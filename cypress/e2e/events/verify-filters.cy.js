@@ -1,4 +1,6 @@
 describe("Verify filters by ", () => {
+  const apiRequest = "/api/public/events/*"; 
+  //cy.intercept('GET', '**/comments/*').as('getComment')
   before(function () {
     cy.clearLocalStorage();
     cy.clearCookies();
@@ -12,12 +14,14 @@ describe("Verify filters by ", () => {
   });
 
   it("searching for a valid event by name-TA-43-case-1", function () {
+    cy.intercept(apiRequest).as("pageLoaded");
     cy.getChakraInputFieldByAttr("id", "search-places-and-events-input").as(
       "searchField"
     );
     cy.get("@searchField")
       .type(this.testdata.events.event1.eventName)
       .type("{enter}");
+    cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
     cy.verifyEventActiveFilterText(
       this.testdata.events.event1.activeFilterLabel
     );
@@ -33,10 +37,12 @@ describe("Verify filters by ", () => {
   });
 
   it("searching for an invalid event-TA-43-case-2", function () {
+    cy.intercept(apiRequest).as("pageLoaded");
     cy.getChakraInputFieldByAttr("id", "search-places-and-events-input").as(
       "searchField"
     );
     cy.get("@searchField").type("Not a valid event").type("{enter}");
+    cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
     cy.verifyEventActiveFilterText("Not a valid event");
     cy.verifyNoEventsAvailableMsg();
     cy.verifyActiveFilterByAriaLabel(
@@ -48,6 +54,7 @@ describe("Verify filters by ", () => {
   });
 
   it("searching for a valid event with date range-TA-43-case-3", function () {
+    cy.intercept(apiRequest).as("pageLoaded");
     cy.getChakraInputFieldByAttr("id", "search-places-and-events-input").as(
       "searchField"
     );
@@ -55,6 +62,7 @@ describe("Verify filters by ", () => {
     cy.get("@searchField")
       .type(this.testdata.events.event1.eventName)
       .type("{enter}");
+      cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
     // Verify active filter for event name
     cy.verifyEventActiveFilterText(
       this.testdata.events.event1.activeFilterLabel
@@ -72,7 +80,9 @@ describe("Verify filters by ", () => {
   });
 
   it("applying a category-TA-43-case-4", function () {
+    cy.intercept(apiRequest).as("pageLoaded");
     cy.selectCategoryByText("Arts & Theatres");
+    cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
     cy.verifyActiveFilterByAriaLabel("Button for Category: Arts filter");
     cy.clickButtonxToRemoveFilterByArialabel(
       "Button to remove Arts & Theatres filter"
@@ -80,7 +90,9 @@ describe("Verify filters by ", () => {
   });
 
   it("selecting a valid tag-TA-43-case-5", function () {
+    cy.intercept(apiRequest).as("pageLoaded");
     cy.selectTagByText("Festivals");
+    cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
     cy.verifyActiveFilterByAriaLabel("Button for Tag: Festivals filter");
     cy.clickButtonxToRemoveFilterByArialabel(
       "Button to remove Festivals filter"
@@ -88,7 +100,9 @@ describe("Verify filters by ", () => {
   });
 
   it("providing an invalid tag-TA-43-case-6", function () {
+    cy.intercept(apiRequest).as("pageLoaded");
     cy.inputCustomValueIntoCombobox(2, "unrealTag");
+    cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
     cy.verifyActiveFilterByAriaLabel("Button for Tag: unrealTag filter");
     cy.clickButtonxToRemoveFilterByArialabel(
       "Button to remove unrealTag filter"
@@ -96,6 +110,7 @@ describe("Verify filters by ", () => {
   });
 
   it("verifying the Clear-All-Filters button-TA-43-case-7", function () {
+    cy.intercept(apiRequest).as("pageLoaded");
     // ***** Provide event name *****
     cy.getChakraInputFieldByAttr("id", "search-places-and-events-input").as(
       "searchField"
@@ -104,6 +119,7 @@ describe("Verify filters by ", () => {
     cy.get("@searchField")
       .type(this.testdata.events.event1.eventName)
       .type("{enter}");
+      cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
     // Verify active filter for event name
     cy.verifyEventActiveFilterText(
       this.testdata.events.event1.activeFilterLabel

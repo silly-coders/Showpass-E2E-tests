@@ -156,4 +156,30 @@ export class EventsAndFiltersLocators {
       .scrollIntoView()
       .should("be.visible");
   }
+  /**
+   * Get Upcoming purchased event name
+   */
+  getUpcomingPurchasedEventName(eventName) {
+  return cy
+      .get(
+        'div[id="upcoming-event-info-container"] > div > p'
+      )
+      .eq(0) // event name has index zero in the DOM
+      .contains(eventName)
+      .should("exist")
+      ;
+}
+  /**
+   * Get Upcoming purchased event name
+   */
+  getUpcomingPurchasedEventStartDate(eventStartDate) {
+    return cy
+        .get(
+          'div[id="upcoming-event-info-container"] > div > p'
+        )
+        .eq(1) // event start date has index 1 in the DOM
+        .contains(eventStartDate)
+        .should("exist")
+        ;
+  }
 }

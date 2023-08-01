@@ -93,8 +93,10 @@ Cypress.Commands.add(
     cy.log("Going to addTicketsToCart()");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
       for (let i = 0; i < totalTicketTypes; i++) {
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         eventsAndFiltersLocators.addItemButtonActive(i).click();
         eventsAndFiltersLocators.removeItemButtonActive(i);
+        eventsAndFiltersLocators.addItemButtonActive(i);
         cy.wait(1000);
       }
     }
@@ -177,7 +179,7 @@ Cypress.Commands.add("verifySavedEventCardName", (index, eventName) => {
  */
 Cypress.Commands.add("clickButtonxToRemoveFilterByArialabel", (ariaLabel) => {
   cy.log("Going to clickButtonxToRemoveFilterByArialabel(ariaLabel)");
-  eventsAndFiltersLocators.getButtonxToRemoveSelecetedFilter(ariaLabel).click();
+  eventsAndFiltersLocators.getButtonxToRemoveSelecetedFilter(ariaLabel).scrollIntoView().click({force:true});
 });
 /**
  * Method to verify the 'No events available ...' message
@@ -195,8 +197,8 @@ Cypress.Commands.add("verifyNoEventsAvailableMsg", () => {
  */
 Cypress.Commands.add("selectDateRangeByLabel", (label) => {
   cy.log("Going to selectDateRangeByLabel()");
-  eventsAndFiltersLocators.getDatePicker().click();
-  eventsAndFiltersLocators.getDateRangeButtonByLabel(label).click();
+  eventsAndFiltersLocators.getDatePicker().click({force:true});
+  eventsAndFiltersLocators.getDateRangeButtonByLabel(label).click({force:true});
 });
 /**
  * Method to clear 'Date Range' selection
@@ -223,9 +225,43 @@ Cypress.Commands.add("selectCategoryByText", (text) => {
 Cypress.Commands.add("selectTagByText", (text) => {
   cy.log("Going to selectTagByText(text)");
   // Click the 'Select tags' field
-  cy.getChakraInputFieldByAttr("placeholder", "Select tags").as(
-    "tags"
-  );
+  cy.getChakraInputFieldByAttr("placeholder", "Select tags").as("tags");
   cy.get("@tags").click();
   cy.getChakraTextLabelByText(text).click();
+});
+/**
+ * Method to verify the purchased 'Upcoming' event card details
+ */
+Cypress.Commands.add("verifyUpcomingPurchasedEventCard", (eventJSON) => {
+  cy.log("Going to verifyUpcomingPurchasedEventCard");
+  // Filter results by event name
+  // Enter event name into the search field
+  const apiRequest = '/api/user/tickets/events/*';
+  cy.intercept(apiRequest).as('pageLoaded');
+  cy.getChakraInputFieldByAttr("aria-label", "Search").as("serachField");
+  cy.get("@serachField")
+    .clear({ force: true })
+    .type(eventJSON.eventName)
+    .type("{enter}");
+  cy.wait(1000);
+  cy.wait('@pageLoaded').its('response.statusCode').should('eq', 200);
+  eventsAndFiltersLocators
+    .getUpcomingPurchasedEventName(eventJSON.eventName)
+    .should("be.visible");
+  eventsAndFiltersLocators
+    .getUpcomingPurchasedEventStartDate(eventJSON.upcomingEventStartDate)
+    .should("be.visible");
+});
+/**
+ * Method to open purchased event tickets
+ */
+Cypress.Commands.add("clickEventNameToSeePurchasedTickets", (eventJSON) => {
+  cy.log("Going to openPurchasedTickets");
+  const apiRequest = '/api/user/tickets/events/*';
+  cy.intercept(apiRequest).as('pageLoaded');
+  eventsAndFiltersLocators
+    .getUpcomingPurchasedEventName(eventJSON.eventName)
+    .should("be.visible")
+    .click();
+    cy.wait('@pageLoaded').its('response.statusCode').should('eq', 200)
 });
