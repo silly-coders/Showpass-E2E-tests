@@ -371,3 +371,15 @@ Cypress.Commands.add("verifyMyShowpassPageAppearance", () => {
     .should("be.visible");
   cy.verifyQrCodeAppearance();
 });
+/**
+ * Get 'Transfer' button on the event ticket page
+ * @param index
+ */
+Cypress.Commands.add("getTransferButtonByIndex", (index) => {
+  cy.log("Going to getTransferButtonByIndex(index)");
+  cy.get('div[data-testid="AccountPurchaseItemTransferButton"] > button')
+    .eq(index)
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible");
+});

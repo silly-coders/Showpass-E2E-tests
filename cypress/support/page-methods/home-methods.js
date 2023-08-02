@@ -208,6 +208,8 @@ Cypress.Commands.add("verifyPasswordResetWindowAppearance", () => {
 Cypress.Commands.add("enterEventNameIntoSearchField", (eventName) => {
   cy.log("Going to enterEventNameIntoSearchField()");
   homeLocators.searchEventsInputField().should("not.be.disabled");
+  const apiRequest = "/api/public/events/search-upcoming-events/*";
+  cy.intercept(apiRequest).as("pageLoaded");
   // The for loop is absolutely needed
   // Not always the search criteria gets entered properly from the first time
   for (let i = 1; i < 3; i++) {
@@ -216,6 +218,7 @@ Cypress.Commands.add("enterEventNameIntoSearchField", (eventName) => {
       .clear({ force: true })
       .type(eventName, { force: true });
   }
+  cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
 });
 /**
  * Method to search for an event by event name

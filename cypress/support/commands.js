@@ -33,19 +33,27 @@ const loginLocators = new LoginLocators();
  */
 Cypress.Commands.add("waitForApiAmplitudeSuccess", () => {
   cy.log(`Request URL https://api.amplitude.com/`);
-  cy.intercept('https://api.amplitude.com/').as('amplitude');
-  cy.wait('@amplitude');
+  cy.intercept("https://api.amplitude.com/").as("amplitude");
+  cy.wait("@amplitude");
 });
-/*
+/**
+ * Get QR code by index
+ * @param index
+ */
+Cypress.Commands.add("getQrCodeByIndex", (index) => {
+  cy.log(`Requested element: getQrCodeByIndex`);
+  return cy
+    .get('div[class="swiper-wrapper"] > div > div > canvas')
+    .eq(index)
+    .should("exist");
+});
+/**
  * Get data loading indicator (chakra-spinner)
  */
 Cypress.Commands.add("getChakraSpinnerLoadingIndicator", () => {
   cy.log(`Requested element: getChakraSpinnerLoadingIndicator`);
-  return cy
-    .get('.chakra-spinner');
+  return cy.get(".chakra-spinner");
 });
-
-// cy.get('.chakra-spinner')
 /*
  * Get locator by data-testid
  */
@@ -359,6 +367,40 @@ Cypress.Commands.add("getChakraInputFieldByAttr", (attrType, attrValue) => {
     .should("exist")
     .should("be.visible");
 });
+/**
+ * Get a 'chakra-link' button by any attribute
+ * @param attrType
+ * @param attrValue
+ */
+Cypress.Commands.add("getChakraLinkButtonByAttr", (attrType, attrValue) => {
+  cy.log(
+    `Requested getChakraLinkButtonByAttr element: input[${attrType}="${attrValue}`
+  );
+  return cy
+    .get(`a[class^="chakra-link"][${attrType}="${attrValue}"]`)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Get a 'chakra-input_group' field by a particular attribute
+ * @param attrType
+ * @param attrValue
+ */
+Cypress.Commands.add(
+  "getChakraInputGroupFieldByAttr",
+  (attrType, attrValue) => {
+    cy.log(
+      `Requested getChakraInputGroupFieldByAttr element: input[${attrType}="${attrValue}`
+    );
+    return cy
+      .get(
+        `div[class^="chakra-input__group"] > input[${attrType}="${attrValue}"]`
+      )
+      .should("exist")
+      .scrollIntoView()
+      .should("be.visible");
+  }
+);
 /**
  * Verify a 'chakra-input' field value
  * @param attrType
