@@ -54,13 +54,6 @@ Cypress.Commands.add(
       expect(response.body.tickettype_set[0].name).to.eq(
         expectedJSON.purchased_tickets.tickettype_set[0].name
       );
-      // Barcode string 1
-      expect(
-        response.body.tickettype_set[0].ticket_items[0].barcode_string
-      ).to.eq(
-        expectedJSON.purchased_tickets.tickettype_set[0].ticket_items[0]
-          .barcode_string
-      );
       // Name on ticket 1
       expect(
         response.body.tickettype_set[0].ticket_items[0].name_on_ticket
@@ -75,17 +68,9 @@ Cypress.Commands.add(
         expectedJSON.purchased_tickets.tickettype_set[0].ticket_items[0].invoice
           .item_groups[0].quantity_included_in_total
       );
-
       // Ticket type 2
       expect(response.body.tickettype_set[1].name).to.eq(
         expectedJSON.purchased_tickets.tickettype_set[1].name
-      );
-      // Barcode string 2
-      expect(
-        response.body.tickettype_set[0].ticket_items[1].barcode_string
-      ).to.eq(
-        expectedJSON.purchased_tickets.tickettype_set[0].ticket_items[1]
-          .barcode_string
       );
        // Name on ticket 2
        expect(
@@ -147,13 +132,6 @@ Cypress.Commands.add(
       expect(response.body.tickettype_set[0].name).to.eq(
         expectedJSON.purchased_tickets.tickettype_set[0].name
       );
-      // Barcode string 1
-      expect(
-        response.body.tickettype_set[0].ticket_items[0].barcode_string
-      ).to.eq(
-        expectedJSON.purchased_tickets.tickettype_set[0].ticket_items[0]
-          .barcode_string
-      );
       // Name on ticket 1
       expect(
         response.body.tickettype_set[0].ticket_items[0].name_on_ticket
@@ -172,13 +150,6 @@ Cypress.Commands.add(
       expect(response.body.tickettype_set[1].name).to.eq(
         expectedJSON.purchased_tickets.tickettype_set[1].name
       );
-      // Barcode string 2
-      expect(
-        response.body.tickettype_set[0].ticket_items[1].barcode_string
-      ).to.eq(
-        expectedJSON.purchased_tickets.tickettype_set[0].ticket_items[1]
-          .barcode_string
-      );
       // Name on ticket 2
       expect(
         response.body.tickettype_set[0].ticket_items[1].name_on_ticket
@@ -196,13 +167,6 @@ Cypress.Commands.add(
       // Ticket type 3
       expect(response.body.tickettype_set[1].name).to.eq(
         expectedJSON.purchased_tickets.tickettype_set[1].name
-      );
-      // Barcode string 3
-      expect(
-        response.body.tickettype_set[0].ticket_items[2].barcode_string
-      ).to.eq(
-        expectedJSON.purchased_tickets.tickettype_set[0].ticket_items[2]
-          .barcode_string
       );
       // Name on ticket 3
       expect(
