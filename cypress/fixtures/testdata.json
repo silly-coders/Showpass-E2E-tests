@@ -123,6 +123,11 @@
       "eventPriceRange": "$5 - $548",
       "eventTime": "9:00 PM MDT",
       "upcomingEventStartDate": "Mon, Jul 24, 2023 · 9:00 PM (MDT)"
+    },
+    "event3": {
+      "eventUrl": "/automation-event-3/",
+      "organization": "QA team organization",
+      "eventName": "Test Automation event 3 (DO NOT MODIFY)"
     }
   }
 }

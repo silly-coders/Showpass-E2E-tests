@@ -13,9 +13,9 @@ describe("Test checkout process by ", () => {
 
   it("verifying that tickets can be selected and added-TA-40", function () {
     cy.logIntoPortal(this.testdata.userDetails);
-    cy.enterEventNameIntoSearchField(this.testdata.events.event1.eventName);
+    cy.enterEventNameIntoSearchField(this.testdata.events.event3.eventName);
     cy.getSearchResultModalWindow();
-    cy.selectSearchItemByItemName(this.testdata.events.event1.eventName);
+    cy.selectSearchItemByItemName(this.testdata.events.event3.eventName);
     cy.get('button[class^="chakra-button"] > p').contains('BUY TICKETS')
     .click({ force: true });
     // Add 3 tickets from each ticket type (2 ticket types in total)
