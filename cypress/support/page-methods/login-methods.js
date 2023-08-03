@@ -40,7 +40,12 @@ Cypress.Commands.add("verifyLoginModalWindowAppearance", () => {
  */
 Cypress.Commands.add("logIntoPortal", (userObject) => {
   cy.log("Going to logIntoPortal()");
+  const apiRequest = "**/envelope/*";
+  cy.intercept(apiRequest).as("pageLoaded");
   cy.clickLoginOnHomePage();
+  cy.wait("@pageLoaded")
+    .its("response.statusCode")
+    .should("be.oneOf", [200, 204]);
   loginLocators
     .emailAddressInputField()
     .should("exist")

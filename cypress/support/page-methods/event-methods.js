@@ -100,7 +100,9 @@ Cypress.Commands.add(
         eventsAndFiltersLocators.removeItemButtonActive(i);
         eventsAndFiltersLocators.addItemButtonActive(i);
         cy.wait(500);
-        cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
+        cy.wait("@pageLoaded")
+          .its("response.statusCode")
+          .should("be.oneOf", [200, 204]);
       }
     }
   }
@@ -145,7 +147,9 @@ Cypress.Commands.add(
   "clickHeartIconToSaveEvents",
   (totalNumberOfEventsToAdd) => {
     cy.log("Going to save " + totalNumberOfEventsToAdd + " events in total.");
-    cy.wait(1500);
+    const apiRequest = "/api/user/tickets/favorites/";
+    cy.intercept(apiRequest).as("pageLoaded");
+    cy.wait(500);
     for (let i = 0; i < totalNumberOfEventsToAdd; i++) {
       eventsAndFiltersLocators
         .transparentHeartIconButton()
@@ -153,6 +157,9 @@ Cypress.Commands.add(
         .should("exist")
         .scrollIntoView()
         .click({ force: true });
+      cy.wait("@pageLoaded")
+        .its("response.statusCode")
+        .should("be.oneOf", [200, 204]);
     }
   }
 );
@@ -247,11 +254,14 @@ Cypress.Commands.add("verifyUpcomingPurchasedEventCard", (eventJSON) => {
   const apiRequest = "/api/user/tickets/events/*";
   cy.intercept(apiRequest).as("pageLoaded");
   cy.getChakraInputGroupFieldByAttr("aria-label", "Search").as("serachField");
-  cy.get("@serachField")
-    .scrollIntoView()
-    .type(eventJSON.eventName)
+  cy.get('@serachField').should("not.have.attr", 'disabled');
+  cy.wait(1000);
+  cy.get('input[aria-label="Search"]')
+    .type(eventJSON.eventName,{force:true})
     .type("{enter}");
-  cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
+  cy.wait("@pageLoaded")
+    .its("response.statusCode")
+    .should("be.oneOf", [200, 204]);
   eventsAndFiltersLocators
     .getUpcomingPurchasedEventName(eventJSON.eventName)
     .should("be.visible");
@@ -270,7 +280,9 @@ Cypress.Commands.add("clickEventNameToSeePurchasedTickets", (eventJSON) => {
     .getUpcomingPurchasedEventName(eventJSON.eventName)
     .should("be.visible")
     .click();
-  cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
+  cy.wait("@pageLoaded")
+    .its("response.statusCode")
+    .should("be.oneOf", [200, 204]);
   cy.getChakraButtonByText("Back");
 });
 /**
@@ -282,5 +294,9 @@ Cypress.Commands.add("openUpcomingPage", () => {
   cy.intercept(apiRequest).as("pageLoaded");
   // Navigate to the 'Upcoming' page
   cy.getDropDownItem("Upcoming").click({ force: true });
-  cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
+  cy.wait("@pageLoaded")
+    .its("response.statusCode")
+    .should("be.oneOf", [200, 204]);
+    cy.getChakraInputGroupFieldByAttr('placeholder','Search')
+    .should("exist").should('not.have.attr', 'disabled');
 });

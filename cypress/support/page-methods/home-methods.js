@@ -218,7 +218,9 @@ Cypress.Commands.add("enterEventNameIntoSearchField", (eventName) => {
       .clear({ force: true })
       .type(eventName, { force: true });
   }
-  cy.wait("@pageLoaded").its("response.statusCode").should("eq", 200);
+  cy.wait("@pageLoaded")
+    .its("response.statusCode")
+    .should("be.oneOf", [200, 204]);
 });
 /**
  * Method to search for an event by event name

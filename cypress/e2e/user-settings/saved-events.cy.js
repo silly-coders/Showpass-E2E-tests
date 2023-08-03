@@ -7,16 +7,21 @@ describe("Test the 'Saved Events' page by ", () => {
   beforeEach("before each spec", function () {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
+      const apiRequest = "/api/user/tickets/favorites/*";
+      cy.intercept(apiRequest).as("pageLoaded");
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
       cy.clickUsernameAfterLoggingIn();
       // Navigate to the 'Saved Events' page
       cy.getDropDownItem("Saved Events").click({ force: true });
+      cy.wait("@pageLoaded")
+        .its("response.statusCode")
+        .should("be.oneOf", [200, 204]);
     });
   });
 
   it("verifying that new events can be added to 'Saved Events'", function () {
-    cy.wait(1800); // Without the implicit wait it counts non-existent cards and then fails
+    cy.wait(1500); // Without the implicit wait it counts non-existent cards and then fails
     // This FOR loop is needed in case some events didn't get removed from the first time
     for (let i = 1; i < 3; i++) {
       cy.removeAllSavedEvents();
@@ -29,7 +34,7 @@ describe("Test the 'Saved Events' page by ", () => {
       cy.clickShowpassLogo();
       cy.searchForAnEventByName(eventsToTest.at(i));
       cy.clickHeartIconToSaveEvents(1);
-      cy.wait(1000);
+      cy.wait(500);
     }
     // Navigate to the 'Saved Events' page
     cy.visit("/account/saved-events/");
