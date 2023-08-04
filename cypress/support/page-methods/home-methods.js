@@ -36,6 +36,13 @@ Cypress.Commands.add("clickCreateAccountOnHomePage", () => {
 /**
  * Method to select 'Profile' within the drop-down list on the 'Home' page
  */
+Cypress.Commands.add("selectOrdersDropDownItem", () => {
+  cy.log("Going to selectOrdersDropDownItem()");
+  cy.getDropDownItem("Orders").should("be.visible").click();
+});
+/**
+ * Method to select 'Orders' within the drop-down list on the 'Home' page
+ */
 Cypress.Commands.add("selectProfileDropDownItem", () => {
   cy.log("Going to selectProfileDropDownItem()");
   cy.getDropDownItem("Profile").should("be.visible").click();

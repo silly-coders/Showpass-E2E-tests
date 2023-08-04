@@ -37,6 +37,19 @@ Cypress.Commands.add("clickEmailButton", () => {
     .click({ force: true });
 });
 /**
+ * Click the 'My Orders' button
+ */
+Cypress.Commands.add("clickMyOrdersButton", () => {
+  cy.log("Going to clickMyOrdersButton()");
+  cy.getChakraButtonByText("My Orders")
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible")
+    .click({ force: true })
+    // An additional click is needed as the form doesn't show up
+    .click({ force: true });
+});
+/**
  * Click the 'Password' button under 'Profile'
  */
 Cypress.Commands.add("clickPasswordButton", () => {

@@ -185,6 +185,21 @@ Cypress.Commands.add("getChakraButtonByText", (itemText) => {
     .should("be.visible");
 });
 /**
+ * Get a chakra-accordion-button by text
+ * @param itemText
+ */
+Cypress.Commands.add("getChakraAccordionButtonByText", (itemText) => {
+  cy.log(
+    `Requested getChakraAccordionButtonByText element: button[class^="chakra-accordion__button"].contains(${itemText})`
+  );
+  return cy
+    .get('button[class^="chakra-accordion__button"]')
+    .contains(itemText)
+    .should("exist")
+    .scrollIntoView()
+    .should("be.visible");
+});
+/**
  * Click a chakra button by text
  * @param itemText
  */

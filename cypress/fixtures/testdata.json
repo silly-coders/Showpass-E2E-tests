@@ -26,6 +26,15 @@
     "username": "User ForTesting",
     "userId": 2085
   },
+  "userForTicketPackages": {
+    "userEmail": "user-packages@mailinator.com",
+    "userPassword": "!@Newuser2023",
+    "userFirstName": "User",
+    "userLastName": "ForTesting",
+    "phoneNumber": "18883331155",
+    "username": "User ForTesting",
+    "userId": 2114
+  },
   "userForUpdates": {
     "userEmail": "user-for-updates@mailinator.com",
     "userPassword": "!@Newuser2023",
