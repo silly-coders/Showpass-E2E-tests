@@ -24,7 +24,7 @@ describe("Test My Orders by ", () => {
     cy.wait("@myOrdersPageLoaded")
       .its("response.statusCode")
       .should("be.oneOf", [200, 204]);
-    const orderIdUrl = `/account/my-orders/?s=${this.transactionsJSON.transactions.transaction_id}`;
+    const orderIdUrl = `/account/my-orders/?s=${this.transactionsJSON.transaction987.transaction_id}`;
     cy.log("Going to open the following order by Order ID: " + orderIdUrl);
     cy.visit(orderIdUrl);
     // Verify the first order receipt page
@@ -34,7 +34,7 @@ describe("Test My Orders by ", () => {
     const orderReceiptLabelsFirstPage = [
       "101 9 Ave SW",
       "Order ID",
-      this.transactionsJSON.transactions.transaction_id,
+      this.transactionsJSON.transaction987.transaction_id,
       "Created On",
       "Aug 4, 2023 | 11:59 AM MDT",
       "Paid",
@@ -58,15 +58,15 @@ describe("Test My Orders by ", () => {
     cy.getChakraButtonByText("Back").should("be.visible");
     // Order receipt verification process begins here
     cy.getH1HeaderByText(
-      `Order ${this.transactionsJSON.transactions.transaction_id}`
+      `Order ${this.transactionsJSON.transaction987.transaction_id}`
     );
     cy.url().should("include", "/account/my-orders/");
     cy.getChakraHeaderH2("Receipt");
     cy.getChakraHeaderH2("Purchase");
     const orderReceiptLabels = [
       "Back",
-      this.transactionsJSON.transactions.invoice_items[0].event.name,
-      this.transactionsJSON.transactions.invoice_items[0].event.location
+      this.transactionsJSON.transaction987.invoice_items[0].event.name,
+      this.transactionsJSON.transaction987.invoice_items[0].event.location
         .street_name,
       "130 King St W",
       "Toronto, Ontario",
@@ -83,7 +83,7 @@ describe("Test My Orders by ", () => {
       "Ticket Category",
       "Main ticket for package 1",
       "Order ID",
-      this.transactionsJSON.transactions.transaction_id,
+      this.transactionsJSON.transaction987.transaction_id,
       "Created On",
       "Aug 4, 2023 | 11:59 AM MDT",
       "Paid",

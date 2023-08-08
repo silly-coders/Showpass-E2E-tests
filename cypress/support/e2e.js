@@ -35,5 +35,6 @@ import './element-locators/events-and-filters-locators'
 import './element-locators/checkout-locators'
 import './page-methods/checkout-methods'
 import './page-methods/api-methods/api-upcoming-events'
+import './page-methods/api-methods/api-transactions'
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
