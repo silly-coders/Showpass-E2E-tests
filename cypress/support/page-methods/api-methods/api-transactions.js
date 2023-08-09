@@ -1,12 +1,13 @@
+/**
+ * Method to verify the following transaction 1e-d67b-428a-9748-d638af16e987
+ * @param expectedPayload
+ */
 Cypress.Commands.add("verifyOrder987Payload", (expectedPayload) => {
   cy.request({
     method: "GET",
     url: "/api/user/financials/invoices/1e-d67b-428a-9748-d638af16e987/transaction",
   }).then((response) => {
     expect(response.status).to.eq(200);
-    expect(response.body)
-      .to.have.deep.property("item_groups")
-      .to.have.length(3);
     expect(response.body)
       .to.have.deep.property("invoice_items")
       .to.have.length(3);
@@ -92,6 +93,8 @@ Cypress.Commands.add("verifyOrder987Payload", (expectedPayload) => {
     expect(response.body)
       .to.have.deep.property("item_groups")
       .to.have.length(3);
+    // All 3 items should have the same details except for ID
+    // Hence the for loop  
     for (let i = 0; i < 3; i++) {
       expect(expectedPayload.item_groups[i].quantity).to.eq(
         response.body.item_groups[i].quantity
@@ -159,13 +162,16 @@ Cypress.Commands.add("verifyOrder987Payload", (expectedPayload) => {
 // **************************************************************
 /**
  * Method to verify purchased ticket items payload
+ * Transaction ID: 1e-d67b-428a-9748-d638af16e987
  * @param responseBody
  * @param expectedPayload
  */
 Cypress.Commands.add(
   "verifyTicketItemPayload",
   (responseBody, expectedPayload) => {
-    cy.log("*** Right now checking this ticket ID: " + responseBody.id + " *** ");
+    cy.log(
+      "*** Right now checking this ticket ID: " + responseBody.id + " *** "
+    );
     switch (responseBody.id) {
       case 61369:
         cy.assertTicketItemsValues(0, responseBody, expectedPayload);
@@ -176,12 +182,17 @@ Cypress.Commands.add(
       case 61371:
         cy.assertTicketItemsValues(2, responseBody, expectedPayload);
         break;
+      default:
+        throw new Error(
+          "Can't verify this unknown item ID: " + responseBody.id
+        );
     }
   }
 );
 // **************************************************************
 /**
  * Method to assert ticket items values
+ * Transaction ID: 1e-d67b-428a-9748-d638af16e987
  * @param index
  */
 Cypress.Commands.add(
@@ -207,13 +218,18 @@ Cypress.Commands.add(
 // **************************************************************
 /**
  * Method to verify invoice items
+ * Transaction ID: 1e-d67b-428a-9748-d638af16e987
  * @param responseBody
  * @param expectedPayload
  */
 Cypress.Commands.add(
   "verifyInvoiceItemsPayload",
   (responseBody, expectedPayload) => {
-    cy.log("*** Right now checking this invoice item ID: " + responseBody.id + " *** ");
+    cy.log(
+      "*** Right now checking this invoice item ID: " +
+        responseBody.id +
+        " *** "
+    );
     switch (responseBody.id) {
       case 60071:
         cy.assertInvoiceItemsValues(0, responseBody, expectedPayload);
@@ -224,12 +240,17 @@ Cypress.Commands.add(
       case 60072:
         cy.assertInvoiceItemsValues(2, responseBody, expectedPayload);
         break;
+      default:
+        throw new Error(
+          "Can't verify this unknown item ID: " + responseBody.id
+        );
     }
   }
 );
 // **************************************************************
 /**
  * Method to assert invoice items values
+ * Transaction ID: 1e-d67b-428a-9748-d638af16e987
  * @param index
  */
 Cypress.Commands.add(

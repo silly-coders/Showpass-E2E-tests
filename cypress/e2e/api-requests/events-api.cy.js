@@ -1,10 +1,8 @@
 describe("Test various events by ", function () {
-  before("clean-up", () => {
-    cy.clearLocalStorage();
-    cy.clearCookies();
-  });
 
   beforeEach(function () {
+    cy.clearLocalStorage();
+    cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
       cy.navigateToHomePage();
