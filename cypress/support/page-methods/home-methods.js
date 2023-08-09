@@ -159,7 +159,7 @@ Cypress.Commands.add("clickUsernameAfterLoggingIn", () => {
 
 /**
  * Verify that drop-down menu items under user's First and Last names exist
- * @param dataObject
+ * @param topRightHandDropDownList
  */
 Cypress.Commands.add("verifyDropDownItemExists", (topRightHandDropDownList) => {
   cy.log("Going to verifyDropDownItemExists()");
@@ -174,6 +174,7 @@ Cypress.Commands.add("verifyDropDownItemExists", (topRightHandDropDownList) => {
 
 /**
  * Navigate to 'Dashboard' from 'Home' page
+ * @param userDetails
  */
 Cypress.Commands.add("navigateToDashboard", (userDetails) => {
   cy.log("Going to navigateToDashboard()");
@@ -211,6 +212,7 @@ Cypress.Commands.add("verifyPasswordResetWindowAppearance", () => {
 });
 /**
  * Method to enter event name into the search field
+ * @param eventName
  */
 Cypress.Commands.add("enterEventNameIntoSearchField", (eventName) => {
   cy.log("Going to enterEventNameIntoSearchField()");
@@ -231,6 +233,7 @@ Cypress.Commands.add("enterEventNameIntoSearchField", (eventName) => {
 });
 /**
  * Method to search for an event by event name
+ * @param eventName
  */
 Cypress.Commands.add("searchForAnEventByName", (eventName) => {
   cy.log("Going to searchForAnEventByName()");

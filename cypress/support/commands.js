@@ -54,8 +54,9 @@ Cypress.Commands.add("getChakraSpinnerLoadingIndicator", () => {
   cy.log(`Requested element: getChakraSpinnerLoadingIndicator`);
   return cy.get(".chakra-spinner");
 });
-/*
+/**
  * Get locator by data-testid
+ * @param dataTestId
  */
 Cypress.Commands.add("getByDataTestId", (dataTestId) => {
   cy.log(`Requested element: [data-testid="${dataTestId}"]`);
@@ -75,8 +76,9 @@ Cypress.Commands.add("getSaveButton", () => {
     .scrollIntoView()
     .should("be.visible");
 });
-/*
+/**
  * Get 'Phone' input field by 'Placeholder'
+ * @param placeholder
  */
 Cypress.Commands.add("getPhoneInputFieldByPlaceholder", (placeholder) => {
   return cy
@@ -123,8 +125,9 @@ Cypress.Commands.add("clickButtonXtoCloseMessage", () => {
     .should("be.visible")
     .click({ force: true });
 });
-/*
+/**
  * Verify top right 'Success' message content
+ * @param messageText
  */
 Cypress.Commands.add("verifyTopRightSuccessMessage", (messageText) => {
   cy.log(
@@ -139,8 +142,9 @@ Cypress.Commands.add("verifyTopRightSuccessMessage", (messageText) => {
     .should("exist")
     .should("be.visible");
 });
-/*
+/**
  * Verify top right 'Error' message content
+ * @param messageText
  */
 Cypress.Commands.add("verifyTopRightErrorMessage", (messageText) => {
   cy.log(
@@ -469,6 +473,8 @@ Cypress.Commands.add("getInputElementByAttr", (attrType, attrValue) => {
 });
 /**
  * Clear a chakra-input-field by providing a field attribute
+ * @param attrType
+ * @param attrValue
  */
 Cypress.Commands.add("clearInputFieldByAttr", (attrType, attrValue) => {
   cy.log(
@@ -558,7 +564,7 @@ Cypress.Commands.add("getChakraTextLabelByText", (text) => {
 });
 /**
  * Get an iFrame body by name
- * @param iFrameName
+ * @param title
  */
 Cypress.Commands.add("getIframeBody", (title) => {
   cy.log(`Requested element title: ${title}`);
@@ -606,6 +612,7 @@ Cypress.Commands.add(
 );
 /**
  * Check if a chakra-switch selector is NOT enabled and enable it
+ * @param index
  */
 Cypress.Commands.add(
   "verifyAndTurnOnChakraSwitchSelectorIfDisabled",
@@ -706,6 +713,7 @@ Cypress.Commands.add("getSearchLocationOrEventInputField", () => {
 });
 /**
  * Method to enter event name into the 'Search location or event' field
+ * @param eventName
  */
 Cypress.Commands.add(
   "enterEventNameIntoSearchLocationOrEventField",
