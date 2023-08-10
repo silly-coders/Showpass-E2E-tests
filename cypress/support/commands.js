@@ -28,6 +28,20 @@ import { LoginLocators } from "../support/element-locators/login-locators";
 const homeLocators = new HomeLocators();
 const loginLocators = new LoginLocators();
 
+/**
+ * Method to get session storage
+ */
+Cypress.Commands.add('getSessionStorage', (key) => {
+  cy.window().then((window) => window.sessionStorage.getItem(key))
+})
+/**
+ * Method to set session storage
+ */
+Cypress.Commands.add('setSessionStorage', (key, value) => {
+  cy.window().then((window) => {
+    window.sessionStorage.setItem(key, value)
+  })
+})
 /*
  * Wait for the API amplitude success
  */

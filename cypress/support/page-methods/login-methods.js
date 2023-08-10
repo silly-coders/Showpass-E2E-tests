@@ -1,8 +1,8 @@
+
 import { HomeLocators } from "../element-locators/home-locators";
 import { LoginLocators } from "../element-locators/login-locators";
 const homeLocators = new HomeLocators();
 const loginLocators = new LoginLocators();
-
 /**
  * Method to verify 'Login' modal window overall appearance
  */
@@ -39,7 +39,14 @@ Cypress.Commands.add("verifyLoginModalWindowAppearance", () => {
  * @argument userObject
  */
 Cypress.Commands.add("logIntoPortal", (userObject) => {
-  cy.log("Going to logIntoPortal()");
+  if (!userObject) throw new Error('You need to provide user credentials!');
+  const log = Cypress.log({
+    name: "Login",
+    displayName: "LOGIN",
+    message: [`🔐 Authenticating | User email: ${userObject.userEmail}`],
+    autoEnd: false,
+    color: 'green'
+  })
   const apiRequest = "**/envelope/*";
   cy.intercept(apiRequest).as("pageLoaded");
   cy.clickLoginOnHomePage();
