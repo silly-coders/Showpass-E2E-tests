@@ -95,6 +95,7 @@ Cypress.Commands.add(
     cy.intercept(apiRequest).as("pageLoaded");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
       for (let i = 0; i < totalTicketTypes; i++) {
+        cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         eventsAndFiltersLocators.addItemButtonActive(i).click();
         eventsAndFiltersLocators.removeItemButtonActive(i);

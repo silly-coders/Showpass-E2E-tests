@@ -9,7 +9,7 @@ module.exports = defineConfig({
     viewportHeight: 960,
     viewportWidth: 1536,
     frontLoadingDelay: 5000,
-    retries: { "runMode": 0, "openMode": 0 },
+    retries: { "runMode": 1, "openMode": 0 },
     chromeWebSecurity: false
   },
 });

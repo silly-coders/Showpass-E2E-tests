@@ -65,9 +65,18 @@ Cypress.Commands.add("clickCreateAccountOnSignUpModalWindow", () => {
  */
 Cypress.Commands.add("registerNewUser", (userDetails) => {
   cy.log("Going to registerNewUser()");
+  const apiRequest = "/api/auth/registration/";
+  cy.intercept(apiRequest).as("pageLoaded");
   // Create a unique user email
   var uniqueUserEmail =
     "test-user-" + Math.floor(Date.now() / 1000) + "@mailinator.com";
+  if (!userDetails) throw new Error("You need to provide user details!");
+  const log = Cypress.log({
+    name: "Registration",
+    displayName: "REGISTRATION",
+    message: [`Signing up | User email: ${userDetails.userEmail}`],
+    autoEnd: false,
+  });
   cy.clickCreateAccountOnHomePage();
   signupLocators
     .firstNameInputField()
@@ -96,5 +105,8 @@ Cypress.Commands.add("registerNewUser", (userDetails) => {
     .type(userDetails.userPassword);
   signupLocators.createAccountButton().should("exist").should("be.visible");
   cy.clickCreateAccountOnSignUpModalWindow();
+  cy.wait("@pageLoaded")
+    .its("response.statusCode")
+    .should("be.oneOf", [201, 204]);
   homeLocators.accountCreatedMessage().should("exist").should("be.visible");
 });
