@@ -31,17 +31,23 @@ const loginLocators = new LoginLocators();
 /**
  * Method to get session storage
  */
-Cypress.Commands.add('getSessionStorage', (key) => {
-  cy.window().then((window) => window.sessionStorage.getItem(key))
-})
+Cypress.Commands.add("getSessionStorage", (key) => {
+  cy.window().then((window) => window.sessionStorage.getItem(key));
+});
+/**
+ * Method to get session storage
+ */
+Cypress.Commands.add("getSessionStorage", (key) => {
+  cy.window().then((window) => window.sessionStorage.getItem(key));
+});
 /**
  * Method to set session storage
  */
-Cypress.Commands.add('setSessionStorage', (key, value) => {
+Cypress.Commands.add("setSessionStorage", (key, value) => {
   cy.window().then((window) => {
-    window.sessionStorage.setItem(key, value)
-  })
-})
+    window.sessionStorage.setItem(key, value);
+  });
+});
 /*
  * Wait for the API amplitude success
  */
@@ -383,6 +389,30 @@ Cypress.Commands.add("getChakraHeaderH2", (itemText) => {
   return cy
     .get(`h2[class^="chakra-heading"]`)
     .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Get h2 chakra-text
+ * @param itemText
+ */
+Cypress.Commands.add("getH2ChakraTextByText", (itemText) => {
+  cy.log(`Requested getH2ChakraTextByText element: ${itemText}`);
+  return cy
+    .get(`h2[class^="chakra-text"]`)
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Get a 'swiper-slide' by a particular attribute
+ * @param attrType
+ * @param attrValue
+ */
+Cypress.Commands.add("getSwiperSlideByAttr", (attrType, attrValue) => {
+  cy.log(`getSwiperSlideByAttr element: input[${attrType}="${attrValue}`);
+  return cy
+    .get(`div[class^="swiper-slide"] > a[${attrType}="${attrValue}"]`)
     .should("exist")
     .should("be.visible");
 });
@@ -751,4 +781,34 @@ Cypress.Commands.add("inputCustomValueIntoCombobox", (elementIndex, text) => {
   cy.getChakraInputFieldByAttr("role", "combobox").as("combobox");
   cy.get("@combobox").eq(elementIndex).click().type(text);
   cy.get("@combobox").eq(elementIndex).type("{enter}");
+});
+/**
+ * Get a chakra-breadcrumb-list-item by index on the page
+ * @param index
+ */
+Cypress.Commands.add("getChakraBreadcrumbListItem", (index) => {
+  cy.log(
+    `Requested getChakraBreadcrumbListItem element: li[class^="chakra-breadcrumb__list-item"]`
+  );
+  return cy
+    .get('li[class^="chakra-breadcrumb__list-item"]')
+    .eq(index)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Click a button if not disabled
+ * @param buttonLocator
+ * @param index
+ */
+Cypress.Commands.add("clickButtonIfNotDisabled", (buttonLocator,index) => {
+  cy.log(
+    `clickButtonIfNotDisabled element: ${buttonLocator}.eq(${index})`
+  );
+  return cy
+    .get(`${buttonLocator}`)
+    .eq(index)
+    .should("exist")
+    .should("be.visible")
+    .click({force: true})
 });
