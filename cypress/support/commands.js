@@ -801,14 +801,23 @@ Cypress.Commands.add("getChakraBreadcrumbListItem", (index) => {
  * @param buttonLocator
  * @param index
  */
-Cypress.Commands.add("clickButtonIfNotDisabled", (buttonLocator,index) => {
-  cy.log(
-    `clickButtonIfNotDisabled element: ${buttonLocator}.eq(${index})`
-  );
+Cypress.Commands.add("clickButtonIfNotDisabled", (buttonLocator, index) => {
+  cy.log(`clickButtonIfNotDisabled element: ${buttonLocator}.eq(${index})`);
   return cy
     .get(`${buttonLocator}`)
     .eq(index)
-    .should("exist")
-    .should("be.visible")
-    .click({force: true})
+    .then(($button) => {
+      if (!$button.attr("disabled")) {
+        cy.log(`Going to click this button: ${buttonLocator}.eq(${index})`);
+        cy.get(`${buttonLocator}`)
+          .eq(index)
+          .should("exist")
+          .should("be.visible")
+          .click({ force: true });
+      } else {
+        cy.log(
+          `Button: ${buttonLocator}.eq(${index}) is disabled. Can't click it.`
+        );
+      }
+    });
 });
