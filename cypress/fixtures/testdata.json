@@ -26,6 +26,15 @@
     "username": "User ForTesting",
     "userId": 2085
   },
+  "userForCreditCardTesting": {
+    "userEmail": "user-credit-cards@mailinator.com",
+    "userPassword": "!@Newuser2023",
+    "userFirstName": "User",
+    "userLastName": "ForTesting",
+    "phoneNumber": "18883331155",
+    "username": "User ForTesting",
+    "userId": 2177
+  },
   "userForTicketPackages": {
     "userEmail": "user-packages@mailinator.com",
     "userPassword": "!@Newuser2023",
@@ -138,5 +147,11 @@
       "organization": "QA team organization",
       "eventName": "Test Automation event 3 (DO NOT MODIFY)"
     }
+  },
+  "visaDebitForTesting": {
+    "nameOnCard": "Testing Team",
+    "cardNumber": "4000056655665556",
+    "expiry": "0535",
+    "cvcNumber": "353"
   }
 }

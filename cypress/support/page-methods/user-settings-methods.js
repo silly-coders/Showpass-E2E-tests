@@ -165,7 +165,8 @@ Cypress.Commands.add("verifyBillingAddressInlineErrors", () => {
 Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
   cy.log("Going to populateBillingAddressForm()");
   // Search Address field
-  cy.getChakraInputFieldByAttr("id", "search-address-input").clear();
+  cy.getChakraInputFieldByAttr("id", "search-address-input")
+  .scrollIntoView({force: true})
   cy.getChakraInputFieldByAttr("id", "search-address-input").type(
     userAddress.fullAddress
   );
@@ -209,8 +210,42 @@ Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
  * @todo figure out how to populate the iFrame credit card form
  */
 Cypress.Commands.add("populateCardInformationForm", (creditCardDetails) => {
-  //cy.log("Going to populateCardInformationForm()");
-  cy.getStripeCardField("div.CardNumberField").type("4242424242424242");
+  cy.log("Going to populateCardInformationForm()");
+  // Populate Name on card
+  cy.get('#name-on-card')
+  .scrollIntoView()
+  .should('be.visible')
+  .type(creditCardDetails.nameOnCard);
+  // Populate Credit Card number
+  const getIframeBody1 = () => {
+    return cy
+      .get('iframe[name*="privateStripeFrame"]')
+      .eq(0)
+      .its("0.contentDocument.body")
+      .should("not.be.empty")
+      .then(cy.wrap);
+  };
+  getIframeBody1().find('input[class^="InputElement"]').type(creditCardDetails.cardNumber);
+  // Populate Expiry date
+  const getIframeBody2 = () => {
+    return cy
+      .get('iframe[name*="privateStripeFrame"]')
+      .eq(1)
+      .its("0.contentDocument.body")
+      .should("not.be.empty")
+      .then(cy.wrap);
+  };
+  getIframeBody2().find('input[class^="InputElement"]').type(creditCardDetails.expiry);
+  // Populate CVC number
+  const getIframeBody3 = () => {
+    return cy
+      .get('iframe[name*="privateStripeFrame"]')
+      .eq(2)
+      .its("0.contentDocument.body")
+      .should("not.be.empty")
+      .then(cy.wrap);
+  };
+  getIframeBody3().find('input[class^="InputElement"]').type(creditCardDetails.cvcNumber);
 });
 
 /**

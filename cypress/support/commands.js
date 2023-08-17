@@ -843,3 +843,42 @@ Cypress.Commands.add("getChakraModalWindow", () => {
     .should("exist")
     .should("be.visible");
 });
+/**
+ * Get chakra-modal-header
+ */
+Cypress.Commands.add("getChakraModalHeader", () => {
+  cy.log(`Going to getChakraModalHeader()`);
+  return cy
+    .get('section[class^="chakra-modal__header"]')
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Method to delete an existing credit card
+ *
+ */
+Cypress.Commands.add("deleteCreditCardIfExists", () => {
+  cy.log("Going to deleteCreditCardIfExists()");
+  cy.get("body").then(($body) => {
+    if (
+      $body.find(
+        'button[class^="chakra-button chakra-menu__menu-button"][aria-label="More"]'
+      ).length
+    ) {
+      cy.get(
+        'button[class^="chakra-button chakra-menu__menu-button"][aria-label="More"]'
+      )
+        .scrollIntoView({ force: true })
+        .click({ force: true });
+      // Click 'Delete' to delete credit card
+      cy.getDropDownItem("Delete").click({ force: true });
+      // Confirm deletion on the 'Delete Payment Method' confirmation
+      cy.getChakraModalWindow();
+      cy.get('header[id^="chakra-modal--header"]').should(
+        "contain.text",
+        "Delete Payment Method"
+      );
+      cy.getChakraButtonByText("Delete").click({ force: true });
+    }
+  });
+});

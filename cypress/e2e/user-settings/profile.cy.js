@@ -1,20 +1,17 @@
 describe("Verify user's profile by ", () => {
-  before(function () {
+  beforeEach("navigate to Home page", function () {
     cy.clearLocalStorage();
     cy.clearCookies();
-  });
-
-  beforeEach("navigate to Home page", function () {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
       cy.navigateToHomePage();
-      cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
-      cy.selectProfileDropDownItem();
     });
   });
 
   it("checking the 'Card Information' form appearance-TA-16", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickPaymentButton();
     cy.clickAddPaymentMethodButton();
     cy.verifyCardInfoFormAppearance();
@@ -23,6 +20,9 @@ describe("Verify user's profile by ", () => {
   });
 
   it("checking the 'Billing Address' form appearance-TA-16", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickPaymentButton();
     cy.clickAddPaymentMethodButton();
     cy.verifyBillingAddressFormAppearance();
@@ -31,20 +31,36 @@ describe("Verify user's profile by ", () => {
   });
 
   it("verifying that a 'Billing Address' form can be populated-TA-21", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickPaymentButton();
     cy.clickAddPaymentMethodButton();
     cy.populateBillingAddressForm(this.testdata.userAddress);
     cy.clickCancelButton();
   });
 
-  it.skip("adding and deleting a new payment method-TA-17-18", function () {
-    // TODO: figure out how to populate the iFrame credit card info
-    // cy.clickPaymentButton();
-    // cy.populateBillingAddressForm(this.testdata.userAddress);
-    // cy.populateCardInformationForm();
+  it("adding and deleting a new payment method-TA-17-18", function () {
+    cy.logIntoPortal(this.testdata.userForCreditCardTesting);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
+    cy.clickPaymentButton();
+    cy.wait(500);
+    cy.deleteCreditCardIfExists();
+    cy.populateCardInformationForm(this.testdata.visaDebitForTesting);
+    cy.populateBillingAddressForm(this.testdata.userAddress);
+    cy.wait(500);
+    cy.clickSaveButton();
+    cy.get('div[class^="chakra-toast"]')
+      .should("be.visible")
+      .should("contain.text", "Credit Card Saved");
+    cy.clickButtonXtoCloseMessage();
   });
 
   it("verifying that notifications can be turned on and off-TA-22", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickNotificationsButton();
     for (var i = 0; i < 16; i++) {
       // If the chakra-switch selector is disabled enable it before test
@@ -55,6 +71,9 @@ describe("Verify user's profile by ", () => {
   });
 
   it("verifying selector labels on the 'Notifications' page-TA-23", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickNotificationsButton();
     for (let i = 0; i < 16; i++) {
       const allNotificationLabelsAtProfile = [
@@ -83,6 +102,9 @@ describe("Verify user's profile by ", () => {
   });
 
   it("verifying that notifications toggles disappear once 'All Notifications' selector is off-TA-24", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickNotificationsButton();
     // If the chakra-switch selector is disabled enable it before test
     for (var i = 0; i < 16; i++) {
@@ -105,11 +127,14 @@ describe("Verify user's profile by ", () => {
   });
 
   it("verifying that updated notifications can be saved-TA-25", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.log("***** Part 1: verify the toggle is ENABLED from the get go *****");
     cy.clickNotificationsButton();
     cy.verifyToggleLabelsOnNotificationsPage(0, "All Notifications");
-     // If the chakra-switch selector is disabled enable it before test
-     for (var i = 0; i < 16; i++) {
+    // If the chakra-switch selector is disabled enable it before test
+    for (var i = 0; i < 16; i++) {
       cy.verifyAndTurnOnChakraSwitchSelectorIfDisabled(i);
     }
     // Turn off the 'All Notifications' selector
@@ -141,12 +166,18 @@ describe("Verify user's profile by ", () => {
   });
 
   it("verifying 'Password' form appearance-TA-27", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickPasswordButton();
     cy.verifyPasswordFormAppearance();
     cy.getSaveButton();
   });
 
   it("verifying 'Password' form inline validation-TA-26", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickPasswordButton();
     for (let i = 0; i < 3; i++) {
       const fieldPlaceholders = [
@@ -161,6 +192,9 @@ describe("Verify user's profile by ", () => {
   });
 
   it("verifying invalid password inputs-TA-28", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickPasswordButton();
     cy.log("Case 1: Invalid old pwd, Valid new pwd, Valid confirm pwd");
     cy.populateOldNewAndConfirmPwdFields(
@@ -230,11 +264,17 @@ describe("Verify user's profile by ", () => {
   });
 
   it("verifying 'Email' form appearance-TA-32", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickEmailButton();
     cy.verifyEmailFormAppearance(this.testdata.userForNotifications.userEmail);
   });
 
   it("verifying 'Email' form inline validation errors-TA-33", function () {
+    cy.logIntoPortal(this.testdata.userForNotifications);
+    cy.clickUsernameAfterLoggingIn();
+    cy.selectProfileDropDownItem();
     cy.clickEmailButton();
     cy.log("TA-33 Case 1");
     for (let i = 0; i < 2; i++) {
