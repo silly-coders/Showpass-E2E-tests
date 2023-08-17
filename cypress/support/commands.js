@@ -405,6 +405,18 @@ Cypress.Commands.add("getH2ChakraTextByText", (itemText) => {
     .should("be.visible");
 });
 /**
+ * Get h4 chakra-text
+ * @param itemText
+ */
+Cypress.Commands.add("getH4ChakraTextByText", (itemText) => {
+  cy.log(`Requested getH4ChakraTextByText element: ${itemText}`);
+  return cy
+    .get(`h4[class^="chakra-text"]`)
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
  * Get a 'swiper-slide' by a particular attribute
  * @param attrType
  * @param attrValue
@@ -820,4 +832,14 @@ Cypress.Commands.add("clickButtonIfNotDisabled", (buttonLocator, index) => {
         );
       }
     });
+});
+/**
+ * Get chakra-modal window
+ */
+Cypress.Commands.add("getChakraModalWindow", () => {
+  cy.log(`Going to getChakraModalWindow()`);
+  return cy
+    .get('section[class^="chakra-modal__content"]')
+    .should("exist")
+    .should("be.visible");
 });

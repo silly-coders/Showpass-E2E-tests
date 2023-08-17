@@ -134,7 +134,7 @@ describe("Test popular cities options by ", () => {
           cy.get('div[data-testid="top-events"]')
             .find(`div[data-swiper-slide-index="${i}"]`)
             .should("contain.text", popularCities.at(city));
-          // Expose the next group of 5 event cards to verify city name  
+          // Expose the next group of 5 event cards to verify city name
           if (i % 5 == 0) {
             // Click right arrow button
             cy.clickButtonIfNotDisabled(
@@ -151,6 +151,54 @@ describe("Test popular cities options by ", () => {
         .should("exist")
         .should("be.visible")
         .click({ force: true });
+    }
+  });
+
+  it("verifying that a popular city can be changed via drop-down list box-TA-57", () => {
+    let popularCities = ["Calgary", "Vancouver", "Toronto"];
+    let lastCityLowerCase = popularCities[popularCities.length - 1].toLowerCase();
+    // Select the last city in the array and ensure the page is loaded
+    cy.getSwiperSlideByAttr("href", `/discover/${lastCityLowerCase}/`).click({
+      force: true,
+    });
+    cy.url().should("include", `/discover/${lastCityLowerCase}/`);
+    // Click a ${City} name drop-down list
+    cy.get('button[class^="chakra-button"] > div > p')
+      .contains(popularCities[popularCities.length - 1])
+      .should("be.visible")
+      .click({ force: true });
+    // Ensure a modal window with other cities on it shows up
+    cy.getChakraModalWindow();
+    // Select each city from the 'popularCities' array and verify the page is loaded
+    for (let city = 0; city < popularCities.length; city++) {
+      let nextCityLowerCase = popularCities.at(city).toLowerCase();
+      // Begin changing cities one by one based on the 'popularCities' array
+      cy.getChakraLinkButtonByAttr(
+        "href",
+        `/discover/${nextCityLowerCase}/`
+      ).click({
+        force: true,
+      });
+      cy.url().should("include", `/discover/${nextCityLowerCase}/`);
+      cy.getChakraBreadcrumbListItem(0).should("have.text", "Home");
+      cy.getChakraBreadcrumbListItem(1).should(
+        "have.text",
+        `${popularCities.at(city)}`
+      );
+      cy.getChakraTextLabelByText("Explore");
+      cy.getChakraTextLabelByText(`${popularCities.at(city)}`);
+      cy.getChakraButtonByText(`${popularCities.at(city)}`);
+      // Click ${City} drop-down list
+      cy.get('button[class^="chakra-button"] > div > p')
+        .contains(popularCities.at(city))
+        .should("be.visible")
+        .click({ force: true });
+      // Ensure a modal window shows up
+      cy.getChakraModalWindow();
+      // Ensure the 'search Location' input field shows up
+      cy.getH4ChakraTextByText("Search Location")
+        .should("exist")
+        .should("be.visible");
     }
   });
 });
