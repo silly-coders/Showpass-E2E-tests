@@ -882,3 +882,71 @@ Cypress.Commands.add("deleteCreditCardIfExists", () => {
     }
   });
 });
+/**
+ * Get a chakra-button-label by text
+ * @param itemText
+ */
+Cypress.Commands.add("getChakraButtonLabelByText", (itemText) => {
+  cy.log(
+    `Requested getChakraButtonLabelByText().contains(${itemText})`
+  );
+  return cy
+    .get('p[class^="chakra-text button-label"]')
+    .contains(itemText)
+    .should("exist")
+    .scrollIntoView({force: true})
+    .should("be.visible");
+});
+/**
+ * Get a button by an attribute
+ * @param attrType
+ * @param attrValue
+ */
+Cypress.Commands.add("getButtonByAttribute", (attrType, attrValue) => {
+  cy.log(
+    `Requested getButtonByAttribute element: button[${attrType}="${attrValue}"]`
+  );
+  return cy
+    .get(`button[${attrType}="${attrValue}"]`)
+    .should("exist")
+    .scrollIntoView({force: true})
+    .should("be.visible");
+});
+/**
+ * Select li-option by text
+ * @param itemText
+ */
+Cypress.Commands.add("selectOptionByText", (itemText) => {
+  cy.log(
+    `Requested selectOptionByText(${itemText})`
+  );
+  return cy
+    .get(`li[role="option"] > div[class^="chakra-text"]`)
+    .contains(itemText)
+    .should("exist")
+    .scrollIntoView({force: true})
+    .should("be.visible")
+    .click({force: true});
+});
+/**
+ * Get a pre-container-editor to input text
+ */
+Cypress.Commands.add("getPreContainerEditor", () => {
+  cy.log(`Going to getPreContainerEditor()`);
+  return cy
+    .get('.ql-editor')
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Get a chakra-tab-button by text
+ * @param itemText
+ */
+Cypress.Commands.add("getChakraTabButton", (itemText) => {
+  cy.log(`Going to getChakraTabButton(${itemText})`);
+  return cy
+    .get('button[class^="chakra-tabs__tab"]')
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});

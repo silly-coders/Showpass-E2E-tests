@@ -153,5 +153,12 @@
     "cardNumber": "4000056655665556",
     "expiry": "0535",
     "cvcNumber": "353"
+  },
+  "testGroup1": {
+    "renewalFrequency": "One Time",
+    "visibility": "Public only",
+    "membershipLabel": "Passes",
+    "expiryDate": "September 18, 2030",
+    "membershipDescription": "This is membership description for testing"
   }
 }

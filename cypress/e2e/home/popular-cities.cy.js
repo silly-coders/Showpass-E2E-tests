@@ -131,9 +131,14 @@ describe("Test popular cities options by ", () => {
               i +
               1
           );
+          // Within the 'Popular in ${City}' carousel make sure the right city name shows up at the bottom of each card (ignore case)
           cy.get('div[data-testid="top-events"]')
-            .find(`div[data-swiper-slide-index="${i}"]`)
-            .should("contain.text", popularCities.at(city));
+            // Index '0' is the event name and index '1' is the city name on the card, hence .eq(1).
+            .find(
+              `div[data-swiper-slide-index="${i}"] > div > div > div > div > div[class^='chakra-skeleton'] > p`
+            )
+            .eq(1)
+            .contains(popularCities.at(city), { matchCase: false });
           // Expose the next group of 5 event cards to verify city name
           if (i % 5 == 0) {
             // Click right arrow button
@@ -156,7 +161,8 @@ describe("Test popular cities options by ", () => {
 
   it("verifying that a popular city can be changed via drop-down list box-TA-57", () => {
     let popularCities = ["Calgary", "Vancouver", "Toronto"];
-    let lastCityLowerCase = popularCities[popularCities.length - 1].toLowerCase();
+    let lastCityLowerCase =
+      popularCities[popularCities.length - 1].toLowerCase();
     // Select the last city in the array and ensure the page is loaded
     cy.getSwiperSlideByAttr("href", `/discover/${lastCityLowerCase}/`).click({
       force: true,
