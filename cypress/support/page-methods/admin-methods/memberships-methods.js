@@ -33,10 +33,9 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
 /**
  * Populate the 'Membership Group Info' form
  */
-Cypress.Commands.add("populateMembershipGroupInfoForm", (groupDetails) => {
+Cypress.Commands.add("populateMembershipGroupInfoForm", (uniqueMembershipName, groupDetails) => {
   cy.log("Going to populateMembershipGroupInfoForm()");
   // Populate 'Membership Name'
-  var uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
   cy.getChakraInputFieldByAttr("id", "name").type(uniqueMembershipName);
   // Populate 'Renewal Frequency'
   cy.getButtonByAttribute("id", "renewal-freq-toggle-button").click({
