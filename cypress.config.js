@@ -6,10 +6,12 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
     baseUrl: 'https://beta.showpass.com',
-    viewportHeight: 960,
+    viewportHeight: 1440,
     viewportWidth: 1536,
     frontLoadingDelay: 5000,
+    defaultCommandTimeout: 10000,
     retries: { "runMode": 1, "openMode": 0 },
-    chromeWebSecurity: false
+    chromeWebSecurity: false,
+    projectId: 'e9axi7'
   },
 });

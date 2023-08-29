@@ -73,9 +73,9 @@ describe("Verify destructive profile updates by ", () => {
     cy.clickEmailButton();
     var uniqueUserEmail =
       "test-user-" + Math.floor(Date.now() / 1000) + "@mailinator.com";
-    cy.getChakraInputFieldByAttr("id", "email").type(uniqueUserEmail);
+    cy.getChakraInputFieldByAttr("id", "email").type(uniqueUserEmail, {force: true});
     cy.getChakraInputFieldByAttr("id", "password").type(
-      this.testdata.userDetails.userPassword
+      this.testdata.userDetails.userPassword, {force: true}
     );
     cy.clickSaveButton();
     cy.verifyTopRightSuccessMessage(
@@ -87,10 +87,10 @@ describe("Verify destructive profile updates by ", () => {
     cy.verifyInputFieldAttr("id", "currentEmail", "value", uniqueUserEmail);
     // Change it back to the original email
     cy.getChakraInputFieldByAttr("id", "email").type(
-      this.testdata.userForUpdates.userEmail
+      this.testdata.userForUpdates.userEmail, {force: true}
     );
     cy.getChakraInputFieldByAttr("id", "password").type(
-      this.testdata.userDetails.userPassword
+      this.testdata.userDetails.userPassword, {force: true}
     );
     cy.clickSaveButton();
     cy.verifyTopRightSuccessMessage(

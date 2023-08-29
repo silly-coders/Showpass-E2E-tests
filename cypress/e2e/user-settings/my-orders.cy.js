@@ -15,6 +15,8 @@ describe("Test My Orders by ", () => {
   it("verifying a ticket package purchase-987-TA-50", function () {
     const apiRequest = "/api/user/financials/invoices/v2/*";
     cy.intercept(apiRequest).as("myOrdersPageLoaded");
+    const viewOrderRequest = "**/api/public/events/*";
+    cy.intercept(viewOrderRequest).as("viewOrder");
     cy.logIntoPortal(this.testdata.userForTicketPackages);
     cy.clickUsernameAfterLoggingIn();
     cy.selectOrdersDropDownItem();
@@ -73,6 +75,9 @@ describe("Test My Orders by ", () => {
       `Order ${this.transactionsJSON.transaction987.transaction_id}`
     );
     cy.url().should("include", "/account/my-orders/");
+    cy.wait("@viewOrder", { timeout: 20000 })
+      .its("response.statusCode")
+      .should("be.oneOf", [200, 204]);
     cy.getChakraHeaderH2("Receipt");
     cy.getChakraHeaderH2("Purchase");
     const orderReceiptLabels = [
@@ -114,6 +119,8 @@ describe("Test My Orders by ", () => {
   it("verifying a ticket package purchase-23fff-TA-53", function () {
     const apiRequest = "/api/user/financials/invoices/v2/*";
     cy.intercept(apiRequest).as("myOrdersPageLoaded");
+    const viewOrderRequest = "**/api/public/events/*";
+    cy.intercept(viewOrderRequest).as("viewOrder");
     cy.logIntoPortal(this.testdata.userForTicketPackages);
     cy.clickUsernameAfterLoggingIn();
     cy.selectOrdersDropDownItem();
@@ -173,6 +180,9 @@ describe("Test My Orders by ", () => {
       `Order ${this.transactionsJSON.transaction23fff.transaction_id}`
     );
     cy.url().should("include", "31-0341-465e-a1a7-910944b23fff");
+    cy.wait("@viewOrder", { timeout: 20000 })
+      .its("response.statusCode")
+      .should("be.oneOf", [200, 204]);
     cy.getChakraHeaderH2("Receipt");
     cy.getChakraHeaderH2("Purchase");
     const orderReceiptLabels = [
