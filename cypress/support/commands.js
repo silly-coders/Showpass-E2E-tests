@@ -887,14 +887,12 @@ Cypress.Commands.add("deleteCreditCardIfExists", () => {
  * @param itemText
  */
 Cypress.Commands.add("getChakraButtonLabelByText", (itemText) => {
-  cy.log(
-    `Requested getChakraButtonLabelByText().contains(${itemText})`
-  );
+  cy.log(`Requested getChakraButtonLabelByText().contains(${itemText})`);
   return cy
     .get('p[class^="chakra-text button-label"]')
     .contains(itemText)
     .should("exist")
-    .scrollIntoView({force: true})
+    .scrollIntoView({ force: true })
     .should("be.visible");
 });
 /**
@@ -909,7 +907,7 @@ Cypress.Commands.add("getButtonByAttribute", (attrType, attrValue) => {
   return cy
     .get(`button[${attrType}="${attrValue}"]`)
     .should("exist")
-    .scrollIntoView({force: true})
+    .scrollIntoView({ force: true })
     .should("be.visible");
 });
 /**
@@ -917,36 +915,58 @@ Cypress.Commands.add("getButtonByAttribute", (attrType, attrValue) => {
  * @param itemText
  */
 Cypress.Commands.add("selectOptionByText", (itemText) => {
-  cy.log(
-    `Requested selectOptionByText(${itemText})`
-  );
+  cy.log(`Requested selectOptionByText(${itemText})`);
   return cy
     .get(`li[role="option"] > div[class^="chakra-text"]`)
     .contains(itemText)
     .should("exist")
-    .scrollIntoView({force: true})
+    .scrollIntoView({ force: true })
     .should("be.visible")
-    .click({force: true});
+    .click({ force: true });
 });
 /**
  * Get a pre-container-editor to input text
  */
 Cypress.Commands.add("getPreContainerEditor", () => {
   cy.log(`Going to getPreContainerEditor()`);
-  return cy
-    .get('.ql-editor')
-    .should("exist")
-    .should("be.visible");
+  return cy.get(".ql-editor").should("exist").should("be.visible");
 });
 /**
  * Get a chakra-tab-button by text
  * @param itemText
  */
-Cypress.Commands.add("getChakraTabButton", (itemText) => {
-  cy.log(`Going to getChakraTabButton(${itemText})`);
+Cypress.Commands.add("getChakraTabButtonByText", (itemText) => {
+  cy.log(`Going to getChakraTabButtonByText(${itemText})`);
   return cy
     .get('button[class^="chakra-tabs__tab"]')
     .contains(itemText)
     .should("exist")
     .should("be.visible");
+});
+/**
+ * Get a gridcell-text
+ * @param itemText
+ * @param gridcellIndex
+ */
+Cypress.Commands.add("getGridcellLabelByText", (gridcellIndex, itemText) => {
+  cy.log(
+    `Going to getGridcellLabelByText().eq(${gridcellIndex}).contains(${itemText})`
+  );
+  return cy
+    .get('td[role="gridcell"] > p')
+    .eq(gridcellIndex)
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
+/**
+ * Store a value in the Cypress.env object
+ * @param key
+ * @param value
+ */
+Cypress.Commands.add("storeValueInCypressEnvBasedOnKey", (key, value) => {
+  cy.log(
+    `Going to store the [${value}] value under the following key: [${key}]`
+  );
+  Cypress.env(key, value);
 });

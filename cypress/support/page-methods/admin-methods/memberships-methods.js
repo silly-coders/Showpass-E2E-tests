@@ -80,3 +80,27 @@ Cypress.Commands.add("populateMembershipGroupInfoForm", (uniqueMembershipName, g
     .should("exist")
     .should("be.visible");
 });
+/**
+ * Populate the 'Add new Membership Level' form
+ */
+Cypress.Commands.add("populateNewMembershipLevelForm", (uniqueMembershipName, membershipLevel) => {
+  cy.log("Going to populateNewMembershipLevelForm()");
+  // Populate 'Name'
+  cy.getChakraInputFieldByAttr('id','name').type(`${uniqueMembershipName}-level`);
+  // Populate 'Description'
+  cy.getPreContainerEditor().type(membershipLevel.description);
+  // Populate 'Price (CAD)'
+  cy.getChakraInputFieldByAttr('id','price').type(membershipLevel.price);
+  // Populate 'Inventory'
+  cy.getChakraInputFieldByAttr('id','inventory').type(membershipLevel.inventory);
+  // Select 'Visibilty'
+  cy.getButtonByAttribute("id", "visibility-toggle-button").click({
+    force: true,
+  });
+  cy.selectOptionByText(membershipLevel.visibility);
+  // Populate 'Purchase Limit'
+  cy.getChakraInputFieldByAttr('id','purchase-limit').type(membershipLevel.purchaseLimit);
+  // Click 'Save'
+  cy.getChakraButtonByAttribute('form','membership-level-form')
+  .should('be.visible').click({force: true});
+});
