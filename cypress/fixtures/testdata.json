@@ -167,5 +167,24 @@
     "inventory": "50000",
     "visibility": "Public",
     "purchaseLimit": "5"
+  },
+  "membershipEventScanAccessBenefit": {
+    "benefitType": "Event Scan Access",
+    "event": "Test Automation event 3 (DO NOT MODIFY)",
+    "ticketType": "Ticket-type-3",
+    "scanLimit": "5"
+  },
+  "membershipDailyScanAccessBenefit": {
+    "benefitType": "Daily Scan Access",
+    "scanLimitPerDay": "55"
+  },
+  "membershipDiscountBenefit": {
+    "benefitType": "Discount",
+    "discountCode": "Discount-code-",
+    "discountPercent": "11",
+    "discountAmount": "5",
+    "totalLimit": "101",
+    "perMemberLimit": "15",
+    "event": "Test Automation event 3 (DO NOT MODIFY)"
   }
 }

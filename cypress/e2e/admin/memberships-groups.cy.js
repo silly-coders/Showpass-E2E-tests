@@ -1,12 +1,11 @@
 describe("Verify 'Memberships' page features by ", function () {
-
-  beforeEach(function()  {
+  beforeEach(function () {
     cy.clearLocalStorage();
     cy.clearCookies();
     // Generate a unique name
     let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
     // Store the uniqueMembershipName value in the Cypress.env() object
-    Cypress.env('uniqueMembershipName', uniqueMembershipName);
+    Cypress.env("uniqueMembershipName", uniqueMembershipName);
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
       cy.navigateToHomePage();
@@ -31,9 +30,9 @@ describe("Verify 'Memberships' page features by ", function () {
   });
 
   // ***************************************************************************
-  it("creating a new valid group and deleting it-TA-61", function() {
+  it("creating a new valid group and deleting it-TA-61", function () {
     // Retrieve the uniqueMembershipName value from the Cypress.env() object
-    let uniqueMembershipName = Cypress.env('uniqueMembershipName');
+    let uniqueMembershipName = Cypress.env("uniqueMembershipName");
     // *** Open and verify just created group ***
     // Click the 'Edit group' button
     cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
@@ -73,7 +72,7 @@ describe("Verify 'Memberships' page features by ", function () {
   // ***************************************************************************
   it("verifying a newly created group on the front end-TA-62", function () {
     // Retrieve the uniqueMembershipName value from the Cypress.env() object
-    let uniqueMembershipName = Cypress.env('uniqueMembershipName');
+    let uniqueMembershipName = Cypress.env("uniqueMembershipName");
     // Click the group name to view its front-end page and be able to purchased membership
     cy.getChakraLinkButtonByAttr("target", "_parent")
       .contains(uniqueMembershipName)
@@ -98,7 +97,7 @@ describe("Verify 'Memberships' page features by ", function () {
   // ***************************************************************************
   it("verifying that a membership level can be added to a newly created group-TA-64", function () {
     // Retrieve the uniqueMembershipName value from the Cypress.env() object
-    let uniqueMembershipName = Cypress.env('uniqueMembershipName');
+    let uniqueMembershipName = Cypress.env("uniqueMembershipName");
     // Click the 'Edit group' button
     cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
       .eq(1)
@@ -129,4 +128,37 @@ describe("Verify 'Memberships' page features by ", function () {
     }
   });
   // ***************************************************************************
+  it("verifying that a membership benefit can be added to a newly created group-TA-65", function () {
+    // Retrieve the uniqueMembershipName value from the Cypress.env() object
+    let uniqueMembershipName = Cypress.env("uniqueMembershipName");
+    // Click the 'Edit group' button
+    cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
+      .eq(1)
+      .click({ force: true });
+    // Click the 'Add Benefit' button
+    cy.getChakraButtonByText("Add Benefit").click({ force: true });
+    // Populate 'Event Scan Access' benefit type
+    cy.populateBenefitEventScanAccessForm(
+      this.testdata.membershipEventScanAccessBenefit
+    );
+    // Verify that values show up in the grid
+    cy.verifyEventScanAccessValuesShowUpInGrid(
+      this.testdata.membershipEventScanAccessBenefit
+    );
+    // Click the 'Add Benefit' button
+    cy.getChakraButtonByText("Add Benefit").click({ force: true });
+    // Populate 'Daily Scan Access' benefit type
+    cy.populateBenefitDailyScanAccessForm(
+      this.testdata.membershipDailyScanAccessBenefit
+    );
+    // Click the 'Add Benefit' button
+    cy.getChakraButtonByText("Add Benefit").click({ force: true });
+    // Populate 'Discount' benefit type
+    cy.populateBenefitDiscountForm(this.testdata.membershipDiscountBenefit);
+    // Click 'Save' to save just added benefits
+    cy.get('button[type="submit"]').eq(1).contains("Save").click();
+    // Verify and close the 'Success' message
+    cy.verifyTopRightSuccessMessage("Success");
+    cy.clickButtonXtoCloseMessage();
+  });
 });

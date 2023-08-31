@@ -970,3 +970,18 @@ Cypress.Commands.add("storeValueInCypressEnvBasedOnKey", (key, value) => {
   );
   Cypress.env(key, value);
 });
+/**
+ * Get a radio button
+ * @param attrType
+ * @param attrValue
+ */
+Cypress.Commands.add("getRadioButtonByAttribute", (attrType, attrValue) => {
+  cy.log(
+    `Requested getRadioButtonByAttribute element: input[type="radio"][${attrType}="${attrValue}"]`
+  );
+  return cy
+    .get(`input[type="radio"][${attrType}="${attrValue}"]`)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible");
+});
