@@ -985,3 +985,14 @@ Cypress.Commands.add("getRadioButtonByAttribute", (attrType, attrValue) => {
     .scrollIntoView({ force: true })
     .should("be.visible");
 });
+/**
+ * Click 'X' button to close a chakra-modal window
+ */
+Cypress.Commands.add("closeModalWindowByClickingX", () => {
+  cy.log(`Going to closeModalWindowByClickingX()`);
+  return cy
+    .get('button[class^="chakra-modal__close-btn"]')
+    .should("exist")
+    .should("be.visible")
+    .click({ force: true });
+});

@@ -90,6 +90,10 @@ Cypress.Commands.add(
   "populateNewMembershipLevelForm",
   (uniqueMembershipName, membershipLevel) => {
     cy.log("Going to populateNewMembershipLevelForm()");
+    // Wait for the modal window
+    cy.get('header[id^="chakra-modal--header"]')
+      .contains("Add new Membership Level")
+      .should("be.visible");
     // Populate 'Name'
     cy.getChakraInputFieldByAttr("id", "name").type(
       `${uniqueMembershipName}-level`
@@ -271,5 +275,82 @@ Cypress.Commands.add(
       .contains(itemText)
       .should("exist")
       .should("be.visible");
+  }
+);
+/**
+ * Method to add membership levels to the cart
+ * @param totalTicketTypes (total number of ticket types)
+ * @param numberOfTicketsForEach (how many tickets to add from each type)
+ */
+Cypress.Commands.add(
+  "addMembershipLevelsToCart",
+  (totalTicketTypes, numberOfTicketsForEach) => {
+    cy.log("Going to addMembershipLevelsToCart()");
+    const apiRequest = "/api/user/tickets/baskets/*";
+    cy.intercept(apiRequest).as("pageLoaded");
+    for (let j = 1; j <= numberOfTicketsForEach; j++) {
+      for (let i = 0; i < totalTicketTypes; i++) {
+        cy.wait(500);
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+        cy.get('button[class^="chakra-button"][aria-label="Add item"]')
+          .eq(i)
+          .as("btn")
+          .get("@btn")
+          .should("exist")
+          .scrollIntoView()
+          .should("be.visible")
+          .click({ force: true });
+        // Button 'Remove item' should be visible and active
+        cy.get('button[class^="chakra-button"][aria-label="Remove item"]')
+          .eq(i)
+          .should("exist")
+          .scrollIntoView()
+          .should("be.visible");
+        cy.wait(500);
+        cy.wait("@pageLoaded")
+          .its("response.statusCode")
+          .should("be.oneOf", [200, 204]);
+      }
+      cy.get("@btn").should("exist").scrollIntoView().should("be.disabled");
+    }
+  }
+);
+/**
+ * Method to remove membership levels from the cart
+ * @param totalTicketTypes (total number of ticket types)
+ * @param numberOfTicketsForEach (how many tickets to add from each type)
+ */
+Cypress.Commands.add(
+  "removeMembershipLevelsFromCart",
+  (totalTicketTypes, numberOfTicketsForEach) => {
+    cy.log("Going to removeMembershipLevelsFromCart()");
+    const apiRequest = "/api/user/tickets/baskets/*";
+    cy.intercept(apiRequest).as("pageLoaded");
+    for (let j = 1; j <= numberOfTicketsForEach; j++) {
+      for (let i = 0; i < totalTicketTypes; i++) {
+        cy.wait(500);
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+        cy.get('button[class^="chakra-button"][aria-label="Remove item"]')
+          .eq(i)
+          .as("btn")
+          .get("@btn")
+          .should("exist")
+          .scrollIntoView()
+          .should("be.visible")
+          .click({ force: true });
+        // Button 'Add item' should be visible and active
+        cy.get('button[class^="chakra-button"][aria-label="Add item"]')
+          .eq(i)
+          .should("exist")
+          .scrollIntoView()
+          .should("be.visible");
+        cy.wait(500);
+        cy.wait("@pageLoaded")
+          .its("response.statusCode")
+          .should("be.oneOf", [200, 204]);
+      }
+      // Button 'Remove item' should be disabled at the end of test
+      cy.get("@btn").should("exist").scrollIntoView().should("be.disabled");
+    }
   }
 );

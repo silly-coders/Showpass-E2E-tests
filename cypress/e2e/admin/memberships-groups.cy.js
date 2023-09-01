@@ -60,7 +60,7 @@ describe("Verify 'Memberships' page features by ", function () {
     cy.get('div[class="ql-editor"] > p')
       .should("be.visible")
       .should("have.text", this.testdata.testGroup1.membershipDescription);
-    // Click 'Save'
+    // Click 'Cancel'
     cy.getChakraButtonByText("Cancel").click({ force: true });
     // Delete just created group
     cy.deleteAllMembershipsGroupsIfTheyExist();
@@ -70,7 +70,7 @@ describe("Verify 'Memberships' page features by ", function () {
     cy.deleteAllMembershipsGroupsIfTheyExist();
   });
   // ***************************************************************************
-  it("verifying a newly created group on the front end-TA-62", function () {
+  it("confirming that a newly created group shows up on the front end-TA-62", function () {
     // Retrieve the uniqueMembershipName value from the Cypress.env() object
     let uniqueMembershipName = Cypress.env("uniqueMembershipName");
     // Click the group name to view its front-end page and be able to purchased membership
@@ -95,7 +95,7 @@ describe("Verify 'Memberships' page features by ", function () {
     cy.getH2ChakraTextByText("No membership levels found.");
   });
   // ***************************************************************************
-  it("verifying that a membership level can be added to a newly created group-TA-64", function () {
+  it("ensuring that a membership level can be added to a newly created group-TA-64", function () {
     // Retrieve the uniqueMembershipName value from the Cypress.env() object
     let uniqueMembershipName = Cypress.env("uniqueMembershipName");
     // Click the 'Edit group' button
@@ -112,7 +112,7 @@ describe("Verify 'Memberships' page features by ", function () {
       uniqueMembershipName,
       this.testdata.membershipLevel1
     );
-    // *** Open and verify jsut created membership level ***
+    // *** Open and verify just created membership level ***
     cy.getChakraTabButtonByText("Membership Levels").click({ force: true });
     cy.wait(500);
     const gridcellValues = [
@@ -128,9 +128,7 @@ describe("Verify 'Memberships' page features by ", function () {
     }
   });
   // ***************************************************************************
-  it("verifying that a membership benefit can be added to a newly created group-TA-65", function () {
-    // Retrieve the uniqueMembershipName value from the Cypress.env() object
-    let uniqueMembershipName = Cypress.env("uniqueMembershipName");
+  it("checking that a membership benefit can be added to a newly created group-TA-65", function () {
     // Click the 'Edit group' button
     cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
       .eq(1)
@@ -161,4 +159,58 @@ describe("Verify 'Memberships' page features by ", function () {
     cy.verifyTopRightSuccessMessage("Success");
     cy.clickButtonXtoCloseMessage();
   });
+  // ***************************************************************************
+  it("confirming that users can't buy more than a limited number of membership levels-TA-66", function () {
+    // Retrieve the uniqueMembershipName value from the Cypress.env() object
+    let uniqueMembershipName = Cypress.env("uniqueMembershipName");
+    // Click the 'Edit group' button
+    cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
+      .eq(1)
+      .click({ force: true });
+    // Click the 'Membership Levels' tab
+    cy.getChakraTabButtonByText("Membership Levels").click({ force: true });
+    // Wait for the 'New Level' button appearance
+    cy.getChakraButtonByText("New Level").as("newLevelButton");
+    cy.get("@newLevelButton").click({ force: true });
+    // Populate the 'Add new Membership Level' form
+    cy.populateNewMembershipLevelForm(
+      uniqueMembershipName,
+      this.testdata.membershipLevel1
+    );
+    // Wait for the modal window to disappear
+    cy.get('header[id^="chakra-modal--header"]').should("not.exist");
+    cy.getChakraButtonByText("Cancel").click({ force: true });
+    // *** Open the membership group on the portal front-end ***
+    // Click the group name to view its front-end page and be able to purchased membership
+    cy.getChakraLinkButtonByAttr("target", "_parent")
+      .contains(uniqueMembershipName)
+      .should("be.visible")
+      .click();
+    // Verify that URL contains the group name
+    cy.url().should("include", uniqueMembershipName.toLowerCase());
+    // Verify group name in the header
+    cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
+    // Verify group description
+    cy.get('div[data-testid="card"] > div > p')
+      .should("exist")
+      .should("be.visible")
+      .should("have.text", this.testdata.testGroup1.membershipDescription);
+    // Click 'BUY PASSES'
+    cy.clickChakraButtonByText("BUY PASSES");
+    // Ensure a modal window shows up
+    cy.getChakraModalWindow();
+    // Add tickets to cart base on "purchaseLimit" (1 ticket type available)
+    cy.addMembershipLevelsToCart(
+      1,
+      this.testdata.membershipLevel1.purchaseLimit
+    );
+    // Remove just added tickets from the cart
+    cy.removeMembershipLevelsFromCart(
+      1,
+      this.testdata.membershipLevel1.purchaseLimit
+    );
+    // Close a chakra-modal window
+    cy.closeModalWindowByClickingX();
+  });
+  // ***************************************************************************
 });

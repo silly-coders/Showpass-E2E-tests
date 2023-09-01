@@ -164,9 +164,9 @@
   "membershipLevel1": {
     "description": "Level description for testing",
     "price": "350",
-    "inventory": "50000",
+    "inventory": 50000,
     "visibility": "Public",
-    "purchaseLimit": "5"
+    "purchaseLimit": 5
   },
   "membershipEventScanAccessBenefit": {
     "benefitType": "Event Scan Access",
