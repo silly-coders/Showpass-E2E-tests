@@ -1,10 +1,18 @@
 name: e2e-cypress-cloud
 on: [workflow_dispatch]
+
+env:
+  CYPRESS_PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Cypress run --record --key 87930fca-2207-4d65-9f89-2c86dd67c691
+      - name: Cypress run
         uses: cypress-io/github-action@v6
+        with:
+          record: true       
