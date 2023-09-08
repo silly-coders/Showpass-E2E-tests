@@ -1,0 +1,10 @@
+name: e2e-tests
+on: [workflow_dispatch]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress run --record --key 87930fca-2207-4d65-9f89-2c86dd67c691
+        uses: cypress-io/github-action@v6
