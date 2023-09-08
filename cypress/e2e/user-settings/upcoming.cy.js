@@ -78,75 +78,47 @@ describe("Test existing event details by ", () => {
     // Search for and verify the 'Event 1' upcoming event card
     cy.verifyUpcomingPurchasedEventCard(this.testdata.events.event1);
     cy.clickEventNameToSeePurchasedTickets(this.testdata.events.event1);
-    // Verify event 1
+    cy.wait(1000);
+    // ***** First Ticket *****
+    // Verify the first ticket details
     cy.fixture("event-1.json").then((event1JSON) => {
       let cityProvince = event1JSON.event.venue.city + ", Alberta";
-      let ticketLabels1 = [
-        event1JSON.event.name,
-        event1JSON.event.venue.street_name,
-        cityProvince,
-        "Event Starts",
-        "Fri Jul 21, 2023",
-        "7:00 AM MDT",
-        "Event Ends",
-        "Sun Jul 21, 2030",
-        "12:00 AM MDT",
-        "Name on Ticket",
-        "User ForTesting",
-        "Ticket Category",
-        "Main event",
-        "Barcode",
-      ];
+      let ticketValues1 = {
+        eventName: event1JSON.event.name,
+        streetName: event1JSON.event.venue.street_name,
+        cityProvince: cityProvince,
+        startDate: "Fri Jul 21, 2023",
+        startTime: "7:00 AM MDT",
+        endDate: "Sun Jul 21, 2030",
+        endTime: "12:00 AM MDT",
+        nameOnTicket: "User ForTesting",
+        eventType: "Main event",
+      };
+      cy.verifyTicketEventDetails(0, ticketValues1);
       cy.getQrCodeByIndex(0);
       cy.getTransferButtonByIndex(0);
-      // Verify the first ticket type labels
-      for (let i = 0; i < ticketLabels1.length; i++) {
-        cy.log(
-          "[***** Verifying the following label: " +
-            ticketLabels1.at(i) +
-            " *****]"
-        );
-        cy.getChakraTextLabelByIndex(i + 1).should(
-          "contain",
-          ticketLabels1.at(i)
-        );
-      }
-      // Verify the second ticket type labels
-      let ticketLabels2 = [
-        event1JSON.event.name,
-        event1JSON.event.venue.street_name,
-        cityProvince,
-        "Event Starts",
-        "Fri Jul 21, 2023",
-        "7:00 AM MDT",
-        "Event Ends",
-        "Sun Jul 21, 2030",
-        "12:00 AM MDT",
-        "Name on Ticket",
-        "User ForTesting",
-        "Ticket Category",
-        "General Admission",
-        "Barcode",
-      ];
-      for (let i = 0; i < ticketLabels2.length; i++) {
-        cy.log(
-          "[***** Verifying the following label: " +
-            ticketLabels2.at(i) +
-            " *****]"
-        );
-        cy.getChakraTextLabelByIndex(i + 16).scrollIntoView();
-        cy.getChakraTextLabelByIndex(i + 16).should(
-          "contain",
-          ticketLabels2.at(i)
-        );
-        cy.getQrCodeByIndex(4)
-        cy.getTransferButtonByIndex(1);
-        for(let j=0; j<2; j++) {
+      // ***** Second ticket *****
+      // Verify the second ticket details
+      let ticketValues2 = {
+        eventName: event1JSON.event.name,
+        streetName: event1JSON.event.venue.street_name,
+        cityProvince: cityProvince,
+        startDate: "Fri Jul 21, 2023",
+        startTime: "7:00 AM MDT",
+        endDate: "Sun Jul 21, 2030",
+        endTime: "12:00 AM MDT",
+        nameOnTicket: "User ForTesting",
+        eventType: "General Admission",
+      };
+      cy.verifyTicketEventDetails(1, ticketValues2);
+      cy.getQrCodeByIndex(4);
+      cy.getTransferButtonByIndex(1);
+      // There are 2 purchased tickets - then there should be 2 buttons/links
+      for (let j = 0; j < 2; j++) {
         // Clickable icons
-        cy.getChakraLinkButtonByAttr('href','/o/qa-team-organization/').eq(j);
+        cy.getChakraLinkButtonByAttr("href", "/o/qa-team-organization/").eq(j);
         // Google wallet buttons
-        cy.getChakraLinkButtonByAttr('id','google-wallet-link').eq(j);
-      }
+        cy.getChakraLinkButtonByAttr("id", "google-wallet-link").eq(j);
       }
     });
   });
@@ -159,105 +131,60 @@ describe("Test existing event details by ", () => {
     cy.verifyUpcomingPurchasedEventCard(this.testdata.events.event2);
     cy.clickEventNameToSeePurchasedTickets(this.testdata.events.event2);
     // Verify event 2
+    // ***** Event 2 - ticket 1
     cy.fixture("event-2.json").then((eventJSON) => {
-      let ticketLabels1 = [
-        eventJSON.event.name,
-        "155 25 de Mayo",
-        "Buenos Aires, Buenos Aires",
-        "Event Starts",
-        "Mon Jul 24, 2023",
-        "9:00 PM MDT",
-        "Event Ends",
-        "Thu Aug 1, 2030",
-        "12:00 AM MDT",
-        "Name on Ticket",
-        "User ForTesting",
-        "Ticket Category",
-        "Base event2",
-        "Barcode",
-      ];
-      // Verify the first ticket type labels
-      for (let i = 0; i < ticketLabels1.length; i++) {
-        cy.log(
-          "[***** Verifying the 'Ticket Type 1' label: " +
-            ticketLabels1.at(i) +
-            " *****]"
-        );
-        cy.getChakraTextLabelByIndex(i + 1).should(
-          "contain",
-          ticketLabels1.at(i)
-        );
-      }
+      let ticketValues1 = {
+        eventName: eventJSON.event.name,
+        streetName: "155 25 de Mayo",
+        cityProvince: "Buenos Aires, Buenos Aires",
+        startDate: "Mon Jul 24, 2023",
+        startTime: "9:00 PM MDT",
+        endDate: "Thu Aug 1, 2030",
+        endTime: "12:00 AM MDT",
+        nameOnTicket: "User ForTesting",
+        eventType: "Base event2",
+      };
+      cy.verifyTicketEventDetails(0, ticketValues1);
       cy.getQrCodeByIndex(0);
       cy.getTransferButtonByIndex(0);
-
-      // ***** Verify the second ticket type labels
-      let ticketLabels2 = [
-        eventJSON.event.name,
-        "155 25 de Mayo",
-        "Buenos Aires, Buenos Aires",
-        "Event Starts",
-        "Mon Jul 24, 2023",
-        "9:00 PM MDT",
-        "Event Ends",
-        "Thu Aug 1, 2030",
-        "12:00 AM MDT",
-        "Name on Ticket",
-        "User ForTesting",
-        "Ticket Category",
-        "Advanced event2",
-        "Barcode",
-      ];
-      for (let i = 0; i < ticketLabels2.length; i++) {
-        cy.log(
-          "[***** Verifying the 'Ticket Type 2' label: " +
-            ticketLabels2.at(i) +
-            " *****]"
-        );
-        cy.getChakraTextLabelByIndex(i + 16).scrollIntoView();
-        cy.getChakraTextLabelByIndex(i + 16).should(
-          "contain",
-          ticketLabels2.at(i)
-        );
-      }
+      // ***** Event 2 - ticket 2
+      let ticketValues2 = {
+        eventName: eventJSON.event.name,
+        streetName: "155 25 de Mayo",
+        cityProvince: "Buenos Aires, Buenos Aires",
+        startDate: "Mon Jul 24, 2023",
+        startTime: "9:00 PM MDT",
+        endDate: "Thu Aug 1, 2030",
+        endTime: "12:00 AM MDT",
+        nameOnTicket: "User ForTesting",
+        eventType: "Advanced event2",
+      };
+      cy.verifyTicketEventDetails(1, ticketValues2);
       cy.getQrCodeByIndex(4);
       cy.getTransferButtonByIndex(1);
-      // ***** Verify the third ticket type labels
-      let ticketLabels3 = [
-        eventJSON.event.name,
-        "155 25 de Mayo",
-        "Buenos Aires, Buenos Aires",
-        "Event Starts",
-        "Mon Jul 24, 2023",
-        "9:00 PM MDT",
-        "Event Ends",
-        "Thu Aug 1, 2030",
-        "12:00 AM MDT",
-        "Name on Ticket",
-        "User ForTesting",
-        "Ticket Category",
-        "VIP event2",
-        "Barcode",
-      ];
-      for (let i = 0; i < ticketLabels3.length; i++) {
-        cy.log(
-          "[***** Verifying the 'Ticket Type 3' label: " +
-            ticketLabels3.at(i) +
-            " *****]"
-        );
-        cy.getChakraTextLabelByIndex(i + 31).scrollIntoView();
-        cy.getChakraTextLabelByIndex(i + 31).should(
-          "contain",
-          ticketLabels3.at(i)
-        );
-      }
+      // ***** Event 2 - ticket 3
+      let ticketValues3 = {
+        eventName: eventJSON.event.name,
+        streetName: "155 25 de Mayo",
+        cityProvince: "Buenos Aires, Buenos Aires",
+        startDate: "Mon Jul 24, 2023",
+        startTime: "9:00 PM MDT",
+        endDate: "Thu Aug 1, 2030",
+        endTime: "12:00 AM MDT",
+        nameOnTicket: "User ForTesting",
+        eventType: "VIP event2",
+      };
+      cy.verifyTicketEventDetails(2, ticketValues3);
+      cy.getQrCodeByIndex(4);
+      cy.getTransferButtonByIndex(1);
       cy.getQrCodeByIndex(8);
       cy.getTransferButtonByIndex(2);
-      for(let j=0; j<3; j++) {
+      // There are 3 purchased tickets - then there should be 3 buttons/links
+      for (let j = 0; j < 3; j++) {
         // Clickable icons
-        cy.getChakraLinkButtonByAttr('href','/o/qa-team-organization/').eq(j);
+        cy.getChakraLinkButtonByAttr("href", "/o/qa-team-organization/").eq(j);
         // Google wallet buttons
-        cy.getChakraLinkButtonByAttr('id','google-wallet-link').eq(j);
+        cy.getChakraLinkButtonByAttr("id", "google-wallet-link").eq(j);
       }
     });
   });

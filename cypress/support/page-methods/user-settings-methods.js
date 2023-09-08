@@ -425,7 +425,7 @@ Cypress.Commands.add("verifyMyShowpassPageAppearance", () => {
  */
 Cypress.Commands.add("getTransferButtonByIndex", (index) => {
   cy.log("Going to getTransferButtonByIndex(index)");
-  cy.get('div[data-testid="AccountPurchaseItemTransferButton"] > button')
+  cy.get('button[data-testid="account-purchase-item-transfer-button"]')
     .eq(index)
     .should("exist")
     .scrollIntoView()

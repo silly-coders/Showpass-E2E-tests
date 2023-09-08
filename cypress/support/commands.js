@@ -996,3 +996,15 @@ Cypress.Commands.add("closeModalWindowByClickingX", () => {
     .should("be.visible")
     .click({ force: true });
 });
+/**
+ * Get invoice header when watching purchased tickets
+ */
+Cypress.Commands.add("getTicketInvoiceHeader", () => {
+  cy.log(
+    `Requested getTicketInvoiceHeader: div[data-testid="invoice-header"] > p > a`
+  );
+  return cy
+    .get(`div[data-testid="invoice-header"] > p > a`)
+    .should("exist")
+    .should("be.visible");
+});

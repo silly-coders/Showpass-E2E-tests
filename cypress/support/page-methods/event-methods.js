@@ -255,10 +255,10 @@ Cypress.Commands.add("verifyUpcomingPurchasedEventCard", (eventJSON) => {
   const apiRequest = "/api/user/tickets/events/*";
   cy.intercept(apiRequest).as("pageLoaded");
   cy.getChakraInputGroupFieldByAttr("aria-label", "Search").as("serachField");
-  cy.get('@serachField').should("not.have.attr", 'disabled');
+  cy.get("@serachField").should("not.have.attr", "disabled");
   cy.wait(1000);
   cy.get('input[aria-label="Search"]')
-    .type(eventJSON.eventName,{force:true})
+    .type(eventJSON.eventName, { force: true })
     .type("{enter}");
   cy.wait("@pageLoaded")
     .its("response.statusCode")
@@ -298,6 +298,69 @@ Cypress.Commands.add("openUpcomingPage", () => {
   cy.wait("@pageLoaded")
     .its("response.statusCode")
     .should("be.oneOf", [200, 204]);
-    cy.getChakraInputGroupFieldByAttr('placeholder','Search')
-    .should("exist").should('not.have.attr', 'disabled');
+  cy.getChakraInputGroupFieldByAttr("placeholder", "Search")
+    .should("exist")
+    .should("not.have.attr", "disabled");
 });
+/**
+ * Method to verify purchased ticket event details
+ */
+Cypress.Commands.add(
+  "verifyTicketEventDetails",
+  (ticketIndex, ticketValues) => {
+    cy.log("Going to verifyTicketEventDetails");
+    // Event name
+    cy.getTicketInvoiceHeader()
+      .eq(0)
+      .scrollIntoView()
+      .should("have.text", ticketValues.eventName);
+    // Event street
+    cy.get('div[data-testid^="upcoming-event-ticket-type-set-"]')
+      .eq(ticketIndex)
+      .find('p[data-testid="event-location-street-name"]')
+      .scrollIntoView()
+      .should("contain.text", ticketValues.streetName);
+    // Event City and Province
+    cy.get('div[data-testid^="upcoming-event-ticket-type-set-"]')
+      .eq(ticketIndex)
+      .find('p[data-testid="event-location-city-province"]')
+      .scrollIntoView()
+      .should("contain.text", ticketValues.cityProvince);
+    // Event Start Date
+    cy.get('div[data-testid^="upcoming-event-ticket-type-set-"]')
+      .eq(ticketIndex)
+      .find('p[data-testid="start-date"]')
+      .scrollIntoView()
+      .should("contain.text", ticketValues.startDate);
+    // Event Start Time
+    cy.get('div[data-testid^="upcoming-event-ticket-type-set-"]')
+      .eq(ticketIndex)
+      .find('p[data-testid="start-time"]')
+      .scrollIntoView()
+      .should("contain.text", ticketValues.startTime);
+    // Event End Date
+    cy.get('div[data-testid^="upcoming-event-ticket-type-set-"]')
+      .eq(ticketIndex)
+      .find('p[data-testid="end-date"]')
+      .scrollIntoView()
+      .should("contain.text", ticketValues.endDate);
+    // Event End Time
+    cy.get('div[data-testid^="upcoming-event-ticket-type-set-"]')
+      .eq(ticketIndex)
+      .find('p[data-testid="end-time"]')
+      .scrollIntoView()
+      .should("contain.text", ticketValues.endTime);
+    // Name on ticket
+    cy.get('div[data-testid^="upcoming-event-ticket-type-set-"]')
+      .eq(ticketIndex)
+      .find('p[data-testid="name-on-ticket"]')
+      .scrollIntoView()
+      .should("contain.text", ticketValues.nameOnTicket);
+    // Ticket category
+    cy.get('div[data-testid^="upcoming-event-ticket-type-set-"]')
+      .eq(ticketIndex)
+      .find('p[data-testid="ticket-type-name"]')
+      .scrollIntoView()
+      .should("contain.text", ticketValues.eventType);
+  }
+);

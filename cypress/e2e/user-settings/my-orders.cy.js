@@ -80,9 +80,17 @@ describe("Test My Orders by ", () => {
       .should("be.oneOf", [200, 204]);
     cy.getChakraHeaderH2("Receipt");
     cy.getChakraHeaderH2("Purchase");
+    // Verify Event Name
+    cy.get('a[class^="chakra-link"][href*="automation-event"]')
+      .eq(0)
+      .should("exist")
+      .should("be.visible")
+      .should(
+        "have.text",
+        this.transactionsJSON.transaction987.invoice_items[0].event.name
+      );
     const orderReceiptLabels = [
       "Back",
-      this.transactionsJSON.transaction987.invoice_items[0].event.name,
       this.transactionsJSON.transaction987.invoice_items[0].event.location
         .street_name,
       "130 King St W",
@@ -185,9 +193,17 @@ describe("Test My Orders by ", () => {
       .should("be.oneOf", [200, 204]);
     cy.getChakraHeaderH2("Receipt");
     cy.getChakraHeaderH2("Purchase");
+    // Verify Event Name
+    cy.get('a[class^="chakra-link"][href*="automation-event"]')
+      .eq(0)
+      .should("exist")
+      .should("be.visible")
+      .should(
+        "have.text",
+        this.transactionsJSON.transaction23fff.invoice_items[0].event.name
+      );
     const orderReceiptLabels = [
       "Back",
-      this.transactionsJSON.transaction23fff.invoice_items[0].event.name,
       this.transactionsJSON.transaction23fff.invoice_items[0].event.location
         .street_name,
       "130 King St W",
