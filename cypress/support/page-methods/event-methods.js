@@ -106,6 +106,7 @@ Cypress.Commands.add(
           .should("be.oneOf", [200, 204]);
       }
     }
+    cy.getChakraSpinnerLoadingIndicator().should("not.exist");
   }
 );
 /**
