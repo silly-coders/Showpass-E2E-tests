@@ -13,8 +13,8 @@ describe("Create a new event by", () => {
       cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
     });
   });
-
-  it("using Angular front-end-TA-14", function () {
+// ***************************************************************************
+  it("using Angular front-end-TA-14", { tags: ["smoke"] }, function () {
     let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
     cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
   });

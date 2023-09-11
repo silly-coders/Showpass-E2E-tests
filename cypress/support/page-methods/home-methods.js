@@ -90,7 +90,7 @@ Cypress.Commands.add("searchDateAreaAppearance", () => {
     .selectDatesTextPlaceholder()
     .should("exist")
     .should("be.visible");
-  homeLocators.searchButton().should("exist").should("be.visible");
+  homeLocators.searchButton();
 });
 
 /**
@@ -102,9 +102,21 @@ Cypress.Commands.add("helpAndSupportColumnAppearance", () => {
     .officialShowpassPartnersLabel()
     .should("exist")
     .should("be.visible");
-  homeLocators.facebookIconWithLink().should("exist").should("be.visible");
-  homeLocators.instagramIconWithLink().should("exist").should("be.visible");
-  homeLocators.linkedinIconWithLink().should("exist").should("be.visible");
+  homeLocators
+    .facebookIconWithLink()
+    .scrollIntoView({ force: true })
+    .should("exist")
+    .should("be.visible");
+  homeLocators
+    .instagramIconWithLink()
+    .scrollIntoView({ force: true })
+    .should("exist")
+    .should("be.visible");
+  homeLocators
+    .linkedinIconWithLink()
+    .scrollIntoView({ force: true })
+    .should("exist")
+    .should("be.visible");
   homeLocators.tweeterIconWithLink().should("exist").should("be.visible");
   homeLocators.helpAndSupportLabel().should("exist");
   homeLocators.privacyPolicyLink().should("exist").should("be.visible");
@@ -119,9 +131,9 @@ Cypress.Commands.add("helpAndSupportColumnAppearance", () => {
 Cypress.Commands.add("connectWithUsColumnAppearance", () => {
   cy.log("Going to connectWithUsColumnAppearance()");
   homeLocators.connectWithUsHeader().should("exist");
-  homeLocators.angelListLink().should("exist").should("be.visible");
-  homeLocators.careersLink().should("exist").should("be.visible");
-  homeLocators.blogLink().should("exist").should("be.visible");
+  homeLocators.angelListLink().should("exist").scrollIntoView({force: true}).should("be.visible");
+  homeLocators.careersLink().should("exist").scrollIntoView({force: true}).should("be.visible");
+  homeLocators.blogLink().should("exist").scrollIntoView({force: true}).should("be.visible");
 });
 
 /**

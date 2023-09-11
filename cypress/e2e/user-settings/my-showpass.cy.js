@@ -13,9 +13,14 @@ describe("Verify 'My Showpass' page by ", () => {
       cy.selectProfileDropDownItem();
     });
   });
-
-  it("checking the page element appearance-TA-36", function () {
-    cy.getChakraButtonByText("My Showpass").click({ force: true });
-    cy.verifyMyShowpassPageAppearance();
-  });
+// ***************************************************************************
+  it(
+    "checking the page element appearance-TA-36",
+    { tags: ["smoke"] },
+    function () {
+      cy.getChakraButtonByText("My Showpass").click({ force: true });
+      cy.verifyMyShowpassPageAppearance();
+    }
+  );
+// ***************************************************************************  
 });

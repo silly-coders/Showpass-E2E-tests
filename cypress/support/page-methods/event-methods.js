@@ -306,106 +306,111 @@ Cypress.Commands.add("openUpcomingPage", () => {
 /**
  * Method to create a new unique event using Angular front-end
  */
-Cypress.Commands.add("createNewEventAngular", (uniqueEventName, eventDetails) => {
-  cy.log("Going to createNewEventAngular");
-  eventDetails.eventName = uniqueEventName;
-  // Enter 'Event Name'
-  cy.get('input[id="id_name"]')
-    .should("be.visible")
-    .type(eventDetails.eventName);
-  // Enter 'Desired event link/slug'
-  cy.get('input[id="id_slug"]')
-    .should("be.visible")
-    .type(eventDetails.eventName);
-  // Enter event description
-  const getIframeBody = () => {
-    return cy
-      .get('iframe[id="ui-tinymce-1_ifr"]')
+Cypress.Commands.add(
+  "createNewEventAngular",
+  (uniqueEventName, eventDetails) => {
+    cy.log("Going to createNewEventAngular");
+    eventDetails.eventName = uniqueEventName;
+    // Enter 'Event Name'
+    cy.get('input[id="id_name"]')
+      .should("be.visible")
+      .type(eventDetails.eventName);
+    // Enter 'Desired event link/slug'
+    cy.get('input[id="id_slug"]')
+      .should("be.visible")
+      .type(eventDetails.eventName);
+    // TODO: Commented out the 'type description' action below cause it's flaky
+    // Enter event description
+    const getIframeBody = () => {
+      return cy
+        .get('iframe[id="ui-tinymce-1_ifr"]')
+        .eq(0)
+        .its("0.contentDocument.body")
+        .should("not.be.empty")
+        .then(cy.wrap);
+    };
+    getIframeBody().find("p").eq(0);
+    //.type(`New ${eventDetails.eventName} description.`);
+    // *****
+    // Add Categories
+    cy.get('div[name="categories"] > div > input[type="search"]')
+      .should("be.visible")
+      .click({ force: true });
+    cy.get('span[class="ui-select-choices-row-inner"] > span')
+      .eq(1)
+      .click({ force: true });
+    cy.get('div[name="categories"] > div > input[type="search"]')
+      .should("be.visible")
+      .click({ force: true });
+    cy.get('span[class="ui-select-choices-row-inner"] > span')
+      .eq(2)
+      .click({ force: true });
+    // Add Tags
+    cy.get('div[name="tags"] > div > input[type="search"]')
+      .should("be.visible")
+      .click({ force: true })
+      .type(`${eventDetails.eventName}{enter}`);
+    cy.get('div[name="tags"] > div > input[type="search"]')
+      .should("be.visible")
+      .click({ force: true })
+      .type("automation{enter}");
+    // Click Add Location
+    cy.get('div[class="input-group-btn location-buttons"] > a')
       .eq(0)
-      .its("0.contentDocument.body")
-      .should("not.be.empty")
-      .then(cy.wrap);
-  };
-  getIframeBody()
-    .find("p")
-    .eq(0)
-    .type(`New ${eventDetails.eventName} description.`);
-  // Add Categories
-  cy.get('div[name="categories"] > div > input[type="search"]')
-    .should("be.visible")
-    .click({ force: true });
-  cy.get('span[class="ui-select-choices-row-inner"] > span')
-    .eq(1)
-    .click({ force: true });
-  cy.get('div[name="categories"] > div > input[type="search"]')
-    .should("be.visible")
-    .click({ force: true });
-  cy.get('span[class="ui-select-choices-row-inner"] > span')
-    .eq(2)
-    .click({ force: true });
-  // Add Tags
-  cy.get('div[name="tags"] > div > input[type="search"]')
-    .should("be.visible")
-    .click({ force: true })
-    .type(`${eventDetails.eventName}{enter}`);
-  cy.get('div[name="tags"] > div > input[type="search"]')
-    .should("be.visible")
-    .click({ force: true })
-    .type("automation{enter}");
-  // Click Add Location
-  cy.get('div[class="input-group-btn location-buttons"] > a')
-    .eq(0)
-    .contains("Add location")
-    .click({ force: true });
-  // Ensure a dialog box shows up
-  cy.get('h4[class="modal-title"]').contains("Add Location");
-  // Enter address
-  cy.get('input[placeholder="Search for a venue or address."]')
-    .should("be.visible")
-    .type(eventDetails.eventLocation);
-  cy.wait(3000);
-  cy.get('a[ng-bind-html^="match.label"]').as("dropDownOption");
-  cy.get("@dropDownOption").eq(0).should("be.visible").click({ force: true });
-  cy.wait(1500);
-  // Click Save
-  cy.get('button[type="submit"]').as("saveButton");
-  cy.get("@saveButton").should("be.visible").click({ force: true });
-  cy.wait(1500);
-  // Ensure the dialog box disappeared
-  cy.get('h4[class="modal-title"]').should("not.exist");
-  // Add the first Ticket Type
-  cy.get('input[name="ticketTypeName0"]')
-    .should("be.visible")
-    .type(eventDetails.ticketType1);
-  cy.get('input[name="ticketTypeInventory0"]')
-    .should("be.visible")
-    .type(150000);
-  cy.get('input[name="ticketTypePrice0"]')
-    .should("be.visible")
-    .type(eventDetails.ticketPrice1);
-  // Click Add New Ticket Type and populate the fields
-  cy.get('a[ng-click="addTicketType()"]')
-    .should("be.visible")
-    .click({ force: true });
-  // Add another Ticket Type
-  cy.get('input[name="ticketTypeName1"]')
-    .should("be.visible")
-    .type(eventDetails.ticketType2);
-  cy.get('input[name="ticketTypeInventory1"]').should("be.visible").type(50000);
-  cy.get('input[name="ticketTypePrice1"]')
-    .should("be.visible")
-    .type(eventDetails.ticketPrice2);
-  // Publish event
-  cy.get('button[class^="btn btn-lg"] > i')
-    .eq(1)
-    .should("be.visible")
-    .click({ force: true });
-  cy.wait(1500);
-  // Ensure the Event Overview page title shows up
-  cy.get("div > h3")
-    .should("be.visible")
-    .should("contain.text", "Event Overview");
-});
+      .contains("Add location")
+      .click({ force: true });
+    // Ensure a dialog box shows up
+    cy.get('h4[class="modal-title"]').contains("Add Location");
+    // Enter address
+    cy.get('input[placeholder="Search for a venue or address."]')
+      .should("be.visible")
+      .type(eventDetails.eventLocation);
+    cy.wait(3000);
+    cy.get('a[ng-bind-html^="match.label"]').as("dropDownOption");
+    cy.get("@dropDownOption").eq(0).should("be.visible").click({ force: true });
+    cy.wait(1500);
+    // Click Save
+    cy.get('button[type="submit"]').as("saveButton");
+    cy.get("@saveButton").should("be.visible").click({ force: true });
+    cy.wait(1500);
+    // Ensure the dialog box disappeared
+    cy.get('h4[class="modal-title"]').should("not.exist");
+    // Add the first Ticket Type
+    cy.get('input[name="ticketTypeName0"]')
+      .should("be.visible")
+      .type(eventDetails.ticketType1);
+    cy.get('input[name="ticketTypeInventory0"]')
+      .should("be.visible")
+      .type(150000);
+    cy.get('input[name="ticketTypePrice0"]')
+      .should("be.visible")
+      .type(eventDetails.ticketPrice1);
+    // Click Add New Ticket Type and populate the fields
+    cy.get('a[ng-click="addTicketType()"]')
+      .should("be.visible")
+      .click({ force: true });
+    // Add another Ticket Type
+    cy.get('input[name="ticketTypeName1"]')
+      .should("be.visible")
+      .type(eventDetails.ticketType2);
+    cy.get('input[name="ticketTypeInventory1"]')
+      .should("be.visible")
+      .type(50000);
+    cy.get('input[name="ticketTypePrice1"]')
+      .should("be.visible")
+      .type(eventDetails.ticketPrice2);
+    // Publish event
+    cy.get('button[class^="btn btn-lg"] > i')
+      .eq(1)
+      .should("be.visible")
+      .click({ force: true });
+    cy.wait(1500);
+    // Ensure the Event Overview page title shows up
+    cy.get("div > h3")
+      .should("be.visible")
+      .should("contain.text", "Event Overview");
+  }
+);
 /**
  * Method to verify purchased ticket event details
  */

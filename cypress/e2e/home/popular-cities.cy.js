@@ -12,72 +12,76 @@ describe("Test popular cities options by ", () => {
         .should("be.oneOf", [200, 204]);
     });
   });
-
-  it("selecting a popular city and verifying page content-TA-55", () => {
-    // TEST THE FOLLOWING CITIES
-    let popularCities = ["Calgary", "Vancouver", "Toronto"];
-    for (let city = 0; city < popularCities.length; city++) {
-      let cityLowerCase = popularCities.at(city).toLowerCase();
-      cy.getSwiperSlideByAttr("href", `/discover/${cityLowerCase}/`).click({
-        force: true,
-      });
-      cy.url().should("include", `/discover/${cityLowerCase}/`);
-      cy.getChakraBreadcrumbListItem(0).should("have.text", "Home");
-      cy.getChakraBreadcrumbListItem(1).should(
-        "have.text",
-        `${popularCities.at(city)}`
-      );
-      cy.getChakraTextLabelByText("Explore");
-      cy.getChakraTextLabelByText(`${popularCities.at(city)}`);
-      cy.getChakraButtonByText(`${popularCities.at(city)}`);
-      cy.getH2ChakraTextByText(`Popular in ${popularCities.at(city)}`);
-      if (popularCities.at(city) == "Calgary") {
-        cy.getH2ChakraTextByText(`This weekend in ${popularCities.at(city)}`);
-        cy.clickButtonIfNotDisabled(
-          `button[class^="chakra-button"][aria-label="This weekend in ${popularCities.at(
-            city
-          )}"]`,
-          1
+// ***************************************************************************
+  it(
+    "selecting a popular city and verifying page content-TA-55",
+    { tags: ["smoke"] },
+    () => {
+      // TEST THE FOLLOWING CITIES
+      let popularCities = ["Calgary", "Vancouver", "Toronto"];
+      for (let city = 0; city < popularCities.length; city++) {
+        let cityLowerCase = popularCities.at(city).toLowerCase();
+        cy.getSwiperSlideByAttr("href", `/discover/${cityLowerCase}/`).click({
+          force: true,
+        });
+        cy.url().should("include", `/discover/${cityLowerCase}/`);
+        cy.getChakraBreadcrumbListItem(0).should("have.text", "Home");
+        cy.getChakraBreadcrumbListItem(1).should(
+          "have.text",
+          `${popularCities.at(city)}`
         );
-        cy.clickButtonIfNotDisabled(
-          `button[class^="chakra-button"][aria-label="This weekend in ${popularCities.at(
-            city
-          )}"]`,
-          0
-        );
+        cy.getChakraTextLabelByText("Explore");
+        cy.getChakraTextLabelByText(`${popularCities.at(city)}`);
+        cy.getChakraButtonByText(`${popularCities.at(city)}`);
+        cy.getH2ChakraTextByText(`Popular in ${popularCities.at(city)}`);
+        if (popularCities.at(city) == "Calgary") {
+          cy.getH2ChakraTextByText(`This weekend in ${popularCities.at(city)}`);
+          cy.clickButtonIfNotDisabled(
+            `button[class^="chakra-button"][aria-label="This weekend in ${popularCities.at(
+              city
+            )}"]`,
+            1
+          );
+          cy.clickButtonIfNotDisabled(
+            `button[class^="chakra-button"][aria-label="This weekend in ${popularCities.at(
+              city
+            )}"]`,
+            0
+          );
+        }
+        cy.getChakraButtonByAttribute(
+          "aria-label",
+          `Popular in ${popularCities.at(city)}`
+        ).eq(1);
+        // Click right arrow carusel buttons
+        let arialabels = [
+          `Popular in ${popularCities.at(city)}`,
+          "In the area",
+          "change category selection page",
+        ];
+        for (let i = 0; i < arialabels.length; i++) {
+          cy.clickButtonIfNotDisabled(
+            `button[class^="chakra-button"][aria-label="${arialabels.at(i)}"]`,
+            1
+          );
+        }
+        // Click left arrow carusel buttons
+        for (let j = 0; j < arialabels.length; j++) {
+          cy.clickButtonIfNotDisabled(
+            `button[class^="chakra-button"][aria-label="${arialabels.at(j)}"]`,
+            0
+          );
+        }
+        // Count total number of cards and verify
+        cy.get('a[class^="chakra-link"][aria-label="showpass logo"]')
+          .should("exist")
+          .should("be.visible")
+          .click({ force: true });
       }
-      cy.getChakraButtonByAttribute(
-        "aria-label",
-        `Popular in ${popularCities.at(city)}`
-      ).eq(1);
-      // Click right arrow carusel buttons
-      let arialabels = [
-        `Popular in ${popularCities.at(city)}`,
-        "In the area",
-        "change category selection page",
-      ];
-      for (let i = 0; i < arialabels.length; i++) {
-        cy.clickButtonIfNotDisabled(
-          `button[class^="chakra-button"][aria-label="${arialabels.at(i)}"]`,
-          1
-        );
-      }
-      // Click left arrow carusel buttons
-      for (let j = 0; j < arialabels.length; j++) {
-        cy.clickButtonIfNotDisabled(
-          `button[class^="chakra-button"][aria-label="${arialabels.at(j)}"]`,
-          0
-        );
-      }
-      // Count total number of cards and verify
-      cy.get('a[class^="chakra-link"][aria-label="showpass logo"]')
-        .should("exist")
-        .should("be.visible")
-        .click({ force: true });
     }
-  });
-
-  it("verifying event cards city names-TA-56", () => {
+  );
+// ***************************************************************************
+  it("verifying event cards city names-TA-56", { tags: ["smoke"] }, () => {
     // TEST THE FOLLOWING CITIES
     let popularCities = ["Calgary", "Vancouver", "Toronto"];
     for (let city = 0; city < popularCities.length; city++) {
@@ -158,53 +162,57 @@ describe("Test popular cities options by ", () => {
         .click({ force: true });
     }
   });
-
-  it("verifying that a popular city can be changed via drop-down list box-TA-57", () => {
-    let popularCities = ["Calgary", "Vancouver", "Toronto"];
-    let lastCityLowerCase =
-      popularCities[popularCities.length - 1].toLowerCase();
-    // Select the last city in the array and ensure the page is loaded
-    cy.getSwiperSlideByAttr("href", `/discover/${lastCityLowerCase}/`).click({
-      force: true,
-    });
-    cy.url().should("include", `/discover/${lastCityLowerCase}/`);
-    // Click a ${City} name drop-down list
-    cy.get('button[class^="chakra-button"] > div > p')
-      .contains(popularCities[popularCities.length - 1])
-      .should("be.visible")
-      .click({ force: true });
-    // Ensure a modal window with other cities on it shows up
-    cy.getChakraModalWindow();
-    // Select each city from the 'popularCities' array and verify the page is loaded
-    for (let city = 0; city < popularCities.length; city++) {
-      let nextCityLowerCase = popularCities.at(city).toLowerCase();
-      // Begin changing cities one by one based on the 'popularCities' array
-      cy.getChakraLinkButtonByAttr(
-        "href",
-        `/discover/${nextCityLowerCase}/`
-      ).click({
+// ***************************************************************************
+  it(
+    "verifying that a popular city can be changed via drop-down list box-TA-57",
+    { tags: ["smoke"] },
+    () => {
+      let popularCities = ["Calgary", "Vancouver", "Toronto"];
+      let lastCityLowerCase =
+        popularCities[popularCities.length - 1].toLowerCase();
+      // Select the last city in the array and ensure the page is loaded
+      cy.getSwiperSlideByAttr("href", `/discover/${lastCityLowerCase}/`).click({
         force: true,
       });
-      cy.url().should("include", `/discover/${nextCityLowerCase}/`);
-      cy.getChakraBreadcrumbListItem(0).should("have.text", "Home");
-      cy.getChakraBreadcrumbListItem(1).should(
-        "have.text",
-        `${popularCities.at(city)}`
-      );
-      cy.getChakraTextLabelByText("Explore");
-      cy.getChakraTextLabelByText(`${popularCities.at(city)}`);
-      cy.getChakraButtonByText(`${popularCities.at(city)}`);
-      // Click ${City} drop-down list
+      cy.url().should("include", `/discover/${lastCityLowerCase}/`);
+      // Click a ${City} name drop-down list
       cy.get('button[class^="chakra-button"] > div > p')
-        .contains(popularCities.at(city))
+        .contains(popularCities[popularCities.length - 1])
         .should("be.visible")
         .click({ force: true });
-      // Ensure a modal window shows up
+      // Ensure a modal window with other cities on it shows up
       cy.getChakraModalWindow();
-      // Ensure the 'search Location' input field shows up
-      cy.getH4ChakraTextByText("Search Location")
-        .should("exist")
-        .should("be.visible");
+      // Select each city from the 'popularCities' array and verify the page is loaded
+      for (let city = 0; city < popularCities.length; city++) {
+        let nextCityLowerCase = popularCities.at(city).toLowerCase();
+        // Begin changing cities one by one based on the 'popularCities' array
+        cy.getChakraLinkButtonByAttr(
+          "href",
+          `/discover/${nextCityLowerCase}/`
+        ).click({
+          force: true,
+        });
+        cy.url().should("include", `/discover/${nextCityLowerCase}/`);
+        cy.getChakraBreadcrumbListItem(0).should("have.text", "Home");
+        cy.getChakraBreadcrumbListItem(1).should(
+          "have.text",
+          `${popularCities.at(city)}`
+        );
+        cy.getChakraTextLabelByText("Explore");
+        cy.getChakraTextLabelByText(`${popularCities.at(city)}`);
+        cy.getChakraButtonByText(`${popularCities.at(city)}`);
+        // Click ${City} drop-down list
+        cy.get('button[class^="chakra-button"] > div > p')
+          .contains(popularCities.at(city))
+          .should("be.visible")
+          .click({ force: true });
+        // Ensure a modal window shows up
+        cy.getChakraModalWindow();
+        // Ensure the 'search Location' input field shows up
+        cy.getH4ChakraTextByText("Search Location")
+          .should("exist")
+          .should("be.visible");
+      }
     }
-  });
+  );
 });

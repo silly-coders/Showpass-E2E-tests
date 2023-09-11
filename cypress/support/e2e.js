@@ -13,6 +13,11 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
+// load and register the grep feature using "require" function
+// https://github.com/cypress-io/cypress/tree/develop/npm/grep
+const registerCypressGrep = require('@cypress/grep')
+registerCypressGrep()
+
 // Import commands.js using ES2015 syntax:
 import './commands'
 import './page-methods/login-methods'

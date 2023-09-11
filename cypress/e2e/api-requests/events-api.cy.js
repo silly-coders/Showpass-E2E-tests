@@ -1,5 +1,4 @@
 describe("Test various events by ", function () {
-
   beforeEach(function () {
     cy.clearLocalStorage();
     cy.clearCookies();
@@ -8,8 +7,8 @@ describe("Test various events by ", function () {
       cy.navigateToHomePage();
     });
   });
-
-  it("verifying event 1 payload-TA-37", function () {
+// ***************************************************************************
+  it("verifying event 1 payload-TA-37", { tags: ["smoke"] }, function () {
     cy.fixture("event-1.json").then(function (eventPayload) {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
@@ -17,8 +16,8 @@ describe("Test various events by ", function () {
       cy.verifyEvent1ApiPayload(eventPayload);
     });
   });
-
-  it("verifying event 2 payload-TA-38", function () {
+// ***************************************************************************
+  it("verifying event 2 payload-TA-38", { tags: ["smoke"] }, function () {
     cy.fixture("event-2.json").then(function (eventPayload) {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);

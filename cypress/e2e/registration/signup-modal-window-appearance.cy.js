@@ -7,8 +7,9 @@ describe("Testing Sign-Up modal window by ", () => {
   beforeEach("navigate to Home page", () => {
     cy.navigateToHomePage();
   });
-
-  it("verifying element appearance-TA-2", () => {
+// ***************************************************************************
+  it("verifying element appearance-TA-2", { tags: ["smoke"] }, () => {
     cy.verifySignupModalWindowAppearance();
   });
+// ***************************************************************************  
 });

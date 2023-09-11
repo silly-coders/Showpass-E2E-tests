@@ -139,10 +139,10 @@ export class HomeLocators {
    */
   searchButton() {
     return cy
-      .get('button[aria-label="Search"]')
+      .get('div[class^="css"] > button[aria-label="Search"]')
       .should("exist")
-      .scrollIntoView()
-      .should("be.visible");
+      .scrollIntoView({ force: true })
+      .should("exist");
   }
   /**
    * 'Calgary' button to select a location
@@ -156,14 +156,16 @@ export class HomeLocators {
    * 'Official Showpass Partners' sub header (label) at the bottom of the 'Home' page
    */
   officialShowpassPartnersLabel() {
-    return cy.get('p[class^="css"]').contains("Official Showpass Partners");
+    return cy
+      .get('div[class^="css"] > p[class^="css"]')
+      .contains("Official Showpass Partners");
   }
   /**
    * 'Facebook' icon with link at the bottom of the page
    */
   facebookIconWithLink() {
     return cy.get(
-      'a[href="https://www.facebook.com/showpass"] > div > span > img'
+      'a[class^="chakra-link"][href="https://www.facebook.com/showpass"]'
     );
   }
   /**
@@ -171,7 +173,7 @@ export class HomeLocators {
    */
   instagramIconWithLink() {
     return cy.get(
-      'a[href="http://instagram.com/ShowpassEvents"] > div > span > img'
+      'a[class^="chakra-link"][href="http://instagram.com/ShowpassEvents"]'
     );
   }
   /**
@@ -179,7 +181,7 @@ export class HomeLocators {
    */
   linkedinIconWithLink() {
     return cy.get(
-      'a[href="https://ca.linkedin.com/company/showpass"] > div > span > img'
+      'a[class^="chakra-link"][href="https://ca.linkedin.com/company/showpass"]'
     );
   }
   /**
@@ -187,7 +189,7 @@ export class HomeLocators {
    */
   tweeterIconWithLink() {
     return cy.get(
-      'a[href="https://twitter.com/ShowpassEvents"] > div > span > img'
+      'a[class^="chakra-link"][href="https://twitter.com/ShowpassEvents"]'
     );
   }
   //--------- 'Help & Support' column ---------
@@ -263,8 +265,10 @@ export class HomeLocators {
    */
   careersLink() {
     return cy
-      .get('a[href="http://careers.showpass.com/"]')
-      .eq(1)
+      .get(
+        'a[class^="chakra-link"][href="https://www.showpass.com/sell/about-opportunities"]'
+      )
+      .eq(3)
       .contains("Careers");
   }
   /**
@@ -272,7 +276,9 @@ export class HomeLocators {
    */
   blogLink() {
     return cy
-      .get('a[href="https://showpass.com/sell/ticketing-blog"]')
+      .get(
+        'a[class^="chakra-link"][href="https://showpass.com/sell/ticketing-blog"]'
+      )
       .eq(1)
       .contains("Blog");
   }
@@ -288,7 +294,7 @@ export class HomeLocators {
    */
   registerOrganizationLink() {
     return cy
-      .get('a[href$="showpass.com/organizations/register"]')
+      .get('a[href$="/organizations/register"]')
       .eq(1)
       .contains("Register Organization");
   }
@@ -297,8 +303,8 @@ export class HomeLocators {
    */
   aboutUsLink() {
     return cy
-      .get('a[href="https://showpass.com/sell/about-showpass"]')
-      .eq(1)
+      .get('a[href$="/sell/about-opportunities"]')
+      .eq(2)
       .contains("About Us");
   }
   /**

@@ -10,9 +10,13 @@ describe("Testing API Login", function () {
       cy.navigateToHomePage();
     });
   });
-
-  it("verifying user can log in via API-TA-35", function () {
-    cy.loginViaApi(this.testdata.userDetails);
-    cy.visit("/account/profile/personal-info/");
-  });
+// ***************************************************************************
+  it(
+    "verifying user can log in via API-TA-35",
+    { tags: ["smoke"] },
+    function () {
+      cy.loginViaApi(this.testdata.userDetails);
+      cy.visit("/account/profile/personal-info/");
+    }
+  );
 });

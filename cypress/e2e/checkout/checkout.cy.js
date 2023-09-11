@@ -10,15 +10,20 @@ describe("Test checkout process by ", () => {
       cy.navigateToHomePage();
     });
   });
-
-  it("verifying that tickets can be selected and added-TA-40", function () {
-    cy.logIntoPortal(this.testdata.userDetails);
-    cy.enterEventNameIntoSearchField(this.testdata.events.event3.eventName);
-    cy.getSearchResultModalWindow();
-    cy.selectSearchItemByItemName(this.testdata.events.event3.eventName);
-    cy.get('button[class^="chakra-button"] > p').contains('BUY TICKETS')
-    .click({ force: true });
-    // Add 3 tickets from each ticket type (2 ticket types in total)
-    cy.addTicketsToCart(2, 3);
-  });
+// ***************************************************************************
+  it(
+    "verifying that tickets can be selected and added-TA-40",
+    { tags: ["smoke"] },
+    function () {
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.enterEventNameIntoSearchField(this.testdata.events.event3.eventName);
+      cy.getSearchResultModalWindow();
+      cy.selectSearchItemByItemName(this.testdata.events.event3.eventName);
+      cy.get('button[class^="chakra-button"] > p')
+        .contains("BUY TICKETS")
+        .click({ force: true });
+      // Add 3 tickets from each ticket type (2 ticket types in total)
+      cy.addTicketsToCart(2, 3);
+    }
+  );
 });

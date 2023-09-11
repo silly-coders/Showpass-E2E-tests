@@ -10,8 +10,8 @@ describe("Testing login inputs by ", () => {
       cy.navigateToHomePage();
     });
   });
-
-  it("providing valid credentials-TA-4", function () {
+// ***************************************************************************
+  it("providing valid credentials-TA-4", { tags: ["smoke"] }, function () {
     cy.logIntoPortal(this.testdata.userDetails);
     cy.verifySuccessfulLoginApiResponse(this.testdata.userDetails);
   });

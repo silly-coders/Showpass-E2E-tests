@@ -71,121 +71,134 @@ describe("Test existing event details by ", () => {
     });
   });
   // ***************************************************************************
-  it("verifying frontend event-1 tickets-TA-48", function () {
-    cy.logIntoPortal(this.testdata.userDetails);
-    cy.clickUsernameAfterLoggingIn();
-    cy.openUpcomingPage();
-    // Search for and verify the 'Event 1' upcoming event card
-    cy.verifyUpcomingPurchasedEventCard(this.testdata.events.event1);
-    cy.clickEventNameToSeePurchasedTickets(this.testdata.events.event1);
-    cy.wait(1000);
-    // ***** First Ticket *****
-    // Verify the first ticket details
-    cy.fixture("event-1.json").then((event1JSON) => {
-      let cityProvince = event1JSON.event.venue.city + ", Alberta";
-      let ticketValues1 = {
-        eventName: event1JSON.event.name,
-        streetName: event1JSON.event.venue.street_name,
-        cityProvince: cityProvince,
-        startDate: "Fri Jul 21, 2023",
-        startTime: "7:00 AM MDT",
-        endDate: "Sun Jul 21, 2030",
-        endTime: "12:00 AM MDT",
-        nameOnTicket: "User ForTesting",
-        eventType: "Main event",
-      };
-      cy.verifyTicketEventDetails(0, ticketValues1);
-      cy.getQrCodeByIndex(0);
-      cy.getTransferButtonByIndex(0);
-      // ***** Second ticket *****
-      // Verify the second ticket details
-      let ticketValues2 = {
-        eventName: event1JSON.event.name,
-        streetName: event1JSON.event.venue.street_name,
-        cityProvince: cityProvince,
-        startDate: "Fri Jul 21, 2023",
-        startTime: "7:00 AM MDT",
-        endDate: "Sun Jul 21, 2030",
-        endTime: "12:00 AM MDT",
-        nameOnTicket: "User ForTesting",
-        eventType: "General Admission",
-      };
-      cy.verifyTicketEventDetails(1, ticketValues2);
-      cy.getQrCodeByIndex(4);
-      cy.getTransferButtonByIndex(1);
-      // There are 2 purchased tickets - then there should be 2 buttons/links
-      for (let j = 0; j < 2; j++) {
-        // Clickable icons
-        cy.getChakraLinkButtonByAttr("href", "/o/qa-team-organization/").eq(j);
-        // Google wallet buttons
-        cy.getChakraLinkButtonByAttr("id", "google-wallet-link").eq(j);
-      }
-    });
-  });
+  it(
+    "verifying frontend event-1 tickets-TA-48",
+    { tags: ["smoke"] },
+    function () {
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.clickUsernameAfterLoggingIn();
+      cy.openUpcomingPage();
+      // Search for and verify the 'Event 1' upcoming event card
+      cy.verifyUpcomingPurchasedEventCard(this.testdata.events.event1);
+      cy.clickEventNameToSeePurchasedTickets(this.testdata.events.event1);
+      cy.wait(1000);
+      // ***** First Ticket *****
+      // Verify the first ticket details
+      cy.fixture("event-1.json").then((event1JSON) => {
+        let cityProvince = event1JSON.event.venue.city + ", Alberta";
+        let ticketValues1 = {
+          eventName: event1JSON.event.name,
+          streetName: event1JSON.event.venue.street_name,
+          cityProvince: cityProvince,
+          startDate: "Fri Jul 21, 2023",
+          startTime: "7:00 AM MDT",
+          endDate: "Sun Jul 21, 2030",
+          endTime: "12:00 AM MDT",
+          nameOnTicket: "User ForTesting",
+          eventType: "Main event",
+        };
+        cy.verifyTicketEventDetails(0, ticketValues1);
+        cy.getQrCodeByIndex(0);
+        cy.getTransferButtonByIndex(0);
+        // ***** Second ticket *****
+        // Verify the second ticket details
+        let ticketValues2 = {
+          eventName: event1JSON.event.name,
+          streetName: event1JSON.event.venue.street_name,
+          cityProvince: cityProvince,
+          startDate: "Fri Jul 21, 2023",
+          startTime: "7:00 AM MDT",
+          endDate: "Sun Jul 21, 2030",
+          endTime: "12:00 AM MDT",
+          nameOnTicket: "User ForTesting",
+          eventType: "General Admission",
+        };
+        cy.verifyTicketEventDetails(1, ticketValues2);
+        cy.getQrCodeByIndex(4);
+        cy.getTransferButtonByIndex(1);
+        // There are 2 purchased tickets - then there should be 2 buttons/links
+        for (let j = 0; j < 2; j++) {
+          // Clickable icons
+          cy.getChakraLinkButtonByAttr("href", "/o/qa-team-organization/").eq(
+            j
+          );
+          // Google wallet buttons
+          cy.getChakraLinkButtonByAttr("id", "google-wallet-link").eq(j);
+        }
+      });
+    }
+  );
   // ***************************************************************************
-  it("verifying frontend event-2 tickets-TA-48", function () {
-    cy.logIntoPortal(this.testdata.userDetails);
-    cy.clickUsernameAfterLoggingIn();
-    cy.openUpcomingPage();
-    // Search for and verify the 'Event 2' upcoming event card
-    cy.verifyUpcomingPurchasedEventCard(this.testdata.events.event2);
-    cy.clickEventNameToSeePurchasedTickets(this.testdata.events.event2);
-    // Verify event 2
-    // ***** Event 2 - ticket 1
-    cy.fixture("event-2.json").then((eventJSON) => {
-      let ticketValues1 = {
-        eventName: eventJSON.event.name,
-        streetName: "155 25 de Mayo",
-        cityProvince: "Buenos Aires, Buenos Aires",
-        startDate: "Mon Jul 24, 2023",
-        startTime: "9:00 PM MDT",
-        endDate: "Thu Aug 1, 2030",
-        endTime: "12:00 AM MDT",
-        nameOnTicket: "User ForTesting",
-        eventType: "Base event2",
-      };
-      cy.verifyTicketEventDetails(0, ticketValues1);
-      cy.getQrCodeByIndex(0);
-      cy.getTransferButtonByIndex(0);
-      // ***** Event 2 - ticket 2
-      let ticketValues2 = {
-        eventName: eventJSON.event.name,
-        streetName: "155 25 de Mayo",
-        cityProvince: "Buenos Aires, Buenos Aires",
-        startDate: "Mon Jul 24, 2023",
-        startTime: "9:00 PM MDT",
-        endDate: "Thu Aug 1, 2030",
-        endTime: "12:00 AM MDT",
-        nameOnTicket: "User ForTesting",
-        eventType: "Advanced event2",
-      };
-      cy.verifyTicketEventDetails(1, ticketValues2);
-      cy.getQrCodeByIndex(4);
-      cy.getTransferButtonByIndex(1);
-      // ***** Event 2 - ticket 3
-      let ticketValues3 = {
-        eventName: eventJSON.event.name,
-        streetName: "155 25 de Mayo",
-        cityProvince: "Buenos Aires, Buenos Aires",
-        startDate: "Mon Jul 24, 2023",
-        startTime: "9:00 PM MDT",
-        endDate: "Thu Aug 1, 2030",
-        endTime: "12:00 AM MDT",
-        nameOnTicket: "User ForTesting",
-        eventType: "VIP event2",
-      };
-      cy.verifyTicketEventDetails(2, ticketValues3);
-      cy.getQrCodeByIndex(4);
-      cy.getTransferButtonByIndex(1);
-      cy.getQrCodeByIndex(8);
-      cy.getTransferButtonByIndex(2);
-      // There are 3 purchased tickets - then there should be 3 buttons/links
-      for (let j = 0; j < 3; j++) {
-        // Clickable icons
-        cy.getChakraLinkButtonByAttr("href", "/o/qa-team-organization/").eq(j);
-        // Google wallet buttons
-        cy.getChakraLinkButtonByAttr("id", "google-wallet-link").eq(j);
-      }
-    });
-  });
+  it(
+    "verifying frontend event-2 tickets-TA-48",
+    { tags: ["smoke"] },
+    function () {
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.clickUsernameAfterLoggingIn();
+      cy.openUpcomingPage();
+      // Search for and verify the 'Event 2' upcoming event card
+      cy.verifyUpcomingPurchasedEventCard(this.testdata.events.event2);
+      cy.clickEventNameToSeePurchasedTickets(this.testdata.events.event2);
+      // Verify event 2
+      // ***** Event 2 - ticket 1
+      cy.fixture("event-2.json").then((eventJSON) => {
+        let ticketValues1 = {
+          eventName: eventJSON.event.name,
+          streetName: "155 25 de Mayo",
+          cityProvince: "Buenos Aires, Buenos Aires",
+          startDate: "Mon Jul 24, 2023",
+          startTime: "9:00 PM MDT",
+          endDate: "Thu Aug 1, 2030",
+          endTime: "12:00 AM MDT",
+          nameOnTicket: "User ForTesting",
+          eventType: "Base event2",
+        };
+        cy.verifyTicketEventDetails(0, ticketValues1);
+        cy.getQrCodeByIndex(0);
+        cy.getTransferButtonByIndex(0);
+        // ***** Event 2 - ticket 2
+        let ticketValues2 = {
+          eventName: eventJSON.event.name,
+          streetName: "155 25 de Mayo",
+          cityProvince: "Buenos Aires, Buenos Aires",
+          startDate: "Mon Jul 24, 2023",
+          startTime: "9:00 PM MDT",
+          endDate: "Thu Aug 1, 2030",
+          endTime: "12:00 AM MDT",
+          nameOnTicket: "User ForTesting",
+          eventType: "Advanced event2",
+        };
+        cy.verifyTicketEventDetails(1, ticketValues2);
+        cy.getQrCodeByIndex(4);
+        cy.getTransferButtonByIndex(1);
+        // ***** Event 2 - ticket 3
+        let ticketValues3 = {
+          eventName: eventJSON.event.name,
+          streetName: "155 25 de Mayo",
+          cityProvince: "Buenos Aires, Buenos Aires",
+          startDate: "Mon Jul 24, 2023",
+          startTime: "9:00 PM MDT",
+          endDate: "Thu Aug 1, 2030",
+          endTime: "12:00 AM MDT",
+          nameOnTicket: "User ForTesting",
+          eventType: "VIP event2",
+        };
+        cy.verifyTicketEventDetails(2, ticketValues3);
+        cy.getQrCodeByIndex(4);
+        cy.getTransferButtonByIndex(1);
+        cy.getQrCodeByIndex(8);
+        cy.getTransferButtonByIndex(2);
+        // There are 3 purchased tickets - then there should be 3 buttons/links
+        for (let j = 0; j < 3; j++) {
+          // Clickable icons
+          cy.getChakraLinkButtonByAttr("href", "/o/qa-team-organization/").eq(
+            j
+          );
+          // Google wallet buttons
+          cy.getChakraLinkButtonByAttr("id", "google-wallet-link").eq(j);
+        }
+      });
+    }
+  );
+// ***************************************************************************  
 });
