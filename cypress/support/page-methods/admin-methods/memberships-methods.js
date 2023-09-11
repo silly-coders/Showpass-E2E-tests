@@ -15,6 +15,7 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
       )
         .scrollIntoView({ force: true })
         .click({ force: true });
+      cy.wait(500);
       // Confirm deletion on the 'Delete Membership Group' confirmation
       cy.getChakraModalWindow();
       cy.get('header[id^="chakra-modal--header"]').should(
@@ -22,13 +23,14 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
         "Delete Membership Group"
       );
       cy.getChakraButtonByText("Delete").click({ force: true });
+      cy.wait(500);
     }
   });
   // Ensure the following text shows up: 'You have not created any membership groups'
-  cy.get('div[class^="css"] > span[class^="css"]').should(
-    "contain.text",
-    "You have not created any membership groups"
-  );
+  cy.get('div[class^="css"] > span[class^="css"]')
+    .should("exist")
+    .should("be.visible")
+    .should("contain.text", "You have not created any membership groups");
 });
 /**
  * Populate the 'Membership Group Info' form
@@ -128,6 +130,7 @@ Cypress.Commands.add(
   "populateBenefitEventScanAccessForm",
   (membershipBenefitDetails) => {
     cy.log("Going to populateBenefitEventScanAccessForm()");
+    cy.wait(500);
     // Click 'Benefit Type' and select the value
     cy.get('button[id="benefit-type-toggle-button"]')
       .should("be.visible")
@@ -158,6 +161,9 @@ Cypress.Commands.add(
     // Verify and close the 'Success' message
     cy.verifyTopRightSuccessMessage("Success");
     cy.clickButtonXtoCloseMessage();
+    cy.wait(500);
+    // Ensure the modal window disappeared
+    cy.get('button[id="benefit-type-toggle-button"]').should("not.exist");
   }
 );
 /**
@@ -186,6 +192,7 @@ Cypress.Commands.add(
   "populateBenefitDailyScanAccessForm",
   (membershipBenefitDetails) => {
     cy.log("Going to populateBenefitDailyScanAccessForm()");
+    cy.wait(500);
     // Click 'Benefit Type' and select the value
     cy.get('button[id="benefit-type-toggle-button"]')
       .should("be.visible")
@@ -202,6 +209,9 @@ Cypress.Commands.add(
     // Verify and close the 'Success' message
     cy.verifyTopRightSuccessMessage("Success");
     cy.clickButtonXtoCloseMessage();
+    cy.wait(500);
+    // Ensure the modal window disappeared
+    cy.get('button[id="benefit-type-toggle-button"]').should("not.exist");
   }
 );
 /**
@@ -211,6 +221,7 @@ Cypress.Commands.add(
   "populateBenefitDiscountForm",
   (membershipBenefitDetails) => {
     cy.log("Going to populateBenefitDiscountForm()");
+    cy.wait(500);
     // Click 'Benefit Type' and select the value
     cy.get('button[id="benefit-type-toggle-button"]')
       .should("be.visible")
@@ -256,6 +267,9 @@ Cypress.Commands.add(
     // Verify and close the 'Success' message
     cy.verifyTopRightSuccessMessage("Success");
     cy.clickButtonXtoCloseMessage();
+    cy.wait(500);
+    // Ensure the modal window disappeared
+    cy.get('button[id="benefit-type-toggle-button"]').should("not.exist");
   }
 );
 /**

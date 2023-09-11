@@ -205,7 +205,7 @@ Cypress.Commands.add("getChakraButtonByText", (itemText) => {
     .get('button[class^="chakra-button"]')
     .contains(itemText)
     .should("exist")
-    .scrollIntoView()
+    .scrollIntoView({force: true})
     .should("be.visible");
 });
 /**
