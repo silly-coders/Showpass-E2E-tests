@@ -54,6 +54,15 @@
     "emailWasUpdatedMsg": "Your email has been updated",
     "profileUpdateSuccess": "Your profile has been updated"
   },
+  "userForSingleBarcodeTesting": {
+    "userEmail": "single-barcode-user@mailinator.com",
+    "userPassword": "!@Newuser2023",
+    "userFirstName": "User",
+    "userLastName": "ForTesting",
+    "phoneNumber": "18883331155",
+    "username": "User ForTesting",
+    "userId": 2221
+  },
   "topRightHandDropDownList": {
     "stopImpersonate": "Stop Impersonate",
     "upcoming": "Upcoming",
@@ -186,5 +195,13 @@
     "totalLimit": "101",
     "perMemberLimit": "15",
     "event": "Test Automation event 3 (DO NOT MODIFY)"
+  },
+  "testEvent1": {
+    "eventName": "eventName",
+    "eventLocation": "155 Wellington Street West",
+    "ticketType1": "Regular admission",
+    "ticketPrice1": 5.5,
+    "ticketType2": "VIP",
+    "ticketPrice2": 10.5
   }
 }

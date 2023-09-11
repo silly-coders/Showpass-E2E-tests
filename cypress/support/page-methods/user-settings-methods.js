@@ -207,7 +207,7 @@ Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
 });
 /**
  * Populate 'Card Information' form
- * @todo figure out how to populate the iFrame credit card form
+ * @param creditCardDetails
  */
 Cypress.Commands.add("populateCardInformationForm", (creditCardDetails) => {
   cy.log("Going to populateCardInformationForm()");

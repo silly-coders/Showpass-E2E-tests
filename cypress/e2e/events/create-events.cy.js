@@ -1,19 +1,21 @@
 describe("Create a new event by", () => {
-  before(function () {
+  beforeEach(function () {
     cy.clearLocalStorage();
     cy.clearCookies();
-    cy.fixture("testdata.json").then(function (dataFile) {
-      this.dataFile = dataFile;
+    cy.fixture("testdata.json").then(function (testdata) {
+      this.testdata = testdata;
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
+      cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
+      cy.clickHamburgerMenu();
+      cy.clickCreateEventButton();
+      // Ensure the page title shows up
+      cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
     });
   });
 
-  beforeEach("navigate to Home page", function () {
-    cy.navigateToHomePage();
-    cy.logIntoPortal(this.dataFile.userDetails);
-    cy.navigateToDashboard(this.dataFile.userDetails);
-    cy.clickHamburgerMenu();
-    cy.clickCreateEventButton();
+  it("using Angular front-end-TA-14", function () {
+    let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
+    cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
   });
-
-  it.skip("populating forms with valid input-TA-14", function () {});
 });
