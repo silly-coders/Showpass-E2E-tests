@@ -1,4 +1,4 @@
-name: All-specs-with-cypress-cloud-recording
+name: tag-search-filters
 on: [workflow_dispatch]
 
 env:
@@ -12,7 +12,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Cypress run
+      - name: Run tests 🧪
         uses: cypress-io/github-action@v6
         with:
-          record: true       
+          record: true  
+          env: grepTags=search-filters
+          group: '4 - search-filters'
+          tag: tags

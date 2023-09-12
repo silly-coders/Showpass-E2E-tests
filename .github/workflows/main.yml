@@ -1,4 +1,4 @@
-name: e2e-tests
+name: All-specs-no-recording
 on: [workflow_dispatch]
 jobs:
   cypress-run:
