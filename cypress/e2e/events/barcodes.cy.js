@@ -10,7 +10,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that an event owner can purchase tickets with a single barcode-TA-68",
-    { tags: ["e2e", "barcodes"] },
+    { tags: ["e2e", "barcodes", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
@@ -69,7 +69,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that regular users can purchase event tickets with a single barcode-TA-71",
-    { tags: ["e2e", "barcodes"] },
+    { tags: ["e2e", "barcodes", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);

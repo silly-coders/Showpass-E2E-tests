@@ -32,7 +32,7 @@ describe("Verify 'Memberships' page features by ", function () {
   // ***************************************************************************
   it(
     "creating a new valid group and deleting it-TA-61",
-    { tags: ["e2e", "membership-group"] },
+    { tags: ["e2e", "membership-group", "smoke"] },
     function () {
       // Retrieve the uniqueMembershipName value from the Cypress.env() object
       let uniqueMembershipName = Cypress.env("uniqueMembershipName");
@@ -105,7 +105,7 @@ describe("Verify 'Memberships' page features by ", function () {
   // ***************************************************************************
   it(
     "ensuring that a membership level can be added to a newly created group-TA-64",
-    { tags: ["e2e", "membership-group"] },
+    { tags: ["e2e", "membership-group", "smoke"] },
     function () {
       // Retrieve the uniqueMembershipName value from the Cypress.env() object
       let uniqueMembershipName = Cypress.env("uniqueMembershipName");
@@ -142,7 +142,7 @@ describe("Verify 'Memberships' page features by ", function () {
   // ***************************************************************************
   it(
     "checking that a membership benefit can be added to a newly created group-TA-65",
-    { tags: ["e2e", "membership-group"] },
+    { tags: ["e2e", "membership-group", "smoke"] },
     function () {
       // Click the 'Edit group' button
       cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
@@ -178,7 +178,7 @@ describe("Verify 'Memberships' page features by ", function () {
   // ***************************************************************************
   it(
     "confirming that users can't buy more than a limited number of membership levels-TA-66",
-    { tags: ["e2e", "membership-group"] },
+    { tags: ["e2e", "membership-group", "smoke"] },
     function () {
       // Retrieve the uniqueMembershipName value from the Cypress.env() object
       let uniqueMembershipName = Cypress.env("uniqueMembershipName");

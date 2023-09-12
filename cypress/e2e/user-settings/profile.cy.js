@@ -75,7 +75,7 @@ describe("Verify user's profile by ", () => {
   //---------------------------------------------------------------------
   it(
     "verifying that notifications can be turned on and off-TA-22",
-    { tags: ["e2e"] },
+    { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
       cy.clickUsernameAfterLoggingIn();
