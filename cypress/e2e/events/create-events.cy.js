@@ -14,7 +14,7 @@ describe("Create a new event by", () => {
     });
   });
 // ***************************************************************************
-  it("using Angular front-end-TA-14", { tags: ["smoke"] }, function () {
+  it("using Angular front-end-TA-14", { tags: ["e2e", "events"] }, function () {
     let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
     cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
   });

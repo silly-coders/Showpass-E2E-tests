@@ -12,10 +12,10 @@ describe("Verify filters by ", () => {
       cy.visit("/s/events/all/");
     });
   });
-// ***************************************************************************
+  // ***************************************************************************
   it(
     "searching for a valid event by name-TA-43-case-1",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "events", "smoke", "search-filters"] },
     function () {
       cy.intercept(apiRequest).as("pageLoaded");
       cy.getChakraInputFieldByAttr("id", "search-places-and-events-input").as(
@@ -41,10 +41,10 @@ describe("Verify filters by ", () => {
       );
     }
   );
-// ***************************************************************************
+  // ***************************************************************************
   it(
     "searching for an invalid event-TA-43-case-2",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "events", "smoke", "search-filters"] },
     function () {
       cy.intercept(apiRequest).as("pageLoaded");
       cy.getChakraInputFieldByAttr("id", "search-places-and-events-input").as(
@@ -64,10 +64,10 @@ describe("Verify filters by ", () => {
       );
     }
   );
-// ***************************************************************************
+  // ***************************************************************************
   it(
     "searching for a valid event with date range-TA-43-case-3",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "events", "smoke", "search-filters"] },
     function () {
       cy.intercept(apiRequest).as("pageLoaded");
       cy.getChakraInputFieldByAttr("id", "search-places-and-events-input").as(
@@ -96,46 +96,58 @@ describe("Verify filters by ", () => {
       );
     }
   );
-// ***************************************************************************
-  it("applying a category-TA-43-case-4", { tags: ["smoke"] }, function () {
-    cy.intercept(apiRequest).as("pageLoaded");
-    cy.selectCategoryByText("Arts & Theatres");
-    cy.wait("@pageLoaded")
-      .its("response.statusCode")
-      .should("be.oneOf", [200, 204]);
-    cy.verifyActiveFilterByAriaLabel("Button for Category: Arts filter");
-    cy.clickButtonxToRemoveFilterByArialabel(
-      "Button to remove Arts & Theatres filter"
-    );
-  });
-// ***************************************************************************
-  it("selecting a valid tag-TA-43-case-5", { tags: ["smoke"] }, function () {
-    cy.intercept(apiRequest).as("pageLoaded");
-    cy.selectTagByText("Festivals");
-    cy.wait("@pageLoaded")
-      .its("response.statusCode")
-      .should("be.oneOf", [200, 204]);
-    cy.verifyActiveFilterByAriaLabel("Button for Tag: Festivals filter");
-    cy.clickButtonxToRemoveFilterByArialabel(
-      "Button to remove Festivals filter"
-    );
-  });
-// ***************************************************************************
-  it("providing an invalid tag-TA-43-case-6", { tags: ["smoke"] }, function () {
-    cy.intercept(apiRequest).as("pageLoaded");
-    cy.inputCustomValueIntoCombobox(2, "unrealTag");
-    cy.wait("@pageLoaded")
-      .its("response.statusCode")
-      .should("be.oneOf", [200, 204]);
-    cy.verifyActiveFilterByAriaLabel("Button for Tag: unrealTag filter");
-    cy.clickButtonxToRemoveFilterByArialabel(
-      "Button to remove unrealTag filter"
-    );
-  });
-// ***************************************************************************
+  // ***************************************************************************
+  it(
+    "applying a category-TA-43-case-4",
+    { tags: ["e2e", "smoke", "search-filters"] },
+    function () {
+      cy.intercept(apiRequest).as("pageLoaded");
+      cy.selectCategoryByText("Arts & Theatres");
+      cy.wait("@pageLoaded")
+        .its("response.statusCode")
+        .should("be.oneOf", [200, 204]);
+      cy.verifyActiveFilterByAriaLabel("Button for Category: Arts filter");
+      cy.clickButtonxToRemoveFilterByArialabel(
+        "Button to remove Arts & Theatres filter"
+      );
+    }
+  );
+  // ***************************************************************************
+  it(
+    "selecting a valid tag-TA-43-case-5",
+    { tags: ["e2e", "smoke"] },
+    function () {
+      cy.intercept(apiRequest).as("pageLoaded");
+      cy.selectTagByText("Festivals");
+      cy.wait("@pageLoaded")
+        .its("response.statusCode")
+        .should("be.oneOf", [200, 204]);
+      cy.verifyActiveFilterByAriaLabel("Button for Tag: Festivals filter");
+      cy.clickButtonxToRemoveFilterByArialabel(
+        "Button to remove Festivals filter"
+      );
+    }
+  );
+  // ***************************************************************************
+  it(
+    "providing an invalid tag-TA-43-case-6",
+    { tags: ["e2e", "smoke", "search-filters"] },
+    function () {
+      cy.intercept(apiRequest).as("pageLoaded");
+      cy.inputCustomValueIntoCombobox(2, "unrealTag");
+      cy.wait("@pageLoaded")
+        .its("response.statusCode")
+        .should("be.oneOf", [200, 204]);
+      cy.verifyActiveFilterByAriaLabel("Button for Tag: unrealTag filter");
+      cy.clickButtonxToRemoveFilterByArialabel(
+        "Button to remove unrealTag filter"
+      );
+    }
+  );
+  // ***************************************************************************
   it(
     "verifying the Clear-All-Filters button-TA-43-case-7",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "smoke", "search-filters"] },
     function () {
       cy.intercept(apiRequest).as("pageLoaded");
       // ***** Provide event name *****
@@ -168,5 +180,5 @@ describe("Verify filters by ", () => {
         .should("not.exist");
     }
   );
-// ***************************************************************************
+  // ***************************************************************************
 });

@@ -205,7 +205,7 @@ Cypress.Commands.add("getChakraButtonByText", (itemText) => {
     .get('button[class^="chakra-button"]')
     .contains(itemText)
     .should("exist")
-    .scrollIntoView({force: true})
+    .scrollIntoView({ force: true })
     .should("be.visible");
 });
 /**
@@ -1008,3 +1008,33 @@ Cypress.Commands.add("getTicketInvoiceHeader", () => {
     .should("exist")
     .should("be.visible");
 });
+/**
+ * Method to click a button if it exists based on locator | index | text
+ * @param elementLocator
+ * @param index
+ * @param buttonText
+ *
+ */
+Cypress.Commands.add(
+  "clickButtonIfAvailableBasedOnLocatorIndexText",
+  (elementLocator, index, buttonText) => {
+    cy.log(
+      `Trying to find this button: cy.get('${elementLocator}').eq(${index}).contains("${buttonText}")`
+    );
+    cy.get("body").then(($body) => {
+      if (
+        $body.find(`${elementLocator}`).eq(index)
+          .length
+      ) {
+        cy.get(`${elementLocator}`)
+          .eq(index)
+          .contains(`${buttonText}`)
+          .scrollIntoView({ force: true })
+          .click({ force: true });
+        }
+      else {
+        cy.log(`Wasn't able to find the button: cy.get("${elementLocator}").eq(${index}).contains("${buttonText}"). Can't click it.`)
+      }  
+    });
+  }
+);

@@ -11,7 +11,7 @@ describe("Testing login inputs by ", () => {
     });
   });
 // ***************************************************************************
-  it("providing valid credentials-TA-4", { tags: ["smoke"] }, function () {
+  it("providing valid credentials-TA-4", { tags: ["e2e"] }, function () {
     cy.logIntoPortal(this.testdata.userDetails);
     cy.verifySuccessfulLoginApiResponse(this.testdata.userDetails);
   });

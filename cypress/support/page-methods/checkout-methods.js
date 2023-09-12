@@ -5,12 +5,20 @@ Cypress.Commands.add(
   "completeOrderOnAngular",
   (userDetails, creditCardDetails) => {
     cy.log("Going to completeOrderOnAngular()");
+    // Click 'Check out as a guest' if the button shows up
+    cy.clickButtonIfAvailableBasedOnLocatorIndexText(
+      `button[ng-click="beginGuestCheckout(); amplitudeEvent.track('Checkout: Guest Checkout')"] > span`,
+      0,
+      "Check out as a Guest"
+    );
+    cy.wait(300);
     // *** More Events page
     // Click 'Next'
     cy.get('button[ng-click="nextStep()"]')
       .eq(0)
       .should("be.visible")
       .click({ force: true });
+    cy.wait(300);
     // *** Review page
     // Verify the 'Review' header
     cy.get('span[class^="md-title strong"]')
@@ -19,8 +27,9 @@ Cypress.Commands.add(
     // Click 'Next'
     cy.get('button[ng-click="nextStep()"]')
       .eq(0)
-      .should("be.visible")
+      .should("exist")
       .click({ force: true });
+    cy.get(300);
     // *** Purchase Info page ***
     // Verify the 'Purchaser Info' header
     cy.get('h2[class^="md-title strong"]')
@@ -37,6 +46,7 @@ Cypress.Commands.add(
       .eq(0)
       .contains("Next")
       .click({ force: true });
+    cy.get(300);
     // Verify the 'Payment Method' header
     cy.get('h2[class^="md-title strong"]').should("exist");
     // Enter 'Billing Address'
@@ -67,11 +77,14 @@ Cypress.Commands.add(
       .should("exist")
       .should("be.visible");
     cy.wait(3000);
+    cy.get(
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
+    ).should("not.exist");
     // Ensure the order confirmation page shows up
-    cy.get('a[class^="md-button"][href^="/financials/invoices/"]').as(
-      "buttonViewReceipt"
-    );
-    cy.get("@buttonViewReceipt").should("exist").should("be.visible");
+    cy.get('h1[class^="md-display"]')
+      .should("exist")
+      .should("be.visible")
+      .should("contain.text", "Thank you!");
   }
 );
 
@@ -95,6 +108,7 @@ Cypress.Commands.add(
     getIframeBody1()
       .find('input[class^="InputElement"]')
       .type(creditCardDetails.cardNumber, { force: true });
+    cy.wait(300);
     // Populate Expiry date
     const getIframeBody2 = () => {
       return cy
@@ -107,6 +121,7 @@ Cypress.Commands.add(
     getIframeBody2()
       .find('input[class^="InputElement"]')
       .type(creditCardDetails.expiry);
+    cy.wait(300);
     // Populate CVC number
     const getIframeBody3 = () => {
       return cy
@@ -119,5 +134,6 @@ Cypress.Commands.add(
     getIframeBody3()
       .find('input[class^="InputElement"]')
       .type(creditCardDetails.cvcNumber);
+    cy.wait(300);
   }
 );

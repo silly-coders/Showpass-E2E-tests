@@ -8,13 +8,17 @@ describe("Testing Home page by ", () => {
     });
   });
   // ***************************************************************************
-  it("verifying top bar element appearance-TA-7", { tags: ["smoke"] }, () => {
-    cy.topBarElementAppearance();
-  });
+  it(
+    "verifying top bar element appearance-TA-7",
+    { tags: ["e2e", "appearance"] },
+    () => {
+      cy.topBarElementAppearance();
+    }
+  );
   // ***************************************************************************
   it(
     "verifying Search and Date area element appearance-TA-7",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "appearance"] },
     () => {
       cy.searchDateAreaAppearance();
     }
@@ -22,7 +26,7 @@ describe("Testing Home page by ", () => {
   // ***************************************************************************
   it(
     "verifying the 'Help & Support' column element appearance-TA-8",
-    { tags: ["smoke"] },
+    { tags: ["e2e"] },
     () => {
       cy.helpAndSupportColumnAppearance();
     }
@@ -30,7 +34,7 @@ describe("Testing Home page by ", () => {
   // ***************************************************************************
   it(
     "verifying the 'Connect With Us' column element appearance-TA-8",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "appearance"] },
     () => {
       cy.connectWithUsColumnAppearance();
     }
@@ -38,7 +42,7 @@ describe("Testing Home page by ", () => {
   // ***************************************************************************
   it(
     "verifying the 'About Showpass' column element appearance-TA-8",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "appearance"] },
     () => {
       cy.aboutShowpassColumnAppearance();
     }
@@ -46,7 +50,7 @@ describe("Testing Home page by ", () => {
   // ***************************************************************************
   it(
     "verifying the 'Subscribe to Showpass to receive the latest news' section element appearance-TA-8",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "appearance"] },
     () => {
       cy.subscribeToShowpassSectionAppearance();
     }
@@ -54,7 +58,7 @@ describe("Testing Home page by ", () => {
   // ***************************************************************************
   it(
     "verifying drop-down items under username after logging in-TA-11",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "appearance"] },
     function () {
       cy.logIntoPortal(this.testdata.userDetails);
       cy.clickUsernameAfterLoggingIn();
@@ -64,7 +68,7 @@ describe("Testing Home page by ", () => {
   // ***************************************************************************
   it(
     "verifying the 'Password Reset' modal windows appearance-TA-6",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "appearance"] },
     () => {
       cy.clickLoginOnHomePage();
       cy.verifyPasswordResetWindowAppearance();

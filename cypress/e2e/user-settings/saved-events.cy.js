@@ -22,7 +22,7 @@ describe("Test the 'Saved Events' page by ", () => {
 // ***************************************************************************
   it(
     "verifying that new events can be added to 'Saved Events'",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "events"] },
     function () {
       cy.wait(1500); // Without the implicit wait it counts non-existent cards and then fails
       // This FOR loop is needed in case some events didn't get removed from the first time

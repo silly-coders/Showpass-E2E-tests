@@ -13,7 +13,7 @@ describe("Test checkout process by ", () => {
 // ***************************************************************************
   it(
     "verifying that tickets can be selected and added-TA-40",
-    { tags: ["smoke"] },
+    { tags: ["e2e"] },
     function () {
       cy.logIntoPortal(this.testdata.userDetails);
       cy.enterEventNameIntoSearchField(this.testdata.events.event3.eventName);

@@ -12,10 +12,10 @@ describe("Test popular cities options by ", () => {
         .should("be.oneOf", [200, 204]);
     });
   });
-// ***************************************************************************
+  // ***************************************************************************
   it(
     "selecting a popular city and verifying page content-TA-55",
-    { tags: ["smoke"] },
+    { tags: ["e2e"] },
     () => {
       // TEST THE FOLLOWING CITIES
       let popularCities = ["Calgary", "Vancouver", "Toronto"];
@@ -80,8 +80,8 @@ describe("Test popular cities options by ", () => {
       }
     }
   );
-// ***************************************************************************
-  it("verifying event cards city names-TA-56", { tags: ["smoke"] }, () => {
+  // ***************************************************************************
+  it("verifying event cards city names-TA-56", { tags: ["e2e"] }, () => {
     // TEST THE FOLLOWING CITIES
     let popularCities = ["Calgary", "Vancouver", "Toronto"];
     for (let city = 0; city < popularCities.length; city++) {
@@ -162,10 +162,10 @@ describe("Test popular cities options by ", () => {
         .click({ force: true });
     }
   });
-// ***************************************************************************
+  // ***************************************************************************
   it(
     "verifying that a popular city can be changed via drop-down list box-TA-57",
-    { tags: ["smoke"] },
+    { tags: ["e2e"] },
     () => {
       let popularCities = ["Calgary", "Vancouver", "Toronto"];
       let lastCityLowerCase =

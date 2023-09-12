@@ -1,0 +1,10 @@
+{
+    "_comment": "Tags can be used to runs specs as follows: npx cypress run --env grepTags=e2e etc",
+    "e2e": "A full set of test suites to cover the entire application (all stable tests)",
+    "smoke": "Specs to verify that the major functionality or the major features are not broken",
+    "barcodes": "Specs to verify single or multiple barcodes show up after event tickets are purchased",
+    "appearance": "Specs to verify a page element appearance (not functionality)",
+    "membership-group": "Specs to verify membership groups",
+    "events": "Specs verifying event creation and/or event details for consistency and correctness",
+    "search-filters": "Specs to verify that events found by 'Search' can be filtered"
+}

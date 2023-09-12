@@ -250,16 +250,14 @@ Cypress.Commands.add("populateCardInformationForm", (creditCardDetails) => {
 
 /**
  * iFrame with Stripe
- * @todo figure out how to populate the iFrame credit card form
+ * @todo to polish this method so that it can be used going forward
  */
 Cypress.Commands.add("getStripeCardField", (selector, attempts = 0) => {
   Cypress.log({
     displayName: "getStripeCardField",
     message: `${selector}: ${attempts}`,
   });
-
   if (attempts > 50) throw new Error("too many attempts");
-
   return cy
     .get("iframe", { timeout: 10000, log: false })
     .eq(0, { timeout: 10000, log: false })

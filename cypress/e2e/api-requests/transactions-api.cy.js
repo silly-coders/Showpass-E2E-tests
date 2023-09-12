@@ -14,7 +14,7 @@ describe("Test trasactions API by ", () => {
   // Transaction ID: 1e-d67b-428a-9748-d638af16e987
   it(
     "verifying a purchased ticket-987 package API-payload-TA-51",
-    { tags: ["smoke"] },
+    { tags: ["e2e"] },
     function () {
       const apiRequest = "/api/user/financials/invoices/v2/*";
       cy.intercept(apiRequest).as("myOrdersPageLoaded");
@@ -39,7 +39,7 @@ describe("Test trasactions API by ", () => {
   // Transaction ID: 31-0341-465e-a1a7-910944b23fff
   it(
     "verifying a purchased ticket-23fff package API-payload-TA-52",
-    { tags: ["smoke"] },
+    { tags: ["e2e"] },
     function () {
       const apiRequest = "/api/user/financials/invoices/v2/*";
       cy.intercept(apiRequest).as("myOrdersPageLoaded");

@@ -20,7 +20,7 @@ describe("Verify 'Credits' page by ", () => {
 // ***************************************************************************
   it(
     "checking the page overall appearance-TA-54",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "appearance"] },
     function () {
       // Page headers and sub-headers
       cy.getH1HeaderByText("Credits");

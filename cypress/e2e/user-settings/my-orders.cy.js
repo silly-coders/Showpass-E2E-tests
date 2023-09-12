@@ -13,7 +13,7 @@ describe("Test My Orders by ", () => {
   // ***************************************************************************
   it(
     "verifying a ticket package purchase-987-TA-50",
-    { tags: ["smoke"] },
+    { tags: ["e2e"] },
     function () {
       const apiRequest = "/api/user/financials/invoices/v2/*";
       cy.intercept(apiRequest).as("myOrdersPageLoaded");
@@ -149,7 +149,7 @@ describe("Test My Orders by ", () => {
   // ***************************************************************************
   it(
     "verifying a ticket package purchase-23fff-TA-53",
-    { tags: ["smoke"] },
+    { tags: ["e2e"] },
     function () {
       const apiRequest = "/api/user/financials/invoices/v2/*";
       cy.intercept(apiRequest).as("myOrdersPageLoaded");

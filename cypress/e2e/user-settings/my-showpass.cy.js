@@ -16,7 +16,7 @@ describe("Verify 'My Showpass' page by ", () => {
 // ***************************************************************************
   it(
     "checking the page element appearance-TA-36",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "appearance"] },
     function () {
       cy.getChakraButtonByText("My Showpass").click({ force: true });
       cy.verifyMyShowpassPageAppearance();

@@ -13,7 +13,7 @@ describe("Verify destructive profile updates by ", () => {
 // ***************************************************************************
   it(
     "changing user's current password-TA-29",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "smoke"] },
     function () {
       // Sign in using the new password
       cy.clickLoginOnHomePage();
@@ -70,7 +70,7 @@ describe("Verify destructive profile updates by ", () => {
     }
   );
 // ***************************************************************************
-  it("updating user's email-TA-30", { tags: ["smoke"] }, function () {
+  it("updating user's email-TA-30", { tags: ["e2e", "smoke"] }, function () {
     cy.logIntoPortal(this.testdata.userForUpdates);
     cy.clickUsernameAfterLoggingIn();
     cy.selectProfileDropDownItem();
@@ -110,7 +110,7 @@ describe("Verify destructive profile updates by ", () => {
 // ***************************************************************************
   it(
     "verifying that 'Personal Info' can be updated-TA-34",
-    { tags: ["smoke"] },
+    { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForUpdates);
       cy.clickUsernameAfterLoggingIn();

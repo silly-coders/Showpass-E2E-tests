@@ -7,8 +7,8 @@ describe("Test various events by ", function () {
       cy.navigateToHomePage();
     });
   });
-// ***************************************************************************
-  it("verifying event 1 payload-TA-37", { tags: ["smoke"] }, function () {
+  // ***************************************************************************
+  it("verifying event 1 payload-TA-37", { tags: ["e2e", "events"] }, function () {
     cy.fixture("event-1.json").then(function (eventPayload) {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
@@ -16,8 +16,8 @@ describe("Test various events by ", function () {
       cy.verifyEvent1ApiPayload(eventPayload);
     });
   });
-// ***************************************************************************
-  it("verifying event 2 payload-TA-38", { tags: ["smoke"] }, function () {
+  // ***************************************************************************
+  it("verifying event 2 payload-TA-38", { tags: ["e2e", "events"] }, function () {
     cy.fixture("event-2.json").then(function (eventPayload) {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);

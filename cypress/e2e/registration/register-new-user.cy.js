@@ -8,7 +8,7 @@ describe("Test user registration by", () => {
     cy.navigateToHomePage();
   });
 // ***************************************************************************
-  it("providing valid input values-TA-3", { tags: ["smoke"] }, () => {
+  it("providing valid input values-TA-3", { tags: ["e2e", "smoke"] }, () => {
     cy.readFile("cypress/fixtures/testdata.json").then((testData) => {
       cy.registerNewUser(testData.userDetails);
     });
