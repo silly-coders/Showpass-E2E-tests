@@ -18,4 +18,4 @@ jobs:
           record: true  
           env: grepTags=search-filters
           group: '4 - search-filters'
-          tag: tags
+          tag: tag-search-filters

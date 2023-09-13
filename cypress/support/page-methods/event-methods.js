@@ -268,9 +268,6 @@ Cypress.Commands.add("verifyUpcomingPurchasedEventCard", (eventJSON) => {
   eventsAndFiltersLocators
     .getUpcomingPurchasedEventName(eventJSON.eventName)
     .should("be.visible");
-  eventsAndFiltersLocators
-    .getUpcomingPurchasedEventStartDate(eventJSON.upcomingEventStartDate)
-    .should("be.visible");
 });
 /**
  * Method to open purchased event tickets

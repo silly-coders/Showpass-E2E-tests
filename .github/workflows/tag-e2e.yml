@@ -18,4 +18,4 @@ jobs:
           record: true  
           env: grepTags=e2e
           group: '1 - e2e'
-          tag: tags
+          tag: tag-e2e
