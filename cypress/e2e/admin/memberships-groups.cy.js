@@ -233,4 +233,88 @@ describe("Verify 'Memberships' page features by ", function () {
     }
   );
   // ***************************************************************************
+  it(
+    "checking the 'Group Stats' page initial values-TA-67",
+    { tags: ["e2e", "membership-group"] },
+    function () {
+      // Retrieve the uniqueMembershipName value from the Cypress.env() object
+      let uniqueMembershipName = Cypress.env("uniqueMembershipName");
+      // *** Open and verify just created group ***
+      // Click the 'Edit group' button
+      cy.get('button[class^="chakra-button"][href*="/group-stats/"]').click({
+        force: true,
+      });
+      // Verify URL
+      cy.url().should("include", "/group-stats/");
+      // Ensure 'Group Stats' tab shows up
+      cy.getChakraTabButtonByText("Group Stats");
+      // Verify that there are 4 main green cards on the page (Gross Sales|Net Sales|Active Members|Upcoming Renewals)
+      cy.get('div[class^="chakra-skeleton"]').should("have.length", 4);
+      // Verify each green card header
+      let cardHeader = [
+        "Gross Sales",
+        "Net Sales",
+        "Active Members",
+        "Upcoming Renewals this Month",
+      ];
+      for (let i = 0; i < cardHeader.length; i++) {
+        cy.log(
+          `Verifying the following green card header: ${cardHeader.at(i)}`
+        );
+        cy.get('div[class^="chakra-skeleton"] > div > p:nth-child(1)')
+          .eq(i)
+          .should("have.text", cardHeader.at(i));
+      }
+      // Verify each green card time range label
+      let cardTimeRange = [
+        "All time",
+        "All time",
+        "Not affected by date range",
+        "Not affected by date range",
+      ];
+      for (let i = 0; i < cardTimeRange.length; i++) {
+        cy.log(
+          `Verifying the following green card time range: ${cardTimeRange.at(
+            i
+          )}`
+        );
+        cy.get('div[class^="chakra-skeleton"] > div > p:nth-child(3)')
+          .eq(i)
+          .should("have.text", cardTimeRange.at(i));
+      }
+      // Verify each green card amount (amount=0 initially)
+      cy.get('div[class^="chakra-skeleton"] > div > p:nth-child(2)')
+        .eq(0)
+        .should("have.text", "$0.00 CAD");
+      cy.get('div[class^="chakra-skeleton"] > div > p:nth-child(2)')
+        .eq(1)
+        .should("have.text", "$0.00 CAD");
+      cy.get('div[class^="chakra-skeleton"] > div > p:nth-child(2)')
+        .eq(2)
+        .should("have.text", "0");
+      cy.get('div[class^="chakra-skeleton"] > div > p:nth-child(2)')
+        .eq(3)
+        .should("have.text", "0");
+      // Verify the 'Membership Group Stats' section and the corresponding amount ($)
+      let revenueType = [
+        "Gross Sales",
+        "Net Sales",
+        "Gross Revenue",
+        "Net Revenue",
+        "Settlement Amount",
+      ];
+      let j = 0;
+      for (let i = 0; i < revenueType.length; i++) {
+        cy.log(`Verifying the following revenue type: ${revenueType.at(i)}`);
+        cy.get('button[class^="chakra-accordion__button"] > div > div > p')
+          .eq(j)
+          .should("have.text", revenueType.at(i));
+        cy.get('button[class^="chakra-accordion__button"] > div > div > p')
+          .eq(j + 1)
+          .should("have.text", "$0.00 CAD");
+        j = j + 2;
+      }
+    }
+  );
+  // ***************************************************************************
 });
