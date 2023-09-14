@@ -203,5 +203,37 @@
     "ticketPrice1": 5.5,
     "ticketType2": "VIP",
     "ticketPrice2": 10.5
+  },
+  "productItems": {
+    "airCondit": {
+      "itemName": "Air Conditioning",
+      "nameOnProduct": "User ForTesting",
+      "productCategory": "Central Units",
+      "barcode": "T7NC65BVA"
+    },
+    "cabinUtil": {
+      "itemName": "Cabin Utility Pricing",
+      "nameOnProduct": "User ForTesting",
+      "productCategory": "One-Two Story",
+      "barcode": "CCXBZ4VNK"
+    },
+    "carPermit": {
+      "itemName": "Car Permit",
+      "nameOnProduct": "User ForTesting",
+      "productCategory": "Car Permit",
+      "barcode": "Y6HCEKL9F"
+    },
+    "fanTee": {
+      "itemName": "Mission Raceway Fan Tee",
+      "nameOnProduct": "User ForTesting",
+      "productCategory": "Medium",
+      "barcode": "147MICTMK"
+    },
+    "washerFee": {
+      "itemName": "Washer/Dryer Fee",
+      "nameOnProduct": "User ForTesting",
+      "productCategory": "Washer/Dryer Fee",
+      "barcode": "SPXTQITFU"
+    }
   }
 }

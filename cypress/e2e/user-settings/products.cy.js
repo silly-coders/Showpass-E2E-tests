@@ -56,4 +56,24 @@ describe("Verify 'Products' page by ", () => {
       }
     }
   );
+  // ***************************************************************************
+  it(
+    "checking each product item details-TA-73",
+    { tags: ["e2e", "appearance"] },
+    function () {
+      // Page headers and sub-headers
+      cy.getH1HeaderByText("Products");
+      let productItems = [
+        this.testdata.productItems.airCondit,
+        this.testdata.productItems.cabinUtil,
+        this.testdata.productItems.carPermit,
+        this.testdata.productItems.fanTee,
+        this.testdata.productItems.washerFee,
+      ];
+      for (let i = 0; i < productItems.length; i++) {
+        cy.verifyProductItemsDetails(productItems.at(i));
+      }
+    }
+  );
+ // *************************************************************************** 
 });

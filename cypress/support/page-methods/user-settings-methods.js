@@ -165,8 +165,9 @@ Cypress.Commands.add("verifyBillingAddressInlineErrors", () => {
 Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
   cy.log("Going to populateBillingAddressForm()");
   // Search Address field
-  cy.getChakraInputFieldByAttr("id", "search-address-input")
-  .scrollIntoView({force: true})
+  cy.getChakraInputFieldByAttr("id", "search-address-input").scrollIntoView({
+    force: true,
+  });
   cy.getChakraInputFieldByAttr("id", "search-address-input").type(
     userAddress.fullAddress
   );
@@ -212,10 +213,10 @@ Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
 Cypress.Commands.add("populateCardInformationForm", (creditCardDetails) => {
   cy.log("Going to populateCardInformationForm()");
   // Populate Name on card
-  cy.get('#name-on-card')
-  .scrollIntoView()
-  .should('be.visible')
-  .type(creditCardDetails.nameOnCard);
+  cy.get("#name-on-card")
+    .scrollIntoView()
+    .should("be.visible")
+    .type(creditCardDetails.nameOnCard);
   // Populate Credit Card number
   const getIframeBody1 = () => {
     return cy
@@ -225,7 +226,9 @@ Cypress.Commands.add("populateCardInformationForm", (creditCardDetails) => {
       .should("not.be.empty")
       .then(cy.wrap);
   };
-  getIframeBody1().find('input[class^="InputElement"]').type(creditCardDetails.cardNumber);
+  getIframeBody1()
+    .find('input[class^="InputElement"]')
+    .type(creditCardDetails.cardNumber);
   // Populate Expiry date
   const getIframeBody2 = () => {
     return cy
@@ -235,7 +238,9 @@ Cypress.Commands.add("populateCardInformationForm", (creditCardDetails) => {
       .should("not.be.empty")
       .then(cy.wrap);
   };
-  getIframeBody2().find('input[class^="InputElement"]').type(creditCardDetails.expiry);
+  getIframeBody2()
+    .find('input[class^="InputElement"]')
+    .type(creditCardDetails.expiry);
   // Populate CVC number
   const getIframeBody3 = () => {
     return cy
@@ -245,7 +250,9 @@ Cypress.Commands.add("populateCardInformationForm", (creditCardDetails) => {
       .should("not.be.empty")
       .then(cy.wrap);
   };
-  getIframeBody3().find('input[class^="InputElement"]').type(creditCardDetails.cvcNumber);
+  getIframeBody3()
+    .find('input[class^="InputElement"]')
+    .type(creditCardDetails.cvcNumber);
 });
 
 /**
@@ -428,4 +435,42 @@ Cypress.Commands.add("getTransferButtonByIndex", (index) => {
     .should("exist")
     .scrollIntoView()
     .should("be.visible");
+});
+/**
+ * Method to verify product item details
+ * @param productItems
+ */
+Cypress.Commands.add("verifyProductItemsDetails", (productItem) => {
+  cy.log("Going to verifyProductItemsDetails(productItems)");
+  cy.log(
+    `Going to verify the following product header: ${productItem.itemName}`
+  );
+  // Open item by name
+  cy.get('div[id="upcoming-event-info-container"] > div > p:nth-child(1)')
+    .contains(`${productItem.itemName}`)
+    .click({ force: true });
+  cy.wait(500);
+  // Verify item header
+  cy.get('div[data-testid="invoice-header"] > p').should(
+    "have.text",
+    `${productItem.itemName}`
+  );
+  // Verify name on ticket
+  cy.get('p[data-testid="name-on-ticket"]').should(
+    "have.text",
+    productItem.nameOnProduct
+  );
+  // Verify product category
+  cy.get('p[data-testid="ticket-type-name"]').should(
+    "have.text",
+    productItem.productCategory
+  );
+  // Verify barcode string
+  cy.get('p[data-testid="barcode-text"]').should(
+    "have.text",
+    productItem.barcode
+  );
+  // Click 'Back'
+  cy.getChakraButtonByText("Back").should("be.visible").click({ force: true });
+  cy.wait(500);
 });
