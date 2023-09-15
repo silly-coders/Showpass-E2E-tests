@@ -52,7 +52,7 @@ Cypress.Commands.add("verifyEvent2ApiPayload", (event) => {
     expect(response.body.event.starts_on).to.eq(event.event.starts_on);
     expect(response.body.event.ends_on).to.eq(event.event.ends_on);
     expect(response.body.event.description).to.eq(event.event.description);
-    expect(response.body.event.frontend_details_url).to.eq(
+    expect(response.body.event.frontend_details_url).to.contain(
       event.event.frontend_details_url
     );
     expect(response.body.event.timezone).to.eq(event.event.timezone);

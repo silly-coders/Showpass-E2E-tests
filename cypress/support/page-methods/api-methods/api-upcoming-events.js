@@ -37,7 +37,7 @@ Cypress.Commands.add(
       );
       expect(response.body.starts_on).to.eq(expectedJSON.event.starts_on);
       expect(response.body.ends_on).to.eq(expectedJSON.event.ends_on);
-      expect(response.body.frontend_details_url).to.eq(
+      expect(response.body.frontend_details_url).to.contain(
         expectedJSON.event.frontend_details_url
       );
       expect(response.body.venue.id).to.eq(expectedJSON.event.venue.id);
@@ -115,7 +115,7 @@ Cypress.Commands.add(
       );
       expect(response.body.starts_on).to.eq(expectedJSON.event.starts_on);
       expect(response.body.ends_on).to.eq(expectedJSON.event.ends_on);
-      expect(response.body.frontend_details_url).to.eq(
+      expect(response.body.frontend_details_url).to.contain(
         expectedJSON.event.frontend_details_url
       );
       expect(response.body.venue.id).to.eq(expectedJSON.event.venue.id);

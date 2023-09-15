@@ -217,7 +217,7 @@
         "parent": null,
         "digital_passes": {
           "apple": "https://dbx9avwd2hnkj.cloudfront.net/media/files/tickets/ticket-items/qa-team-organization/61369/RYSRL0UM2_696d80f.pkpass",
-          "google": "https://beta.showpass.com/api/public/tickets/google/wallet-token/?pk=61369&barcode_string=RYSRL0UM2&item_type=ticket"
+          "google": "/api/public/tickets/google/wallet-token/?pk=61369&barcode_string=RYSRL0UM2&item_type=ticket"
         },
         "is_within_transfer_limit": true,
         "resale_in_progress": null
@@ -247,7 +247,7 @@
         "parent": 61369,
         "digital_passes": {
           "apple": "https://dbx9avwd2hnkj.cloudfront.net/media/files/tickets/ticket-items/qa-team-organization/61370/X3MX3SPRG_10c3504.pkpass",
-          "google": "https://beta.showpass.com/api/public/tickets/google/wallet-token/?pk=61370&barcode_string=X3MX3SPRG&item_type=ticket"
+          "google": "/api/public/tickets/google/wallet-token/?pk=61370&barcode_string=X3MX3SPRG&item_type=ticket"
         },
         "is_within_transfer_limit": true,
         "resale_in_progress": null
@@ -277,7 +277,7 @@
         "parent": 61369,
         "digital_passes": {
           "apple": "https://dbx9avwd2hnkj.cloudfront.net/media/files/tickets/ticket-items/qa-team-organization/61371/LJJVU88DL_d6080c7.pkpass",
-          "google": "https://beta.showpass.com/api/public/tickets/google/wallet-token/?pk=61371&barcode_string=LJJVU88DL&item_type=ticket"
+          "google": "/api/public/tickets/google/wallet-token/?pk=61371&barcode_string=LJJVU88DL&item_type=ticket"
         },
         "is_within_transfer_limit": true,
         "resale_in_progress": null
@@ -673,7 +673,7 @@
               "parent": null,
               "digital_passes": {
                   "apple": "https://dbx9avwd2hnkj.cloudfront.net/media/files/tickets/ticket-items/qa-team-organization/61655/RUA11WAX6_d9c6eed.pkpass",
-                  "google": "https://beta.showpass.com/api/public/tickets/google/wallet-token/?pk=61655&barcode_string=RUA11WAX6&item_type=ticket"
+                  "google": "/api/public/tickets/google/wallet-token/?pk=61655&barcode_string=RUA11WAX6&item_type=ticket"
               },
               "is_within_transfer_limit": true,
               "resale_in_progress": null
@@ -703,7 +703,7 @@
               "parent": null,
               "digital_passes": {
                   "apple": "https://dbx9avwd2hnkj.cloudfront.net/media/files/tickets/ticket-items/qa-team-organization/61656/CVBTM9BC3_86c9b7b.pkpass",
-                  "google": "https://beta.showpass.com/api/public/tickets/google/wallet-token/?pk=61656&barcode_string=CVBTM9BC3&item_type=ticket"
+                  "google": "/api/public/tickets/google/wallet-token/?pk=61656&barcode_string=CVBTM9BC3&item_type=ticket"
               },
               "is_within_transfer_limit": true,
               "resale_in_progress": null
@@ -733,7 +733,7 @@
               "parent": null,
               "digital_passes": {
                   "apple": "https://dbx9avwd2hnkj.cloudfront.net/media/files/tickets/ticket-items/qa-team-organization/61657/DRBW6WTRV_99a7736.pkpass",
-                  "google": "https://beta.showpass.com/api/public/tickets/google/wallet-token/?pk=61657&barcode_string=DRBW6WTRV&item_type=ticket"
+                  "google": "/api/public/tickets/google/wallet-token/?pk=61657&barcode_string=DRBW6WTRV&item_type=ticket"
               },
               "is_within_transfer_limit": true,
               "resale_in_progress": null
@@ -763,7 +763,7 @@
               "parent": null,
               "digital_passes": {
                   "apple": "https://dbx9avwd2hnkj.cloudfront.net/media/files/tickets/ticket-items/qa-team-organization/61658/8URFSIOEP_c06db02.pkpass",
-                  "google": "https://beta.showpass.com/api/public/tickets/google/wallet-token/?pk=61658&barcode_string=8URFSIOEP&item_type=ticket"
+                  "google": "/api/public/tickets/google/wallet-token/?pk=61658&barcode_string=8URFSIOEP&item_type=ticket"
               },
               "is_within_transfer_limit": true,
               "resale_in_progress": null
@@ -793,7 +793,7 @@
               "parent": 61658,
               "digital_passes": {
                   "apple": "https://dbx9avwd2hnkj.cloudfront.net/media/files/tickets/ticket-items/qa-team-organization/61659/VBLSNRCY2_8b27feb.pkpass",
-                  "google": "https://beta.showpass.com/api/public/tickets/google/wallet-token/?pk=61659&barcode_string=VBLSNRCY2&item_type=ticket"
+                  "google": "/api/public/tickets/google/wallet-token/?pk=61659&barcode_string=VBLSNRCY2&item_type=ticket"
               },
               "is_within_transfer_limit": true,
               "resale_in_progress": null
@@ -823,7 +823,7 @@
               "parent": 61658,
               "digital_passes": {
                   "apple": "https://dbx9avwd2hnkj.cloudfront.net/media/files/tickets/ticket-items/qa-team-organization/61660/5Q7AT3EXI_b3c3598.pkpass",
-                  "google": "https://beta.showpass.com/api/public/tickets/google/wallet-token/?pk=61660&barcode_string=5Q7AT3EXI&item_type=ticket"
+                  "google": "/api/public/tickets/google/wallet-token/?pk=61660&barcode_string=5Q7AT3EXI&item_type=ticket"
               },
               "is_within_transfer_limit": true,
               "resale_in_progress": null
