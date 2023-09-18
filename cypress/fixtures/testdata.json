@@ -1,67 +1,74 @@
 {
   "userDetails": {
-    "userEmail": "test-user@mailinator.com",
+    "userEmail": "qa+151@showpass.com",
     "userPassword": "!@Newuser2023",
     "userFirstName": "User",
     "userLastName": "ForTesting",
     "phoneNumber": "18883331155",
     "username": "User ForTesting",
-    "userId": 1994
+    "userId": 1994,
+    "previousEmail": "test-user@mailinator.com"
   },
   "userForNotifications": {
-    "userEmail": "user-notifications@mailinator.com",
+    "userEmail": "qa+152@showpass.com",
     "userPassword": "!@Newuser2023",
     "userFirstName": "User",
     "userLastName": "ForTesting",
     "phoneNumber": "18883331155",
     "username": "User ForTesting",
-    "userId": 2081
+    "userId": 2081,
+    "previousEmail": "user-notifications@mailinator.com"
   },
   "userForUpcoming": {
-    "userEmail": "user-upcoming@mailinator.com",
+    "userEmail": "qa+153@showpass.com",
     "userPassword": "!@Newuser2023",
     "userFirstName": "User",
     "userLastName": "ForTesting",
     "phoneNumber": "18883331155",
     "username": "User ForTesting",
-    "userId": 2085
+    "userId": 2085,
+    "previousEmail": "user-upcoming@mailinator.com"
   },
   "userForCreditCardTesting": {
-    "userEmail": "user-credit-cards@mailinator.com",
+    "userEmail": "qa+154@showpass.com",
     "userPassword": "!@Newuser2023",
     "userFirstName": "User",
     "userLastName": "ForTesting",
     "phoneNumber": "18883331155",
     "username": "User ForTesting",
-    "userId": 2177
+    "userId": 2177,
+    "previousEmail": "user-credit-cards@mailinator.com"
   },
   "userForTicketPackages": {
-    "userEmail": "user-packages@mailinator.com",
+    "userEmail": "qa+155@showpass.com",
     "userPassword": "!@Newuser2023",
     "userFirstName": "User",
     "userLastName": "ForTesting",
     "phoneNumber": "18883331155",
     "username": "User ForTesting",
-    "userId": 2114
+    "userId": 2114,
+    "previousEmail": "user-packages@mailinator.com"
   },
   "userForUpdates": {
-    "userEmail": "user-for-updates@mailinator.com",
+    "userEmail": "qa+156@showpass.com",
     "userPassword": "!@Newuser2023",
     "pwdUpdateSuccessMsg": "Your password has been updated",
     "userFirstName": "Userfor",
     "userLastName": "Updates",
     "emailForPwdChange": "password-change@mailinator.com",
     "emailWasUpdatedMsg": "Your email has been updated",
-    "profileUpdateSuccess": "Your profile has been updated"
+    "profileUpdateSuccess": "Your profile has been updated",
+    "previousEmail": "user-for-updates@mailinator.com"
   },
   "userForSingleBarcodeTesting": {
-    "userEmail": "single-barcode-user@mailinator.com",
+    "userEmail": "qa+157@showpass.com",
     "userPassword": "!@Newuser2023",
     "userFirstName": "User",
     "userLastName": "ForTesting",
     "phoneNumber": "18883331155",
     "username": "User ForTesting",
-    "userId": 2221
+    "userId": 2221,
+    "previousEmail": "single-barcode-user@mailinator.com"
   },
   "topRightHandDropDownList": {
     "stopImpersonate": "Stop Impersonate",

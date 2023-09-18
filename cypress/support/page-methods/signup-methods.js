@@ -69,7 +69,7 @@ Cypress.Commands.add("registerNewUser", (userDetails) => {
   cy.intercept(apiRequest).as("pageLoaded");
   // Create a unique user email
   var uniqueUserEmail =
-    "test-user-" + Math.floor(Date.now() / 1000) + "@mailinator.com";
+    "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
   if (!userDetails) throw new Error("You need to provide user details!");
   const log = Cypress.log({
     name: "Registration",
