@@ -76,7 +76,7 @@ describe("Verify destructive profile updates by ", () => {
     cy.selectProfileDropDownItem();
     cy.clickEmailButton();
     var uniqueUserEmail =
-      "test-user-" + Math.floor(Date.now() / 1000) + "@mailinator.com";
+      "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
     cy.getChakraInputFieldByAttr("id", "email").type(uniqueUserEmail, {
       force: true,
     });
