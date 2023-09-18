@@ -12,7 +12,10 @@ describe("Verify 'Memberships' page features by ", function () {
       cy.logIntoPortal(this.testdata.userDetails);
       // Navigate to the React version of the 'Memberships' page
       cy.visit("/manage/memberships");
-      // Delete all existing public groups
+      // Delete all existing published public groups
+      cy.deleteAllMembershipsGroupsIfTheyExist();
+      // Delete all membership drafts as well
+      cy.visit('/manage/memberships/?status=sp_membership_group_draft')
       cy.deleteAllMembershipsGroupsIfTheyExist();
       // Click the 'Membership' menu item on the left hand menu
       cy.getChakraButtonLabelByText("Membership").click({ force: true });
