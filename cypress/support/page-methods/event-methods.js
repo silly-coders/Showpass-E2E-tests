@@ -163,6 +163,12 @@ Cypress.Commands.add(
       cy.wait("@pageLoaded")
         .its("response.statusCode")
         .should("be.oneOf", [200, 204]);
+      cy.wait(500);  
+    // Make sure the heart button was clicked and selected
+    cy.get('div[data-testid="card-image-heart-container-box"] > div > svg > svg > path[fill-rule="evenodd"]')
+    .eq(i)
+    .should('exist')
+    .should('be.visible');  
     }
   }
 );
@@ -182,7 +188,7 @@ Cypress.Commands.add("clickShowpassLogo", () => {
  * @param eventName
  */
 Cypress.Commands.add("verifySavedEventCardName", (index, eventName) => {
-  cy.log("Going to verifySavedEventCard(index, eventName)");
+  cy.log(`Going to verifySavedEventCard('${index}, ${eventName}')`);
   // Event name (index=1 is representing the event name)
   eventsAndFiltersLocators.getSavedCardName(index).should("contain", eventName);
 });

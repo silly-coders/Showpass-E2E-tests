@@ -235,6 +235,8 @@ Cypress.Commands.add("enterEventNameIntoSearchField", (eventName) => {
   // Not always the search criteria gets entered properly from the first time
   for (let i = 1; i < 3; i++) {
     homeLocators
+      .searchEventsInputField().click({force: true}).wait(500);
+    homeLocators
       .searchEventsInputField()
       .clear({ force: true })
       .type(eventName, { force: true });

@@ -21,7 +21,7 @@ describe("Test the 'Saved Events' page by ", () => {
   });
 // ***************************************************************************
   it(
-    "verifying that new events can be added to 'Saved Events'",
+    "verifying that new events can be added to 'Saved Events'-TA-42",
     { tags: ["e2e", "events"] },
     function () {
       cy.wait(1500); // Without the implicit wait it counts non-existent cards and then fails
@@ -43,7 +43,8 @@ describe("Test the 'Saved Events' page by ", () => {
       cy.visit("/account/saved-events/");
       let j = 1;
       for (let i = 0; i < eventsToTest.length; i++) {
-        cy.log("EVENT TO TEST " + eventsToTest.at(i));
+        cy.log("EVENT_TO_TEST: " + eventsToTest.at(i));
+        cy.log('INDEX=1 is First Event Card Name, INDEX=4 is Second Event Card Name etc')
         cy.verifySavedEventCardName(j, eventsToTest.at(i));
         j = j + 3;
       }

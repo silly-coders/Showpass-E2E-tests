@@ -859,6 +859,9 @@ Cypress.Commands.add("getChakraModalHeader", () => {
  */
 Cypress.Commands.add("deleteCreditCardIfExists", () => {
   cy.log("Going to deleteCreditCardIfExists()");
+  // Ensure you are on the 'Payment Methods' page
+  cy.get('h1[class^="css"]').contains('Payment Methods').as('paymentMethodsHeader');
+  cy.get('@paymentMethodsHeader').should('exist').should('be.visible');
   cy.get("body").then(($body) => {
     if (
       $body.find(
