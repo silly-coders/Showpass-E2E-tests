@@ -18,4 +18,4 @@ jobs:
           record: true  
           env: grepTags=appearance
           group: '3 - appearance'
-          tag: tag-appearance
+          tag: appearance-suite
