@@ -860,8 +860,10 @@ Cypress.Commands.add("getChakraModalHeader", () => {
 Cypress.Commands.add("deleteCreditCardIfExists", () => {
   cy.log("Going to deleteCreditCardIfExists()");
   // Ensure you are on the 'Payment Methods' page
-  cy.get('h1[class^="css"]').contains('Payment Methods').as('paymentMethodsHeader');
-  cy.get('@paymentMethodsHeader').should('exist').should('be.visible');
+  cy.get('h1[class^="css"]')
+    .contains("Payment Methods")
+    .as("paymentMethodsHeader");
+  cy.get("@paymentMethodsHeader").should("exist").should("be.visible");
   cy.get("body").then(($body) => {
     if (
       $body.find(
@@ -1025,19 +1027,31 @@ Cypress.Commands.add(
       `Trying to find this button: cy.get('${elementLocator}').eq(${index}).contains("${buttonText}")`
     );
     cy.get("body").then(($body) => {
-      if (
-        $body.find(`${elementLocator}`).eq(index)
-          .length
-      ) {
+      if ($body.find(`${elementLocator}`).eq(index).length) {
         cy.get(`${elementLocator}`)
           .eq(index)
           .contains(`${buttonText}`)
           .scrollIntoView({ force: true })
           .click({ force: true });
-        }
-      else {
-        cy.log(`Wasn't able to find the button: cy.get("${elementLocator}").eq(${index}).contains("${buttonText}"). Can't click it.`)
-      }  
+      } else {
+        cy.log(
+          `Wasn't able to find the button: cy.get("${elementLocator}").eq(${index}).contains("${buttonText}"). Can't click it.`
+        );
+      }
     });
   }
 );
+/**
+ * Get chakra modal header
+ * @param itemText
+ */
+Cypress.Commands.add("getChakraModalHeader", (itemText) => {
+  cy.log(
+    `Requested getChakraModalHeader: header[class^="chakra-modal__header"][id^="chakra-modal--header"].contains(${itemText})`
+  );
+  return cy
+    .get(`header[class^="chakra-modal__header"][id^="chakra-modal--header"]`)
+    .contains(itemText)
+    .should("exist")
+    .should("be.visible");
+});
