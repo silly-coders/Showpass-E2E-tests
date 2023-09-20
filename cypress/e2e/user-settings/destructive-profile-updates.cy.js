@@ -26,7 +26,7 @@ describe("Verify destructive profile updates by ", () => {
         .should("be.visible")
         .type(this.testdata.userForUpdates.userPassword);
       cy.clickLogInButtonOnModalWindow();
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPasswordButton();
       // Change the current password
@@ -40,7 +40,7 @@ describe("Verify destructive profile updates by ", () => {
         this.testdata.userForUpdates.pwdUpdateSuccessMsg
       );
       cy.clickButtonXtoCloseMessage();
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.signOut();
       // Sign in using the new password
       cy.clickLoginOnHomePage();
@@ -53,7 +53,7 @@ describe("Verify destructive profile updates by ", () => {
         .should("be.visible")
         .type(this.testdata.userDetails.userPassword);
       cy.clickLogInButtonOnModalWindow();
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPasswordButton();
       // Change back the password
@@ -72,7 +72,7 @@ describe("Verify destructive profile updates by ", () => {
 // ***************************************************************************
   it("updating user's email-TA-30", { tags: ["e2e", "smoke"] }, function () {
     cy.logIntoPortal(this.testdata.userForUpdates);
-    cy.clickUsernameAfterLoggingIn();
+    cy.clickUsernameOnTopBar();
     cy.selectProfileDropDownItem();
     cy.clickEmailButton();
     var uniqueUserEmail =
@@ -113,7 +113,7 @@ describe("Verify destructive profile updates by ", () => {
     { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForUpdates);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPersonalInfoButton();
       // Clear and populate input fields

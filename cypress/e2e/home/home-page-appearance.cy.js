@@ -61,7 +61,7 @@ describe("Testing Home page by ", () => {
     { tags: ["e2e", "appearance"] },
     function () {
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.verifyDropDownItemExists(this.testdata.topRightHandDropDownList);
     }
   );
@@ -74,7 +74,6 @@ describe("Testing Home page by ", () => {
       cy.verifyPasswordResetWindowAppearance();
     }
   );
-  // ***************************************************************************
   // ***************************************************************************
   it(
     "verifying `Host An Event` drop-down list appearance-TA-9",
@@ -93,6 +92,15 @@ describe("Testing Home page by ", () => {
         );
         cy.getDropDownItem(dropDownListItems.at(i));
       }
+    }
+  );
+  // ***************************************************************************
+  it(
+    "verifying the 'Request a Demo' form fields and appearance-TA-74",
+    { tags: ["e2e", "appearance"] },
+    () => {
+      cy.visit("sell/request-demo");
+      cy.verifyRequestDemoForm();
     }
   );
   // ***************************************************************************

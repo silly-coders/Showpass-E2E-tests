@@ -84,7 +84,7 @@ describe("Verify purchased tickets by ", () => {
         .should("be.visible")
         .click({ force: true });
       // Sign out
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.signOut();
       // Log into the portal as another user
       cy.logIntoPortal(this.testdata.userDetails);

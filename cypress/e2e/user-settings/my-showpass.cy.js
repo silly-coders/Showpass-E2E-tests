@@ -9,7 +9,7 @@ describe("Verify 'My Showpass' page by ", () => {
       this.testdata = testdata;
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
     });
   });

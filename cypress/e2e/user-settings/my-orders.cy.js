@@ -20,7 +20,7 @@ describe("Test My Orders by ", () => {
       const viewOrderRequest = "**/api/public/events/*";
       cy.intercept(viewOrderRequest).as("viewOrder");
       cy.logIntoPortal(this.testdata.userForTicketPackages);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectOrdersDropDownItem();
       cy.wait("@myOrdersPageLoaded")
         .its("response.statusCode")
@@ -156,7 +156,7 @@ describe("Test My Orders by ", () => {
       const viewOrderRequest = "**/api/public/events/*";
       cy.intercept(viewOrderRequest).as("viewOrder");
       cy.logIntoPortal(this.testdata.userForTicketPackages);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectOrdersDropDownItem();
       cy.wait("@myOrdersPageLoaded")
         .its("response.statusCode")

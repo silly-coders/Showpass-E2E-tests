@@ -51,8 +51,9 @@ Cypress.Commands.add(
     cy.get('h2[class^="md-title strong"]').should("exist");
     // Enter 'Billing Address'
     cy.get('input[type="search"]')
+      .should('exist').scrollIntoView({force: true})
       .should("be.visible")
-      .type("150 King Street West, Toronto, ON, Canada");
+      .type("150 King Street West, Toronto, ON, Canada", {force: true});
     cy.wait(3000);
     // Select the first address in the list
     cy.get('span[md-highlight-text="AddressAutoController.selectedAddress"]')

@@ -8,7 +8,7 @@ describe("Verify 'Products' page by ", () => {
       this.testdata = testdata;
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       // Navigate to the 'Products' page
       cy.getDropDownItem("Products").click({ force: true });
       cy.url().should("include", "/account/products");

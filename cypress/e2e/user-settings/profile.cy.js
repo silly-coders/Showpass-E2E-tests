@@ -13,7 +13,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "appearance"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPaymentButton();
       cy.clickAddPaymentMethodButton();
@@ -28,7 +28,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "appearance"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPaymentButton();
       cy.clickAddPaymentMethodButton();
@@ -43,7 +43,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPaymentButton();
       cy.clickAddPaymentMethodButton();
@@ -57,7 +57,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForCreditCardTesting);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPaymentButton();
       cy.wait(500);
@@ -78,7 +78,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickNotificationsButton();
       for (var i = 0; i < 16; i++) {
@@ -95,7 +95,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickNotificationsButton();
       for (let i = 0; i < 16; i++) {
@@ -130,7 +130,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickNotificationsButton();
       // If the chakra-switch selector is disabled enable it before test
@@ -159,7 +159,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.log(
         "***** Part 1: verify the toggle is ENABLED from the get go *****"
@@ -204,7 +204,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "appearance"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPasswordButton();
       cy.verifyPasswordFormAppearance();
@@ -217,7 +217,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPasswordButton();
       for (let i = 0; i < 3; i++) {
@@ -235,7 +235,7 @@ describe("Verify user's profile by ", () => {
   // ***************************************************************************
   it("verifying invalid password inputs-TA-28", { tags: ["e2e", "smoke"] }, function () {
     cy.logIntoPortal(this.testdata.userForNotifications);
-    cy.clickUsernameAfterLoggingIn();
+    cy.clickUsernameOnTopBar();
     cy.selectProfileDropDownItem();
     cy.clickPasswordButton();
     cy.log("Case 1: Invalid old pwd, Valid new pwd, Valid confirm pwd");
@@ -310,7 +310,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "appearance"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickEmailButton();
       cy.verifyEmailFormAppearance(
@@ -324,7 +324,7 @@ describe("Verify user's profile by ", () => {
     { tags: ["e2e", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForNotifications);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickEmailButton();
       cy.log("TA-33 Case 1");

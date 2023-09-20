@@ -8,7 +8,7 @@ describe("Verify 'Credits' page by ", () => {
       this.testdata = testdata;
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       // Navigate to the 'Credits' page
       cy.getDropDownItem("Credits").click({ force: true });
       cy.url().should("include", "/account/credits/");

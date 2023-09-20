@@ -19,7 +19,7 @@ describe("Test trasactions API by ", () => {
       const apiRequest = "/api/user/financials/invoices/v2/*";
       cy.intercept(apiRequest).as("myOrdersPageLoaded");
       cy.logIntoPortal(this.testdata.userForTicketPackages);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectOrdersDropDownItem();
       cy.wait("@myOrdersPageLoaded")
         .its("response.statusCode")
@@ -44,7 +44,7 @@ describe("Test trasactions API by ", () => {
       const apiRequest = "/api/user/financials/invoices/v2/*";
       cy.intercept(apiRequest).as("myOrdersPageLoaded");
       cy.logIntoPortal(this.testdata.userForTicketPackages);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.selectOrdersDropDownItem();
       cy.wait("@myOrdersPageLoaded")
         .its("response.statusCode")

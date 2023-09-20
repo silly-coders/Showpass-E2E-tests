@@ -16,7 +16,7 @@ describe("Test existing event details by ", () => {
     { tags: ["e2e", "events"] },
     function () {
       cy.logIntoPortal(this.testdata.userForUpcoming);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.openUpcomingPage();
       cy.enterEventNameIntoSearchLocationOrEventField(
         this.testdata.events.event1.eventName
@@ -34,7 +34,7 @@ describe("Test existing event details by ", () => {
     { tags: ["e2e", "events"] },
     function () {
       cy.logIntoPortal(this.testdata.userForUpcoming);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.openUpcomingPage();
       cy.enterEventNameIntoSearchLocationOrEventField(
         this.testdata.events.event2.eventName
@@ -52,7 +52,7 @@ describe("Test existing event details by ", () => {
     { tags: ["e2e", "events"] },
     function () {
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.openUpcomingPage();
       // Verify event 1 api
       cy.fixture("event-1.json").then((event1JSON) => {
@@ -74,7 +74,7 @@ describe("Test existing event details by ", () => {
     { tags: ["e2e", "events"] },
     function () {
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.openUpcomingPage();
       // Verify event 2 api
       cy.fixture("event-2.json").then((event2JSON) => {
@@ -98,7 +98,7 @@ describe("Test existing event details by ", () => {
     { tags: ["e2e", "events"] },
     function () {
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.openUpcomingPage();
       // Search for and verify the 'Event 1' upcoming event card
       cy.verifyUpcomingPurchasedEventCard(this.testdata.events.event1);
@@ -156,7 +156,7 @@ describe("Test existing event details by ", () => {
     { tags: ["e2e", "events"] },
     function () {
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       cy.openUpcomingPage();
       // Search for and verify the 'Event 2' upcoming event card
       cy.verifyUpcomingPurchasedEventCard(this.testdata.events.event2);

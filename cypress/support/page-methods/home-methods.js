@@ -131,9 +131,21 @@ Cypress.Commands.add("helpAndSupportColumnAppearance", () => {
 Cypress.Commands.add("connectWithUsColumnAppearance", () => {
   cy.log("Going to connectWithUsColumnAppearance()");
   homeLocators.connectWithUsHeader().should("exist");
-  homeLocators.angelListLink().should("exist").scrollIntoView({force: true}).should("be.visible");
-  homeLocators.careersLink().should("exist").scrollIntoView({force: true}).should("be.visible");
-  homeLocators.blogLink().should("exist").scrollIntoView({force: true}).should("be.visible");
+  homeLocators
+    .angelListLink()
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible");
+  homeLocators
+    .careersLink()
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible");
+  homeLocators
+    .blogLink()
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible");
 });
 
 /**
@@ -160,8 +172,8 @@ Cypress.Commands.add("subscribeToShowpassSectionAppearance", () => {
 /**
  * Click username after logging in
  */
-Cypress.Commands.add("clickUsernameAfterLoggingIn", () => {
-  cy.log("Going to clickUsernameAfterLoggingIn()");
+Cypress.Commands.add("clickUsernameOnTopBar", () => {
+  cy.log("Going to clickUsernameOnTopBar()");
   loginLocators
     .userFirstAndLastNames()
     .should("exist")
@@ -234,8 +246,7 @@ Cypress.Commands.add("enterEventNameIntoSearchField", (eventName) => {
   // The for loop is absolutely needed
   // Not always the search criteria gets entered properly from the first time
   for (let i = 1; i < 3; i++) {
-    homeLocators
-      .searchEventsInputField().click({force: true}).wait(500);
+    homeLocators.searchEventsInputField().click({ force: true }).wait(500);
     homeLocators
       .searchEventsInputField()
       .clear({ force: true })
@@ -275,4 +286,55 @@ Cypress.Commands.add("getSearchResultModalWindow", () => {
     .should("exist")
     .should("be.visible")
     .should("not.be.disabled");
+});
+/**
+ * Verify the 'Request a demo' form
+ */
+Cypress.Commands.add("verifyRequestDemoForm", () => {
+  cy.log("Going to verifyRequestDemoForm()");
+  // Ensure the 'Request a Demo' header shows up
+  cy.get('div[class^="request-demo-form-container"] > h1[class^="h2"]')
+    .should("exist")
+    .should("be.visible")
+    .should("have.text", "Request a Demo");
+  // Verify a statement under page header
+  cy.get('div[class^="request-demo-form-container"] > div[class^="subtitle"]')
+    .contains(
+      "Our team is happy to answer your questions. Fill out the form and we’ll be in touch as soon as possible."
+    )
+    .should("exist")
+    .should("be.visible");
+  // Verify all input fields and labels above them
+  let labels = [
+    "First Name",
+    "Last Name",
+    "Email Address",
+    "Phone Number",
+    "Company",
+  ];
+  let inputFieldDataName = [
+    "First Name",
+    "Last Name",
+    "Email Address",
+    "Phone Number",
+    "Company Name",
+  ];
+  for (let i = 0; i < labels.length; i++) {
+    cy.log(`Verifying the following label: ${labels.at(i)}`);
+    cy.log(`Verifying the following input field: ${inputFieldDataName.at(i)}`);
+    // Verify labels
+    cy.get(`label[class="form-text-title"]`)
+      .eq(i)
+      .should("exist")
+      .should("be.visible")
+      .should("have.text", labels.at(i));
+    // Verify input fields
+    cy.get(`input[placeholder="${inputFieldDataName.at(i)}"]`)
+      .should("exist")
+      .should("be.visible");
+  }
+  // Verify 'Submit' button
+  cy.get('input[type="submit"][value="Submit"]')
+    .should("exist")
+    .should("be.visible");
 });

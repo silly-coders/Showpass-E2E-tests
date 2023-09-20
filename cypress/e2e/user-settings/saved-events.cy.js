@@ -11,7 +11,7 @@ describe("Test the 'Saved Events' page by ", () => {
       cy.intercept(apiRequest).as("pageLoaded");
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.clickUsernameAfterLoggingIn();
+      cy.clickUsernameOnTopBar();
       // Navigate to the 'Saved Events' page
       cy.getDropDownItem("Saved Events").click({ force: true });
       cy.wait("@pageLoaded")
