@@ -1,0 +1,24 @@
+name: All-specs-in-parallel-cypress-cloud
+on: [workflow_dispatch]
+
+env:
+  CYPRESS_PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    strategy:
+        fail-fast: false
+        matrix:
+          containers: [1, 2, 3]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          record: true
+          parallel: true
+          tag: tests-in-parallel-Cypress-Cloud
