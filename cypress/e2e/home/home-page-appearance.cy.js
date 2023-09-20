@@ -75,4 +75,25 @@ describe("Testing Home page by ", () => {
     }
   );
   // ***************************************************************************
+  // ***************************************************************************
+  it(
+    "verifying `Host An Event` drop-down list appearance-TA-9",
+    { tags: ["e2e", "appearance"] },
+    () => {
+      cy.getChakraButtonByText("Host An Event").click({ force: true });
+      let dropDownListItems = [
+        "Create An Event",
+        "Why Showpass",
+        "Pricing",
+        "Support",
+      ];
+      for (let i = 0; i < dropDownListItems.length; i++) {
+        cy.log(
+          `Verifying the following drop-down item: ${dropDownListItems.at(i)}`
+        );
+        cy.getDropDownItem(dropDownListItems.at(i));
+      }
+    }
+  );
+  // ***************************************************************************
 });
