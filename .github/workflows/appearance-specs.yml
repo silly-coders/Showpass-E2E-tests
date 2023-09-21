@@ -7,8 +7,12 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  cypress-run:
+  install:
     runs-on: ubuntu-latest
+    strategy:
+        fail-fast: false
+        matrix:
+          containers: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -16,6 +20,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           record: true  
+          parallel: true
           env: grepTags=appearance
           group: '3 - appearance'
-          tag: appearance-suite
+          tag: appearance-suite-in-parallel
