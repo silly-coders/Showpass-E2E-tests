@@ -70,7 +70,7 @@ Cypress.Commands.add(
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("be.visible")
       .click({ force: true });
-    cy.wait(700);
+    cy.wait(1000);
     // Verify data loading indicator appearance and disappearance
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"] > svg'
