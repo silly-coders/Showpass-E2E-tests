@@ -73,7 +73,7 @@ Cypress.Commands.add(
     cy.wait(700);
     // Verify data loading indicator appearance and disappearance
     cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"] > svg'
     )
       .should("exist")
       .should("be.visible");
