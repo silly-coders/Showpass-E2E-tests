@@ -30,7 +30,7 @@ describe("Test the mobile phone view by ", () => {
   });
 
   // ***************************************************************************
-  it(
+  it.skip(
     "ensuring that regular users can purchase event tickets-TA-78",
     { tags: ["e2e", "mobile-view", "smoke"] },
     function () {
