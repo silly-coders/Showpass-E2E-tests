@@ -17,5 +17,4 @@ jobs:
         with:
           record: true  
           env: grepTags=membership-group
-          group: '6 - membership-group'
           tag: membership-group-suite

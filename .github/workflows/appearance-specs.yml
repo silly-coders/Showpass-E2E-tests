@@ -22,5 +22,4 @@ jobs:
           record: true  
           parallel: true
           env: grepTags=appearance
-          group: '3 - appearance'
           tag: appearance-suite-in-parallel

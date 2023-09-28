@@ -1,4 +1,4 @@
-name: mobile-view
+name: tag-mobile-view
 on: [workflow_dispatch]
 
 env:
@@ -17,5 +17,4 @@ jobs:
         with:
           record: true  
           env: grepTags=mobile-view
-          group: '7 - events'
           tag: mobile-view

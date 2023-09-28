@@ -17,5 +17,4 @@ jobs:
         with:
           record: true  
           env: grepTags=e2e
-          group: '1 - e2e'
           tag: e2e-suite

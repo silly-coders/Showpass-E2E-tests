@@ -17,5 +17,4 @@ jobs:
         with:
           record: true  
           env: grepTags=barcodes
-          group: '5 - barcodes'
           tag: barcodes-suite

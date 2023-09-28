@@ -17,5 +17,4 @@ jobs:
         with:
           record: true  
           env: grepTags=smoke
-          group: '2 - smoke'
           tag: smoke-suite

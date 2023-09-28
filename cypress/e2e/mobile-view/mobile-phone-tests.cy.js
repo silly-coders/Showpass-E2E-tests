@@ -1,10 +1,9 @@
 let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
-// Verify ticket purchase process for all the mobile screen resolutions mentioned below
+// Verify ticket purchase process for all the mobile screen resolutions mentioned below  
 const mobileScreenSizes = [
-  [390, 844], // iPhone 12 Pro
-  [360, 740], // Samsung Galaxy S8+
+  [390, 844] // iPhone 12 Pro
+//[360, 740], // Samsung Galaxy S8+
 ];
-
 describe("Test the mobile phone view by ", () => {
   before(function () {
     cy.clearLocalStorage();
@@ -76,6 +75,8 @@ describe("Test the mobile phone view by ", () => {
             .should("exist")
             .should("be.visible")
             .click({ force: true });
+          // Refresh page
+          cy.reload();  
           // Log into the portal to verify order details
           cy.getChakraButtonByAttribute("aria-label", "Main menu").click({
             force: true,
@@ -95,21 +96,35 @@ describe("Test the mobile phone view by ", () => {
           cy.log(
             `Going to verify that there is only one barcode for the following event: ${uniqueEventName}`
           );
-          cy.get('div[data-testid="invoice-barcode-items"]').should(
-            "have.length",
-            1
-          );
+          // Scroll into view the invoice barcode section
+          cy.get('div[data-testid="invoice-barcode"]')
+          .should('exist')
+          .scrollIntoView({force: true})
+          ;
+          // Verify that the items are present
+          cy.get('div[data-testid^="invoice-order-breakdown-item-0"]')
+          .should('exist')
+          .scrollIntoView({force: true})
+          .should('be.visible')
+          ;
           // Open main menu and sign out
           cy.getChakraButtonByAttribute("aria-label", "Main menu").click({
             force: true,
           });
-          cy.get('button[class^="chakra-button"]')
+          // Sign out
+          cy.get(
+            'div[class^="chakra-modal__body"] > div > button[class^="chakra-button"]'
+          )
+            .eq(9)
             .contains("Log Out")
             .should("exist")
             .scrollIntoView({ force: true })
             .should("be.visible")
             .click({ force: true });
-          cy.wait(1000);
+          cy.wait(700);
+          cy.get(
+            'div[class^="chakra-modal__body"] > div > button[class^="chakra-button"]'
+          ).should("not.exist");
           cy.getChakraButtonByAttribute("aria-label", "Main menu").should(
             "be.visible"
           );

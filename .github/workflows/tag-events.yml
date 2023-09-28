@@ -17,5 +17,4 @@ jobs:
         with:
           record: true  
           env: grepTags=events
-          group: '7 - events'
           tag: events-suite

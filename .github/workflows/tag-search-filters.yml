@@ -17,5 +17,4 @@ jobs:
         with:
           record: true  
           env: grepTags=search-filters
-          group: '4 - search-filters'
           tag: search-filters-suite
