@@ -98,26 +98,36 @@ describe("Verify user's profile by ", () => {
       cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickNotificationsButton();
-      for (let i = 0; i < 16; i++) {
-        const allNotificationLabelsAtProfile = [
-          this.testdata.notificationLabelsAtProfile.label1,
-          this.testdata.notificationLabelsAtProfile.label2,
-          this.testdata.notificationLabelsAtProfile.label3,
-          this.testdata.notificationLabelsAtProfile.label4,
-          this.testdata.notificationLabelsAtProfile.label5,
-          this.testdata.notificationLabelsAtProfile.label6,
-          this.testdata.notificationLabelsAtProfile.label7,
-          this.testdata.notificationLabelsAtProfile.label8,
-          this.testdata.notificationLabelsAtProfile.label9,
-          this.testdata.notificationLabelsAtProfile.label10,
-          this.testdata.notificationLabelsAtProfile.label11,
-          this.testdata.notificationLabelsAtProfile.label12,
-          this.testdata.notificationLabelsAtProfile.label13,
-          this.testdata.notificationLabelsAtProfile.label14,
-          this.testdata.notificationLabelsAtProfile.label15,
-          this.testdata.notificationLabelsAtProfile.label16,
-        ];
-        cy.verifyToggleLabelsOnNotificationsPage(
+      // Verify 'Notifications' page sections headers
+      const notificationsPageSectionsHeaders = [
+        this.testdata.notificationLabelsAtProfile.label1,
+        this.testdata.notificationLabelsAtProfile.label2,
+        this.testdata.notificationLabelsAtProfile.label7,
+        this.testdata.notificationLabelsAtProfile.label11,
+        this.testdata.notificationLabelsAtProfile.label16,
+      ];
+      for (let j = 0; j < notificationsPageSectionsHeaders.length; j++) {
+        cy.verifyNotificationsPageSectionsHeaders(
+          j,
+          notificationsPageSectionsHeaders.at(j)
+        );
+      }
+      // Verify notifications labels
+      const allNotificationLabelsAtProfile = [
+        this.testdata.notificationLabelsAtProfile.label3,
+        this.testdata.notificationLabelsAtProfile.label4,
+        this.testdata.notificationLabelsAtProfile.label5,
+        this.testdata.notificationLabelsAtProfile.label6,
+        this.testdata.notificationLabelsAtProfile.label8,
+        this.testdata.notificationLabelsAtProfile.label9,
+        this.testdata.notificationLabelsAtProfile.label10,
+        this.testdata.notificationLabelsAtProfile.label12,
+        this.testdata.notificationLabelsAtProfile.label13,
+        this.testdata.notificationLabelsAtProfile.label14,
+        this.testdata.notificationLabelsAtProfile.label15,
+      ];
+      for (let i = 0; i < allNotificationLabelsAtProfile.length; i++) {
+        cy.verifySelectorLabelsWithinSectionsOnNotificationsPage(
           i,
           allNotificationLabelsAtProfile.at(i)
         );
@@ -233,77 +243,81 @@ describe("Verify user's profile by ", () => {
     }
   );
   // ***************************************************************************
-  it("verifying invalid password inputs-TA-28", { tags: ["e2e", "smoke"] }, function () {
-    cy.logIntoPortal(this.testdata.userForNotifications);
-    cy.clickUsernameOnTopBar();
-    cy.selectProfileDropDownItem();
-    cy.clickPasswordButton();
-    cy.log("Case 1: Invalid old pwd, Valid new pwd, Valid confirm pwd");
-    cy.populateOldNewAndConfirmPwdFields(
-      this.testdata.invalidPasswordInputsAndErrors.noSpecialCharPassword,
-      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
-      this.testdata.invalidPasswordInputsAndErrors.newValidPassword
-    );
-    cy.clickSaveButton();
-    cy.verifyTopRightErrorMessage(
-      this.testdata.invalidPasswordInputsAndErrors.oldPwdInvalidPwdMessage
-    );
-    cy.clickButtonXtoCloseMessage();
-    cy.clearOldNewAndConfirmPwdFields();
-    cy.log("Case 2: Valid old pwd, Valid new pwd, Invalid confirm pwd");
-    cy.populateOldNewAndConfirmPwdFields(
-      this.testdata.userDetails.userPassword,
-      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
-      this.testdata.invalidPasswordInputsAndErrors.noSpecialCharPassword
-    );
-    cy.clickSaveButton();
-    cy.getChakraInlineValidationError(
-      0,
-      this.testdata.invalidPasswordInputsAndErrors.mustBeAtLeast7Char
-    );
-    cy.clearOldNewAndConfirmPwdFields();
-    cy.log("Case 3: Valid old pwd, No new pwd, Valid confirm pwd");
-    cy.getInputElementByAttr("placeholder", "Old Password").type(
-      this.testdata.userDetails.userPassword,
-      { force: true }
-    );
-    cy.getInputElementByAttr("placeholder", "Confirm New Password").type(
-      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
-      { force: true }
-    );
-    cy.clickSaveButton();
-    cy.getChakraInlineValidationError(
-      0,
-      this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
-    );
-    cy.clearOldNewAndConfirmPwdFields();
-    cy.log("Case 4: Valid old pwd, Valid new pwd, Not matching confirm pwd");
-    cy.populateOldNewAndConfirmPwdFields(
-      this.testdata.userDetails.userPassword,
-      this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
-      this.testdata.invalidPasswordInputsAndErrors.notMatchingPwd
-    );
-    cy.clickSaveButton();
-    cy.getChakraInlineValidationError(
-      0,
-      this.testdata.invalidPasswordInputsAndErrors.pwdMustMatch
-    );
-    cy.clearOldNewAndConfirmPwdFields();
-    cy.log("Case 5: Valid old pwd, No new pwd, No confirm pwd");
-    cy.getInputElementByAttr("placeholder", "Old Password").type(
-      this.testdata.userDetails.userPassword,
-      { force: true }
-    );
-    cy.clickSaveButton();
-    cy.getChakraInlineValidationError(
-      0,
-      this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
-    );
-    cy.getChakraInlineValidationError(
-      1,
-      this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
-    );
-  });
+  it(
+    "verifying invalid password inputs-TA-28",
+    { tags: ["e2e", "smoke"] },
+    function () {
+      cy.logIntoPortal(this.testdata.userForNotifications);
+      cy.clickUsernameOnTopBar();
+      cy.selectProfileDropDownItem();
+      cy.clickPasswordButton();
+      cy.log("Case 1: Invalid old pwd, Valid new pwd, Valid confirm pwd");
+      cy.populateOldNewAndConfirmPwdFields(
+        this.testdata.invalidPasswordInputsAndErrors.noSpecialCharPassword,
+        this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
+        this.testdata.invalidPasswordInputsAndErrors.newValidPassword
+      );
+      cy.clickSaveButton();
+      cy.verifyTopRightErrorMessage(
+        this.testdata.invalidPasswordInputsAndErrors.oldPwdInvalidPwdMessage
+      );
+      cy.clickButtonXtoCloseMessage();
+      cy.clearOldNewAndConfirmPwdFields();
+      cy.log("Case 2: Valid old pwd, Valid new pwd, Invalid confirm pwd");
+      cy.populateOldNewAndConfirmPwdFields(
+        this.testdata.userDetails.userPassword,
+        this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
+        this.testdata.invalidPasswordInputsAndErrors.noSpecialCharPassword
+      );
+      cy.clickSaveButton();
+      cy.getChakraInlineValidationError(
+        0,
+        this.testdata.invalidPasswordInputsAndErrors.mustBeAtLeast7Char
+      );
+      cy.clearOldNewAndConfirmPwdFields();
+      cy.log("Case 3: Valid old pwd, No new pwd, Valid confirm pwd");
+      cy.getInputElementByAttr("placeholder", "Old Password").type(
+        this.testdata.userDetails.userPassword,
+        { force: true }
+      );
+      cy.getInputElementByAttr("placeholder", "Confirm New Password").type(
+        this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
+        { force: true }
+      );
+      cy.clickSaveButton();
+      cy.getChakraInlineValidationError(
+        0,
+        this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
+      );
+      cy.clearOldNewAndConfirmPwdFields();
+      cy.log("Case 4: Valid old pwd, Valid new pwd, Not matching confirm pwd");
+      cy.populateOldNewAndConfirmPwdFields(
+        this.testdata.userDetails.userPassword,
+        this.testdata.invalidPasswordInputsAndErrors.newValidPassword,
+        this.testdata.invalidPasswordInputsAndErrors.notMatchingPwd
+      );
+      cy.clickSaveButton();
+      cy.getChakraInlineValidationError(
+        0,
+        this.testdata.invalidPasswordInputsAndErrors.pwdMustMatch
+      );
+      cy.clearOldNewAndConfirmPwdFields();
+      cy.log("Case 5: Valid old pwd, No new pwd, No confirm pwd");
+      cy.getInputElementByAttr("placeholder", "Old Password").type(
+        this.testdata.userDetails.userPassword,
+        { force: true }
+      );
+      cy.clickSaveButton();
+      cy.getChakraInlineValidationError(
+        0,
+        this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
+      );
+      cy.getChakraInlineValidationError(
+        1,
+        this.testdata.invalidPasswordInputsAndErrors.pwdIsRequired
+      );
+    }
+  );
   // ***************************************************************************
   it(
     "verifying 'Email' form appearance-TA-32",

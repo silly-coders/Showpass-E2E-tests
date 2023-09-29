@@ -307,17 +307,57 @@ Cypress.Commands.add("toggleSwitchSelector", (elementIndex) => {
   cy.getChakraSwitchSelectorByIndex(elementIndex).click({ force: true });
 });
 /**
- * Verify toggle labels on the 'Notifications' page
+ * Verify all labels on the 'Notifications' page
+ * @param elementIndex
+ * @param elementLabel
  */
 Cypress.Commands.add(
   "verifyToggleLabelsOnNotificationsPage",
   (elementIndex, elementLabel) => {
     cy.log("Going to verifyToggleLabelsOnNotificationsPage()");
     cy.log("Verifying the following label text: " + elementLabel);
-    cy.getChakraTextLabelByIndex(elementIndex).should(
+    cy.getChakraTextLabelByIndex(elementIndex)
+    .should("exist")
+      .scrollIntoView({ force: true })
+      .should("be.visible")
+    .should(
       "have.text",
       elementLabel
     );
+  }
+);
+/**
+ * Verify each notification label within a section (without section header)
+ * @param elementIndex
+ * @param elementLabel
+ */
+Cypress.Commands.add(
+  "verifySelectorLabelsWithinSectionsOnNotificationsPage",
+  (elementIndex, elementLabel) => {
+    cy.log("Going to verifySelectorLabelsWithinSectionsOnNotificationsPage()");
+    cy.log("Verifying the following label text: " + elementLabel);
+    cy.get(`form > div[id='notifications-form-container'] > div > div`)
+      .eq(elementIndex)
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .should("be.visible")
+      .should("have.text", elementLabel);
+  }
+);
+/**
+ * Verify 'Notifications' page sections' headers
+ */
+Cypress.Commands.add(
+  "verifyNotificationsPageSectionsHeaders",
+  (elementIndex, elementLabel) => {
+    cy.log("Going to verifyNotificationsPageSectionsHeaders()");
+    cy.log("Verifying the following section header: " + elementLabel);
+    cy.get(`form > div[id='notifications-form-container'] > div > p`)
+      .eq(elementIndex)
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .should("be.visible")
+      .should("have.text", elementLabel);
   }
 );
 /**

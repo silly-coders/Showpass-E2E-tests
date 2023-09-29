@@ -24,26 +24,36 @@ describe("Test the mobile phone view by ", () => {
       cy.logIntoPortalInMobileView(this.testdata.userDetails);
       // Navigate to the 'Notifications' page
       cy.visit("/account/profile/notifications/");
-      for (let i = 0; i < 16; i++) {
-        const allNotificationLabelsAtProfile = [
-          this.testdata.notificationLabelsAtProfile.label1,
-          this.testdata.notificationLabelsAtProfile.label2,
-          this.testdata.notificationLabelsAtProfile.label3,
-          this.testdata.notificationLabelsAtProfile.label4,
-          this.testdata.notificationLabelsAtProfile.label5,
-          this.testdata.notificationLabelsAtProfile.label6,
-          this.testdata.notificationLabelsAtProfile.label7,
-          this.testdata.notificationLabelsAtProfile.label8,
-          this.testdata.notificationLabelsAtProfile.label9,
-          this.testdata.notificationLabelsAtProfile.label10,
-          this.testdata.notificationLabelsAtProfile.label11,
-          this.testdata.notificationLabelsAtProfile.label12,
-          this.testdata.notificationLabelsAtProfile.label13,
-          this.testdata.notificationLabelsAtProfile.label14,
-          this.testdata.notificationLabelsAtProfile.label15,
-          this.testdata.notificationLabelsAtProfile.label16,
-        ];
-        cy.verifyToggleLabelsOnNotificationsPage(
+      // Verify 'Notifications' page sections headers
+      const notificationsPageSectionsHeaders = [
+        this.testdata.notificationLabelsAtProfile.label1,
+        this.testdata.notificationLabelsAtProfile.label2,
+        this.testdata.notificationLabelsAtProfile.label7,
+        this.testdata.notificationLabelsAtProfile.label11,
+        this.testdata.notificationLabelsAtProfile.label16,
+      ];
+      for (let j = 0; j < notificationsPageSectionsHeaders.length; j++) {
+        cy.verifyNotificationsPageSectionsHeaders(
+          j,
+          notificationsPageSectionsHeaders.at(j)
+        );
+      }
+      // Verify notifications labels
+      const allNotificationLabelsAtProfile = [
+        this.testdata.notificationLabelsAtProfile.label3,
+        this.testdata.notificationLabelsAtProfile.label4,
+        this.testdata.notificationLabelsAtProfile.label5,
+        this.testdata.notificationLabelsAtProfile.label6,
+        this.testdata.notificationLabelsAtProfile.label8,
+        this.testdata.notificationLabelsAtProfile.label9,
+        this.testdata.notificationLabelsAtProfile.label10,
+        this.testdata.notificationLabelsAtProfile.label12,
+        this.testdata.notificationLabelsAtProfile.label13,
+        this.testdata.notificationLabelsAtProfile.label14,
+        this.testdata.notificationLabelsAtProfile.label15,
+      ];
+      for (let i = 0; i < allNotificationLabelsAtProfile.length; i++) {
+        cy.verifySelectorLabelsWithinSectionsOnNotificationsPage(
           i,
           allNotificationLabelsAtProfile.at(i)
         );
