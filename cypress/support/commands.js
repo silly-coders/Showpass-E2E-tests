@@ -220,7 +220,7 @@ Cypress.Commands.add("getChakraAccordionButtonByText", (itemText) => {
     .get('button[class^="chakra-accordion__button"]')
     .contains(itemText)
     .should("exist")
-    .scrollIntoView()
+    .scrollIntoView({force: true})
     .should("be.visible");
 });
 /**

@@ -242,5 +242,23 @@
       "productCategory": "Washer/Dryer Fee",
       "barcode": "SPXTQITFU"
     }
+  },
+  "notificationLabelsAtProfile": {
+    "label1": "All Notifications",
+    "label2": "SMS Notifications",
+    "label3": "Guestlists",
+    "label4": "New Purchases",
+    "label5": "Ticket Transfers",
+    "label6": "Campaigns",
+    "label7": "Push Notifications",
+    "label8": "Guestlists",
+    "label9": "New Purchases",
+    "label10": "Transfers",
+    "label11": "Email Notifications",
+    "label12": "Guestlists",
+    "label13": "New Purchases",
+    "label14": "Events",
+    "label15": "Abandoned Carts",
+    "label16": "Subscribe to promotions from Showpass"
   }
 }

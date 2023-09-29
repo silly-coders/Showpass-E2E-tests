@@ -1,8 +1,8 @@
 let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
-// Verify ticket purchase process for all the mobile screen resolutions mentioned below  
+// Verify ticket purchase process for all the mobile screen resolutions mentioned below
 const mobileScreenSizes = [
-  [390, 844] // iPhone 12 Pro
-//[360, 740], // Samsung Galaxy S8+
+  [390, 844], // iPhone 12 Pro
+  //[360, 740], // Samsung Galaxy S8+
 ];
 describe("Test the mobile phone view by ", () => {
   before(function () {
@@ -29,7 +29,7 @@ describe("Test the mobile phone view by ", () => {
   });
 
   // ***************************************************************************
-  it.skip(
+  it(
     "ensuring that regular users can purchase event tickets-TA-78",
     { tags: ["e2e", "mobile-view", "smoke"] },
     function () {
@@ -76,7 +76,7 @@ describe("Test the mobile phone view by ", () => {
             .should("be.visible")
             .click({ force: true });
           // Refresh page
-          cy.reload();  
+          cy.reload();
           // Log into the portal to verify order details
           cy.getChakraButtonByAttribute("aria-label", "Main menu").click({
             force: true,
@@ -98,15 +98,13 @@ describe("Test the mobile phone view by ", () => {
           );
           // Scroll into view the invoice barcode section
           cy.get('div[data-testid="invoice-barcode"]')
-          .should('exist')
-          .scrollIntoView({force: true})
-          ;
+            .should("exist")
+            .scrollIntoView({ force: true });
           // Verify that the items are present
           cy.get('div[data-testid^="invoice-order-breakdown-item-0"]')
-          .should('exist')
-          .scrollIntoView({force: true})
-          .should('be.visible')
-          ;
+            .should("exist")
+            .scrollIntoView({ force: true })
+            .should("be.visible");
           // Open main menu and sign out
           cy.getChakraButtonByAttribute("aria-label", "Main menu").click({
             force: true,
@@ -132,4 +130,5 @@ describe("Test the mobile phone view by ", () => {
       });
     }
   );
+  //---------------------------------------------------------------------
 });
