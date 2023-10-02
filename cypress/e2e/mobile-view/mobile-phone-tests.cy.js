@@ -29,7 +29,7 @@ describe("Test the mobile phone view by ", () => {
   });
 
   // ***************************************************************************
-  it.only(
+  it(
     "ensuring that regular users can purchase event tickets-TA-78",
     { tags: ["e2e", "mobile-view", "smoke"] },
     function () {
@@ -54,8 +54,10 @@ describe("Test the mobile phone view by ", () => {
             .contains(uniqueEventName)
             .click({ force: true });
           cy.url().should("contain", uniqueEventName);
-          cy.get('button[class^="chakra-button"] > p')
+          cy.get('button[class^="chakra-button"] > p').eq(0)
             .contains("BUY TICKETS")
+            .should('exist')
+            .should('be.visible')
             .click({ force: true });
           // Add 3 tickets from each ticket type (2 ticket types in total)
           cy.addTicketsToCart(2, 1);
