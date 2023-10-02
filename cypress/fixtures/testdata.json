@@ -70,6 +70,15 @@
     "userId": 2221,
     "previousEmail": "single-barcode-user@mailinator.com"
   },
+  "userForOrganization3": {
+    "userEmail": "qa+158@showpass.com",
+    "userPassword": "!@Newuser2023",
+    "userFirstName": "Userfor",
+    "userLastName": "ForTesting",
+    "phoneNumber": "18885551100",
+    "username": "User ForTesting",
+    "userId": 2361
+  },
   "topRightHandDropDownList": {
     "stopImpersonate": "Stop Impersonate",
     "upcoming": "Upcoming",
@@ -163,6 +172,11 @@
       "organization": "QA team organization",
       "eventName": "Test Automation event 3 (DO NOT MODIFY)"
     }
+  },
+  "eventAssignedSeating": {
+    "eventUrl": "/qa-assigned-seating-2/",
+    "organization": "QA Organization 3",
+    "eventName": "QA assigned seating 2"
   },
   "visaDebitForTesting": {
     "nameOnCard": "Testing Team",

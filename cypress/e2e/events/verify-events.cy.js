@@ -106,4 +106,38 @@ describe("Test existing event details by ", () => {
       cy.getChakraButtonByText("View Privacy Policy");
     }
   );
+  // ***************************************************************************
+  it.skip(
+    "verifying that an assigned seat ticket can be added to cart-TA-75",
+    { tags: ["e2e", "events"] },
+    function () {
+      cy.logIntoPortal(this.testdata.userForOrganization3);
+      cy.visit(this.testdata.eventAssignedSeating.eventUrl);
+      cy.get('button[class^="chakra-button"] > p')
+        .contains("BUY TICKETS")
+        .click({ force: true });
+      cy.wait(2500);
+      cy.get('div[class="konvajs-content"] > canvas').eq(4).as("canvas");
+      // Click in the center of the assigned seating area to make seats visible
+      cy.get("@canvas").should("exist").click("center", { force: true });
+      cy.wait(1500);
+      // Click on a seat in the middle
+      cy.get("@canvas").should("exist").click("center", { force: true });
+      // Verify 'Success' message
+      cy.verifyTopRightSuccessMessage("Ticket(s) added to cart!");
+      cy.clickButtonXtoCloseMessage();
+      // Ensure the 'Checkout' button becomes available
+      cy.chakraParagraphButtonByText("CHECKOUT")
+        .should("exist")
+        .scrollIntoView()
+        .should("be.visible")
+        .should("not.be.disabled");
+      // Click on the same seat to remove it
+      cy.get("@canvas").should("exist").click("center", { force: true });
+      // Verify 'Success' message on removing ticket from cart
+      cy.verifyTopRightSuccessMessage("Success");
+      cy.clickButtonXtoCloseMessage();
+    }
+  );
+  // ***************************************************************************
 });
