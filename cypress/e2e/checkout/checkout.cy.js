@@ -19,9 +19,8 @@ describe("Test checkout process by ", () => {
       cy.enterEventNameIntoSearchField(this.testdata.events.event3.eventName);
       cy.getSearchResultModalWindow();
       cy.selectSearchItemByItemName(this.testdata.events.event3.eventName);
-      cy.get('button[class^="chakra-button"] > p')
-        .contains("BUY TICKETS")
-        .click({ force: true });
+      // Click 'BUY PASSES'
+      cy.chakraParagraphButtonByText("BUY TICKETS").click({force: true});
       // Add 3 tickets from each ticket type (2 ticket types in total)
       cy.addTicketsToCart(2, 3);
     }

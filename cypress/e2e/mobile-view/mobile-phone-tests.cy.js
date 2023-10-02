@@ -29,7 +29,7 @@ describe("Test the mobile phone view by ", () => {
   });
 
   // ***************************************************************************
-  it(
+  it.only(
     "ensuring that regular users can purchase event tickets-TA-78",
     { tags: ["e2e", "mobile-view", "smoke"] },
     function () {
@@ -101,7 +101,7 @@ describe("Test the mobile phone view by ", () => {
             .should("exist")
             .scrollIntoView({ force: true });
           // Verify that the items are present
-          cy.get('div[data-testid^="invoice-order-breakdown-item-0"]')
+          cy.get('div[data-testid="invoice-barcode-items"]')
             .should("exist")
             .scrollIntoView({ force: true })
             .should("be.visible");

@@ -255,7 +255,9 @@ Cypress.Commands.add("chakraParagraphButtonByText", (buttonText) => {
   cy.log("Requested getChakraParagraphButtonByText element: " + buttonText);
   return cy
     .get('button[class^="chakra-button"] > p[class^="chakra-text"]')
-    .contains(buttonText);
+    .contains(buttonText)
+    .should('exist')
+    .scrollIntoView({force: true});
 });
 /**
  * Get a left side menu item by its text

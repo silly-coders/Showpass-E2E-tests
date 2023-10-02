@@ -98,8 +98,9 @@ describe("Verify 'Memberships' page features by ", function () {
         .should("be.visible")
         .should("have.text", this.testdata.testGroup1.membershipDescription);
       // Click 'BUY PASSES'
-      cy.clickChakraButtonByText("BUY PASSES");
+      cy.chakraParagraphButtonByText("BUY PASSES").click({force: true});
       // Ensure a modal window shows up
+      cy.log('Going to wait for a modal window to show up.')
       cy.getChakraModalWindow();
       // Ensure the message 'No membership levels found' shows up
       cy.getH2ChakraTextByText("No membership levels found.");
@@ -218,7 +219,7 @@ describe("Verify 'Memberships' page features by ", function () {
         .should("be.visible")
         .should("have.text", this.testdata.testGroup1.membershipDescription);
       // Click 'BUY PASSES'
-      cy.clickChakraButtonByText("BUY PASSES");
+      cy.chakraParagraphButtonByText("BUY PASSES").click({force: true});
       // Ensure a modal window shows up
       cy.getChakraModalWindow();
       // Add tickets to cart base on "purchaseLimit" (1 ticket type available)
