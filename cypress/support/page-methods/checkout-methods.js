@@ -13,10 +13,11 @@ Cypress.Commands.add(
     );
     cy.wait(300);
     // *** More Events page
-    // Click 'Next'
-    cy.get('button[ng-click="nextStep()"]')
-      .eq(0)
-      .should("be.visible")
+    // Click 'REVIEW' tab
+    cy.get('md-tab-item[role="tab"] > span')
+      .eq(3)
+      .contains('Review')
+      .should("exist")
       .click({ force: true });
     cy.wait(300);
     // *** Review page
