@@ -20,7 +20,7 @@ Cypress.Commands.add("verifyActiveFilterByAriaLabel", (ariaLabel) => {
   cy.log(`Going to verifyEventActiveFilterText(${ariaLabel})`);
   cy.get(`div[class^="active-filters"] > button[aria-label="${ariaLabel}"]`)
     .should("exist")
-    .scrollIntoView()
+    .scrollIntoView({force: true})
     .should("be.visible");
 });
 
@@ -200,7 +200,10 @@ Cypress.Commands.add("clickButtonxToRemoveFilterByArialabel", (ariaLabel) => {
   cy.log("Going to clickButtonxToRemoveFilterByArialabel(ariaLabel)");
   eventsAndFiltersLocators
     .getButtonxToRemoveSelecetedFilter(ariaLabel)
-    .scrollIntoView()
+    .should('exist')
+    .scrollIntoView({force: true});
+    eventsAndFiltersLocators
+    .getButtonxToRemoveSelecetedFilter(ariaLabel)  
     .click({ force: true });
 });
 /**
@@ -240,8 +243,11 @@ Cypress.Commands.add("selectCategoryByText", (text) => {
   cy.getChakraInputFieldByAttr("placeholder", "Select categories").as(
     "category"
   );
-  cy.get("@category").click();
-  cy.getChakraTextLabelByText(text).click();
+  cy.get("@category").scrollIntoView({force: true});
+  cy.get("@category").click({force: true});
+  cy.getChakraTextLabelByText(text)
+  .scrollIntoView({force: true})
+  .click({force: true});
 });
 /**
  * Method to select a tag

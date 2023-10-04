@@ -98,7 +98,7 @@ describe("Verify filters by ", () => {
   );
   // ***************************************************************************
   it(
-    "applying a category-TA-43-case-4",
+    "applying the 'Arts & Theatres' category-TA-43-case-4",
     { tags: ["e2e", "smoke", "search-filters"] },
     function () {
       cy.intercept(apiRequest).as("pageLoaded");
@@ -178,6 +178,43 @@ describe("Verify filters by ", () => {
       cy.get('button[class^="chakra-button"]')
         .contains("Clear all filters")
         .should("not.exist");
+    }
+  );
+  // ***************************************************************************
+  it(
+    "applying various categories simultaneously-TA-83",
+    { tags: ["e2e", "smoke", "search-filters"] },
+    function () {
+      let categories = [
+        [
+          "Automotive, Boats, Air",
+          "Button for Category: Automotive filter",
+          "Button to remove Automotive, Boats, Air filter",
+        ],
+        [
+          "Business & Professional",
+          "Button for Category: Business filter",
+          "Button to remove Business & Professional filter",
+        ],
+        [
+          "Charity & Causes",
+          "Button for Category: Charity filter",
+          "Button to remove Charity & Causes filter",
+        ],
+      ];
+      cy.intercept(apiRequest).as("pageLoaded");
+      cy.selectCategoryByText(categories.at(0)[0]).wait(300);
+      cy.selectCategoryByText(categories.at(1)[0]).wait(300);
+      cy.selectCategoryByText(categories.at(2)[0]).wait(300);
+      cy.wait("@pageLoaded")
+        .its("response.statusCode")
+        .should("be.oneOf", [200, 204]);
+      cy.verifyActiveFilterByAriaLabel(categories.at(0)[1]);
+      cy.verifyActiveFilterByAriaLabel(categories.at(1)[1]);
+      cy.verifyActiveFilterByAriaLabel(categories.at(2)[1]);
+      cy.clickButtonxToRemoveFilterByArialabel(categories.at(0)[2]);
+      cy.clickButtonxToRemoveFilterByArialabel(categories.at(1)[2]);
+      cy.clickButtonxToRemoveFilterByArialabel(categories.at(2)[2]);
     }
   );
   // ***************************************************************************
