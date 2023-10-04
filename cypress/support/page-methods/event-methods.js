@@ -20,7 +20,7 @@ Cypress.Commands.add("verifyActiveFilterByAriaLabel", (ariaLabel) => {
   cy.log(`Going to verifyEventActiveFilterText(${ariaLabel})`);
   cy.get(`div[class^="active-filters"] > button[aria-label="${ariaLabel}"]`)
     .should("exist")
-    .scrollIntoView({force: true})
+    .scrollIntoView({ force: true })
     .should("be.visible");
 });
 
@@ -163,12 +163,14 @@ Cypress.Commands.add(
       cy.wait("@pageLoaded")
         .its("response.statusCode")
         .should("be.oneOf", [200, 204]);
-      cy.wait(500);  
-    // Make sure the heart button was clicked and selected
-    cy.get('div[data-testid="card-image-heart-container-box"] > div > svg > svg > path[fill-rule="evenodd"]')
-    .eq(i)
-    .should('exist')
-    .should('be.visible');  
+      cy.wait(500);
+      // Make sure the heart button was clicked and selected
+      cy.get(
+        'div[data-testid="card-image-heart-container-box"] > div > svg > svg > path[fill-rule="evenodd"]'
+      )
+        .eq(i)
+        .should("exist")
+        .should("be.visible");
     }
   }
 );
@@ -200,10 +202,10 @@ Cypress.Commands.add("clickButtonxToRemoveFilterByArialabel", (ariaLabel) => {
   cy.log("Going to clickButtonxToRemoveFilterByArialabel(ariaLabel)");
   eventsAndFiltersLocators
     .getButtonxToRemoveSelecetedFilter(ariaLabel)
-    .should('exist')
-    .scrollIntoView({force: true});
-    eventsAndFiltersLocators
-    .getButtonxToRemoveSelecetedFilter(ariaLabel)  
+    .should("exist")
+    .scrollIntoView({ force: true });
+  eventsAndFiltersLocators
+    .getButtonxToRemoveSelecetedFilter(ariaLabel)
     .click({ force: true });
 });
 /**
@@ -243,11 +245,11 @@ Cypress.Commands.add("selectCategoryByText", (text) => {
   cy.getChakraInputFieldByAttr("placeholder", "Select categories").as(
     "category"
   );
-  cy.get("@category").scrollIntoView({force: true});
-  cy.get("@category").click({force: true});
+  cy.get("@category").scrollIntoView({ force: true });
+  cy.get("@category").click({ force: true });
   cy.getChakraTextLabelByText(text)
-  .scrollIntoView({force: true})
-  .click({force: true});
+    .scrollIntoView({ force: true })
+    .click({ force: true });
 });
 /**
  * Method to select a tag

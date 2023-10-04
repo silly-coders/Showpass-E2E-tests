@@ -115,7 +115,7 @@ describe("Verify filters by ", () => {
   // ***************************************************************************
   it(
     "selecting a valid tag-TA-43-case-5",
-    { tags: ["e2e", "smoke"] },
+    { tags: ["e2e", "smoke", "search-filters"] },
     function () {
       cy.intercept(apiRequest).as("pageLoaded");
       cy.selectTagByText("Festivals");
@@ -183,7 +183,7 @@ describe("Verify filters by ", () => {
   // ***************************************************************************
   it(
     "applying various categories simultaneously-TA-83",
-    { tags: ["e2e", "smoke", "search-filters"] },
+    { tags: ["e2e", "search-filters"] },
     function () {
       let categories = [
         [
@@ -215,6 +215,45 @@ describe("Verify filters by ", () => {
       cy.clickButtonxToRemoveFilterByArialabel(categories.at(0)[2]);
       cy.clickButtonxToRemoveFilterByArialabel(categories.at(1)[2]);
       cy.clickButtonxToRemoveFilterByArialabel(categories.at(2)[2]);
+    }
+  );
+  // ***************************************************************************
+  it(
+    "applying multiple tags simultaneously-TA-84",
+    { tags: ["e2e", "search-filters"] },
+    function () {
+      let tags = [
+        [
+          "Festivals",
+          "Button for Tag: Festivals filter",
+          "Button to remove Festivals filter",
+        ],
+        [
+          "Community",
+          "Button for Tag: Community filter",
+          "Button to remove Community filter",
+        ],
+        [
+          "Rock & Roll",
+          "Button for Tag: Rock & Roll filter",
+          "Button to remove Rock & Roll filter",
+        ],
+      ];
+      cy.intercept(apiRequest).as("pageLoaded");
+      // Apply 3 tags one by one
+      cy.selectTagByText(tags.at(0)[0]).wait(300);
+      cy.selectTagByText(tags.at(1)[0]).wait(300);
+      cy.selectTagByText(tags.at(2)[0]).wait(300);
+      cy.wait("@pageLoaded")
+        .its("response.statusCode")
+        .should("be.oneOf", [200, 204]);
+      // Verify tag-buttons applied
+      cy.verifyActiveFilterByAriaLabel(tags.at(0)[1]);
+      cy.verifyActiveFilterByAriaLabel(tags.at(1)[1]);
+      cy.verifyActiveFilterByAriaLabel(tags.at(2)[1]);
+      cy.clickButtonxToRemoveFilterByArialabel(tags.at(0)[2]).wait(300);
+      cy.clickButtonxToRemoveFilterByArialabel(tags.at(1)[2]).wait(300);
+      cy.clickButtonxToRemoveFilterByArialabel(tags.at(2)[2]).wait(300);
     }
   );
   // ***************************************************************************
