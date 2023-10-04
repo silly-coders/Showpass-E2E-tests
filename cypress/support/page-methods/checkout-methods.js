@@ -18,8 +18,9 @@ Cypress.Commands.add(
       .eq(3)
       .contains('Review')
       .should("exist")
+      .click({ force: true })
+      .wait(300)
       .click({ force: true });
-    cy.wait(300);
     // *** Review page
     // Verify the 'Review' header
     cy.get('span[class^="md-title strong"]')
