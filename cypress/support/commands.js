@@ -256,6 +256,7 @@ Cypress.Commands.add("chakraParagraphButtonByText", (buttonText) => {
   return cy
     .get('button[class^="chakra-button"] > p[class^="chakra-text"]')
     .contains(buttonText)
+    .eq(0)
     .should('exist')
     .scrollIntoView({force: true});
 });

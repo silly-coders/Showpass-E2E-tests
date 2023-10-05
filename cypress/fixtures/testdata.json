@@ -189,14 +189,27 @@
     "visibility": "Public only",
     "membershipLabel": "Passes",
     "expiryDate": "September 18, 2030",
-    "membershipDescription": "This is membership description for testing"
+    "membershipDescription": "This is a membership description for testing."
+  },
+  "testGroup2": {
+    "renewalFrequency": "Yearly",
+    "visibility": "Public",
+    "membershipLabel": "Memberships",
+    "membershipDescription": "This is a membership description for testing."
   },
   "membershipLevel1": {
-    "description": "Level description for testing",
+    "description": "Level description for testing.",
     "price": "350",
     "inventory": 50000,
     "visibility": "Public",
     "purchaseLimit": 5
+  },
+  "membershipLevel2": {
+    "description": "Level description for testing.",
+    "price": "3.20",
+    "inventory": 50000,
+    "visibility": "Public",
+    "purchaseLimit": 1
   },
   "membershipEventScanAccessBenefit": {
     "benefitType": "Event Scan Access",

@@ -90,7 +90,7 @@ Cypress.Commands.add(
       .should("contain.text", "Thank you!");
   }
 );
-
+// *********************************************************************
 /**
  * Populate 'Credit Card Information' in Angular
  * @param creditCardDetails
@@ -140,3 +140,58 @@ Cypress.Commands.add(
     cy.wait(300);
   }
 );
+// *********************************************************************
+/**
+ * Method to go through checkout after adding tickets to the cart
+ */
+Cypress.Commands.add(
+  "goThroughCheckoutBeforePayment",
+  (userDetails) => {
+    cy.log("Going to goThroughCheckoutBeforePayment()");
+    // Click 'Check out as a guest' if the button shows up
+    cy.clickButtonIfAvailableBasedOnLocatorIndexText(
+      `button[ng-click="beginGuestCheckout(); amplitudeEvent.track('Checkout: Guest Checkout')"] > span`,
+      0,
+      "Check out as a Guest"
+    );
+    cy.wait(300);
+    // *** More Events page
+    // Click 'REVIEW' tab
+    cy.get('md-tab-item[role="tab"] > span')
+      .eq(3)
+      .contains('Review')
+      .should("exist")
+      .click({ force: true })
+      .wait(300)
+      .click({ force: true });
+    // *** Review page
+    // Verify the 'Review' header
+    cy.get('span[class^="md-title strong"]')
+      .contains("Review")
+      .should("be.visible");
+    // Click 'Next'
+    cy.get('button[ng-click="nextStep()"]')
+      .eq(0)
+      .should("exist")
+      .click({ force: true });
+    cy.get(300);
+    // *** Purchase Info page ***
+    // Verify the 'Purchaser Info' header
+    cy.get('h2[class^="md-title strong"]')
+      .contains("Purchaser Info")
+      .should("be.visible");
+    // Enter 'Confirm Email'
+    cy.get('input[ng-model="confirmEmail"]')
+      .should("be.visible")
+      .type(userDetails.userEmail);
+    // Click 'Next'
+    cy.get(
+      'button[class^="md-raised md-primary pull-right"][type="submit"] > span'
+    )
+      .eq(0)
+      .contains("Next")
+      .click({ force: true });
+    cy.get(300);
+  }
+);
+// *********************************************************************

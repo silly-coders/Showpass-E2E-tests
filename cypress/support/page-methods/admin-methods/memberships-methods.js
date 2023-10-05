@@ -56,10 +56,13 @@ Cypress.Commands.add(
       force: true,
     });
     cy.selectOptionByText(groupDetails.membershipLabel);
+    // If Expire Date is provided select it
+    if (groupDetails.expiryDate) {
     // Populate 'Expiry Datw & Time' September 18, 2030
     cy.get('input[id="single_date_picker"]').type(groupDetails.expiryDate, {
       force: true,
     });
+  }
     // Populate 'Membership Description'
     cy.getPreContainerEditor().type(groupDetails.membershipDescription);
     cy.clickChakraButtonByText("Create Group");
@@ -327,6 +330,7 @@ Cypress.Commands.add(
       }
       cy.get("@btn").should("exist").scrollIntoView().should("be.disabled");
     }
+    cy.wait(500);
   }
 );
 /**
