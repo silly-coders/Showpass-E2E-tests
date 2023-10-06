@@ -15,7 +15,7 @@ describe("Verify 'Memberships' page features by ", function () {
       // Delete all existing published public groups
       cy.deleteAllMembershipsGroupsIfTheyExist();
       // Delete all membership drafts as well
-      cy.visit('/manage/memberships/?status=sp_membership_group_draft')
+      cy.visit("/manage/memberships/?status=sp_membership_group_draft");
       cy.deleteAllMembershipsGroupsIfTheyExist();
       // Click the 'Membership' menu item on the left hand menu
       cy.getChakraButtonLabelByText("Membership").click({ force: true });
@@ -98,9 +98,9 @@ describe("Verify 'Memberships' page features by ", function () {
         .should("be.visible")
         .should("have.text", this.testdata.testGroup1.membershipDescription);
       // Click 'BUY PASSES'
-      cy.chakraParagraphButtonByText("BUY PASSES").click({force: true});
+      cy.chakraParagraphButtonByText("BUY PASSES").click({ force: true });
       // Ensure a modal window shows up
-      cy.log('Going to wait for a modal window to show up.')
+      cy.log("Going to wait for a modal window to show up.");
       cy.getChakraModalWindow();
       // Ensure the message 'No membership levels found' shows up
       cy.getH2ChakraTextByText("No membership levels found.");
@@ -219,7 +219,7 @@ describe("Verify 'Memberships' page features by ", function () {
         .should("be.visible")
         .should("have.text", this.testdata.testGroup1.membershipDescription);
       // Click 'BUY PASSES'
-      cy.chakraParagraphButtonByText("BUY PASSES").click({force: true});
+      cy.chakraParagraphButtonByText("BUY PASSES").click({ force: true });
       // Ensure a modal window shows up
       cy.getChakraModalWindow();
       // Add tickets to cart base on "purchaseLimit" (1 ticket type available)

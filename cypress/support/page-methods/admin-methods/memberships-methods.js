@@ -10,20 +10,32 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
         'button[class^="chakra-button"][aria-label="Delete membership level"]'
       ).length
     ) {
-      cy.get(
-        'button[class^="chakra-button"][aria-label="Delete membership level"]'
-      )
-        .scrollIntoView({ force: true })
-        .click({ force: true });
-      cy.wait(500);
-      // Confirm deletion on the 'Delete Membership Group' confirmation
-      cy.getChakraModalWindow();
-      cy.get('header[id^="chakra-modal--header"]').should(
-        "contain.text",
-        "Delete Membership Group"
-      );
-      cy.getChakraButtonByText("Delete").click({ force: true });
-      cy.wait(500);
+      // Count all 'Delete group' buttons
+      cy.get('div[class^="chakra-button__group"]')
+        .find(
+          'button[class^="chakra-button"][aria-label="Delete membership level"]'
+        )
+        .then((value) => {
+          let totalCount = Cypress.$(value).length;
+          cy.log(`Found in total ${totalCount} "Delete group" buttons.`);
+          for (let i = 0; i < totalCount; i++) {
+            cy.get(
+              'button[class^="chakra-button"][aria-label="Delete membership level"]'
+            )
+              .eq(0)
+              .scrollIntoView({ force: true })
+              .click({ force: true });
+            cy.wait(500);
+            // Confirm deletion on the 'Delete Membership Group' confirmation
+            cy.getChakraModalWindow();
+            cy.get('header[id^="chakra-modal--header"]').should(
+              "contain.text",
+              "Delete Membership Group"
+            );
+            cy.getChakraButtonByText("Delete").click({ force: true });
+            cy.wait(900);
+          }
+        });
     }
   });
   // Ensure the following text shows up: 'You have not created any membership groups'
@@ -58,11 +70,11 @@ Cypress.Commands.add(
     cy.selectOptionByText(groupDetails.membershipLabel);
     // If Expire Date is provided select it
     if (groupDetails.expiryDate) {
-    // Populate 'Expiry Datw & Time' September 18, 2030
-    cy.get('input[id="single_date_picker"]').type(groupDetails.expiryDate, {
-      force: true,
-    });
-  }
+      // Populate 'Expiry Datw & Time' September 18, 2030
+      cy.get('input[id="single_date_picker"]').type(groupDetails.expiryDate, {
+        force: true,
+      });
+    }
     // Populate 'Membership Description'
     cy.getPreContainerEditor().type(groupDetails.membershipDescription);
     cy.clickChakraButtonByText("Create Group");
