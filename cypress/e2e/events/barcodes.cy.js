@@ -137,4 +137,49 @@ describe("Verify purchased tickets by ", () => {
       );
     }
   );
+  // ***************************************************************************
+  it(
+    "ensuring that guests are able to purchase event tickets-TA-87",
+    { tags: ["e2e", "barcodes", "smoke"] },
+    function () {
+      cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
+      cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
+      cy.clickHamburgerMenu();
+      cy.clickCreateEventButton();
+      // Ensure the page title shows up
+      cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
+      let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
+      cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
+      // Click 'Showpass' logo to navigate to the 'Home' page
+      cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
+        .should("be.visible")
+        .click({ force: true });
+      // Sign out
+      cy.clickUsernameOnTopBar();
+      cy.signOut();
+      // Navigate to the web portal and find just created event
+      cy.visit(`/s/events/all/?q=${uniqueEventName}`);
+      cy.url().should("contain", uniqueEventName);
+      // Click on the event card to open the event
+      cy.getChakraSkeletonItem()
+        .contains(uniqueEventName)
+        .click({ force: true });
+      cy.url().should("contain", uniqueEventName);
+      cy.get('button[class^="chakra-button"] > p')
+        .contains("BUY TICKETS")
+        .click({ force: true });
+      // Add 3 tickets from each ticket type (2 ticket types in total)
+      cy.addTicketsToCart(2, 1);
+      // Click 'Checkout' button
+      cy.clickChakraButtonByText("CHECKOUT");
+      // Wait for the next page
+      cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
+      // Complete the order
+      cy.completeOrderAsGuestOnAngular(
+        this.testdata.userDetails,
+        this.testdata.visaDebitForTesting
+      );
+    }
+  );
+  // ***************************************************************************
 });
