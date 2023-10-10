@@ -17,7 +17,7 @@ describe("Verify 'Credits' page by ", () => {
         .should("be.oneOf", [200, 204]);
     });
   });
-// ***************************************************************************
+  // ***************************************************************************
   it(
     "checking the page overall appearance-TA-54",
     { tags: ["e2e", "appearance"] },
@@ -56,7 +56,9 @@ describe("Verify 'Credits' page by ", () => {
         .should("exist")
         .should("be.visible")
         .clear();
-      cy.getChakraButtonByText("Redeem")
+      cy.get('button[type="submit"]')
+        .eq(0)
+        .should("exist")
         .should("not.be.enabled")
         .should("have.css", "background-color", "rgb(133, 182, 186)")
         .click({ force: true });
@@ -64,5 +66,5 @@ describe("Verify 'Credits' page by ", () => {
       cy.getInlineError("Code is required");
     }
   );
-// ***************************************************************************  
+  // ***************************************************************************
 });
