@@ -69,7 +69,7 @@ export class HomeLocators {
    * 'Search results' modal window
    */
   searchResultModalWindow() {
-    return cy.get('div[id="search-event-desktop-modal"]');
+    return cy.get('div[id="EventSearchInput-menu"]');
   }
   /**
    * 'Search result' item by name

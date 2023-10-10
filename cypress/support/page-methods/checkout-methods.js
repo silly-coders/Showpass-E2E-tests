@@ -52,9 +52,11 @@ Cypress.Commands.add(
     // Verify the 'Payment Method' header
     cy.get('h2[class^="md-title strong"]').should("exist");
     // Enter 'Billing Address'
-    cy.get('input[type="search"]')
-      .should('exist').scrollIntoView({force: true})
-      .should("be.visible")
+    cy.get('input[type="search"]').as('addressField');
+    cy.get('@addressField')
+      .should('exist')
+      .scrollIntoView({force: true});
+    cy.get('@addressField')  
       .type("150 King Street West, Toronto, ON, Canada", {force: true});
     cy.wait(3000);
     // Select the first address in the list
