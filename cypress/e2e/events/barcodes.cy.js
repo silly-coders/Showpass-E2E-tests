@@ -24,6 +24,8 @@ describe("Verify purchased tickets by ", () => {
       cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
         .should("be.visible")
         .click({ force: true });
+      // Log out
+      cy.clickMainMenuAndLogOut();
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
       cy.url().should("contain", uniqueEventName);
@@ -39,7 +41,28 @@ describe("Verify purchased tickets by ", () => {
       cy.addTicketsToCart(2, 1);
       // Click 'Checkout' button
       cy.clickChakraButtonByText("CHECKOUT");
-      // Wait for the next page
+      // *******
+      // If 'Login' button still shows up in AngularJS log into the app
+      cy.get("body").then(($body) => {
+        if (
+          $body.find('a[class^="md-button"][href="/accounts/login/"]').length
+        ) {
+          cy.log("Login button in AngularJS shows up. Going to log in.");
+          // Find and click 'Login' button
+          cy.get('a[class^="md-button"][href="/accounts/login/"] > span').as(
+            "loginButton"
+          );
+          cy.get("@loginButton")
+            .should("exist")
+            .should("be.visible")
+            .click({ force: true });
+          // Log into the application
+          cy.loginOnlyIntoPortal(this.testdata.userForSingleBarcodeTesting);
+          // Click the cart counter to move to checkout
+          cy.visit("/checkout/");
+        }
+      });
+      // Wait for the cart timer to show up
       cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
       // Complete the order
       cy.completeOrderOnAngular(

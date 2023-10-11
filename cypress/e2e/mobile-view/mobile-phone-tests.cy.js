@@ -54,15 +54,45 @@ describe("Test the mobile phone view by ", () => {
             .contains(uniqueEventName)
             .click({ force: true });
           cy.url().should("contain", uniqueEventName);
-          cy.get('button[class^="chakra-button"] > p').eq(0)
+          cy.get('button[class^="chakra-button"] > p')
+            .eq(0)
             .contains("BUY TICKETS")
-            .should('exist')
-            .should('be.visible')
+            .should("exist")
+            .should("be.visible")
             .click({ force: true });
           // Add 3 tickets from each ticket type (2 ticket types in total)
           cy.addTicketsToCart(2, 1);
           // Click 'Checkout' button
           cy.clickChakraButtonByText("CHECKOUT");
+          // ******* To avoid unexpected failures the test will log in again
+          // If 'Login' button still shows up in AngularJS log into the app
+          cy.get("body").then(($body) => {
+            if (
+              $body.find('a[class^="md-button"][href="/accounts/login/"]')
+                .length
+            ) {
+              cy.log("Login button in AngularJS shows up. Going to log in.");
+              // Find and click the 'Login' button on AngularJS
+              cy.get(
+                'a[class^="md-button"][href="/accounts/login/"] > span'
+              ).as("loginButton");
+              cy.get("@loginButton")
+                .should("exist")
+                .should("be.visible")
+                .click({ force: true });
+              // Click main menu on React in mobile view
+              cy.get('button[aria-label="Main menu"]')
+                .should("exist")
+                .should("be.visible")
+                .click({ force: true });
+              // Log into the application
+              cy.logIntoPortalInMobileView(
+                this.testdata.userForSingleBarcodeTesting
+              );
+              // Click the cart counter to move to checkout
+              cy.visit("/checkout/");
+            }
+          });
           // Wait for the next page
           cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should(
             "be.visible"

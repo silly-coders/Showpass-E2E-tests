@@ -220,7 +220,7 @@ Cypress.Commands.add("getChakraAccordionButtonByText", (itemText) => {
     .get('button[class^="chakra-accordion__button"]')
     .contains(itemText)
     .should("exist")
-    .scrollIntoView({force: true})
+    .scrollIntoView({ force: true })
     .should("be.visible");
 });
 /**
@@ -257,8 +257,8 @@ Cypress.Commands.add("chakraParagraphButtonByText", (buttonText) => {
     .get('button[class^="chakra-button"] > p[class^="chakra-text"]')
     .contains(buttonText)
     .eq(0)
-    .should('exist')
-    .scrollIntoView({force: true});
+    .should("exist")
+    .scrollIntoView({ force: true });
 });
 /**
  * Get a left side menu item by its text
@@ -1057,4 +1057,22 @@ Cypress.Commands.add("getChakraModalHeader", (itemText) => {
     .contains(itemText)
     .should("exist")
     .should("be.visible");
+});
+/**
+ * Click main menu and log out
+ */
+Cypress.Commands.add("clickMainMenuAndLogOut", () => {
+  cy.log('Going to clickMainMenuAndLogOut()');
+  // Click main menu
+  cy.get('button[class*="chakra-menu__menu-button"]')
+  .eq(1)
+  .should('exist')
+  .should('be.visible')
+  .click({force: true});
+  // Click 'Log Out'
+  cy.get('button[class^="chakra-menu__menuitem"][data-index="9"]')
+  .should('exist')
+  .scrollIntoView({force: true})
+  .should('be.visible')
+  .click({force: true});
 });

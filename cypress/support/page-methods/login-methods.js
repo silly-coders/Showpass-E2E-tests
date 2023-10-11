@@ -2,6 +2,7 @@ import { HomeLocators } from "../element-locators/home-locators";
 import { LoginLocators } from "../element-locators/login-locators";
 const homeLocators = new HomeLocators();
 const loginLocators = new LoginLocators();
+// *****************************************************************************
 /**
  * Method to verify 'Login' modal window overall appearance
  */
@@ -33,6 +34,7 @@ Cypress.Commands.add("verifyLoginModalWindowAppearance", () => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Method to log into the 'Showpass' portal
  * @argument userObject
@@ -89,6 +91,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     expect(response.status).to.eq(200);
   });
 });
+// *****************************************************************************
 /**
  * Method to log into the 'Showpass' portal in mobile view
  * @argument userObject
@@ -173,3 +176,42 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
     }
   });
 });
+// *****************************************************************************
+/**
+ * Method to log in only
+ * @argument userObject
+ */
+Cypress.Commands.add("loginOnlyIntoPortal", (userObject) => {
+  if (!userObject) throw new Error("You need to provide user credentials!");
+  const log = Cypress.log({
+    name: "Login",
+    displayName: "LOGIN",
+    message: [`🔐 Authenticating | User email: ${userObject.userEmail}`],
+    autoEnd: false,
+    color: "green",
+  });
+  cy.wait(500);
+  loginLocators
+    .emailAddressInputField()
+    .should("exist")
+    .should("be.visible")
+    .type(userObject.userEmail);
+  loginLocators
+    .passwordInputField()
+    .should("exist")
+    .should("be.visible")
+    .type(userObject.userPassword);
+  loginLocators
+    .emailAddressInputField()
+    .should("have.value", userObject.userEmail);
+  loginLocators
+    .passwordInputField()
+    .should("have.value", userObject.userPassword);
+  loginLocators
+    .loginButtonOnLoginModalWindow()
+    .should("exist")
+    .should("be.visible")
+    .click({force: true});
+  cy.wait(700); 
+});
+// *****************************************************************************
