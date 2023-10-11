@@ -100,6 +100,7 @@ Cypress.Commands.add(
   "populateCreditCardInformationFormInAngular",
   (creditCardDetails) => {
     cy.log("Going to populateCreditCardInformationFormInAngular()");
+    cy.wait(300);
     // Populate Credit Card number
     const getIframeBody1 = () => {
       return cy
@@ -111,6 +112,7 @@ Cypress.Commands.add(
     };
     getIframeBody1()
       .find('input[class^="InputElement"]')
+      .type(" ")
       .type(creditCardDetails.cardNumber, { force: true });
     cy.wait(300);
     // Populate Expiry date
@@ -124,6 +126,7 @@ Cypress.Commands.add(
     };
     getIframeBody2()
       .find('input[class^="InputElement"]')
+      .type(" ")
       .type(creditCardDetails.expiry);
     cy.wait(300);
     // Populate CVC number
@@ -137,6 +140,7 @@ Cypress.Commands.add(
     };
     getIframeBody3()
       .find('input[class^="InputElement"]')
+      .type(" ")
       .type(creditCardDetails.cvcNumber);
     cy.wait(300);
   }
