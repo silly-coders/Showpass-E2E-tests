@@ -48,8 +48,15 @@ Cypress.Commands.add(
       .click({ force: true });
     cy.wait(300);
     // Verify the 'Payment Method' header
-    cy.get('h2[class^="md-title strong"]').should("exist");
+    cy.get('h2[class^="md-title strong"]')
+    .should("exist");
     cy.wait(300);
+    // Scroll the header into view
+    cy.get('h2[class^="md-title strong"]')
+    .eq(0)
+    .scrollIntoView({force: true});
+    // Wait for the 'Pay with link' iFrame to load
+    cy.wait(3000);
     // Enter 'Billing Address'
     cy.typeText(
       'input[type="search"]',
@@ -116,7 +123,8 @@ Cypress.Commands.add(
     };
     getIframeBody1()
       .find('input[class^="InputElement"]')
-      .type(" ")
+      .scrollIntoView({force: true})
+      .type(" ", {force: true})
       .type(creditCardDetails.cardNumber, { force: true });
     cy.wait(300);
     // Populate Expiry date
@@ -130,8 +138,9 @@ Cypress.Commands.add(
     };
     getIframeBody2()
       .find('input[class^="InputElement"]')
-      .type(" ")
-      .type(creditCardDetails.expiry);
+      .scrollIntoView({force: true})
+      .type(" ", {force: true})
+      .type(creditCardDetails.expiry, {force: true});
     cy.wait(300);
     // Populate CVC number
     const getIframeBody3 = () => {
@@ -144,8 +153,9 @@ Cypress.Commands.add(
     };
     getIframeBody3()
       .find('input[class^="InputElement"]')
-      .type(" ")
-      .type(creditCardDetails.cvcNumber);
+      .scrollIntoView({force: true})
+      .type(" ", {force: true})
+      .type(creditCardDetails.cvcNumber, {force: true});
     cy.wait(300);
   }
 );
@@ -274,6 +284,12 @@ Cypress.Commands.add(
     cy.get(300);
     // Verify the 'Payment Method' header
     cy.get('h2[class^="md-title strong"]').should("exist");
+     // Scroll the header into view
+     cy.get('h2[class^="md-title strong"]')
+     .eq(0)
+     .scrollIntoView({force: true});
+     // Wait for the 'Pay with link' iFrame to load
+     cy.wait(3000);
     // Enter 'Billing Address'
     cy.get('input[type="search"]').as("addressField");
     cy.get("@addressField").should("exist").scrollIntoView({ force: true });
