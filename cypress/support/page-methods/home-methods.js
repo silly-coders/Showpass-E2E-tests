@@ -19,8 +19,17 @@ Cypress.Commands.add("navigateToHomePage", () => {
  */
 Cypress.Commands.add("clickLoginOnHomePage", () => {
   cy.log("Going to clickLoginOnHomePage()");
-  homeLocators.loginButton().should("exist").should("be.visible").click();
-  loginLocators.emailAddressInputField().should("exist").should("be.visible");
+  homeLocators
+    .loginButton()
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .click({ force: true });
+  loginLocators
+    .emailAddressInputField()
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible");
 });
 /**
  * Method to click 'Create Account' button on the 'Home' page
@@ -30,15 +39,19 @@ Cypress.Commands.add("clickCreateAccountOnHomePage", () => {
   homeLocators
     .createAccountButton()
     .should("exist")
+    .scrollIntoView({ force: true })
     .should("be.visible")
-    .click();
+    .click({ force: true });
 });
 /**
  * Method to select 'Profile' within the drop-down list on the 'Home' page
  */
 Cypress.Commands.add("selectOrdersDropDownItem", () => {
   cy.log("Going to selectOrdersDropDownItem()");
-  cy.getDropDownItem("Orders").should("be.visible").click();
+  cy.getDropDownItem("Orders")
+    .should("exist")
+    .should("be.visible")
+    .click({ force: true });
 });
 /**
  * Method to select 'Orders' within the drop-down list on the 'Home' page

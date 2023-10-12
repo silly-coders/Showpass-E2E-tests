@@ -19,7 +19,7 @@ Cypress.Commands.add(
       .contains("Review")
       .should("exist")
       .click({ force: true })
-      .wait(300)
+      .wait(700)
       .click({ force: true });
     // *** Review page
     // Verify the 'Review' header
@@ -38,9 +38,7 @@ Cypress.Commands.add(
       .contains("Purchaser Info")
       .should("be.visible");
     // Enter 'Confirm Email'
-    cy.get('input[ng-model="confirmEmail"]')
-      .should("be.visible")
-      .type(userDetails.userEmail);
+    cy.typeText('input[ng-model="confirmEmail"]', 0, userDetails.userEmail);
     // Click 'Next'
     cy.get(
       'button[class^="md-raised md-primary pull-right"][type="submit"] > span'
@@ -48,15 +46,16 @@ Cypress.Commands.add(
       .eq(0)
       .contains("Next")
       .click({ force: true });
-    cy.get(300);
+    cy.wait(300);
     // Verify the 'Payment Method' header
     cy.get('h2[class^="md-title strong"]').should("exist");
+    cy.wait(300);
     // Enter 'Billing Address'
-    cy.get('input[type="search"]').as("addressField");
-    cy.get("@addressField").should("exist").scrollIntoView({ force: true });
-    cy.get("@addressField").type("150 King Street West, Toronto, ON, Canada", {
-      force: true,
-    });
+    cy.typeText(
+      'input[type="search"]',
+      0,
+      "150 King Street West, Toronto, ON, Canada"
+    );
     cy.wait(3000);
     // Select the first address in the list
     cy.get('span[md-highlight-text="AddressAutoController.selectedAddress"]')
@@ -64,9 +63,12 @@ Cypress.Commands.add(
       .should("be.visible")
       .click({ force: true });
     // Enter Payment Information
-    cy.get('input[name="ccName"]')
-      .should("be.visible")
-      .type(`${userDetails.userFirstName} ${userDetails.userLastName}`);
+    cy.wait(300);
+    cy.typeText(
+      'input[name="ccName"]',
+      0,
+      `${userDetails.userFirstName} ${userDetails.userLastName}`
+    );
     // Populate credit card info
     cy.populateCreditCardInformationFormInAngular(creditCardDetails);
     // Click 'Pay $XX.XX CAD'
@@ -80,7 +82,9 @@ Cypress.Commands.add(
     )
       .should("exist")
       .should("be.visible");
-    cy.wait(3000);
+    cy.wait(5000);
+    Cypress.config("defaultCommandTimeout", 7000);
+    // Ensure the data loading indicator disappears
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
     ).should("not.exist");

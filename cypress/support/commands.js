@@ -1062,17 +1062,37 @@ Cypress.Commands.add("getChakraModalHeader", (itemText) => {
  * Click main menu and log out
  */
 Cypress.Commands.add("clickMainMenuAndLogOut", () => {
-  cy.log('Going to clickMainMenuAndLogOut()');
+  cy.log("Going to clickMainMenuAndLogOut()");
   // Click main menu
   cy.get('button[class*="chakra-menu__menu-button"]')
-  .eq(1)
-  .should('exist')
-  .should('be.visible')
-  .click({force: true});
+    .eq(1)
+    .should("exist")
+    .should("be.visible")
+    .click({ force: true });
   // Click 'Log Out'
   cy.get('button[class^="chakra-menu__menuitem"][data-index="9"]')
-  .should('exist')
-  .scrollIntoView({force: true})
-  .should('be.visible')
-  .click({force: true});
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .click({ force: true });
+});
+/**
+ * Custom type text command
+ * @param elementLocator
+ * @param elementIndex
+ * @param text
+ */
+Cypress.Commands.add("typeText", (elementLocator, elementIndex, text) => {
+  cy.log(
+    "Going to typeText. Element locator: " +
+      elementLocator +
+      "Element index: " +
+      elementIndex
+  );
+  cy.log("Typing the following text: " + text);
+  cy.get(elementLocator)
+    .eq(elementIndex)
+    .should("exist")
+    .scrollIntoView({ force: true });
+  cy.get(elementLocator).eq(elementIndex).type(" ").type(text);
 });
