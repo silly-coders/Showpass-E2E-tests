@@ -136,6 +136,7 @@ Cypress.Commands.add(
     cy.getChakraButtonByAttribute("form", "membership-level-form")
       .should("be.visible")
       .click({ force: true });
+    cy.wait(1500);  
   }
 );
 /**
@@ -221,6 +222,7 @@ Cypress.Commands.add(
     cy.get('button[form="membership-benefit-form"]')
       .contains("Save")
       .click({ force: true });
+    cy.wait(900);  
     // Verify and close the 'Success' message
     cy.verifyTopRightSuccessMessage("Success");
     cy.clickButtonXtoCloseMessage();
