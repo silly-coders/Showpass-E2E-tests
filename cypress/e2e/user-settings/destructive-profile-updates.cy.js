@@ -75,9 +75,8 @@ describe("Verify destructive profile updates by ", () => {
     cy.clickUsernameOnTopBar();
     cy.selectProfileDropDownItem();
     cy.clickEmailButton();
-    var uniqueUserEmail =
-      "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
-    cy.getChakraInputFieldByAttr("id", "email").type(uniqueUserEmail, {
+    var updatedEmail = "qa+156@showpass.com";
+    cy.getChakraInputFieldByAttr("id", "email").type(updatedEmail, {
       force: true,
     });
     cy.getChakraInputFieldByAttr("id", "password").type(
@@ -91,7 +90,7 @@ describe("Verify destructive profile updates by ", () => {
     cy.clickButtonXtoCloseMessage();
     cy.reload();
     // Verify the updated email value
-    cy.verifyInputFieldAttr("id", "currentEmail", "value", uniqueUserEmail);
+    cy.verifyInputFieldAttr("id", "currentEmail", "value", updatedEmail);
     // Change it back to the original email
     cy.getChakraInputFieldByAttr("id", "email").type(
       this.testdata.userForUpdates.userEmail,

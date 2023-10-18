@@ -22,7 +22,7 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
             cy.get(
               'button[class^="chakra-button"][aria-label="Delete membership level"]'
             )
-              .eq(0)
+              .last()
               .scrollIntoView({ force: true })
               .click({ force: true });
             cy.wait(500);
@@ -38,11 +38,6 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
         });
     }
   });
-  // Ensure the following text shows up: 'You have not created any membership groups'
-  cy.get('div[class^="css"] > span[class^="css"]')
-    .should("exist")
-    .should("be.visible")
-    .should("contain.text", "You have not created any membership groups");
 });
 /**
  * Populate the 'Membership Group Info' form

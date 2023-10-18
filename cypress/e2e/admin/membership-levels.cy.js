@@ -36,7 +36,11 @@ describe("Verify 'Membership Levels' by ", function () {
         this.testdata.testGroup2
       );
       // Click the 'Edit group' button
-      cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
+      cy.get('div[class^="chakra-button"]')
+        .last()
+        .find(
+          'button[aria-label="Edit membership level"][href^="/manage/memberships/"]'
+        )
         .eq(1)
         .click({ force: true });
       // Click the 'Membership Levels' tab
@@ -54,10 +58,12 @@ describe("Verify 'Membership Levels' by ", function () {
       cy.getChakraButtonByText("Cancel").click({ force: true });
       // *** Open the membership group on the portal front-end ***
       // Click the group name to view its front-end page and be able to purchased membership
-      cy.getChakraLinkButtonByAttr("target", "_parent")
+      cy.get(
+        `p[class^="chakra-text"] > a[target="_parent"][href='/m/${uniqueMembershipName.toLowerCase()}/']`
+      )
         .contains(uniqueMembershipName)
         .should("be.visible")
-        .click();
+        .click({ force: true });
       // Verify that URL contains the group name
       cy.url().should("include", uniqueMembershipName.toLowerCase());
       // Verify group name in the header

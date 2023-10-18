@@ -34,14 +34,18 @@ describe("Verify 'Memberships' page features by ", function () {
     function () {
       // Retrieve the uniqueMembershipName value from the Cypress.env() object
       let uniqueMembershipName = Cypress.env("uniqueMembershipName");
-       // Populate the 'Membership Group Info' form
-       cy.populateMembershipGroupInfoForm(
+      // Populate the 'Membership Group Info' form
+      cy.populateMembershipGroupInfoForm(
         uniqueMembershipName,
         this.testdata.testGroup1
       );
       // *** Open and verify just created group ***
       // Click the 'Edit group' button
-      cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
+      cy.get('div[class^="chakra-button"]')
+        .last()
+        .find(
+          'button[aria-label="Edit membership level"][href^="/manage/memberships/"]'
+        )
         .eq(1)
         .click({ force: true });
       // Verify unique group name
@@ -89,10 +93,12 @@ describe("Verify 'Memberships' page features by ", function () {
         this.testdata.testGroup1
       );
       // Click the group name to view its front-end page and be able to purchased membership
-      cy.getChakraLinkButtonByAttr("target", "_parent")
+      cy.get(
+        `p[class^="chakra-text"] > a[target="_parent"][href='/m/${uniqueMembershipName.toLowerCase()}/']`
+      )
         .contains(uniqueMembershipName)
         .should("be.visible")
-        .click();
+        .click({ force: true });
       // Verify that URL contains the group name
       cy.url().should("include", uniqueMembershipName.toLowerCase());
       // Verify group name in the header
@@ -124,7 +130,11 @@ describe("Verify 'Memberships' page features by ", function () {
         this.testdata.testGroup1
       );
       // Click the 'Edit group' button
-      cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
+      cy.get('div[class^="chakra-button"]')
+        .last()
+        .find(
+          'button[aria-label="Edit membership level"][href^="/manage/memberships/"]'
+        )
         .eq(1)
         .click({ force: true });
       // Click the 'Membership Levels' tab
@@ -166,7 +176,11 @@ describe("Verify 'Memberships' page features by ", function () {
         this.testdata.testGroup1
       );
       // Click the 'Edit group' button
-      cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
+      cy.get('div[class^="chakra-button"]')
+        .last()
+        .find(
+          'button[aria-label="Edit membership level"][href^="/manage/memberships/"]'
+        )
         .eq(1)
         .click({ force: true });
       // Click the 'Add Benefit' button
@@ -209,7 +223,11 @@ describe("Verify 'Memberships' page features by ", function () {
         this.testdata.testGroup1
       );
       // Click the 'Edit group' button
-      cy.getChakraButtonByAttribute("aria-label", "Edit membership level")
+      cy.get('div[class^="chakra-button"]')
+        .last()
+        .find(
+          'button[aria-label="Edit membership level"][href^="/manage/memberships/"]'
+        )
         .eq(1)
         .click({ force: true });
       // Click the 'Membership Levels' tab
@@ -227,10 +245,12 @@ describe("Verify 'Memberships' page features by ", function () {
       cy.getChakraButtonByText("Cancel").click({ force: true });
       // *** Open the membership group on the portal front-end ***
       // Click the group name to view its front-end page and be able to purchased membership
-      cy.getChakraLinkButtonByAttr("target", "_parent")
+      cy.get(
+        `p[class^="chakra-text"] > a[target="_parent"][href='/m/${uniqueMembershipName.toLowerCase()}/']`
+      )
         .contains(uniqueMembershipName)
         .should("be.visible")
-        .click();
+        .click({ force: true });
       // Verify that URL contains the group name
       cy.url().should("include", uniqueMembershipName.toLowerCase());
       // Verify group name in the header
@@ -272,9 +292,13 @@ describe("Verify 'Memberships' page features by ", function () {
       );
       // *** Open and verify just created group ***
       // Click the 'Edit group' button
-      cy.get('button[class^="chakra-button"][href*="/group-stats/"]').click({
-        force: true,
-      });
+      cy.get('div[class^="chakra-button"]')
+        .last()
+        .find(
+          'button[aria-label="Edit membership level"][href^="/manage/memberships/"]'
+        )
+        .eq(0)
+        .click({ force: true });
       // Verify URL
       cy.url().should("include", "/group-stats/");
       // Ensure 'Group Stats' tab shows up
@@ -360,10 +384,12 @@ describe("Verify 'Memberships' page features by ", function () {
         this.testdata.testGroup1
       );
       // Click the group name to view its front-end page and be able to purchased membership
-      cy.getChakraLinkButtonByAttr("target", "_parent")
+      cy.get(
+        `p[class^="chakra-text"] > a[target="_parent"][href='/m/${uniqueMembershipName.toLowerCase()}/']`
+      )
         .contains(uniqueMembershipName)
         .should("be.visible")
-        .click();
+        .click({ force: true });
       // Verify that URL contains the group name
       cy.url().should("include", uniqueMembershipName.toLowerCase());
       // Verify group name in the header
@@ -390,10 +416,12 @@ describe("Verify 'Memberships' page features by ", function () {
         this.testdata.testGroup2
       );
       // Click the group name to view its front-end page and be able to purchased membership
-      cy.getChakraLinkButtonByAttr("target", "_parent")
+      cy.get(
+        `p[class^="chakra-text"] > a[target="_parent"][href='/m/${uniqueMembershipName.toLowerCase()}/']`
+      )
         .contains(uniqueMembershipName)
         .should("be.visible")
-        .click();
+        .click({ force: true });
       // Verify that URL contains the group name
       cy.url().should("include", uniqueMembershipName.toLowerCase());
       // Verify group name in the header
