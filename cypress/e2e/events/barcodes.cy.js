@@ -7,6 +7,32 @@ describe("Verify purchased tickets by ", () => {
       cy.navigateToHomePage();
     });
   });
+  after(function () {
+    cy.log(
+      "Going to replenish the 'verify-payment-event-1697684780' ticket stock."
+    );
+    cy.visit(
+      `/dashboard/events/verify-payment-event-1697684780/manage/#/edit`
+    );
+    // Add more tickets to the first ticket type
+    cy.get('input[name="ticketTypeInventory0"]')
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .should("be.visible")
+      .clear({ force: true })
+      .type(150000);
+    // Add more tickets to the first ticket type
+    cy.get('input[name="ticketTypeInventory1"]')
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .should("be.visible")
+      .clear({ force: true })
+      .type(150000);
+    // Click Save
+    cy.get('button[ng-click="saveEvent()"]').as("saveButton");
+    cy.get("@saveButton").should("exist").click({ force: true });
+    cy.wait(1000);
+  });
   // ***************************************************************************
   it(
     "ensuring that an event owner can purchase tickets with a single barcode-TA-68",
@@ -185,19 +211,8 @@ describe("Verify purchased tickets by ", () => {
     { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
-      cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
-      cy.clickHamburgerMenu();
-      cy.clickCreateEventButton();
-      // Ensure the page title shows up
-      cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
-      let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
-      cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
-      // Click 'Showpass' logo to navigate to the 'Home' page
-      cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
-        .should("be.visible")
-        .click({ force: true });
-      // Log out
-      cy.clickMainMenuAndLogOut();
+      // Do not change event or event name as the tickets get added to this event in the after() hook
+      let uniqueEventName = "verify-payment-event-1697684780";
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
       cy.url().should("contain", uniqueEventName);
@@ -215,6 +230,12 @@ describe("Verify purchased tickets by ", () => {
       cy.completeOrderWithInteracPayment(
         this.testdata.userForSingleBarcodeTesting
       );
+      // Ensure the 'Thank you' page show up
+      cy.log("Ensure the 'Thank you' page show up");
+      cy.get('h1[class^="md-display"]')
+        .should("exist")
+        .should("be.visible")
+        .should("contain.text", "Thank you!");
     }
   );
   // ***************************************************************************
