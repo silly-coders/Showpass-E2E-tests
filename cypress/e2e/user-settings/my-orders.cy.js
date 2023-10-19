@@ -149,7 +149,7 @@ describe("Test My Orders by ", () => {
   // ***************************************************************************
   it(
     "verifying a ticket package purchase-23fff-TA-53",
-    { tags: ["e2e"] },
+    { tags: ["e2e", "orders"] },
     function () {
       const apiRequest = "/api/user/financials/invoices/v2/*";
       cy.intercept(apiRequest).as("myOrdersPageLoaded");

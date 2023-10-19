@@ -10,7 +10,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that an event owner can purchase tickets with a single barcode-TA-68",
-    { tags: ["e2e", "barcodes", "smoke"] },
+    { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
@@ -34,36 +34,11 @@ describe("Verify purchased tickets by ", () => {
         .contains(uniqueEventName)
         .click({ force: true });
       cy.url().should("contain", uniqueEventName);
-      cy.get('button[class^="chakra-button"] > p')
-        .contains("BUY TICKETS")
-        .click({ force: true });
-      // Add 3 tickets from each ticket type (2 ticket types in total)
-      cy.addTicketsToCart(2, 1);
-      // Click 'Checkout' button
-      cy.clickChakraButtonByText("CHECKOUT");
-      // *******
-      // If 'Login' button still shows up in AngularJS log into the app
-      cy.get("body").then(($body) => {
-        if (
-          $body.find('a[class^="md-button"][href="/accounts/login/"]').length
-        ) {
-          cy.log("Login button in AngularJS shows up. Going to log in.");
-          // Find and click 'Login' button
-          cy.get('a[class^="md-button"][href="/accounts/login/"] > span').as(
-            "loginButton"
-          );
-          cy.get("@loginButton")
-            .should("exist")
-            .should("be.visible")
-            .click({ force: true });
-          // Log into the application
-          cy.loginOnlyIntoPortal(this.testdata.userForSingleBarcodeTesting);
-          // Click the cart counter to move to checkout
-          cy.visit("/checkout/");
-        }
-      });
-      // Wait for the cart timer to show up
-      cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
+      // Add tickets to cart and proceed to checkout
+      cy.addTicketsToCartAndProceedToCheckout(
+        this.testdata.userForSingleBarcodeTesting,
+        1
+      );
       // Complete the order
       cy.completeOrderOnAngular(
         this.testdata.userForSingleBarcodeTesting,
@@ -92,7 +67,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that regular users can purchase event tickets with a single barcode-TA-71",
-    { tags: ["e2e", "barcodes", "smoke"] },
+    { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
@@ -163,7 +138,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that guests are able to purchase event tickets-TA-87",
-    { tags: ["e2e", "barcodes", "smoke"] },
+    { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
@@ -201,6 +176,44 @@ describe("Verify purchased tickets by ", () => {
       cy.completeOrderAsGuestOnAngular(
         this.testdata.userDetails,
         this.testdata.visaDebitForTesting
+      );
+    }
+  );
+  // ***************************************************************************
+  it(
+    "ensuring that Interac can be used to purchase tickets-TA-90",
+    { tags: ["e2e", "barcodes", "orders", "smoke"] },
+    function () {
+      cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
+      cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
+      cy.clickHamburgerMenu();
+      cy.clickCreateEventButton();
+      // Ensure the page title shows up
+      cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
+      let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
+      cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
+      // Click 'Showpass' logo to navigate to the 'Home' page
+      cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
+        .should("be.visible")
+        .click({ force: true });
+      // Log out
+      cy.clickMainMenuAndLogOut();
+      // Open just created event
+      cy.visit(`/s/events/all/?q=${uniqueEventName}`);
+      cy.url().should("contain", uniqueEventName);
+      // Click on the event card to open the event
+      cy.getChakraSkeletonItem()
+        .contains(uniqueEventName)
+        .click({ force: true });
+      cy.url().should("contain", uniqueEventName);
+      // Add tickets to cart and proceed to checkout
+      cy.addTicketsToCartAndProceedToCheckout(
+        this.testdata.userForSingleBarcodeTesting,
+        3
+      );
+      // Complete the order using Interac
+      cy.completeOrderWithInteracPayment(
+        this.testdata.userForSingleBarcodeTesting
       );
     }
   );
