@@ -294,7 +294,7 @@ export class HomeLocators {
    */
   registerOrganizationLink() {
     return cy
-      .get('a[href$="/organizations/register"]')
+      .get('a[href$="/organizations/register/"]')
       .eq(1)
       .contains("Register Organization");
   }

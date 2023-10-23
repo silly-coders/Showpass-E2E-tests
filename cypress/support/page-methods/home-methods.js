@@ -167,9 +167,21 @@ Cypress.Commands.add("connectWithUsColumnAppearance", () => {
 Cypress.Commands.add("aboutShowpassColumnAppearance", () => {
   cy.log("Going to aboutShowpassColumnAppearance()");
   homeLocators.aboutShowpassHeader().should("exist");
-  homeLocators.registerOrganizationLink().should("exist").should("be.visible");
-  homeLocators.aboutUsLink().should("exist").should("be.visible");
-  homeLocators.pricingLink().should("exist").should("be.visible");
+  homeLocators
+    .registerOrganizationLink()
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible");
+  homeLocators
+    .aboutUsLink()
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible");
+  homeLocators
+    .pricingLink()
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible");
 });
 
 /**

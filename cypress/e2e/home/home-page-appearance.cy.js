@@ -1,5 +1,6 @@
 describe("Testing Home page by ", () => {
   beforeEach("navigate to Home page", function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {

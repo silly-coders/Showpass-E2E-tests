@@ -1,5 +1,6 @@
 describe("Test the 'Saved Events' page by ", () => {
   before(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
   });

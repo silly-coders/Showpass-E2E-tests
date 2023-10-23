@@ -2,6 +2,7 @@ describe("Verify filters by ", () => {
   const apiRequest = "/api/public/events/*";
   //cy.intercept('GET', '**/comments/*').as('getComment')
   before(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
   });

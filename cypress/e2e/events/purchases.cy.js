@@ -1,5 +1,6 @@
 describe("Verify purchased tickets by ", () => {
   beforeEach(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
@@ -8,12 +9,10 @@ describe("Verify purchased tickets by ", () => {
     });
   });
   after(function () {
-    cy.log(
-      "Going to replenish the 'verify-payment-event-1697684780' ticket stock."
-    );
-    cy.visit(
-      `/dashboard/events/verify-payment-event-1697684780/manage/#/edit`
-    );
+    cy.log("Going to replenish the test event ticket stock.");
+    // Do not change event or event name as the tickets get added to this event for further testing
+    let uniqueEventName = "verify-payment-event-1697684780";
+    cy.visit(`/dashboard/events/${uniqueEventName}/manage/#/edit`);
     // Add more tickets to the first ticket type
     cy.get('input[name="ticketTypeInventory0"]')
       .should("exist")
@@ -236,6 +235,26 @@ describe("Verify purchased tickets by ", () => {
         .should("exist")
         .should("be.visible")
         .should("contain.text", "Thank you!");
+      // Navigate to 'My Orders' page
+      cy.visit("/account/my-orders/");
+      // Click the first 'View Order' button at the very top
+      cy.get('button[class^="chakra-button"] > div > div > span')
+        .eq(0)
+        .contains("View Order")
+        .as("viewOrderButton");
+      cy.get("@viewOrderButton").click().wait(500);
+      // Make sure the 'Back' button on the 'Order' page shows up
+      cy.getChakraButtonByText("Back");
+      // Verify order details
+      // Verify event names within the 'Items' section for all ticket types
+      for (let i = 0; i < 2; i++) {
+        cy.log(
+          'Going to verify event name within the "Items" section for both ticket types'
+        );
+        cy.get(
+          `div[data-testid="invoice-barcode-item-${i}"] > div > div > p`
+        ).contains(uniqueEventName);
+      }
     }
   );
   // ***************************************************************************

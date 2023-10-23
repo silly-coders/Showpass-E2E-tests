@@ -379,13 +379,16 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   cy.log("Going to completeOrderWithInteracPayment()");
+  // Click 'Next'
+  cy.get('button[ng-click="nextStep()"]')
+    .eq(0)
+    .should("exist")
+    .click({ force: true });
   // Click 'REVIEW' tab
   cy.get('md-tab-item[role="tab"] > span')
     .eq(3)
     .contains("Review")
     .should("exist")
-    .click({ force: true })
-    .wait(500)
     .click({ force: true });
   // *** Review page
   // Verify the 'Review' header

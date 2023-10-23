@@ -2,6 +2,7 @@
 const mobileScreenSizes = [390, 844];
 describe("Test the mobile phone view by ", () => {
   before(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
@@ -11,7 +12,7 @@ describe("Test the mobile phone view by ", () => {
     });
   });
 
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "verifying labels on the 'Notifications' page in mobile-view-TA-80",
     { tags: ["e2e", "smoke", "mobile-view"] },
@@ -60,5 +61,5 @@ describe("Test the mobile phone view by ", () => {
       }
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
 });

@@ -1,5 +1,6 @@
 describe("Testing API Login", function () {
   before("clean-up", () => {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
   });

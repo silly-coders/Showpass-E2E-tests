@@ -1,5 +1,6 @@
 describe("Test popular cities options by ", () => {
   beforeEach("navigate to Home page", function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {

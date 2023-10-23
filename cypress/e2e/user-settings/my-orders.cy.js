@@ -1,5 +1,6 @@
 describe("Test My Orders by ", () => {
   beforeEach(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {

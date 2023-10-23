@@ -1,5 +1,6 @@
 describe("Verify 'My Showpass' page by ", () => {
   before(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
   });

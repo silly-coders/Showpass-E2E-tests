@@ -1,5 +1,6 @@
 describe("Verify 'Memberships' page features by ", function () {
   beforeEach(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     // Generate a unique name

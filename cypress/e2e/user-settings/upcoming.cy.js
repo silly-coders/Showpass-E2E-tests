@@ -1,5 +1,6 @@
 describe("Test existing event details by ", () => {
   before(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
   });

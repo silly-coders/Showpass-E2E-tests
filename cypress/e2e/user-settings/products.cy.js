@@ -1,5 +1,6 @@
 describe("Verify 'Products' page by ", () => {
   beforeEach(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {

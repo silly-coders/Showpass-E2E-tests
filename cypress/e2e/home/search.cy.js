@@ -3,6 +3,7 @@ let todaysDate;
 
 describe("Verify 'Home' page search by ", () => {
   beforeEach(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {

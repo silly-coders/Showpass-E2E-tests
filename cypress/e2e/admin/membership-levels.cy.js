@@ -2,6 +2,7 @@
 let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
 describe("Verify 'Membership Levels' by ", function () {
   beforeEach(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {

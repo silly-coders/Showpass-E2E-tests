@@ -1,5 +1,6 @@
 describe("Testing Sign-Up modal window by ", () => {
   before("clean-up", () => {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
   });

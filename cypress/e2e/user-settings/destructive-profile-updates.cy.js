@@ -1,5 +1,6 @@
 describe("Verify destructive profile updates by ", () => {
   before(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
   });

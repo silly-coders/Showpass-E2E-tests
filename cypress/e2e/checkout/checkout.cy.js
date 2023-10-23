@@ -1,5 +1,6 @@
 describe("Test checkout process by ", () => {
   before(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
   });
@@ -59,13 +60,17 @@ describe("Test checkout process by ", () => {
         this.testdata.userForSingleBarcodeTesting,
         1
       );
+      // Click 'Next'
+      cy.get('button[ng-click="nextStep()"]')
+      .eq(0)
+      .should("exist")
+      .click({ force: true });
+    cy.get(300);
       // Click 'REVIEW' tab
       cy.get('md-tab-item[role="tab"] > span')
         .eq(3)
         .contains("Review")
         .should("exist")
-        .click({ force: true })
-        .wait(500)
         .click({ force: true });
       // *** Review page
       // Verify the 'Review' header

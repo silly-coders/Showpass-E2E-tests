@@ -1,5 +1,6 @@
 describe("Test user registration by", () => {
   before("clean-up", () => {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
   });

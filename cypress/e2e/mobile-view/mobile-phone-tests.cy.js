@@ -6,6 +6,7 @@ const mobileScreenSizes = [
 ];
 describe("Test the mobile phone view by ", () => {
   before(function () {
+    cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
@@ -162,5 +163,5 @@ describe("Test the mobile phone view by ", () => {
       });
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
 });
