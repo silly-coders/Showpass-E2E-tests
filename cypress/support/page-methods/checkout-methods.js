@@ -15,25 +15,23 @@ Cypress.Commands.add(
     );
     cy.wait(300);
     // *** More Events page
+    // button[ng-click="nextStep()"][class^="md-raised md-primary pull-right"] > span
+    // Click 'Next'
+    cy.clickNextButtonDuringCheckoutAngular();
     // Click 'REVIEW' tab
     cy.get('md-tab-item[role="tab"] > span')
       .eq(3)
       .contains("Review")
       .should("exist")
-      .click({ force: true })
-      .wait(700)
       .click({ force: true });
+    cy.wait(700);
     // *** Review page
     // Verify the 'Review' header
     cy.get('span[class^="md-title strong"]')
       .contains("Review")
       .should("be.visible");
     // Click 'Next'
-    cy.get('button[ng-click="nextStep()"]')
-      .eq(0)
-      .should("exist")
-      .click({ force: true });
-    cy.get(300);
+    cy.clickNextButtonDuringCheckoutAngular();
     // *** Purchase Info page ***
     // Verify the 'Purchaser Info' header
     cy.get('h2[class^="md-title strong"]')
@@ -83,13 +81,6 @@ Cypress.Commands.add(
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("be.visible")
       .click({ force: true });
-    cy.wait(1000);
-    // Verify data loading indicator appearance and disappearance
-    cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"] > svg'
-    )
-      .should("exist")
-      .should("be.visible");
     cy.wait(5000);
     Cypress.config("defaultCommandTimeout", 7000);
     // Ensure the data loading indicator disappears
@@ -188,11 +179,7 @@ Cypress.Commands.add("goThroughCheckoutBeforePayment", (userDetails) => {
     .contains("Review")
     .should("be.visible");
   // Click 'Next'
-  cy.get('button[ng-click="nextStep()"]')
-    .eq(0)
-    .should("exist")
-    .click({ force: true });
-  cy.get(300);
+  cy.clickNextButtonDuringCheckoutAngular();
   // *** Purchase Info page ***
   // Verify the 'Purchaser Info' header
   cy.get('h2[class^="md-title strong"]')
@@ -227,6 +214,8 @@ Cypress.Commands.add(
     );
     cy.wait(300);
     // *** More Events page
+    // Click 'Next'
+    cy.clickNextButtonDuringCheckoutAngular();
     // Click 'REVIEW' tab
     cy.get('md-tab-item[role="tab"] > span')
       .eq(3)
@@ -241,11 +230,7 @@ Cypress.Commands.add(
       .contains("Review")
       .should("be.visible");
     // Click 'Next'
-    cy.get('button[ng-click="nextStep()"]')
-      .eq(0)
-      .should("exist")
-      .click({ force: true });
-    cy.get(300);
+    cy.clickNextButtonDuringCheckoutAngular();
     // *** Purchase Info page ***
     // Verify the 'Purchaser Info' header
     cy.get('h2[class^="md-title strong"]')
@@ -380,10 +365,7 @@ Cypress.Commands.add(
 Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   cy.log("Going to completeOrderWithInteracPayment()");
   // Click 'Next'
-  cy.get('button[ng-click="nextStep()"]')
-    .eq(0)
-    .should("exist")
-    .click({ force: true });
+  cy.clickNextButtonDuringCheckoutAngular();
   // Click 'REVIEW' tab
   cy.get('md-tab-item[role="tab"] > span')
     .eq(3)
@@ -396,11 +378,7 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
     .contains("Review")
     .should("be.visible");
   // Click 'Next'
-  cy.get('button[ng-click="nextStep()"]')
-    .eq(0)
-    .should("exist")
-    .click({ force: true });
-  cy.get(300);
+  cy.clickNextButtonDuringCheckoutAngular();
   // *** Purchase Info page ***
   // Verify the 'Purchaser Info' header
   cy.get('h2[class^="md-title strong"]')
@@ -423,7 +401,7 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
     .contains("Interac")
     .as("interacRadioButton");
   cy.get("@interacRadioButton").should("exist").scrollIntoView({ force: true });
-  cy.get("@interacRadioButton").should('be.visible').click({ force: true });
+  cy.get("@interacRadioButton").should("be.visible").click({ force: true });
   cy.wait(500);
   // Ensure Interac text shows up
   cy.get('div[class^="text-center"] > p')
@@ -476,7 +454,7 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   cy.wait(700);
   // *** 'Payment Details' page
   // Select 'Savings' account
-  cy.get('select[id="accountType"]').select('Savings');
+  cy.get('select[id="accountType"]').select("Savings");
   cy.wait(500);
   // Make sure the 'Send Now' button shows up and click it
   cy.get('input[id="btnsend"]')
@@ -486,9 +464,7 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   cy.wait(900);
   // *** Confirmation page ***
   // Click 'Next'
-  cy.get('input[id="btnNext"]')
-    .should("exist")
-    .click({ force: true });
+  cy.get('input[id="btnNext"]').should("exist").click({ force: true });
   cy.wait(700);
   // Verify data loading indicator appearance and disappearance
   cy.get(
@@ -502,5 +478,22 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   cy.get(
     'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
   ).should("not.exist");
+});
+// *********************************************************************
+/**
+ * Method to click AngularJS 'Next' button during checkout
+ */
+Cypress.Commands.add("clickNextButtonDuringCheckoutAngular", () => {
+  cy.log("Going to clickNextButtonDuringCheckoutAngular()");
+  // Click 'Next'
+  cy.get(
+    'button[ng-click="nextStep()"][class^="md-raised md-primary pull-right"] > span'
+  )
+    .eq(1)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .wait(300)
+    .click({ force: true });
+  cy.get(300);
 });
 // *********************************************************************

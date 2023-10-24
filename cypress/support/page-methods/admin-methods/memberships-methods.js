@@ -90,6 +90,7 @@ Cypress.Commands.add(
     });
     // Make sure just created group shows up
     cy.get(`a[class^="chakra-link"][href^="/m/test-group"]`)
+    .last()
       .contains(uniqueMembershipName)
       .should("exist")
       .should("be.visible");

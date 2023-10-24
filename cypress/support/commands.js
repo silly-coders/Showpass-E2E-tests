@@ -1094,5 +1094,8 @@ Cypress.Commands.add("typeText", (elementLocator, elementIndex, text) => {
     .eq(elementIndex)
     .should("exist")
     .scrollIntoView({ force: true });
-  cy.get(elementLocator).eq(elementIndex).type(" ").type(text);
+  cy.get(elementLocator)
+    .eq(elementIndex)
+    .clear({ force: true })
+    .type(text);
 });

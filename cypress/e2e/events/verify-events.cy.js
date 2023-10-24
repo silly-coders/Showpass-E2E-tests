@@ -112,7 +112,7 @@ describe("Test existing event details by ", () => {
     "verifying that an assigned seat ticket can be added to cart-TA-75",
     { tags: ["e2e", "events"] },
     function () {
-      cy.logIntoPortal(this.testdata.userForOrganization3);
+      cy.logIntoPortal(this.testdata.userForOrganization3and4);
       cy.visit(this.testdata.eventAssignedSeating.eventUrl);
       cy.get('button[class^="chakra-button"] > p')
         .contains("BUY TICKETS")
