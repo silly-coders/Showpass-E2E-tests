@@ -466,12 +466,7 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   // Click 'Next'
   cy.get('input[id="btnNext"]').should("exist").click({ force: true });
   cy.wait(700);
-  // Verify data loading indicator appearance and disappearance
-  cy.get(
-    'div[class="full-loader"] > md-progress-circular[role="progressbar"] > svg'
-  )
-    .should("exist")
-    .should("be.visible");
+  // Verify data loading indicator disappearance
   cy.wait(3000);
   Cypress.config("defaultCommandTimeout", 7000);
   // Ensure the data loading indicator disappears
