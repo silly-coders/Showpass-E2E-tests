@@ -8,6 +8,7 @@ describe("Verify purchased tickets by ", () => {
       cy.navigateToHomePage();
     });
   });
+
   after(function () {
     cy.log("Going to replenish the test event ticket stock.");
     // Do not change event or event name as the tickets get added to this event for further testing
@@ -19,7 +20,7 @@ describe("Verify purchased tickets by ", () => {
       .scrollIntoView({ force: true })
       .should("be.visible")
       .clear({ force: true })
-      .type(150000);
+      .type(1500000);
     // Add more tickets to the first ticket type
     cy.get('input[name="ticketTypeInventory1"]')
       .should("exist")
@@ -32,6 +33,7 @@ describe("Verify purchased tickets by ", () => {
     cy.get("@saveButton").should("exist").click({ force: true });
     cy.wait(1000);
   });
+
   // ***************************************************************************
   it(
     "ensuring that an event owner can purchase tickets with a single barcode-TA-68",
@@ -207,7 +209,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that Interac can be used to purchase tickets-TA-90",
-    { tags: ["e2e", "barcodes", "orders", "smoke"] },
+    { tags: ["e2e", "orders", "smoke"] },
     function () {
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       // Do not change event or event name as the tickets get added to this event in the after() hook
@@ -254,6 +256,130 @@ describe("Verify purchased tickets by ", () => {
         cy.get(
           `div[data-testid="invoice-barcode-item-${i}"] > div > div > p`
         ).contains(uniqueEventName);
+      }
+    }
+  );
+  // ***************************************************************************
+  it(
+    "verifying that multiple day event tickets can be purchased-TA-93",
+    { tags: ["e2e", "orders", "smoke"] },
+    function () {
+      let totalExpectedNumberOfEventDays = 5;
+      let userDetails = this.testdata.userForSingleBarcodeTesting;
+      cy.logIntoPortal(userDetails);
+      // Do not change event or event name as the tickets get added to this event in the after() hook
+      let uniqueEventName = "Test-multiple-days-event";
+      // Open just created event
+      cy.visit(`/s/events/all/?q=${uniqueEventName.toLowerCase()}`);
+      cy.url().should("contain", uniqueEventName.toLowerCase());
+      // Click on the event card to open the event
+      cy.getChakraSkeletonItem()
+        .contains(uniqueEventName)
+        .click({ force: true });
+      cy.url().should("contain", uniqueEventName.toLowerCase());
+      // Click 'BUY TICKETS'
+      cy.get('button[class^="chakra-button"] > p')
+        .contains("BUY TICKETS")
+        .click({ force: true });
+      // Verify that the 'Tickets' modal windo showed up
+      cy.getChakraModalWindow();
+      cy.get('header[class^="chakra-modal__header"] > div > div > p')
+        .first()
+        .should("contain.text", "Tickets");
+      // Verify a total number of all multiple-day tickets available
+      cy.log(
+        "Verifying that a number of recurring events (available event days) is still 10."
+      );
+      cy.get('div[data-testid="recurring-timeslot-modal"]')
+        .find('div[data-testid="card"]')
+        .then(($value) => {
+          let totalEventDaysCount = $value.length;
+          expect(totalEventDaysCount).to.equal(
+            totalExpectedNumberOfEventDays,
+            "Looks like the total number of recurring events is NOT correct."
+          );
+        });
+      // ***** Add tickets for each event day to cart *****
+      for (let i = 0; i < totalExpectedNumberOfEventDays; i++) {
+        cy.log(`Going to add event day # ${i + 1} to cart.`);
+        // Click the event day card
+        cy.get('div[data-testid="recurring-timeslot-modal"]')
+          .find('div[data-testid="card"]')
+          .eq(i)
+          .should("exist")
+          .scrollIntoView({ force: true })
+          .click({ force: true });
+        // Wait for the plus (+) button to show up
+        cy.wait(700);
+        cy.get('button[class^="chakra-button"][aria-label="Add item"]')
+          .should("exist")
+          .should("be.visible");
+        // Add ticket(s) to cart
+        cy.addTicketsToCart(1, 1);
+        cy.wait(300);
+        // Click 'Back' to navigate back and select more tickets
+        cy.getChakraButtonByText("Back")
+          .should("exist")
+          .should("be.visible")
+          .click({ force: true });
+        cy.wait(700);
+        // Ensure you are on the 'Select a Date' modal window
+        cy.get('div[data-testid="card"]')
+          .first()
+          .should("exist")
+          .scrollIntoView({ force: true })
+          .should("be.visible");
+      }
+      // Click 'Checkout' button
+      cy.clickChakraButtonByText("CHECKOUT");
+      // Wait for the next page
+      cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
+      // Complete the order
+      cy.completeOrderOnAngular(userDetails, this.testdata.visaDebitForTesting);
+      // Click 'Showpass' logo to navigate to the 'Home' page
+      cy.get('.container > [href="/"] > .logo')
+        .should("exist")
+        .should("be.visible")
+        .click({ force: true });
+      // Navigate to 'My Orders' page
+      cy.visit("/account/my-orders/");
+      // ***** Verify my order details *****
+      // Click the first 'View Order' button at the very top
+      cy.get('button[class^="chakra-button"] > div > div > span')
+        .eq(0)
+        .contains("View Order")
+        .as("viewOrderButton");
+      cy.get("@viewOrderButton").click().wait(500);
+      // Make sure the 'Back' button on the 'Order' page shows up
+      cy.getChakraButtonByText("Back");
+      // Verify the number of purchased items in the order
+      cy.get('div[data-testid="invoice-barcode-items"]')
+        .find('div[data-testid^="invoice-barcode-item"]')
+        .then(($value) => {
+          let totalPurchasedItems = $value.length;
+          expect(totalPurchasedItems).to.equal(
+            totalExpectedNumberOfEventDays,
+            "Looks like the total number of purchased items is NOT correct."
+          );
+        });
+      // Verify item details
+      for (let j = 0; j < totalExpectedNumberOfEventDays; j++) {
+        cy.get('div[data-testid="invoice-barcode-items"]')
+          .find(`div[data-testid="invoice-barcode-item-${j}"] > div > div > p`)
+          .eq(0)
+          .should("have.text", "Regular admission");
+        cy.get('div[data-testid="invoice-barcode-items"]')
+          .find(`div[data-testid="invoice-barcode-item-${j}"] > div > div > p`)
+          .eq(1)
+          .should("have.text", "Test-multiple-days-event");
+        cy.get('div[data-testid="invoice-barcode-items"]')
+          .find(`div[data-testid="invoice-barcode-item-${j}"] > div > div > p`)
+          .eq(3)
+          .should("contain.text", "Oct, 2023 |");
+        cy.get('div[data-testid="invoice-barcode-items"]')
+          .find(`div[data-testid="invoice-barcode-item-${j}"] > div > div > p`)
+          .eq(5)
+          .should("contain.text", "Nov, 2035 |");
       }
     }
   );
