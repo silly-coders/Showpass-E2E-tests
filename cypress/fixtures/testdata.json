@@ -79,6 +79,14 @@
     "username": "User ForTesting",
     "userId": 2361
   },
+  "regularUserForOrganization3and4": {
+    "userEmail": "qa+159@showpass.com",
+    "userPassword": "!@Newuser2023",
+    "userFirstName": "User",
+    "userLastName": "Fortesting",
+    "phoneNumber": "8885551100",
+    "username": "User ForTesting"
+  },
   "topRightHandDropDownList": {
     "stopImpersonate": "Stop Impersonate",
     "upcoming": "Upcoming",

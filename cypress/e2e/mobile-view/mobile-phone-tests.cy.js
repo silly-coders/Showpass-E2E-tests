@@ -12,8 +12,8 @@ describe("Test the mobile phone view by ", () => {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
       cy.navigateToHomePage();
-      cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
-      cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
+      cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
+      cy.navigateToDashboard(this.testdata.regularUserForOrganization3and4);
       cy.clickHamburgerMenu();
       cy.clickCreateEventButton();
       // Ensure the page title shows up
@@ -88,7 +88,7 @@ describe("Test the mobile phone view by ", () => {
                 .click({ force: true });
               // Log into the application
               cy.logIntoPortalInMobileView(
-                this.testdata.userForSingleBarcodeTesting
+                this.testdata.userForOrganization3and4
               );
               // Click the cart counter to move to checkout
               cy.visit("/checkout/");
@@ -99,9 +99,8 @@ describe("Test the mobile phone view by ", () => {
             "be.visible"
           );
           // Complete the order
-          cy.completeOrderOnAngular(
+          cy.completeOrderWithSavedPaymentMethodOnAngular(
             this.testdata.userDetails,
-            this.testdata.visaDebitForTesting
           );
           // Click 'Showpass' logo to navigate to the 'Home' page
           cy.get('.container > [href="/"] > .logo')

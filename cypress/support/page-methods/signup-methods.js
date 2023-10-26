@@ -110,3 +110,51 @@ Cypress.Commands.add("registerNewUser", (userDetails) => {
     .should("be.oneOf", [201, 204]);
   homeLocators.accountCreatedMessage().should("exist").should("be.visible");
 });
+/**
+ * Method to register a new user
+ * @param userDetails
+ **/
+Cypress.Commands.add("registerNewUserByProvidingUniqueEmail", (userDetails) => {
+  cy.log("Going to registerNewUserByProvidingUniqueEmail()");
+  const apiRequest = "/api/auth/registration/";
+  cy.intercept(apiRequest).as("pageLoaded");
+  if (!userDetails) throw new Error("You need to provide user details!");
+  const log = Cypress.log({
+    name: "Registration",
+    displayName: "REGISTRATION",
+    message: [`Signing up | User email: ${userDetails.userEmail}`],
+    autoEnd: false,
+  });
+  cy.clickCreateAccountOnHomePage();
+  signupLocators
+    .firstNameInputField()
+    .should("exist")
+    .should("be.visible")
+    .type(userDetails.userFirstName);
+  signupLocators
+    .lastNameInputField()
+    .should("exist")
+    .should("be.visible")
+    .type(userDetails.userLastName);
+  signupLocators
+    .emailAddressInputField()
+    .should("exist")
+    .should("be.visible")
+    .type(userDetails.userEmail);
+  signupLocators
+    .passwordInputField()
+    .should("exist")
+    .should("be.visible")
+    .type(userDetails.userPassword);
+  signupLocators
+    .confirmPasswordInputField()
+    .should("exist")
+    .should("be.visible")
+    .type(userDetails.userPassword);
+  signupLocators.createAccountButton().should("exist").should("be.visible");
+  cy.clickCreateAccountOnSignUpModalWindow();
+  cy.wait("@pageLoaded")
+    .its("response.statusCode")
+    .should("be.oneOf", [201, 204]);
+  homeLocators.accountCreatedMessage().should("exist").should("be.visible");
+});

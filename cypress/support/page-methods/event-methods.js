@@ -111,6 +111,28 @@ Cypress.Commands.add(
   }
 );
 /**
+ * Method to add tickets to the cart without API request validation
+ * @param totalTicketTypes (total number of ticket types)
+ * @param numberOfTicketsForEach (how many tickets to add from each type)
+ */
+Cypress.Commands.add(
+  "addTicketsToCartNoApiValidation",
+  (totalTicketTypes, numberOfTicketsForEach) => {
+    cy.log("Going to addTicketsToCartNoApiValidation()");
+    for (let j = 1; j <= numberOfTicketsForEach; j++) {
+      for (let i = 0; i < totalTicketTypes; i++) {
+        cy.wait(500);
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+        eventsAndFiltersLocators.addItemButtonActive(i).click();
+        eventsAndFiltersLocators.removeItemButtonActive(i);
+        eventsAndFiltersLocators.addItemButtonActive(i);
+      }
+    }
+    cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+    cy.wait(800);
+  }
+);
+/**
  * Method to remove all events from the 'Saved Events' page
  */
 Cypress.Commands.add("removeAllSavedEvents", () => {

@@ -9,38 +9,13 @@ describe("Verify purchased tickets by ", () => {
     });
   });
 
-  after(function () {
-    cy.log("Going to replenish the test event ticket stock.");
-    // Do not change event or event name as the tickets get added to this event for further testing
-    let uniqueEventName = "verify-payment-event-1697684780";
-    cy.visit(`/dashboard/events/${uniqueEventName}/manage/#/edit`);
-    // Add more tickets to the first ticket type
-    cy.get('input[name="ticketTypeInventory0"]')
-      .should("exist")
-      .scrollIntoView({ force: true })
-      .should("be.visible")
-      .clear({ force: true })
-      .type(1500000);
-    // Add more tickets to the first ticket type
-    cy.get('input[name="ticketTypeInventory1"]')
-      .should("exist")
-      .scrollIntoView({ force: true })
-      .should("be.visible")
-      .clear({ force: true })
-      .type(150000);
-    // Click Save
-    cy.get('button[ng-click="saveEvent()"]').as("saveButton");
-    cy.get("@saveButton").should("exist").click({ force: true });
-    cy.wait(1000);
-  });
-
   // ***************************************************************************
   it(
     "ensuring that an event owner can purchase tickets with a single barcode-TA-68",
     { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
-      cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
-      cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
+      cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
+      cy.navigateToDashboard(this.testdata.regularUserForOrganization3and4);
       cy.clickHamburgerMenu();
       cy.clickCreateEventButton();
       // Ensure the page title shows up
@@ -63,13 +38,12 @@ describe("Verify purchased tickets by ", () => {
       cy.url().should("contain", uniqueEventName);
       // Add tickets to cart and proceed to checkout
       cy.addTicketsToCartAndProceedToCheckout(
-        this.testdata.userForSingleBarcodeTesting,
+        this.testdata.regularUserForOrganization3and4,
         1
       );
       // Complete the order
-      cy.completeOrderOnAngular(
-        this.testdata.userForSingleBarcodeTesting,
-        this.testdata.visaDebitForTesting
+      cy.completeOrderWithSavedPaymentMethodOnAngular(
+        this.testdata.regularUserForOrganization3and4
       );
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/");
@@ -81,6 +55,7 @@ describe("Verify purchased tickets by ", () => {
       cy.get("@viewOrderButton").click().wait(500);
       // Make sure the 'Back' button on the 'Order' page shows up
       cy.getChakraButtonByText("Back");
+      // ***** Verify order details *****
       // Ensure there is only one invoice barcode
       cy.log(
         `Going to verify that there is only one barcode for the following event: ${uniqueEventName}`
@@ -96,8 +71,8 @@ describe("Verify purchased tickets by ", () => {
     "ensuring that regular users can purchase event tickets with a single barcode-TA-71",
     { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
-      cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
-      cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
+      cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
+      cy.navigateToDashboard(this.testdata.regularUserForOrganization3and4);
       cy.clickHamburgerMenu();
       cy.clickCreateEventButton();
       // Ensure the page title shows up
@@ -111,8 +86,6 @@ describe("Verify purchased tickets by ", () => {
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.signOut();
-      // Log into the portal as another user
-      cy.logIntoPortal(this.testdata.userDetails);
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
       cy.url().should("contain", uniqueEventName);
@@ -121,27 +94,20 @@ describe("Verify purchased tickets by ", () => {
         .contains(uniqueEventName)
         .click({ force: true });
       cy.url().should("contain", uniqueEventName);
-      cy.get('button[class^="chakra-button"] > p')
-        .contains("BUY TICKETS")
-        .click({ force: true });
-      // Add 3 tickets from each ticket type (2 ticket types in total)
-      cy.addTicketsToCart(2, 1);
-      // Click 'Checkout' button
-      cy.clickChakraButtonByText("CHECKOUT");
-      // Wait for the next page
-      cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
+      // Add tickets to cart and proceed to checkout
+      cy.addTicketsToCartAndProceedToCheckout(
+        this.testdata.userForOrganization3and4,
+        1
+      );
       // Complete the order
-      cy.completeOrderOnAngular(
-        this.testdata.userDetails,
-        this.testdata.visaDebitForTesting
+      cy.completeOrderWithSavedPaymentMethodOnAngular(
+        this.testdata.userForOrganization3and4
       );
       // Click 'Showpass' logo to navigate to the 'Home' page
       cy.get('.container > [href="/"] > .logo')
         .should("exist")
         .should("be.visible")
         .click({ force: true });
-      // Log into the portal to verify order details
-      cy.logIntoPortal(this.testdata.userDetails);
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/");
       // Click the first 'View Order' button at the very top
@@ -152,6 +118,7 @@ describe("Verify purchased tickets by ", () => {
       cy.get("@viewOrderButton").click().wait(500);
       // Make sure the 'Back' button on the 'Order' page shows up
       cy.getChakraButtonByText("Back");
+      // ***** Verify order details *****
       // Ensure there is only one invoice barcode
       cy.log(
         `Going to verify that there is only one barcode for the following event: ${uniqueEventName}`
@@ -174,6 +141,14 @@ describe("Verify purchased tickets by ", () => {
       // Ensure the page title shows up
       cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
       let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
+      let userDetails = {
+        userEmail: `qa+${Math.floor(Date.now() / 1000)}@showpass.com`,
+        userPassword: "!@Newuser2023",
+        userFirstName: "User",
+        userLastName: "ForTesting",
+        phoneNumber: "18883331155",
+        username: "User ForTesting",
+      };
       cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
       // Click 'Showpass' logo to navigate to the 'Home' page
       cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
@@ -201,7 +176,7 @@ describe("Verify purchased tickets by ", () => {
       cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
       // Complete the order
       cy.completeOrderAsGuestOnAngular(
-        this.testdata.userDetails,
+        userDetails,
         this.testdata.visaDebitForTesting
       );
     }
@@ -264,9 +239,18 @@ describe("Verify purchased tickets by ", () => {
     "verifying that multiple day event tickets can be purchased-TA-93",
     { tags: ["e2e", "orders", "smoke"] },
     function () {
+      var uniqueUserEmail =
+        "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+      let userDetails = {
+        userEmail: uniqueUserEmail,
+        userPassword: "!@Newuser2023",
+        userFirstName: "User",
+        userLastName: "ForTesting",
+        phoneNumber: "8883331155",
+        username: "User ForTesting",
+      };
+      cy.registerNewUserByProvidingUniqueEmail(userDetails);
       let totalExpectedNumberOfEventDays = 5;
-      let userDetails = this.testdata.userForSingleBarcodeTesting;
-      cy.logIntoPortal(userDetails);
       // Do not change event or event name as the tickets get added to this event in the after() hook
       let uniqueEventName = "Test-multiple-days-event";
       // Open just created event
@@ -288,7 +272,7 @@ describe("Verify purchased tickets by ", () => {
         .should("contain.text", "Tickets");
       // Verify a total number of all multiple-day tickets available
       cy.log(
-        "Verifying that a number of recurring events (available event days) is still 10."
+        "Verifying that a number of recurring events (available event days) is correct."
       );
       cy.get('div[data-testid="recurring-timeslot-modal"]')
         .find('div[data-testid="card"]')
@@ -315,7 +299,7 @@ describe("Verify purchased tickets by ", () => {
           .should("exist")
           .should("be.visible");
         // Add ticket(s) to cart
-        cy.addTicketsToCart(1, 1);
+        cy.addTicketsToCartNoApiValidation(1, 1);
         cy.wait(300);
         // Click 'Back' to navigate back and select more tickets
         cy.getChakraButtonByText("Back")
@@ -332,10 +316,11 @@ describe("Verify purchased tickets by ", () => {
       }
       // Click 'Checkout' button
       cy.clickChakraButtonByText("CHECKOUT");
-      // Wait for the next page
-      cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
       // Complete the order
-      cy.completeOrderOnAngular(userDetails, this.testdata.visaDebitForTesting);
+      cy.completeOrderAsGuestOnAngular(
+        userDetails,
+        this.testdata.visaDebitForTesting
+      );
       // Click 'Showpass' logo to navigate to the 'Home' page
       cy.get('.container > [href="/"] > .logo')
         .should("exist")
@@ -381,6 +366,36 @@ describe("Verify purchased tickets by ", () => {
           .eq(5)
           .should("contain.text", "Nov, 2035 |");
       }
+    }
+  );
+  // ***************************************************************************
+  it(
+    "replenishing event ticket stock (purchases.cy.js)",
+    { tags: ["e2e", "barcodes", "orders", "smoke"] },
+    function () {
+      cy.log("Going to replenish the event ticket stock (purchases.cy.js)");
+      cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
+      // Do not change event or event name as the tickets get added to this event for further testing
+      let uniqueEventName = "verify-payment-event-1697684780";
+      cy.visit(`/dashboard/events/${uniqueEventName}/manage/#/edit`);
+      // Add more tickets to the first ticket type
+      cy.get('input[name="ticketTypeInventory0"]')
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("be.visible")
+        .clear({ force: true })
+        .type(1500000);
+      // Add more tickets to the first ticket type
+      cy.get('input[name="ticketTypeInventory1"]')
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("be.visible")
+        .clear({ force: true })
+        .type(150000);
+      // Click Save
+      cy.get('button[ng-click="saveEvent()"]').as("saveButton");
+      cy.get("@saveButton").should("exist").click({ force: true });
+      cy.wait(1000);
     }
   );
   // ***************************************************************************

@@ -165,6 +165,8 @@ Cypress.Commands.add("goThroughCheckoutBeforePayment", (userDetails) => {
   );
   cy.wait(300);
   // *** More Events page
+  // Click 'Next'
+  cy.clickNextButtonDuringCheckoutAngular();
   // Click 'REVIEW' tab
   cy.get('md-tab-item[role="tab"] > span')
     .eq(3)
@@ -241,23 +243,27 @@ Cypress.Commands.add(
       .eq(0)
       .should("exist")
       .scrollIntoView({ force: true })
+      .clear({force: true})
       .type(`${userDetails.userFirstName} ${userDetails.userLastName}`);
     // Enter 'Phone'
     cy.get('input[type="tel"]')
       .eq(0)
       .should("exist")
       .scrollIntoView({ force: true })
+      .clear({force: true})
       .type(`${userDetails.phoneNumber}`);
     // Enter 'Email'
     cy.get('input[type="email"]')
       .eq(0)
       .should("exist")
       .scrollIntoView({ force: true })
+      .clear({force: true})
       .type(userDetails.userEmail);
     // Enter 'Confirm Email'
     cy.get('input[ng-model="confirmEmail"]')
       .eq(0)
       .should("be.visible")
+      .clear({force: true})
       .type(userDetails.userEmail);
 
     // Click 'Next' to go to 'Payment'
@@ -333,6 +339,7 @@ Cypress.Commands.add(
     cy.addTicketsToCart(2, numberOfTicketsForEachTicketType);
     // Click 'Checkout' button
     cy.clickChakraButtonByText("CHECKOUT");
+    cy.wait(900);
     // *******
     // If 'Login' button still shows up in AngularJS log into the app
     cy.get("body").then(($body) => {
@@ -491,4 +498,74 @@ Cypress.Commands.add("clickNextButtonDuringCheckoutAngular", () => {
     .click({ force: true });
   cy.get(300);
 });
+// *********************************************************************
+/**
+ * Method to complete an order with a saved payment method
+ * @param userDetails
+ */
+Cypress.Commands.add(
+  "completeOrderWithSavedPaymentMethodOnAngular",
+  (userDetails) => {
+    cy.log("Going to completeOrderWithSavedPaymentMethodOnAngular()");
+    // *** More Events page
+    // Click 'Next'
+    cy.clickNextButtonDuringCheckoutAngular();
+    // Click 'REVIEW' tab
+    cy.get('md-tab-item[role="tab"] > span')
+      .eq(3)
+      .contains("Review")
+      .should("exist")
+      .click({ force: true });
+    cy.wait(700);
+    // *** Review page
+    // Verify the 'Review' header
+    cy.get('span[class^="md-title strong"]')
+      .contains("Review")
+      .should("be.visible");
+    // Click 'Next'
+    cy.clickNextButtonDuringCheckoutAngular();
+    // *** Purchase Info page ***
+    // Verify the 'Purchaser Info' header
+    cy.get('h2[class^="md-title strong"]')
+      .contains("Purchaser Info")
+      .should("be.visible");
+    // Enter 'Confirm Email'
+    cy.typeText('input[ng-model="confirmEmail"]', 0, userDetails.userEmail);
+    // Click 'Next'
+    cy.get(
+      'button[class^="md-raised md-primary pull-right"][type="submit"] > span'
+    )
+      .eq(0)
+      .contains("Next")
+      .click({ force: true });
+    cy.wait(300);
+    // Click the 'PAYMENT' tab
+    cy.get('md-tab-item[role="tab"] > span[ng-if="!cart.isFree()"]')
+      .last()
+      .contains("Payment")
+      .should("exist")
+      .click({ force: true });
+    cy.wait(500);
+    // Click 'Pay $XX.XX CAD'
+    cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
+      .should("exist")
+      .scrollIntoView({ force: true });
+    cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
+      .should("be.visible")
+      .click({ force: true });
+    cy.wait(1000);
+    // Verify data loading indicator disappearance
+    cy.wait(3000);
+    Cypress.config("defaultCommandTimeout", 7000);
+    // Ensure the data loading indicator disappears
+    cy.get(
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
+    ).should("not.exist");
+    // Ensure the order confirmation page shows up
+    cy.get('h1[class^="md-display"]')
+      .should("exist")
+      .should("be.visible")
+      .should("contain.text", "Thank you!");
+  }
+);
 // *********************************************************************

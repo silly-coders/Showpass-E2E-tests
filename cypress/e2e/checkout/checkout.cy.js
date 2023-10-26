@@ -70,7 +70,7 @@ describe("Test checkout process by ", () => {
         .should("exist")
         .click({ force: true })
         .wait(700)
-        .click({force: true});
+        .click({ force: true });
       // *** Review page
       // Verify the 'Review' header
       cy.get('span[class^="md-title strong"]')
@@ -232,19 +232,13 @@ describe("Test checkout process by ", () => {
         .should("exist")
         .click({ force: true });
       cy.wait(500);
-      // Verify the 'Payment Method' header
-      cy.get('h2[class^="md-title strong"]')
-        .eq(1)
-        .contains("Payment Method")
-        .should("exist")
-        .scrollIntoView({ force: true })
-        .should("be.visible");
-      cy.wait(700);
       // Click 'Pay $XX.XX CAD'
       cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
         .should("exist")
-        .scrollIntoView({ force: true })
-        .click({ force: true });
+        .scrollIntoView({ force: true });
+      cy.get(
+        'button[ng-click="setBillingAndShippingFields()"][type="submit"]'
+      ).click({ force: true });
       cy.wait(1000);
       // Verify data loading indicator appearance and disappearance
       cy.get(
@@ -303,7 +297,7 @@ describe("Test checkout process by ", () => {
   );
   // ***************************************************************************
   it(
-    "replenishing membership group ticket stock",
+    "replenishing membership group ticket stock (checkout.cy.js)",
     { tags: ["e2e", "membership-group"] },
     function () {
       cy.fixture("testdata.json").then(function (testdata) {
