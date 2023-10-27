@@ -545,11 +545,12 @@ Cypress.Commands.add(
       .contains("Payment")
       .should("exist")
       .click({ force: true });
-    cy.wait(500);
+    cy.wait(900);
     // Click 'Pay $XX.XX CAD'
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("exist")
-      .scrollIntoView({ force: true });
+      .scrollIntoView({ force: true })
+      .wait(500);
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("be.visible")
       .click({ force: true });

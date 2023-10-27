@@ -607,6 +607,7 @@ Cypress.Commands.add("getChakraTextLabelByIndex", (index) => {
     .get('div[class^="css"] > p[class^="chakra-text"]')
     .eq(index)
     .should("exist")
+    .scrollIntoView({force: true})
     .should("be.visible");
 });
 /**

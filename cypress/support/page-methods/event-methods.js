@@ -63,11 +63,30 @@ Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
   // Event details
   cy.getChakraSkeletonH1HeaderByText(eventDetails.eventName); // Event name
   cy.getH3HrefHeaderByText(eventDetails.organization); // Organization
-  cy.getChakraTextLabelByIndex(1).should("contain", eventDetails.startDay); // Start day label
-  cy.getChakraTextLabelByIndex(2).should("contain", eventDetails.endDay); // End day label
-  cy.getChakraTextLabelByIndex(3).should("contain", eventDetails.startTime); // Start time label
-  cy.getChakraTextLabelByIndex(4).should("contain", eventDetails.endTime); // End time label
-  cy.getChakraTextLabelByIndex(6).should("contain", eventDetails.eventType); // Even type (Online Event)
+  let textLabels = {
+    0: eventDetails.startDay,
+    1: eventDetails.endDay,
+    2: eventDetails.startTime,
+    3: eventDetails.endTime,
+    5: eventDetails.eventType,
+  };
+  // Key in the object above is also the elemnt index in the DOM HTML
+  for (let i = 0; i < Object.keys(textLabels).length; i++) {
+    cy.log(
+      "Key: " +
+        Object.keys(textLabels).at(i) +
+        ", Value: " +
+        Object.values(textLabels).at(i)
+    );
+    cy.get('div[class^="chakra-skeleton"]')
+      .eq(2)
+      .find('div[class^="css"] > p[class^="chakra-text"]')
+      .eq(Object.keys(textLabels).at(i)) // Find the element with the index = Object.keys(textLabels).at(i))
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .should("be.visible")
+      .should("contain.text", Object.values(textLabels).at(i));
+  }
 });
 /**
  * Method to verify event-2 PAGE details
@@ -77,10 +96,29 @@ Cypress.Commands.add("verifyEvent2PageDetails", (eventDetails) => {
   // Event details
   cy.getChakraSkeletonH1HeaderByText(eventDetails.eventName); // Event name
   cy.getH3HrefHeaderByText(eventDetails.organization); // Organization
-  cy.getChakraTextLabelByIndex(1).should("contain", eventDetails.startDay); // Start day label
-  cy.getChakraTextLabelByIndex(2).should("contain", eventDetails.endDay); // End day label
-  cy.getChakraTextLabelByIndex(3).should("contain", eventDetails.startTime); // Start time label
-  cy.getChakraTextLabelByIndex(4).should("contain", eventDetails.endTime); // End time label
+  let textLabels = {
+    0: eventDetails.startDay,
+    1: eventDetails.endDay,
+    2: eventDetails.startTime,
+    3: eventDetails.endTime,
+  };
+  // Key in the object above is also the elemnt index in the DOM HTML
+  for (let i = 0; i < Object.keys(textLabels).length; i++) {
+    cy.log(
+      "Key: " +
+        Object.keys(textLabels).at(i) +
+        ", Value: " +
+        Object.values(textLabels).at(i)
+    );
+    cy.get('div[class^="chakra-skeleton"]')
+      .eq(2)
+      .find('div[class^="css"] > p[class^="chakra-text"]')
+      .eq(Object.keys(textLabels).at(i)) // Find the element with the index = Object.keys(textLabels).at(i))
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .should("be.visible")
+      .should("contain.text", Object.values(textLabels).at(i));
+  }
 });
 /**
  * Method to add tickets to the cart
