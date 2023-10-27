@@ -176,7 +176,13 @@ describe("Verify user's profile by ", () => {
         "***** Part 1: verify the toggle is ENABLED from the get go *****"
       );
       cy.clickNotificationsButton();
-      cy.verifyToggleLabelsOnNotificationsPage(0, "All Notifications");
+      cy.get('div[id="notifications-form-container"]')
+      .find('p[class^="chakra-text"]')
+      .first()
+      .should('exist')
+      .scrollIntoView({force: true})
+      .should('be.visible')
+      .should('contain.text', "All Notifications");
       // If the chakra-switch selector is disabled enable it before test
       for (var i = 0; i < 16; i++) {
         cy.verifyAndTurnOnChakraSwitchSelectorIfDisabled(i);
