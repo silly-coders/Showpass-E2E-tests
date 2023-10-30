@@ -14,7 +14,7 @@ describe("Test checkout process by ", () => {
 
   // ***************************************************************************
   it(
-    "verifying that tickets can be selected and added-TA-40",
+    "verifying that tickets can be selected and added to cart-TA-40",
     { tags: ["e2e"] },
     function () {
       cy.logIntoPortal(this.testdata.userDetails);
@@ -123,7 +123,7 @@ describe("Test checkout process by ", () => {
   // ***************************************************************************
   it(
     "verifying 'One time - renewal frequency' membership group order details-TA-95",
-    { tags: ["e2e", "membership-group"] },
+    { tags: ["e2e", "membership-group", "orders"] },
     function () {
       let uniqueMembershipName = "test-group-1698096389";
       cy.fixture("testdata.json").then(function (testdata) {

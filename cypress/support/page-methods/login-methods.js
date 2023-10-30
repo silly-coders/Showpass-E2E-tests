@@ -58,11 +58,13 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     .emailAddressInputField()
     .should("exist")
     .should("be.visible")
+    .clear({force: true})
     .type(userObject.userEmail);
   loginLocators
     .passwordInputField()
     .should("exist")
     .should("be.visible")
+    .clear({force: true})
     .type(userObject.userPassword);
   loginLocators
     .emailAddressInputField()
@@ -74,6 +76,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     .loginButtonOnLoginModalWindow()
     .should("exist")
     .should("be.visible")
+    .wait(700)
     .click({force: true});
   cy.wait(700);  
   loginLocators
@@ -99,7 +102,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
 Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
   cy.log("Going to logIntoPortalInMobileView()");
   if (!userObject) throw new Error("You need to provide user credentials!");
-  cy.wait(500);
+  cy.wait(900);
   const apiRequest = "**/envelope/*";
   cy.intercept(apiRequest).as("pageLoaded");
   // Get the main menu modal window in mobile view
@@ -130,11 +133,13 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         .emailAddressInputField()
         .should("exist")
         .should("be.visible")
+        .clear({force: true})
         .type(userObject.userEmail);
       loginLocators
         .passwordInputField()
         .should("exist")
         .should("be.visible")
+        .clear({force: true})
         .type(userObject.userPassword);
       loginLocators
         .emailAddressInputField()
@@ -146,6 +151,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         .loginButtonOnLoginModalWindow()
         .should("exist")
         .should("be.visible")
+        .wait(700)
         .click({ force: true });
       cy.wait(700);
       // Button arrow in the top right corner pointing down

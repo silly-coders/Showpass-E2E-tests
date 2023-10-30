@@ -87,7 +87,7 @@ Cypress.Commands.add(
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
     ).should("not.exist");
-    // Ensure the order confirmation page shows up
+    // Ensure the 'Thank you' message shows up after a payment is completed
     cy.get('h1[class^="md-display"]')
       .should("exist")
       .should("be.visible")
@@ -243,29 +243,28 @@ Cypress.Commands.add(
       .eq(0)
       .should("exist")
       .scrollIntoView({ force: true })
-      .clear({force: true})
+      .clear({ force: true })
       .type(`${userDetails.userFirstName} ${userDetails.userLastName}`);
     // Enter 'Phone'
     cy.get('input[type="tel"]')
       .eq(0)
       .should("exist")
       .scrollIntoView({ force: true })
-      .clear({force: true})
+      .clear({ force: true })
       .type(`${userDetails.phoneNumber}`);
     // Enter 'Email'
     cy.get('input[type="email"]')
       .eq(0)
       .should("exist")
       .scrollIntoView({ force: true })
-      .clear({force: true})
+      .clear({ force: true })
       .type(userDetails.userEmail);
     // Enter 'Confirm Email'
     cy.get('input[ng-model="confirmEmail"]')
       .eq(0)
       .should("be.visible")
-      .clear({force: true})
+      .clear({ force: true })
       .type(userDetails.userEmail);
-
     // Click 'Next' to go to 'Payment'
     cy.get(
       'button[class^="md-raised md-primary pull-right"][type="submit"] > span'
@@ -315,7 +314,7 @@ Cypress.Commands.add(
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
     ).should("not.exist");
-    // Ensure the order confirmation page shows up
+    // Ensure the 'Thank you' message shows up after a payment is completed
     cy.get('h1[class^="md-display"]')
       .should("exist")
       .should("be.visible")
@@ -545,16 +544,25 @@ Cypress.Commands.add(
       .contains("Payment")
       .should("exist")
       .click({ force: true });
-    cy.wait(900);
+    cy.wait(1500);
+    // Wait for the 'Pay with link' button area to show up
+    cy.get('div[class^="payment-details-express-pay"]').as('payWithLinkButton');
+    cy.get('@payWithLinkButton').should('exist');
     // Click 'Pay $XX.XX CAD'
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("exist")
       .scrollIntoView({ force: true })
-      .wait(500);
+      .wait(700);
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("be.visible")
-      .click({ force: true });
-    cy.wait(1000);
+      .click({ force: true })
+      .wait(900);
+    // If the 'Pay $XX.XX CAD' button still shows up click it again
+    cy.clickPayButtonToSubmitPaymentIfAvailable();
+    // Ensure the data loading indicator shows up
+    cy.get(
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
+    ).should("exist");
     // Verify data loading indicator disappearance
     cy.wait(3000);
     Cypress.config("defaultCommandTimeout", 7000);
@@ -562,11 +570,36 @@ Cypress.Commands.add(
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
     ).should("not.exist");
-    // Ensure the order confirmation page shows up
+    // Ensure the 'Thank you' message shows up after a payment is completed
     cy.get('h1[class^="md-display"]')
       .should("exist")
       .should("be.visible")
       .should("contain.text", "Thank you!");
   }
 );
+// *********************************************************************
+/**
+ * Method to click the 'Pay $XX.XX CAD' button if it's available
+ */
+Cypress.Commands.add("clickPayButtonToSubmitPaymentIfAvailable", () => {
+  // If the 'Pay $XX.XX CAD' button still shows up click it again
+  cy.log("Going to clickPayButtonToSubmitPaymentIfAvailable()");
+  cy.wait(500);
+  cy.get("body").then(($body) => {
+    if (
+      $body.find(
+        'button[ng-click="setBillingAndShippingFields()"][type="submit"] > span > span[ng-show="!cart.isFree() && !isWaitlistBasket"]'
+      ).length
+    ) {
+      cy.log(
+        "'Pay $XX.XX CAD' button still shows up. Going to submit payment again."
+      );
+      // Click the 'Pay $XX.XX CAD' button
+      cy.get(
+        'button[ng-click="setBillingAndShippingFields()"][type="submit"]'
+      ).as("payButton");
+      cy.get("@payButton").should("be.visible").click({ force: true });
+    }
+  });
+});
 // *********************************************************************

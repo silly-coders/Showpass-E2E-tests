@@ -374,7 +374,7 @@ describe("Verify 'Memberships' page features by ", function () {
   );
   // ***************************************************************************
   it(
-    "confirming that a correct 'Buy passes' button show up-TA-88",
+    "confirming that a correct 'Buy passes' button shows up-TA-88",
     { tags: ["e2e", "membership-group"] },
     function () {
       // Retrieve the uniqueMembershipName value from the Cypress.env() object

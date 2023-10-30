@@ -5,7 +5,7 @@ const mobileScreenSizes = [
   //[360, 740], // Samsung Galaxy S8+
 ];
 describe("Test the mobile phone view by ", () => {
-  before(function () {
+  beforeEach(function () {
     cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
@@ -80,7 +80,8 @@ describe("Test the mobile phone view by ", () => {
               cy.get("@loginButton")
                 .should("exist")
                 .should("be.visible")
-                .click({ force: true });
+                .click({ force: true })
+                .wait(500);
               // Click main menu on React in mobile view
               cy.get('button[aria-label="Main menu"]')
                 .should("exist")
@@ -100,7 +101,7 @@ describe("Test the mobile phone view by ", () => {
           );
           // Complete the order
           cy.completeOrderWithSavedPaymentMethodOnAngular(
-            this.testdata.userDetails,
+            this.testdata.userDetails
           );
           // Click 'Showpass' logo to navigate to the 'Home' page
           cy.get('.container > [href="/"] > .logo')
