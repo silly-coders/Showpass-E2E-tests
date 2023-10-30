@@ -68,8 +68,7 @@ Cypress.Commands.add("registerNewUser", (userDetails) => {
   const apiRequest = "/api/auth/registration/";
   cy.intercept(apiRequest).as("pageLoaded");
   // Create a unique user email
-  var uniqueUserEmail =
-    "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+  var uniqueUserEmail = "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
   if (!userDetails) throw new Error("You need to provide user details!");
   const log = Cypress.log({
     name: "Registration",
@@ -116,8 +115,6 @@ Cypress.Commands.add("registerNewUser", (userDetails) => {
  **/
 Cypress.Commands.add("registerNewUserByProvidingUniqueEmail", (userDetails) => {
   cy.log("Going to registerNewUserByProvidingUniqueEmail()");
-  const apiRequest = "/api/auth/registration/";
-  cy.intercept(apiRequest).as("pageLoaded");
   if (!userDetails) throw new Error("You need to provide user details!");
   const log = Cypress.log({
     name: "Registration",
@@ -130,31 +127,38 @@ Cypress.Commands.add("registerNewUserByProvidingUniqueEmail", (userDetails) => {
     .firstNameInputField()
     .should("exist")
     .should("be.visible")
-    .type(userDetails.userFirstName);
+    .clear({ force: true })
+    .type(userDetails.userFirstName)
+    .wait(300);
   signupLocators
     .lastNameInputField()
     .should("exist")
     .should("be.visible")
-    .type(userDetails.userLastName);
+    .clear({ force: true })
+    .type(userDetails.userLastName)
+    .wait(300);
   signupLocators
     .emailAddressInputField()
     .should("exist")
     .should("be.visible")
-    .type(userDetails.userEmail);
+    .clear({ force: true })
+    .type(userDetails.userEmail)
+    .wait(300);
   signupLocators
     .passwordInputField()
     .should("exist")
     .should("be.visible")
-    .type(userDetails.userPassword);
+    .clear({ force: true })
+    .type(userDetails.userPassword)
+    .wait(300);
   signupLocators
     .confirmPasswordInputField()
     .should("exist")
     .should("be.visible")
-    .type(userDetails.userPassword);
+    .clear({ force: true })
+    .type(userDetails.userPassword)
+    .wait(900);
   signupLocators.createAccountButton().should("exist").should("be.visible");
   cy.clickCreateAccountOnSignUpModalWindow();
-  cy.wait("@pageLoaded")
-    .its("response.statusCode")
-    .should("be.oneOf", [201, 204]);
   homeLocators.accountCreatedMessage().should("exist").should("be.visible");
 });

@@ -4,6 +4,9 @@ const mobileScreenSizes = [
   [390, 844], // iPhone 12 Pro
   //[360, 740], // Samsung Galaxy S8+
 ];
+var uniqueUserEmail;
+let userDetails;
+
 describe("Test the mobile phone view by ", () => {
   beforeEach(function () {
     cy.clearAllSessionStorage();
@@ -26,6 +29,16 @@ describe("Test the mobile phone view by ", () => {
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.signOut();
+      uniqueUserEmail = "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+      userDetails = {
+        userEmail: uniqueUserEmail,
+        userPassword: "!@Newuser2023",
+        userFirstName: "User",
+        userLastName: "ForTesting",
+        phoneNumber: "8883331155",
+        username: "User ForTesting",
+      };
+      cy.registerNewUserByProvidingUniqueEmail(userDetails);
     });
   });
 
@@ -41,13 +54,6 @@ describe("Test the mobile phone view by ", () => {
           /// *** Regular user logs in and purchases a ticket in mobile view
           cy.viewport(size[0], size[1]);
           //cy.viewport(390, 844); // iPhone 12 PRO view in browser
-          // Log into the portal as a regular user
-          cy.getChakraButtonByAttribute("aria-label", "Main menu").click({
-            force: true,
-          });
-          cy.logIntoPortalInMobileView(this.testdata.userDetails);
-          // Open just created event
-          //let uniqueEventName = "automation-event-1695742649";
           cy.visit(`/s/events/all/?q=${uniqueEventName}`);
           cy.url().should("contain", uniqueEventName);
           // Click on the event card to open the event
@@ -88,9 +94,7 @@ describe("Test the mobile phone view by ", () => {
                 .should("be.visible")
                 .click({ force: true });
               // Log into the application
-              cy.logIntoPortalInMobileView(
-                this.testdata.userForOrganization3and4
-              );
+              cy.logIntoPortalInMobileView(userDetails);
               // Click the cart counter to move to checkout
               cy.visit("/checkout/");
             }
@@ -100,8 +104,9 @@ describe("Test the mobile phone view by ", () => {
             "be.visible"
           );
           // Complete the order
-          cy.completeOrderWithSavedPaymentMethodOnAngular(
-            this.testdata.userDetails
+          cy.completeOrderAsGuestOnAngular(
+            userDetails,
+            this.testdata.visaDebitForTesting
           );
           // Click 'Showpass' logo to navigate to the 'Home' page
           cy.get('.container > [href="/"] > .logo')
@@ -114,7 +119,7 @@ describe("Test the mobile phone view by ", () => {
           cy.getChakraButtonByAttribute("aria-label", "Main menu").click({
             force: true,
           });
-          cy.logIntoPortalInMobileView(this.testdata.userDetails);
+          cy.logIntoPortalInMobileView(userDetails);
           // Navigate to 'My Orders' page
           cy.visit("/account/my-orders/");
           // Click the first 'View Order' button at the very top

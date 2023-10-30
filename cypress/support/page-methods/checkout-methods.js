@@ -345,13 +345,15 @@ Cypress.Commands.add(
       if ($body.find('a[class^="md-button"][href="/accounts/login/"]').length) {
         cy.log("Login button in AngularJS shows up. Going to log in.");
         // Find and click 'Login' button
-        cy.get('a[class^="md-button"][href="/accounts/login/"] > span').as(
+        cy.get('a[class^="md-button"][href="/accounts/login/"]').as(
           "loginButton"
         );
         cy.get("@loginButton")
           .should("exist")
           .should("be.visible")
           .click({ force: true });
+        // Click React Login button
+        cy.clickLoginOnHomePage(); 
         // Log into the application
         cy.loginOnlyIntoPortal(userDetails);
         // Click the cart counter to move to checkout

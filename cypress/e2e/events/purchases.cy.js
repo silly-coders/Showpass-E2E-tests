@@ -28,6 +28,17 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true });
       // Log out
       cy.clickMainMenuAndLogOut();
+      var uniqueUserEmail =
+        "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+      let userDetails = {
+        userEmail: uniqueUserEmail,
+        userPassword: "!@Newuser2023",
+        userFirstName: "User",
+        userLastName: "ForTesting",
+        phoneNumber: "8883331155",
+        username: "User ForTesting",
+      };
+      cy.registerNewUserByProvidingUniqueEmail(userDetails);
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
       cy.url().should("contain", uniqueEventName);
@@ -37,13 +48,11 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true });
       cy.url().should("contain", uniqueEventName);
       // Add tickets to cart and proceed to checkout
-      cy.addTicketsToCartAndProceedToCheckout(
-        this.testdata.regularUserForOrganization3and4,
-        1
-      );
+      cy.addTicketsToCartAndProceedToCheckout(userDetails, 1);
       // Complete the order
-      cy.completeOrderWithSavedPaymentMethodOnAngular(
-        this.testdata.regularUserForOrganization3and4
+      cy.completeOrderAsGuestOnAngular(
+        userDetails,
+        this.testdata.visaDebitForTesting
       );
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/");
@@ -86,6 +95,17 @@ describe("Verify purchased tickets by ", () => {
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.signOut();
+      var uniqueUserEmail =
+        "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+      let userDetails = {
+        userEmail: uniqueUserEmail,
+        userPassword: "!@Newuser2023",
+        userFirstName: "User",
+        userLastName: "ForTesting",
+        phoneNumber: "8883331155",
+        username: "User ForTesting",
+      };
+      cy.registerNewUserByProvidingUniqueEmail(userDetails);
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
       cy.url().should("contain", uniqueEventName);
@@ -95,13 +115,11 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true });
       cy.url().should("contain", uniqueEventName);
       // Add tickets to cart and proceed to checkout
-      cy.addTicketsToCartAndProceedToCheckout(
-        this.testdata.userForOrganization3and4,
-        1
-      );
+      cy.addTicketsToCartAndProceedToCheckout(userDetails, 1);
       // Complete the order
-      cy.completeOrderWithSavedPaymentMethodOnAngular(
-        this.testdata.userForOrganization3and4
+      cy.completeOrderAsGuestOnAngular(
+        userDetails,
+        this.testdata.visaDebitForTesting
       );
       // Click 'Showpass' logo to navigate to the 'Home' page
       cy.get('.container > [href="/"] > .logo')
@@ -141,14 +159,6 @@ describe("Verify purchased tickets by ", () => {
       // Ensure the page title shows up
       cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
       let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
-      let userDetails = {
-        userEmail: `qa+${Math.floor(Date.now() / 1000)}@showpass.com`,
-        userPassword: "!@Newuser2023",
-        userFirstName: "User",
-        userLastName: "ForTesting",
-        phoneNumber: "18883331155",
-        username: "User ForTesting",
-      };
       cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
       // Click 'Showpass' logo to navigate to the 'Home' page
       cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
@@ -157,6 +167,17 @@ describe("Verify purchased tickets by ", () => {
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.signOut();
+      var uniqueUserEmail =
+        "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+      let userDetails = {
+        userEmail: uniqueUserEmail,
+        userPassword: "!@Newuser2023",
+        userFirstName: "User",
+        userLastName: "ForTesting",
+        phoneNumber: "8883331155",
+        username: "User ForTesting",
+      };
+      cy.registerNewUserByProvidingUniqueEmail(userDetails);
       // Navigate to the web portal and find just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
       cy.url().should("contain", uniqueEventName);
