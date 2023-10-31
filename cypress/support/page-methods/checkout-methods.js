@@ -353,7 +353,7 @@ Cypress.Commands.add(
           .should("be.visible")
           .click({ force: true });
         // Click React Login button
-        cy.clickLoginOnHomePage(); 
+        cy.clickLoginOnHomePage();
         // Log into the application
         cy.loginOnlyIntoPortal(userDetails);
         // Click the cart counter to move to checkout
@@ -548,8 +548,8 @@ Cypress.Commands.add(
       .click({ force: true });
     cy.wait(1500);
     // Wait for the 'Pay with link' button area to show up
-    cy.get('div[class^="payment-details-express-pay"]').as('payWithLinkButton');
-    cy.get('@payWithLinkButton').should('exist');
+    cy.get('div[class^="payment-details-express-pay"]').as("payWithLinkButton");
+    cy.get("@payWithLinkButton").should("exist");
     // Click 'Pay $XX.XX CAD'
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("exist")
@@ -604,4 +604,74 @@ Cypress.Commands.add("clickPayButtonToSubmitPaymentIfAvailable", () => {
     }
   });
 });
+// *********************************************************************
+/**
+ * Method to add tickets to cart and proceed to checkout with Login tab button on Angular
+ * @param userDetails
+ * @param numberOfTicketsForEachTicketType
+ */
+Cypress.Commands.add(
+  "addTicketsToCartAndProceedToCheckoutWithLoginViaTabButtonAngular",
+  (userDetails, numberOfTicketsForEachTicketType) => {
+    cy.log(
+      "Going to addTicketsToCartAndProceedToCheckoutWithLoginViaTabButtonAngular()"
+    );
+    cy.get('button[class^="chakra-button"] > p')
+      .contains("BUY TICKETS")
+      .click({ force: true });
+    // Add 3 tickets from each ticket type (2 ticket types in total)
+    cy.addTicketsToCart(2, numberOfTicketsForEachTicketType);
+    // Click 'Checkout' button
+    cy.clickChakraButtonByText("CHECKOUT");
+    cy.wait(900);
+    // *******
+    // If 'Login' button still shows up in AngularJS log into the app
+    cy.get("body").then(($body) => {
+      if (
+        $body.find(
+          "md-tab-item[class='md-tab ng-scope ng-isolate-scope md-ink-ripple'] > span"
+        ).length
+      ) {
+        cy.log("Login button in AngularJS shows up. Going to log in.");
+        // Find and click 'Login' button
+        cy.get(
+          "md-tab-item[class='md-tab ng-scope ng-isolate-scope md-ink-ripple'] > span"
+        )
+          .contains("Login")
+          .as("loginButton");
+        cy.get("@loginButton")
+          .should("exist")
+          .scrollIntoView({ force: true })
+          .should("be.visible")
+          .click({ force: true });
+        // Enter email
+        cy.get('input[name="email"][ng-model="loginData.email"]')
+          .should("exist")
+          .scrollIntoView({ force: true })
+          .should("be.visible")
+          .clear({ force: true })
+          .type(userDetails.userEmail)
+          .wait(500);
+        // Enter password
+        cy.get('input[name="password"][ng-model="loginData.password"]')
+          .should("exist")
+          .scrollIntoView({ force: true })
+          .should("be.visible")
+          .clear({ force: true })
+          .type(userDetails.userPassword)
+          .wait(500);
+        // Click 'Login'
+        cy.get('button[type="submit"] > span')
+          .contains("Login")
+          .should("exist")
+          .scrollIntoView({ force: true })
+          .should("be.visible")
+          .click({ force: true });
+      }
+      cy.wait(900);
+    });
+    // Wait for the cart timer to show up
+    cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
+  }
+);
 // *********************************************************************

@@ -28,17 +28,6 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true });
       // Log out
       cy.clickMainMenuAndLogOut();
-      var uniqueUserEmail =
-        "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
-      let userDetails = {
-        userEmail: uniqueUserEmail,
-        userPassword: "!@Newuser2023",
-        userFirstName: "User",
-        userLastName: "ForTesting",
-        phoneNumber: "8883331155",
-        username: "User ForTesting",
-      };
-      cy.registerNewUserByProvidingUniqueEmail(userDetails);
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
       cy.url().should("contain", uniqueEventName);
@@ -48,11 +37,13 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true });
       cy.url().should("contain", uniqueEventName);
       // Add tickets to cart and proceed to checkout
-      cy.addTicketsToCartAndProceedToCheckout(userDetails, 1);
+      cy.addTicketsToCartAndProceedToCheckoutWithLoginViaTabButtonAngular(
+        this.testdata.regularUserForOrganization3and4,
+        1
+      );
       // Complete the order
-      cy.completeOrderAsGuestOnAngular(
-        userDetails,
-        this.testdata.visaDebitForTesting
+      cy.completeOrderWithSavedPaymentMethodOnAngular(
+        this.testdata.regularUserForOrganization3and4
       );
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/");
@@ -75,6 +66,7 @@ describe("Verify purchased tickets by ", () => {
       );
     }
   );
+
   // ***************************************************************************
   it(
     "ensuring that regular users can purchase event tickets with a single barcode-TA-71",
