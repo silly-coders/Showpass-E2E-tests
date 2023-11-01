@@ -21,7 +21,7 @@ describe("Test checkout process by ", () => {
       cy.enterEventNameIntoSearchField(this.testdata.events.event3.eventName);
       cy.getSearchResultModalWindow();
       cy.selectSearchItemByItemName(this.testdata.events.event3.eventName);
-      // Click 'BUY PASSES'
+      // Click 'BUY TICKETS'
       cy.chakraParagraphButtonByText("BUY TICKETS")
         .eq(0)
         .click({ force: true });
@@ -372,6 +372,70 @@ describe("Test checkout process by ", () => {
           .should("exist")
           .should("be.visible");
       });
+    }
+  );
+  // ***************************************************************************
+  it(
+    "verifying that tickets can be removed from the Cart Summary-TA-97",
+    { tags: ["e2e"] },
+    function () {
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.visit(`/automation-event-3/`).wait(500);
+      cy.log("Click 'BUY TICKETS'");
+      cy.chakraParagraphButtonByText("BUY TICKETS")
+        .eq(0)
+        .click({ force: true });
+      cy.log("Add 3 tickets from each ticket type (2 ticket types in total)");
+      cy.addTicketsToCart(2, 1);
+      cy.log("Click 'View Cart'");
+      cy.get('footer[class^="chakra-modal__footer"] > div > button')
+        .first()
+        .contains("View Cart")
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("be.visible")
+        .wait(300)
+        .click({ force: true });
+      cy.log("Verify Cart Summary dialog box header");
+      cy.get('header[class^="chakra-modal__header"] > p')
+        .contains("Cart Summary")
+        .should("exist")
+        .scrollIntoView({ force: true });
+      cy.log("Verify cart quantity");
+      cy.get('div[data-testid="cart-quantity-buttons"] > div')
+        .first()
+        .should("contain", "1");
+      cy.get('div[data-testid="cart-quantity-buttons"] > div')
+        .last()
+        .should("contain", "1");
+      cy.log("Going to click Delete buttons to remove items from cart");
+      let deleteButtonsInTotal = 2;
+      for (let i = 0; i < deleteButtonsInTotal; i++) {
+        cy.get('button[class^="chakra-button"][aria-label="Delete"]')
+          .eq(0)
+          .should("exist")
+          .scrollIntoView({ force: true })
+          .should("be.visible")
+          .click({ force: true })
+          .wait(500);
+      }
+      cy.log('Verify that the "There are no items in your cart" text shows up');
+      cy.get('div[class^="chakra-modal__body"] > div > p')
+        .contains("There are no items in your cart")
+        .should("exist")
+        .should("be.visible");
+      cy.log('Going to click "Cancel"');
+      cy.get('div[class^="chakra-modal__body"]')
+        .find('button[class^="chakra-button"]')
+        .contains("Cancel")
+        .eq(0)
+        .should("exist")
+        .click({ force: true });
+      cy.log('Going to verify that the "Checkout" button is disabled');
+      cy.get('footer[class^="chakra-modal__footer"] > div > button[disabled]')
+        .contains("CHECKOUT")
+        .wait(500)
+        .should("exist");
     }
   );
   // ***************************************************************************
