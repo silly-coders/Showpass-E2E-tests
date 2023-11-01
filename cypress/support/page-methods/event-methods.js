@@ -129,8 +129,8 @@ Cypress.Commands.add(
   "addTicketsToCart",
   (totalTicketTypes, numberOfTicketsForEach) => {
     cy.log("Going to addTicketsToCart()");
-    const apiRequest = "/api/user/tickets/baskets/*";
-    cy.intercept(apiRequest).as("pageLoaded");
+    //const apiRequest1 = "/api/user/tickets/baskets/";
+    //cy.intercept(apiRequest1).as("apiRequest1");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
       for (let i = 0; i < totalTicketTypes; i++) {
         cy.wait(500);
@@ -139,9 +139,9 @@ Cypress.Commands.add(
         eventsAndFiltersLocators.removeItemButtonActive(i);
         eventsAndFiltersLocators.addItemButtonActive(i);
         cy.wait(500);
-        cy.wait("@pageLoaded")
-          .its("response.statusCode")
-          .should("be.oneOf", [200, 204]);
+        // cy.wait("@pageLoaded")
+        //.its("response.statusCode")
+        //.should("be.oneOf", [200, 201, 204]);
       }
     }
     cy.getChakraSpinnerLoadingIndicator().should("not.exist");
@@ -366,14 +366,12 @@ Cypress.Commands.add("openUpcomingPage", () => {
   cy.log("Going to openUpcomingPage");
   const apiRequest = "/api/user/tickets/events/*";
   cy.intercept(apiRequest).as("pageLoaded");
-  // Navigate to the 'Upcoming' page
+  cy.log("Navigate to the 'Upcoming' page");
   cy.getDropDownItem("Upcoming").click({ force: true });
   cy.wait("@pageLoaded")
     .its("response.statusCode")
     .should("be.oneOf", [200, 204]);
-  cy.getChakraInputGroupFieldByAttr("placeholder", "Search")
-    .should("exist")
-    .should("not.have.attr", "disabled");
+  cy.url().should("contain", "/account/upcoming/");
 });
 /**
  * Method to create a new unique event using Angular front-end

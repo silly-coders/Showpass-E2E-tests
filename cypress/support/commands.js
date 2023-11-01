@@ -781,6 +781,7 @@ Cypress.Commands.add(
     cy.log("Going to enterEventNameIntoSearchLocationOrEventField()");
     // Not always the search criteria gets properly entered from the first time
     for (let i = 1; i < 3; i++) {
+      cy.log('Going to getSearchLocationOrEventInputField()');
       cy.getSearchLocationOrEventInputField().clear({ force: true });
       cy.getSearchLocationOrEventInputField().type(eventName, { force: true });
     }

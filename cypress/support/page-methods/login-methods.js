@@ -48,37 +48,41 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     autoEnd: false,
     color: "green",
   });
-  const apiRequest = "**/envelope/*";
-  cy.intercept(apiRequest).as("pageLoaded");
   cy.clickLoginOnHomePage();
-  cy.wait("@pageLoaded")
-    .its("response.statusCode")
-    .should("be.oneOf", [200, 204]);
   loginLocators
     .emailAddressInputField()
     .should("exist")
     .should("be.visible")
-    .clear({force: true})
-    .type(userObject.userEmail);
+    .clear({ force: true })
+    .type(userObject.userEmail)
+    .wait(150);
   loginLocators
     .passwordInputField()
     .should("exist")
     .should("be.visible")
-    .clear({force: true})
-    .type(userObject.userPassword);
+    .clear({ force: true })
+    .type(userObject.userPassword)
+    .wait(150);
   loginLocators
     .emailAddressInputField()
-    .should("have.value", userObject.userEmail);
+    .should("have.value", userObject.userEmail)
+    .wait(150);
   loginLocators
     .passwordInputField()
-    .should("have.value", userObject.userPassword);
+    .should("have.value", userObject.userPassword)
+    .wait(150);
+  const apiRequestProfile = "/api/auth/profile/";
+  cy.intercept(apiRequestProfile).as("profileLoaded");
   loginLocators
     .loginButtonOnLoginModalWindow()
     .should("exist")
     .should("be.visible")
     .wait(700)
-    .click({force: true});
-  cy.wait(700);  
+    .click({ force: true });
+  cy.wait(700);
+  cy.wait("@profileLoaded")
+    .its("response.statusCode")
+    .should("be.oneOf", [200, 204]);
   loginLocators
     .userFirstAndLastNames()
     .should("exist")
@@ -87,12 +91,6 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
       "have.text",
       userObject.userFirstName + " " + userObject.userLastName
     );
-  cy.request({
-    method: "GET",
-    url: "/api/auth/profile/",
-  }).then((response) => {
-    expect(response.status).to.eq(200);
-  });
 });
 // *****************************************************************************
 /**
@@ -103,8 +101,6 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
   cy.log("Going to logIntoPortalInMobileView()");
   if (!userObject) throw new Error("You need to provide user credentials!");
   cy.wait(900);
-  const apiRequest = "**/envelope/*";
-  cy.intercept(apiRequest).as("pageLoaded");
   // Get the main menu modal window in mobile view
   cy.get('div[id="chakra-modal--body-1"] > div').then(($modal) => {
     if (
@@ -126,27 +122,30 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         autoEnd: false,
         color: "green",
       });
-      cy.wait("@pageLoaded")
-        .its("response.statusCode")
-        .should("be.oneOf", [200, 204]);
       loginLocators
         .emailAddressInputField()
         .should("exist")
         .should("be.visible")
-        .clear({force: true})
-        .type(userObject.userEmail);
+        .clear({ force: true })
+        .type(userObject.userEmail)
+        .wait(300);
       loginLocators
         .passwordInputField()
         .should("exist")
         .should("be.visible")
-        .clear({force: true})
-        .type(userObject.userPassword);
+        .clear({ force: true })
+        .type(userObject.userPassword)
+        .wait(300);
       loginLocators
         .emailAddressInputField()
-        .should("have.value", userObject.userEmail);
+        .should("have.value", userObject.userEmail)
+        .wait(150);
       loginLocators
         .passwordInputField()
-        .should("have.value", userObject.userPassword);
+        .should("have.value", userObject.userPassword)
+        .wait(150);
+      const apiRequestProfile = "/api/auth/profile/";
+      cy.intercept(apiRequestProfile).as("profileLoaded");
       loginLocators
         .loginButtonOnLoginModalWindow()
         .should("exist")
@@ -154,6 +153,9 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         .wait(700)
         .click({ force: true });
       cy.wait(700);
+      cy.wait("@profileLoaded")
+        .its("response.statusCode")
+        .should("be.oneOf", [200, 204]);
       // Button arrow in the top right corner pointing down
       cy.get('button[aria-label="Main menu"] > span > svg')
         .should("exist")
@@ -163,7 +165,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         force: true,
       });
       // Verify user name on a modal window after logging in
-      cy.log('Going to verify user name on a modal window after logging in')
+      cy.log("Going to verify user name on a modal window after logging in");
       cy.get('div[id="chakra-modal--body-1"] > div > div > p')
         .should("exist")
         .should("be.visible")
@@ -171,12 +173,6 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
           "have.text",
           userObject.userFirstName + " " + userObject.userLastName
         );
-      cy.request({
-        method: "GET",
-        url: "/api/auth/profile/",
-      }).then((response) => {
-        expect(response.status).to.eq(200);
-      });
     } else {
       cy.log(`Button "Log In" is not available. Can't click it.`);
     }
@@ -201,23 +197,27 @@ Cypress.Commands.add("loginOnlyIntoPortal", (userObject) => {
     .emailAddressInputField()
     .should("exist")
     .should("be.visible")
-    .type(userObject.userEmail);
+    .type(userObject.userEmail)
+    .wait(150);
   loginLocators
     .passwordInputField()
     .should("exist")
     .should("be.visible")
-    .type(userObject.userPassword);
+    .type(userObject.userPassword)
+    .wait(150);
   loginLocators
     .emailAddressInputField()
-    .should("have.value", userObject.userEmail);
+    .should("have.value", userObject.userEmail)
+    .wait(150);
   loginLocators
     .passwordInputField()
-    .should("have.value", userObject.userPassword);
+    .should("have.value", userObject.userPassword)
+    .wait(150);
   loginLocators
     .loginButtonOnLoginModalWindow()
     .should("exist")
     .should("be.visible")
-    .click({force: true});
-  cy.wait(700); 
+    .click({ force: true });
+  cy.wait(700);
 });
 // *****************************************************************************

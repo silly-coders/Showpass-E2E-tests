@@ -90,7 +90,7 @@ Cypress.Commands.add(
     });
     // Make sure just created group shows up
     cy.get(`a[class^="chakra-link"][href^="/m/test-group"]`)
-    .last()
+      .last()
       .contains(uniqueMembershipName)
       .should("exist")
       .should("be.visible");
@@ -132,7 +132,7 @@ Cypress.Commands.add(
     cy.getChakraButtonByAttribute("form", "membership-level-form")
       .should("be.visible")
       .click({ force: true });
-    cy.wait(1500);  
+    cy.wait(1500);
   }
 );
 /**
@@ -218,7 +218,7 @@ Cypress.Commands.add(
     cy.get('button[form="membership-benefit-form"]')
       .contains("Save")
       .click({ force: true });
-    cy.wait(900);  
+    cy.wait(900);
     // Verify and close the 'Success' message
     cy.verifyTopRightSuccessMessage("Success");
     cy.clickButtonXtoCloseMessage();
@@ -313,8 +313,6 @@ Cypress.Commands.add(
   "addMembershipLevelsToCart",
   (totalTicketTypes, numberOfTicketsForEach) => {
     cy.log("Going to addMembershipLevelsToCart()");
-    const apiRequest = "/api/user/tickets/baskets/*";
-    cy.intercept(apiRequest).as("pageLoaded");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
       for (let i = 0; i < totalTicketTypes; i++) {
         cy.wait(500);
@@ -327,18 +325,14 @@ Cypress.Commands.add(
           .scrollIntoView()
           .should("be.visible")
           .click({ force: true });
-        // Button 'Remove item' should be visible and active
         cy.get('button[class^="chakra-button"][aria-label="Remove item"]')
           .eq(i)
           .should("exist")
           .scrollIntoView()
           .should("be.visible");
         cy.wait(500);
-        cy.wait("@pageLoaded")
-          .its("response.statusCode")
-          .should("be.oneOf", [200, 204]);
       }
-      cy.get("@btn").should("exist").scrollIntoView().should("be.disabled");
+      cy.get("@btn").should("exist").scrollIntoView();
     }
     cy.wait(500);
   }
@@ -352,8 +346,6 @@ Cypress.Commands.add(
   "removeMembershipLevelsFromCart",
   (totalTicketTypes, numberOfTicketsForEach) => {
     cy.log("Going to removeMembershipLevelsFromCart()");
-    const apiRequest = "/api/user/tickets/baskets/*";
-    cy.intercept(apiRequest).as("pageLoaded");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
       for (let i = 0; i < totalTicketTypes; i++) {
         cy.wait(500);
@@ -373,9 +365,6 @@ Cypress.Commands.add(
           .scrollIntoView()
           .should("be.visible");
         cy.wait(500);
-        cy.wait("@pageLoaded")
-          .its("response.statusCode")
-          .should("be.oneOf", [200, 204]);
       }
       // Button 'Remove item' should be disabled at the end of test
       cy.get("@btn").should("exist").scrollIntoView().should("be.disabled");

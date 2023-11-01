@@ -22,7 +22,7 @@ describe("Test existing event details by ", () => {
       cy.enterEventNameIntoSearchLocationOrEventField(
         this.testdata.events.event1.eventName
       );
-      // Click search button
+      cy.log("Click search button");
       cy.getChakraButtonByAttribute("aria-label", "search")
         .eq(0)
         .click({ force: true });
