@@ -87,17 +87,6 @@ describe("Verify purchased tickets by ", () => {
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.signOut();
-      var uniqueUserEmail =
-        "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
-      let userDetails = {
-        userEmail: uniqueUserEmail,
-        userPassword: "!@Newuser2023",
-        userFirstName: "User",
-        userLastName: "ForTesting",
-        phoneNumber: "8883331155",
-        username: "User ForTesting",
-      };
-      cy.registerNewUserByProvidingUniqueEmail(userDetails);
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
       cy.url().should("contain", uniqueEventName);
@@ -106,13 +95,15 @@ describe("Verify purchased tickets by ", () => {
         .contains(uniqueEventName)
         .click({ force: true });
       cy.url().should("contain", uniqueEventName);
-      // Add tickets to cart and proceed to checkout
-      cy.addTicketsToCartAndProceedToCheckout(userDetails, 1);
-      // Complete the order
-      cy.completeOrderAsGuestOnAngular(
-        userDetails,
-        this.testdata.visaDebitForTesting
-      );
+     // Add tickets to cart and proceed to checkout
+     cy.addTicketsToCartAndProceedToCheckoutWithLoginViaTabButtonAngular(
+      this.testdata.userForOrganization3and4,
+      1
+    );
+    // Complete the order
+    cy.completeOrderWithSavedPaymentMethodOnAngular(
+      this.testdata.userForOrganization3and4
+    );
       // Click 'Showpass' logo to navigate to the 'Home' page
       cy.get('.container > [href="/"] > .logo')
         .should("exist")

@@ -7,7 +7,7 @@ Cypress.Commands.add(
   "completeOrderOnAngular",
   (userDetails, creditCardDetails) => {
     cy.log("Going to completeOrderOnAngular()");
-    // Click 'Check out as a guest' if the button shows up
+    cy.log("Click 'Check out as a guest' if the button shows up");
     cy.clickButtonIfAvailableBasedOnLocatorIndexText(
       `button[ng-click="beginGuestCheckout(); amplitudeEvent.track('Checkout: Guest Checkout')"] > span`,
       0,
@@ -15,10 +15,9 @@ Cypress.Commands.add(
     );
     cy.wait(300);
     // *** More Events page
-    // button[ng-click="nextStep()"][class^="md-raised md-primary pull-right"] > span
     // Click 'Next'
     cy.clickNextButtonDuringCheckoutAngular();
-    // Click 'REVIEW' tab
+    cy.log("Click 'REVIEW' tab");
     cy.get('md-tab-item[role="tab"] > span')
       .eq(3)
       .contains("Review")
@@ -26,20 +25,20 @@ Cypress.Commands.add(
       .click({ force: true });
     cy.wait(700);
     // *** Review page
-    // Verify the 'Review' header
+    cy.log("Verify the 'Review' header");
     cy.get('span[class^="md-title strong"]')
       .contains("Review")
       .should("be.visible");
     // Click 'Next'
     cy.clickNextButtonDuringCheckoutAngular();
     // *** Purchase Info page ***
-    // Verify the 'Purchaser Info' header
+    cy.log("Verify the 'Purchaser Info' header");
     cy.get('h2[class^="md-title strong"]')
       .contains("Purchaser Info")
       .should("be.visible");
     // Enter 'Confirm Email'
     cy.typeText('input[ng-model="confirmEmail"]', 0, userDetails.userEmail);
-    // Click 'Next'
+    cy.log("Click 'Next'");
     cy.get(
       'button[class^="md-raised md-primary pull-right"][type="submit"] > span'
     )
@@ -47,7 +46,7 @@ Cypress.Commands.add(
       .contains("Next")
       .click({ force: true });
     cy.wait(300);
-    // Verify the 'Payment Method' header
+    cy.log("Verify the 'Payment Method' header");
     cy.get('h2[class^="md-title strong"]').should("exist");
     cy.wait(300);
     // Scroll the header into view
@@ -63,12 +62,12 @@ Cypress.Commands.add(
       "150 King Street West, Toronto, ON, Canada"
     );
     cy.wait(3000);
-    // Select the first address in the list
+    cy.log("Select the first address in the list");
     cy.get('span[md-highlight-text="AddressAutoController.selectedAddress"]')
       .eq(0)
       .should("be.visible")
       .click({ force: true });
-    // Enter Payment Information
+      cy.log("Enter Payment Information");
     cy.wait(300);
     cy.typeText(
       'input[name="ccName"]',
@@ -77,17 +76,17 @@ Cypress.Commands.add(
     );
     // Populate credit card info
     cy.populateCreditCardInformationFormInAngular(creditCardDetails);
-    // Click 'Pay $XX.XX CAD'
+    cy.log("Click 'Pay $XX.XX CAD'");
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("be.visible")
       .click({ force: true });
     cy.wait(5000);
     Cypress.config("defaultCommandTimeout", 7000);
-    // Ensure the data loading indicator disappears
+    cy.log("Ensure the data loading indicator disappears");
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
     ).should("not.exist");
-    // Ensure the 'Thank you' message shows up after a payment is completed
+    cy.log("Ensure the 'Thank you' message shows up after a payment is completed");
     cy.get('h1[class^="md-display"]')
       .should("exist")
       .should("be.visible")
@@ -104,7 +103,7 @@ Cypress.Commands.add(
   (creditCardDetails) => {
     cy.log("Going to populateCreditCardInformationFormInAngular()");
     cy.wait(300);
-    // Populate Credit Card number
+    cy.log("Populate Credit Card number");
     const getIframeBody1 = () => {
       return cy
         .get('iframe[name*="privateStripeFrame"]')
@@ -119,7 +118,7 @@ Cypress.Commands.add(
       .type(" ", { force: true })
       .type(creditCardDetails.cardNumber, { force: true });
     cy.wait(300);
-    // Populate Expiry date
+    cy.log("Populate Expiry date");
     const getIframeBody2 = () => {
       return cy
         .get('iframe[name*="privateStripeFrame"]')
@@ -134,7 +133,7 @@ Cypress.Commands.add(
       .type(" ", { force: true })
       .type(creditCardDetails.expiry, { force: true });
     cy.wait(300);
-    // Populate CVC number
+    cy.log("Populate CVC number");
     const getIframeBody3 = () => {
       return cy
         .get('iframe[name*="privateStripeFrame"]')
@@ -157,7 +156,7 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add("goThroughCheckoutBeforePayment", (userDetails) => {
   cy.log("Going to goThroughCheckoutBeforePayment()");
-  // Click 'Check out as a guest' if the button shows up
+  cy.log("Click 'Check out as a guest' if the button shows up");
   cy.clickButtonIfAvailableBasedOnLocatorIndexText(
     `button[ng-click="beginGuestCheckout(); amplitudeEvent.track('Checkout: Guest Checkout')"] > span`,
     0,
@@ -167,7 +166,7 @@ Cypress.Commands.add("goThroughCheckoutBeforePayment", (userDetails) => {
   // *** More Events page
   // Click 'Next'
   cy.clickNextButtonDuringCheckoutAngular();
-  // Click 'REVIEW' tab
+  cy.log("Click 'REVIEW' tab");
   cy.get('md-tab-item[role="tab"] > span')
     .eq(3)
     .contains("Review")
@@ -187,11 +186,11 @@ Cypress.Commands.add("goThroughCheckoutBeforePayment", (userDetails) => {
   cy.get('h2[class^="md-title strong"]')
     .contains("Purchaser Info")
     .should("be.visible");
-  // Enter 'Confirm Email'
+  cy.log("Enter 'Confirm Email'");
   cy.get('input[ng-model="confirmEmail"]')
     .should("be.visible")
     .type(userDetails.userEmail);
-  // Click 'Next'
+  cy.log("Click 'Next'");
   cy.get(
     'button[class^="md-raised md-primary pull-right"][type="submit"] > span'
   )
@@ -208,7 +207,7 @@ Cypress.Commands.add(
   "completeOrderAsGuestOnAngular",
   (userDetails, creditCardDetails) => {
     cy.log("Going to completeOrderAsGuestOnAngular()");
-    // Click 'Check out as a guest' if the button shows up
+    cy.log("Click 'Check out as a guest' if the button shows up");
     cy.clickButtonIfAvailableBasedOnLocatorIndexText(
       `button[ng-click="beginGuestCheckout(); amplitudeEvent.track('Checkout: Guest Checkout')"] > span`,
       0,
@@ -675,3 +674,21 @@ Cypress.Commands.add(
   }
 );
 // *********************************************************************
+/**
+ * Get event or a membershipo group description
+ * @param descriptionText
+ */
+Cypress.Commands.add("getEventOrGroupDescriptionByText", (descriptionText) => {
+  cy.log(
+    "Going to getEventOrGroupDescriptionByText with the following text: [ " +
+    descriptionText +
+      " ]"
+  );
+  return cy
+    .get('div[data-testid="description-container"] > div > p')
+    .eq(0)
+    .should("exist")
+    .scrollIntoView({force: true})
+    .should("be.visible")
+    .should("have.text", descriptionText);
+});

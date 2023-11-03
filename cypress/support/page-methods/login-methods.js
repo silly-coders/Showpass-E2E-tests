@@ -80,6 +80,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     .wait(700)
     .click({ force: true });
   cy.wait(700);
+  cy.log('Going to confirm the folloing API: "/api/auth/profile/"')
   cy.wait("@profileLoaded")
     .its("response.statusCode")
     .should("be.oneOf", [200, 204]);

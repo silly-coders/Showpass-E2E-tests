@@ -70,10 +70,7 @@ describe("Verify 'Membership Levels' by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.get('div[data-testid="card"] > div > p')
-        .should("exist")
-        .should("be.visible")
-        .should("have.text", this.testdata.testGroup2.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup2.membershipDescription);
       // Click 'BUY PASSES'
       cy.chakraParagraphButtonByText("BUY MEMBERSHIPS").click({ force: true });
       // Ensure a modal window shows up

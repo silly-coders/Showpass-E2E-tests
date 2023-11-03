@@ -105,10 +105,7 @@ describe("Verify 'Memberships' page features by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.get('div[data-testid="card"] > div > p')
-        .should("exist")
-        .should("be.visible")
-        .should("have.text", this.testdata.testGroup1.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup1.membershipDescription);
       // Click 'BUY PASSES'
       cy.chakraParagraphButtonByText("BUY PASSES").click({ force: true });
       // Ensure a modal window shows up
@@ -257,10 +254,7 @@ describe("Verify 'Memberships' page features by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.get('div[data-testid="card"] > div > p')
-        .should("exist")
-        .should("be.visible")
-        .should("have.text", this.testdata.testGroup1.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup1.membershipDescription);
       // Click 'BUY PASSES'
       cy.chakraParagraphButtonByText("BUY PASSES").click({ force: true });
       // Ensure a modal window shows up
@@ -396,10 +390,7 @@ describe("Verify 'Memberships' page features by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.get('div[data-testid="card"] > div > p')
-        .should("exist")
-        .should("be.visible")
-        .should("have.text", this.testdata.testGroup1.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup1.membershipDescription);
       // Verify the 'BUY PASSES' button appearance
       cy.chakraParagraphButtonByText("BUY PASSES");
     }
@@ -428,10 +419,7 @@ describe("Verify 'Memberships' page features by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.get('div[data-testid="card"] > div > p')
-        .should("exist")
-        .should("be.visible")
-        .should("have.text", this.testdata.testGroup2.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup2.membershipDescription);
       // Verify the 'BUY MEMBERSHIPS' button appearance
       cy.chakraParagraphButtonByText("BUY MEMBERSHIPS");
     }

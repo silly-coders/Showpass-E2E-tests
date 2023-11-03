@@ -32,18 +32,14 @@ const loginLocators = new LoginLocators();
  * Method to get session storage
  */
 Cypress.Commands.add("getSessionStorage", (key) => {
-  cy.window().then((window) => window.sessionStorage.getItem(key));
-});
-/**
- * Method to get session storage
- */
-Cypress.Commands.add("getSessionStorage", (key) => {
+  cy.log(`Going to getSessionStorage(${key})`);
   cy.window().then((window) => window.sessionStorage.getItem(key));
 });
 /**
  * Method to set session storage
  */
 Cypress.Commands.add("setSessionStorage", (key, value) => {
+  cy.log(`Going to setSessionStorage(${key}, ${value})`);
   cy.window().then((window) => {
     window.sessionStorage.setItem(key, value);
   });
@@ -61,7 +57,7 @@ Cypress.Commands.add("waitForApiAmplitudeSuccess", () => {
  * @param index
  */
 Cypress.Commands.add("getQrCodeByIndex", (index) => {
-  cy.log(`Requested element: getQrCodeByIndex`);
+  cy.log(`Requested element: getQrCodeByIndex(${index})`);
   return cy
     .get('div[class="swiper-wrapper"] > div > div > canvas')
     .eq(index)
@@ -101,6 +97,7 @@ Cypress.Commands.add("getSaveButton", () => {
  * @param placeholder
  */
 Cypress.Commands.add("getPhoneInputFieldByPlaceholder", (placeholder) => {
+  cy.log(`Going to getPhoneInputFieldByPlaceholder(div[class*="react-tel-input"] > input[placeholder="${placeholder}"])`);
   return cy
     .get(`div[class*="react-tel-input"] > input[placeholder="${placeholder}"]`)
     .should("exist")
@@ -121,10 +118,10 @@ Cypress.Commands.add("clickSaveButton", () => {
     .click({ force: true });
 });
 /*
- * Click 'Log In' button
+ * Click 'Log In' button on a modal window
  */
 Cypress.Commands.add("clickLogInButtonOnModalWindow", () => {
-  cy.log("Going to clickLogInButton");
+  cy.log("Going to clickLogInButtonOnModalWindow");
   loginLocators
     .loginButtonOnLoginModalWindow()
     .should("exist")
@@ -167,6 +164,7 @@ Cypress.Commands.add("verifyTopRightSuccessMessage", (messageText) => {
  * @param messageText
  */
 Cypress.Commands.add("verifyTopRightErrorMessage", (messageText) => {
+  cy.log(`Going to verifyTopRightErrorMessage(${messageText})`)
   cy.log(
     "Going to verifyTopRightErrorMessage with the following text: [ " +
       messageText +
@@ -185,7 +183,7 @@ Cypress.Commands.add("verifyTopRightErrorMessage", (messageText) => {
  */
 Cypress.Commands.add("getDropDownItem", (itemText) => {
   cy.log(
-    `Requested getDropDownItem element: button[class^="chakra-menu__menuitem"].contains(${itemText})`
+    `Going to getDropDownItem element: button[class^="chakra-menu__menuitem"].contains(${itemText})`
   );
   return cy
     .get(`button[class^="chakra-menu__menuitem"]`)
@@ -199,7 +197,7 @@ Cypress.Commands.add("getDropDownItem", (itemText) => {
  */
 Cypress.Commands.add("getChakraButtonByText", (itemText) => {
   cy.log(
-    `Requested getChakraButtonByText element: button[class^="chakra-button"].contains(${itemText})`
+    `Going to getChakraButtonByText element: button[class^="chakra-button"].contains(${itemText})`
   );
   return cy
     .get('button[class^="chakra-button"]')
@@ -214,7 +212,7 @@ Cypress.Commands.add("getChakraButtonByText", (itemText) => {
  */
 Cypress.Commands.add("getChakraAccordionButtonByText", (itemText) => {
   cy.log(
-    `Requested getChakraAccordionButtonByText element: button[class^="chakra-accordion__button"].contains(${itemText})`
+    `Going to getChakraAccordionButtonByText('button[class^="chakra-accordion__button"].contains(${itemText})')`
   );
   return cy
     .get('button[class^="chakra-accordion__button"]')
@@ -240,7 +238,7 @@ Cypress.Commands.add("clickChakraButtonByText", (itemText) => {
  */
 Cypress.Commands.add("getChakraButtonByAttribute", (attrType, attrValue) => {
   cy.log(
-    `Requested getChakraButtonByAttribute element: button[class^="chakra-button"][${attrType}="${attrValue}"]`
+    `Going to getChakraButtonByAttribute element: button[class^="chakra-button"][${attrType}="${attrValue}"]`
   );
   return cy
     .get(`button[class^="chakra-button"][${attrType}="${attrValue}"]`)
@@ -252,7 +250,7 @@ Cypress.Commands.add("getChakraButtonByAttribute", (attrType, attrValue) => {
  * @param buttonText
  */
 Cypress.Commands.add("chakraParagraphButtonByText", (buttonText) => {
-  cy.log("Requested getChakraParagraphButtonByText element: " + buttonText);
+  cy.log("Going to getChakraParagraphButtonByText element: " + buttonText);
   return cy
     .get('button[class^="chakra-button"] > p[class^="chakra-text"]')
     .contains(buttonText)
@@ -265,7 +263,7 @@ Cypress.Commands.add("chakraParagraphButtonByText", (buttonText) => {
  * @param itemText
  */
 Cypress.Commands.add("getLeftSideMenuItemByText", (itemText) => {
-  cy.log(`Requested getLeftSideMenuItemByText element: ${itemText}`);
+  cy.log(`Going to getLeftSideMenuItemByText element: ${itemText}`);
   return cy
     .get(`span[class="snapnav"]`)
     .contains(itemText, { matchCase: false })
@@ -277,7 +275,7 @@ Cypress.Commands.add("getLeftSideMenuItemByText", (itemText) => {
  * @param itemText
  */
 Cypress.Commands.add("getChakraFormLabel", (itemText) => {
-  cy.log(`Requested getChakraFormLabel element: ${itemText}`);
+  cy.log(`Going to getChakraFormLabel element: ${itemText}`);
   return cy
     .get(`label[class^="chakra-form__label"]`)
     .contains(itemText)
@@ -289,7 +287,7 @@ Cypress.Commands.add("getChakraFormLabel", (itemText) => {
  * @param itemText
  */
 Cypress.Commands.add("getParagraphSubHeaderByText", (itemText) => {
-  cy.log(`Requested getParagraphSubHeaderByText element: ${itemText}`);
+  cy.log(`Going to getParagraphSubHeaderByText element: ${itemText}`);
   return cy
     .get(`p[class^="chakra-text"]`)
     .contains(itemText)
@@ -305,7 +303,7 @@ Cypress.Commands.add(
   "getChakraFormLabelByIndexAndText",
   (elementIndex, labelText) => {
     cy.log(
-      `Requested getChakraFormLabelByIndexAndText with this text: ${labelText}`
+      `Going to getChakraFormLabelByIndexAndText with index(${elementIndex}) and text: ${labelText}`
     );
     return cy
       .get(`label[class^="chakra-form__label"]`)
@@ -320,7 +318,7 @@ Cypress.Commands.add(
  * @param altAttr
  */
 Cypress.Commands.add("getImageByAlt", (altAttr) => {
-  cy.log(`Requested getImageByAlt element: ${altAttr}`);
+  cy.log(`Going to getImageByAlt element: ${altAttr}`);
   return cy.get(`img[alt="${altAttr}"]`).should("exist").should("be.visible");
 });
 /**
@@ -328,7 +326,7 @@ Cypress.Commands.add("getImageByAlt", (altAttr) => {
  * @param itemText
  */
 Cypress.Commands.add("getH1HeaderByText", (itemText) => {
-  cy.log(`Requested getH1HeaderByText element: ${itemText}`);
+  cy.log(`Going to getH1HeaderByText element: ${itemText}`);
   return cy
     .get(`h1[class^="css"]`)
     .contains(itemText)
@@ -340,7 +338,7 @@ Cypress.Commands.add("getH1HeaderByText", (itemText) => {
  * @param itemText
  */
 Cypress.Commands.add("getChakraSkeletonH1HeaderByText", (itemText) => {
-  cy.log(`Requested getChakraSkeletonH1HeaderByText element: ${itemText}`);
+  cy.log(`Going to getChakraSkeletonH1HeaderByText element: ${itemText}`);
   return cy
     .get('div[class^="chakra-skeleton"] > h1[class^="chakra-text"]')
     .contains(itemText)
@@ -352,7 +350,7 @@ Cypress.Commands.add("getChakraSkeletonH1HeaderByText", (itemText) => {
  * @param itemText
  */
 Cypress.Commands.add("getChakraHeaderH3", (itemText) => {
-  cy.log("getChakraHeaderH3 element with the following text: " + itemText);
+  cy.log("Going to getChakraHeaderH3 element with the following text: " + itemText);
   return cy
     .get(`h3[class^="chakra-heading"]`)
     .contains(itemText)
@@ -364,7 +362,7 @@ Cypress.Commands.add("getChakraHeaderH3", (itemText) => {
  * @param itemText
  */
 Cypress.Commands.add("getH3HrefHeaderByText", (itemText) => {
-  cy.log(`Requested getH3HrefHeaderByText element: ${itemText}`);
+  cy.log(`Going to getH3HrefHeaderByText element: ${itemText}`);
   return cy
     .get('h3[class^="chakra-text"] > a[class^="chakra-link"]')
     .contains(itemText)
@@ -376,7 +374,7 @@ Cypress.Commands.add("getH3HrefHeaderByText", (itemText) => {
  * @param itemText
  */
 Cypress.Commands.add("getH2HeaderByText", (itemText) => {
-  cy.log(`Requested getH2HeaderByText element: ${itemText}`);
+  cy.log(`Going to getH2HeaderByText element: ${itemText}`);
   return cy
     .get(`h2[class^="css"]`)
     .contains(itemText)
@@ -388,7 +386,7 @@ Cypress.Commands.add("getH2HeaderByText", (itemText) => {
  * @param itemText
  */
 Cypress.Commands.add("getChakraHeaderH2", (itemText) => {
-  cy.log("getChakraHeaderH2 element with the following text: " + itemText);
+  cy.log("Going to getChakraHeaderH2 element with the following text: " + itemText);
   return cy
     .get(`h2[class^="chakra-heading"]`)
     .contains(itemText)
@@ -400,7 +398,7 @@ Cypress.Commands.add("getChakraHeaderH2", (itemText) => {
  * @param itemText
  */
 Cypress.Commands.add("getH2ChakraTextByText", (itemText) => {
-  cy.log(`Requested getH2ChakraTextByText element: ${itemText}`);
+  cy.log(`Going to getH2ChakraTextByText element: ${itemText}`);
   return cy
     .get(`h2[class^="chakra-text"]`)
     .contains(itemText)
@@ -412,7 +410,7 @@ Cypress.Commands.add("getH2ChakraTextByText", (itemText) => {
  * @param itemText
  */
 Cypress.Commands.add("getH4ChakraTextByText", (itemText) => {
-  cy.log(`Requested getH4ChakraTextByText element: ${itemText}`);
+  cy.log(`Going to getH4ChakraTextByText element: ${itemText}`);
   return cy
     .get(`h4[class^="chakra-text"]`)
     .contains(itemText)
@@ -425,7 +423,7 @@ Cypress.Commands.add("getH4ChakraTextByText", (itemText) => {
  * @param attrValue
  */
 Cypress.Commands.add("getSwiperSlideByAttr", (attrType, attrValue) => {
-  cy.log(`getSwiperSlideByAttr element: input[${attrType}="${attrValue}`);
+  cy.log(`Going to getSwiperSlideByAttr element: input[${attrType}="${attrValue}`);
   return cy
     .get(`div[class^="swiper-slide"] > a[${attrType}="${attrValue}"]`)
     .should("exist")
@@ -438,7 +436,7 @@ Cypress.Commands.add("getSwiperSlideByAttr", (attrType, attrValue) => {
  */
 Cypress.Commands.add("getChakraInputFieldByAttr", (attrType, attrValue) => {
   cy.log(
-    `Requested getChakraInputFieldByAttr element: input[${attrType}="${attrValue}`
+    `Going to getChakraInputFieldByAttr element: input[${attrType}="${attrValue}`
   );
   return cy
     .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
@@ -452,7 +450,7 @@ Cypress.Commands.add("getChakraInputFieldByAttr", (attrType, attrValue) => {
  */
 Cypress.Commands.add("getChakraLinkButtonByAttr", (attrType, attrValue) => {
   cy.log(
-    `Requested getChakraLinkButtonByAttr element: input[${attrType}="${attrValue}`
+    `Going to getChakraLinkButtonByAttr element: input[${attrType}="${attrValue}`
   );
   return cy
     .get(`a[class^="chakra-link"][${attrType}="${attrValue}"]`)
@@ -468,7 +466,7 @@ Cypress.Commands.add(
   "getChakraInputGroupFieldByAttr",
   (attrType, attrValue) => {
     cy.log(
-      `Requested getChakraInputGroupFieldByAttr element: input[${attrType}="${attrValue}`
+      `Going to getChakraInputGroupFieldByAttr element: input[${attrType}="${attrValue}`
     );
     return cy
       .get(
@@ -489,7 +487,7 @@ Cypress.Commands.add(
   "verifyChakraInputFieldValue",
   (attrType, attrValue, inputValue) => {
     cy.log(
-      `Requested verifyChakraInputFieldValue element: input[${attrType}="${attrValue}`
+      `Going to verifyChakraInputFieldValue element: input[${attrType}="${attrValue}`
     );
     return cy
       .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
@@ -506,7 +504,7 @@ Cypress.Commands.add(
   "getChakraInlineValidationError",
   (elementIndex, messageText) => {
     cy.log(
-      "Requested getChakraInlineValidationError element text: " + messageText
+      `Going to getChakraInlineValidationError element with index(${elementIndex}) and text: ` + messageText
     );
     return cy
       .get('div[class^="chakra-form__error-message"]')
@@ -522,7 +520,7 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add("getInputElementByAttr", (attrType, attrValue) => {
   cy.log(
-    `Requested getInputElementByAttr element: input[${attrType}="${attrValue}`
+    `Going to getInputElementByAttr element: input[${attrType}="${attrValue}`
   );
   return cy
     .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
@@ -537,7 +535,7 @@ Cypress.Commands.add("getInputElementByAttr", (attrType, attrValue) => {
  */
 Cypress.Commands.add("clearInputFieldByAttr", (attrType, attrValue) => {
   cy.log(
-    `Requested clearInputFieldByAttr element: input[${attrType}="${attrValue}`
+    `Going to clearInputFieldByAttr element: input[${attrType}="${attrValue}`
   );
   return cy
     .getInputElementByAttr(attrType, attrValue)
@@ -551,7 +549,7 @@ Cypress.Commands.add("clearInputFieldByAttr", (attrType, attrValue) => {
  * @param itemText
  */
 Cypress.Commands.add("getSelectedDropDownValueByText", (id, itemText) => {
-  cy.log(`getSelectedDropDownValueByText  id: ${id} + text: ${itemText}`);
+  cy.log(`Going to getSelectedDropDownValueByText  id: ${id} + text: ${itemText}`);
   return cy
     .get(`button[id="${id}"] > div`)
     .contains(itemText)
@@ -563,7 +561,7 @@ Cypress.Commands.add("getSelectedDropDownValueByText", (id, itemText) => {
  * @param index
  */
 Cypress.Commands.add("getChakraSwitchSelectorByIndex", (index) => {
-  cy.log(`Requested switch-input-selector index is: ${index}`);
+  cy.log(`Going to getChakraSwitchSelectorByIndex(input[class="chakra-switch__input"]) with index: ${index}`);
   return cy
     .get('input[class="chakra-switch__input"]')
     .eq(index)
@@ -575,7 +573,7 @@ Cypress.Commands.add("getChakraSwitchSelectorByIndex", (index) => {
  * @param index
  */
 Cypress.Commands.add("verifyChakraSwitchSelectorIsEnabled", (index) => {
-  cy.log("Going to verifyChakraSwitchSelectorIsEnabled");
+  cy.log("Going to verifyChakraSwitchSelectorIsEnabled with index: " + index);
   return cy
     .get('label[class^="chakra-switch"]')
     .eq(index)
@@ -602,7 +600,7 @@ Cypress.Commands.add("verifyChakraSwitchSelectorIsDisabled", (index) => {
  * @param index
  */
 Cypress.Commands.add("getChakraTextLabelByIndex", (index) => {
-  cy.log(`Requested text label index is: ${index}`);
+  cy.log(`Going to getChakraTextLabelByIndex with index: ${index}`);
   return cy
     .get('div[class^="css"] > p[class^="chakra-text"]')
     .eq(index)
@@ -615,7 +613,7 @@ Cypress.Commands.add("getChakraTextLabelByIndex", (index) => {
  * @param text
  */
 Cypress.Commands.add("getChakraTextLabelByText", (text) => {
-  cy.log(`Requested text label index is: ${text}`);
+  cy.log(`Going to getChakraTextLabelByText with index: ${text}`);
   return cy
     .get('div[class^="css"] > p[class^="chakra-text"]')
     .contains(text)
@@ -627,7 +625,7 @@ Cypress.Commands.add("getChakraTextLabelByText", (text) => {
  * @param title
  */
 Cypress.Commands.add("getIframeBody", (title) => {
-  cy.log(`Requested element title: ${title}`);
+  cy.log(`Going to getIframeBody with title: ${title}`);
   return cy.get(`iframe[title="${title}"]`).then(cy.wrap);
 });
 /**
@@ -635,7 +633,7 @@ Cypress.Commands.add("getIframeBody", (title) => {
  * @param errorText
  */
 Cypress.Commands.add("getInlineError", (errorText) => {
-  cy.log(`Error message text: ${errorText}`);
+  cy.log(`Going to getIframeBody with text: ${errorText}`);
   return cy
     .get('div[class^="chakra-form__error-message"]')
     .contains(errorText)
@@ -677,7 +675,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "verifyAndTurnOnChakraSwitchSelectorIfDisabled",
   (index) => {
-    cy.log("Going to verifyAndTurnOnChakraSwitchSelectorIfDisabled()");
+    cy.log("Going to verifyAndTurnOnChakraSwitchSelectorIfDisabled() with index: " + index);
     // If the chakra-switch selector is disabled from the get go enable it first to run the test
     cy.get('label[class^="chakra-switch"]')
       .eq(index)
@@ -710,7 +708,7 @@ Cypress.Commands.add("signOut", () => {
 Cypress.Commands.add(
   "verifyInputFieldAttr",
   (attrType, attrValue, fieldValueToCheck, attrValueToCheck) => {
-    cy.log(`Requested element: input[${attrType}="${attrValue}`);
+    cy.log(`Going to verifyInputFieldAttr (input[${attrType}="${attrValue})`);
     return cy
       .get(`div[class^="chakra-input"] > input[${attrType}="${attrValue}"]`)
       .should("exist")
@@ -738,7 +736,7 @@ Cypress.Commands.add("verifyQrCodeAppearance", () => {
  */
 Cypress.Commands.add("getChakraSkeletonItem", () => {
   cy.log(
-    `Requested getChakraSkeletonItem element: div[class^="chakra-skeleton"] > p`
+    `Going to getChakraSkeletonItem element: div[class^="chakra-skeleton"] > p`
   );
   return cy
     .get('div[class^="chakra-skeleton"] > p')
@@ -751,7 +749,7 @@ Cypress.Commands.add("getChakraSkeletonItem", () => {
  * @param itemIndex
  */
 Cypress.Commands.add("verifyChakraSkeletonItemText", (itemIndex, itemText) => {
-  cy.log(`Going to verifyChakraSkeletonItemText(${itemText})`);
+  cy.log(`Going to verifyChakraSkeletonItemText(${itemText}) with index: ${itemIndex}`);
   cy.getChakraSkeletonItem()
     .eq(itemIndex)
     .should("exist")
@@ -778,7 +776,7 @@ Cypress.Commands.add("getSearchLocationOrEventInputField", () => {
 Cypress.Commands.add(
   "enterEventNameIntoSearchLocationOrEventField",
   (eventName) => {
-    cy.log("Going to enterEventNameIntoSearchLocationOrEventField()");
+    cy.log(`Going to enterEventNameIntoSearchLocationOrEventField(${eventName})`);
     // Not always the search criteria gets properly entered from the first time
     for (let i = 1; i < 3; i++) {
       cy.log('Going to getSearchLocationOrEventInputField()');
@@ -793,7 +791,7 @@ Cypress.Commands.add(
  * @param elementIndex
  */
 Cypress.Commands.add("inputCustomValueIntoCombobox", (elementIndex, text) => {
-  cy.log("Going to inputCustomValueIntoCombobox(text)");
+  cy.log(`Going to inputCustomValueIntoCombobox(${text}) with index=${elementIndex}`);
   // Click the combobox
   cy.getChakraInputFieldByAttr("role", "combobox").as("combobox");
   cy.get("@combobox").eq(elementIndex).click().type(text);
@@ -805,7 +803,7 @@ Cypress.Commands.add("inputCustomValueIntoCombobox", (elementIndex, text) => {
  */
 Cypress.Commands.add("getChakraBreadcrumbListItem", (index) => {
   cy.log(
-    `Requested getChakraBreadcrumbListItem element: li[class^="chakra-breadcrumb__list-item"]`
+    `Going to getChakraBreadcrumbListItem element: li[class^="chakra-breadcrumb__list-item"] with index=${index}`
   );
   return cy
     .get('li[class^="chakra-breadcrumb__list-item"]')
@@ -819,7 +817,7 @@ Cypress.Commands.add("getChakraBreadcrumbListItem", (index) => {
  * @param index
  */
 Cypress.Commands.add("clickButtonIfNotDisabled", (buttonLocator, index) => {
-  cy.log(`clickButtonIfNotDisabled element: ${buttonLocator}.eq(${index})`);
+  cy.log(`Going to clickButtonIfNotDisabled element: ${buttonLocator}.eq(${index})`);
   return cy
     .get(`${buttonLocator}`)
     .eq(index)
@@ -897,7 +895,7 @@ Cypress.Commands.add("deleteCreditCardIfExists", () => {
  * @param itemText
  */
 Cypress.Commands.add("getChakraButtonLabelByText", (itemText) => {
-  cy.log(`Requested getChakraButtonLabelByText().contains(${itemText})`);
+  cy.log(`Going to getChakraButtonLabelByText().contains(${itemText})`);
   return cy
     .get('p[class^="chakra-text button-label"]')
     .contains(itemText)
@@ -912,7 +910,7 @@ Cypress.Commands.add("getChakraButtonLabelByText", (itemText) => {
  */
 Cypress.Commands.add("getButtonByAttribute", (attrType, attrValue) => {
   cy.log(
-    `Requested getButtonByAttribute element: button[${attrType}="${attrValue}"]`
+    `Going to getButtonByAttribute element: button[${attrType}="${attrValue}"]`
   );
   return cy
     .get(`button[${attrType}="${attrValue}"]`)
@@ -925,7 +923,7 @@ Cypress.Commands.add("getButtonByAttribute", (attrType, attrValue) => {
  * @param itemText
  */
 Cypress.Commands.add("selectOptionByText", (itemText) => {
-  cy.log(`Requested selectOptionByText(${itemText})`);
+  cy.log(`Going to selectOptionByText(${itemText})`);
   return cy
     .get(`li[role="option"] > div[class^="chakra-text"]`)
     .contains(itemText)
@@ -987,7 +985,7 @@ Cypress.Commands.add("storeValueInCypressEnvBasedOnKey", (key, value) => {
  */
 Cypress.Commands.add("getRadioButtonByAttribute", (attrType, attrValue) => {
   cy.log(
-    `Requested getRadioButtonByAttribute element: input[type="radio"][${attrType}="${attrValue}"]`
+    `Going to getRadioButtonByAttribute element: input[type="radio"][${attrType}="${attrValue}"]`
   );
   return cy
     .get(`input[type="radio"][${attrType}="${attrValue}"]`)
@@ -1011,7 +1009,7 @@ Cypress.Commands.add("closeModalWindowByClickingX", () => {
  */
 Cypress.Commands.add("getTicketInvoiceHeader", () => {
   cy.log(
-    `Requested getTicketInvoiceHeader: div[data-testid="invoice-header"] > p > a`
+    `Going to getTicketInvoiceHeader: div[data-testid="invoice-header"] > p > a`
   );
   return cy
     .get(`div[data-testid="invoice-header"] > p > a`)
@@ -1029,7 +1027,7 @@ Cypress.Commands.add(
   "clickButtonIfAvailableBasedOnLocatorIndexText",
   (elementLocator, index, buttonText) => {
     cy.log(
-      `Trying to find this button: cy.get('${elementLocator}').eq(${index}).contains("${buttonText}")`
+      `Going to clickButtonIfAvailableBasedOnLocatorIndexText cy.get('${elementLocator}').eq(${index}).contains("${buttonText}")`
     );
     cy.get("body").then(($body) => {
       if ($body.find(`${elementLocator}`).eq(index).length) {
@@ -1052,7 +1050,7 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add("getChakraModalHeader", (itemText) => {
   cy.log(
-    `Requested getChakraModalHeader: header[class^="chakra-modal__header"][id^="chakra-modal--header"].contains(${itemText})`
+    `Going to getChakraModalHeader: header[class^="chakra-modal__header"][id^="chakra-modal--header"].contains(${itemText})`
   );
   return cy
     .get(`header[class^="chakra-modal__header"][id^="chakra-modal--header"]`)
