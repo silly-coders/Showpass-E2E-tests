@@ -138,7 +138,9 @@ describe("Test checkout process by ", () => {
         // Verify group name in the header
         cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
         // Verify group description
-        cy.getEventOrGroupDescriptionByText(this.testdata.testGroup3.membershipDescription);
+        cy.getEventOrGroupDescriptionByText(
+          this.testdata.testGroup3.membershipDescription
+        );
         // Click 'BUY MEMBERSHIPS'
         cy.chakraParagraphButtonByText("BUY MEMBERSHIPS").click({
           force: true,
@@ -304,10 +306,17 @@ describe("Test checkout process by ", () => {
         cy.log(
           'Going to replenish the "test-group-1698096389" membership level stock.'
         );
+        // Intercept API request
+        const profileApiRequest = "/api/auth/profile/";
+        cy.intercept(profileApiRequest).as("userProfileLoaded");
         // PLEASE PAY ATTENTION BEFORE CHANGING THIS MEMBERSHIP GROUP
         let uniqueMembershipName = "test-group-1698096389";
         cy.visit(`/dashboard/memberships/`);
-
+        cy.wait(900);
+        // Wait for the API response for /memberships/membership-groups/
+        cy.wait("@userProfileLoaded")
+          .its("response.statusCode")
+          .should("be.oneOf", [200, 201, 204]);
         const getIframeBody = () => {
           return cy
             .get('iframe[class="full-width flex-direction-column flex-fill"]')

@@ -46,6 +46,9 @@ Cypress.Commands.add(
   "populateMembershipGroupInfoForm",
   (uniqueMembershipName, groupDetails) => {
     cy.log("Going to populateMembershipGroupInfoForm()");
+    // Intercept API request
+    const membershipGroupsApiRequest = "**/memberships/membership-groups/";
+    cy.intercept(membershipGroupsApiRequest).as("membershipGroupLoaded");
     // Populate 'Membership Name'
     cy.getChakraInputFieldByAttr("id", "name").type(uniqueMembershipName);
     // Populate 'Renewal Frequency'
@@ -79,6 +82,11 @@ Cypress.Commands.add(
     cy.visit("/manage/memberships/?status=sp_membership_group_draft");
     cy.get('g[id="Edit"]').eq(0).click({ force: true });
     cy.get('button[type="submit"]').eq(1).contains("Save").click();
+    cy.wait(900);
+    // Wait for the API response for /memberships/membership-groups/
+    cy.wait("@membershipGroupLoaded")
+      .its("response.statusCode")
+      .should("be.oneOf", [201, 204]);
     // Verify success message
     cy.verifyTopRightSuccessMessage("Saved");
     cy.clickButtonXtoCloseMessage();

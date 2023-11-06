@@ -17,8 +17,15 @@ describe("Test the mobile phone view by ", () => {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
       cy.navigateToDashboard(this.testdata.regularUserForOrganization3and4);
+      // Intercept API
+      const customFeesApiRequest = "**/financials/custom-fees/";
+      cy.intercept(customFeesApiRequest).as("customFeesApiLoaded");
       cy.clickHamburgerMenu();
       cy.clickCreateEventButton();
+      cy.wait(700);
+      cy.wait("@customFeesApiLoaded")
+      .its("response.statusCode")
+      .should("be.oneOf", [200, 201, 204]);
       // Ensure the page title shows up
       cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
       cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);

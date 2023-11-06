@@ -380,6 +380,9 @@ Cypress.Commands.add(
   "createNewEventAngular",
   (uniqueEventName, eventDetails) => {
     cy.log("Going to createNewEventAngular");
+    // Intercept API request
+    const eventsApiRequest = "**/events/*";
+    cy.intercept(eventsApiRequest).as("eventsApiLoaded");
     eventDetails.eventName = uniqueEventName;
     // Enter 'Event Name'
     cy.get('input[id="id_name"]')
@@ -475,6 +478,10 @@ Cypress.Commands.add(
       .should("be.visible")
       .click({ force: true });
     cy.wait(1500);
+    // Wait for the API response for **/events/*
+    cy.wait("@eventsApiLoaded")
+      .its("response.statusCode")
+      .should("be.oneOf", [200, 201, 204]);
     // Ensure the Event Overview page title shows up
     cy.get("div > h3")
       .should("be.visible")

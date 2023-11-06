@@ -127,6 +127,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         .emailAddressInputField()
         .should("exist")
         .should("be.visible")
+        .wait(150)
         .clear({ force: true })
         .type(userObject.userEmail)
         .wait(300);
@@ -156,7 +157,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
       cy.wait(700);
       cy.wait("@profileLoaded")
         .its("response.statusCode")
-        .should("be.oneOf", [200, 204]);
+        .should("be.oneOf", [200, 201, 204]);
       // Button arrow in the top right corner pointing down
       cy.get('button[aria-label="Main menu"] > span > svg')
         .should("exist")
