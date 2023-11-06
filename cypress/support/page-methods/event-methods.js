@@ -43,9 +43,9 @@ Cypress.Commands.add("verifyEventCardDetails", (eventDetails) => {
   cy.verifyChakraSkeletonItemText(0, eventDetails.eventDate);
   // Event name
   cy.verifyChakraSkeletonItemText(1, eventDetails.eventName);
+  // Event city
   cy.get('div > p[class^="css"]')
     .eq(2)
-    // Event city
     .should("have.text", eventDetails.eventCity);
   // Event price range
   cy.get('div[class^="chakra-skeleton"] > span')
@@ -96,29 +96,88 @@ Cypress.Commands.add("verifyEvent2PageDetails", (eventDetails) => {
   // Event details
   cy.getChakraSkeletonH1HeaderByText(eventDetails.eventName); // Event name
   cy.getH3HrefHeaderByText(eventDetails.organization); // Organization
-  let textLabels = {
-    0: eventDetails.startDay,
-    1: eventDetails.endDay,
-    2: eventDetails.startTime,
-    3: eventDetails.endTime,
-  };
-  // Key in the object above is also the elemnt index in the DOM HTML
-  for (let i = 0; i < Object.keys(textLabels).length; i++) {
-    cy.log(
-      "Key: " +
-        Object.keys(textLabels).at(i) +
-        ", Value: " +
-        Object.values(textLabels).at(i)
-    );
-    cy.get('div[class^="chakra-skeleton"]')
-      .eq(2)
-      .find('div[class^="css"] > p[class^="chakra-text"]')
-      .eq(Object.keys(textLabels).at(i)) // Find the element with the index = Object.keys(textLabels).at(i))
-      .should("exist")
-      .scrollIntoView({ force: true })
-      .should("be.visible")
-      .should("contain.text", Object.values(textLabels).at(i));
-  }
+  // Verify Start Day
+  cy.get('div[data-testid="date"] > div > p')
+    .eq(0)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", eventDetails.startDay);
+  // Verify End Day
+  cy.get('div[data-testid="date"] > div > p')
+    .eq(1)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", eventDetails.endDay);
+  // Verify Start Time
+  cy.get('div[data-testid="time"] > div > p')
+    .eq(0)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", eventDetails.startTime);
+  // Verify End Time
+  cy.get('div[data-testid="time"] > div > p')
+    .eq(1)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", eventDetails.endTime);
+  // Verify short address
+  cy.get('div[data-testid="location"] > div > p')
+    .eq(0)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", eventDetails.eventShortAddress);
+  // Verify full address
+  cy.get('div[data-testid="location"] > div > p')
+    .eq(1)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", eventDetails.eventFullAddress);
+  // Verify the price label
+  cy.get('div[data-testid="price-range"] > p')
+    .eq(0)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("contain.text", "Price");
+  // Verify the price range value
+  cy.get('div[data-testid="price-range"] > p')
+    .eq(1)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("contain.text", eventDetails.eventPriceRange);
+  // Verify the Important info label
+  cy.get('div[data-testid="important-info-container"] > div > p')
+    .eq(0)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", "Important Info");
+  // Verify the important info value
+  cy.get('div[data-testid="important-info-container"] > div > div > div > span')
+    .eq(0)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", "All Ages");
+  // Verify the Refund policy label
+  cy.get('div[data-testid="refund-policy-container"] > p')
+    .eq(0)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", "Refund Policy");
+  // Verify the refund policy value
+  cy.get('div[data-testid="refund-policy-container"] > p')
+    .eq(1)
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .should("contain.text", "Absolutely no refund.");
 });
 /**
  * Method to add tickets to the cart

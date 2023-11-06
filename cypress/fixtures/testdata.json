@@ -173,7 +173,9 @@
       "ticketName3": "VIP event2",
       "eventPriceRange": "$5 - $548",
       "eventTime": "9:00 PM MDT",
-      "upcomingEventStartDate": "Mon, Jul 24, 2023 · 9:00 PM (MDT)"
+      "upcomingEventStartDate": "Mon, Jul 24, 2023 · 9:00 PM (MDT)",
+      "eventShortAddress": "25 de Mayo 155",
+      "eventFullAddress": "155 25 de Mayo, Buenos Aires"
     },
     "event3": {
       "eventUrl": "/automation-event-3/",

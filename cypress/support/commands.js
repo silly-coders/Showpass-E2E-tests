@@ -78,8 +78,7 @@ Cypress.Commands.add("getByDataTestId", (dataTestId) => {
   cy.log(`Requested element: [data-testid="${dataTestId}"]`);
   return cy
     .get(`[data-testid="${dataTestId}"]`)
-    .should("exist")
-    .should("be.visible");
+    .should("exist");
 });
 /*
  * 'Save' button

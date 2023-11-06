@@ -382,6 +382,7 @@ describe("Verify purchased tickets by ", () => {
       // Do not change event or event name as the tickets get added to this event for further testing
       let uniqueEventName = "verify-payment-event-1697684780";
       cy.visit(`/dashboard/events/${uniqueEventName}/manage/#/edit`);
+      cy.wait(3000);
       // Add more tickets to the first ticket type
       cy.get('input[name="ticketTypeInventory0"]')
         .should("exist")
