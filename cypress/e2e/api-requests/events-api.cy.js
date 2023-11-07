@@ -5,7 +5,6 @@ describe("Test various events by ", function () {
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
-      cy.navigateToHomePage();
     });
   });
   // ***************************************************************************

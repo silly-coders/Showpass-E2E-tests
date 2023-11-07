@@ -8,7 +8,6 @@ describe("Test checkout process by ", () => {
   beforeEach("navigate to Home page", function () {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
-      cy.navigateToHomePage();
     });
   });
 
@@ -17,6 +16,7 @@ describe("Test checkout process by ", () => {
     "verifying that tickets can be selected and added to cart-TA-40",
     { tags: ["e2e"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
       cy.enterEventNameIntoSearchField(this.testdata.events.event3.eventName);
       cy.getSearchResultModalWindow();
@@ -34,6 +34,7 @@ describe("Test checkout process by ", () => {
     "verifying that Interac is not available for purchases below 30 dollars-TA-92",
     { tags: ["e2e"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
       cy.clickHamburgerMenu();
@@ -385,6 +386,7 @@ describe("Test checkout process by ", () => {
     "verifying that tickets can be removed from the Cart Summary-TA-97",
     { tags: ["e2e"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
       cy.visit(`/automation-event-3/`).wait(500);
       cy.log("Click 'BUY TICKETS'");

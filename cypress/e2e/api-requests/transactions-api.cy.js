@@ -9,7 +9,6 @@ describe("Test trasactions API by ", () => {
     cy.fixture("packages-transactions.json").then(function (transactionsJSON) {
       this.transactionsJSON = transactionsJSON;
     });
-    cy.navigateToHomePage();
   });
   // ***************************************************************************
   // Transaction ID: 1e-d67b-428a-9748-d638af16e987
@@ -17,6 +16,7 @@ describe("Test trasactions API by ", () => {
     "verifying a purchased ticket-987 package API-payload-TA-51",
     { tags: ["e2e"] },
     function () {
+      cy.navigateToHomePage();
       const apiRequest = "/api/user/financials/invoices/v2/*";
       cy.intercept(apiRequest).as("myOrdersPageLoaded");
       cy.logIntoPortal(this.testdata.userForTicketPackages);
@@ -42,6 +42,7 @@ describe("Test trasactions API by ", () => {
     "verifying a purchased ticket-23fff package API-payload-TA-52",
     { tags: ["e2e"] },
     function () {
+      cy.navigateToHomePage();
       const apiRequest = "/api/user/financials/invoices/v2/*";
       cy.intercept(apiRequest).as("myOrdersPageLoaded");
       cy.logIntoPortal(this.testdata.userForTicketPackages);

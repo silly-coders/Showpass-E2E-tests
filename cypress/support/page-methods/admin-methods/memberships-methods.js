@@ -39,6 +39,7 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
     }
   });
 });
+// *****************************************************************************
 /**
  * Populate the 'Membership Group Info' form
  */
@@ -104,6 +105,7 @@ Cypress.Commands.add(
       .should("be.visible");
   }
 );
+// *****************************************************************************
 /**
  * Populate the 'Add new Membership Level' form
  */
@@ -143,6 +145,7 @@ Cypress.Commands.add(
     cy.wait(1500);
   }
 );
+// *****************************************************************************
 /**
  * Populate the 'Create Benefit - Event Scan Access' form
  */
@@ -205,6 +208,7 @@ Cypress.Commands.add(
     }
   }
 );
+// *****************************************************************************
 /**
  * Populate the 'Create Benefit - Daily Scan Access' form
  */
@@ -235,6 +239,7 @@ Cypress.Commands.add(
     cy.get('button[id="benefit-type-toggle-button"]').should("not.exist");
   }
 );
+// *****************************************************************************
 /**
  * Populate the 'Create Benefit - Event Scan Access' form
  */
@@ -293,6 +298,7 @@ Cypress.Commands.add(
     cy.get('button[id="benefit-type-toggle-button"]').should("not.exist");
   }
 );
+// *****************************************************************************
 /**
  * Get a Membership Benefit gridcell-text
  * @param itemText
@@ -312,6 +318,7 @@ Cypress.Commands.add(
       .should("be.visible");
   }
 );
+// *****************************************************************************
 /**
  * Method to add membership levels to the cart
  * @param totalTicketTypes (total number of ticket types)
@@ -345,6 +352,7 @@ Cypress.Commands.add(
     cy.wait(500);
   }
 );
+// *****************************************************************************
 /**
  * Method to remove membership levels from the cart
  * @param totalTicketTypes (total number of ticket types)
@@ -379,3 +387,34 @@ Cypress.Commands.add(
     }
   }
 );
+// *****************************************************************************
+/**
+ * Method to delete existing and create a new membership group
+ * @param uniqueMembershipName
+ * @param testGroupDetails
+ */
+Cypress.Commands.add(
+  "deleteOldAndCreateNewMembershipGroup",
+  (uniqueMembershipName, testGroupDetails) => {
+  cy.log("Going to deleteOldAndCreateNewMembershipGroup()");  
+  // Navigate to the React version of the 'Memberships' page
+  cy.visit("/manage/memberships");
+  // Delete all existing published public groups
+  cy.deleteAllMembershipsGroupsIfTheyExist();
+  // Delete all membership drafts as well
+  cy.visit("/manage/memberships/?status=sp_membership_group_draft");
+  cy.deleteAllMembershipsGroupsIfTheyExist();
+  // Click the 'Membership' menu item on the left hand menu
+  cy.getChakraButtonLabelByText("Membership").click({ force: true });
+  // Select 'Create Group'
+  cy.getButtonByAttribute("href", "/manage/memberships/create/").click({
+    force: true,
+  });
+  cy.url().should("include", `/manage/memberships/create/`);
+  // Populate the 'Membership Group Info' form
+  cy.populateMembershipGroupInfoForm(
+    uniqueMembershipName,
+    testGroupDetails
+  );
+  });  
+  // *****************************************************************************

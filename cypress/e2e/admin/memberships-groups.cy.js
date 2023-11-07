@@ -3,28 +3,8 @@ describe("Verify 'Memberships' page features by ", function () {
     cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
-    // Generate a unique name
-    let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
-    // Store the uniqueMembershipName value in the Cypress.env() object
-    Cypress.env("uniqueMembershipName", uniqueMembershipName);
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
-      cy.navigateToHomePage();
-      cy.logIntoPortal(this.testdata.userDetails);
-      // Navigate to the React version of the 'Memberships' page
-      cy.visit("/manage/memberships");
-      // Delete all existing published public groups
-      cy.deleteAllMembershipsGroupsIfTheyExist();
-      // Delete all membership drafts as well
-      cy.visit("/manage/memberships/?status=sp_membership_group_draft");
-      cy.deleteAllMembershipsGroupsIfTheyExist();
-      // Click the 'Membership' menu item on the left hand menu
-      cy.getChakraButtonLabelByText("Membership").click({ force: true });
-      // Select 'Create Group'
-      cy.getButtonByAttribute("href", "/manage/memberships/create/").click({
-        force: true,
-      });
-      cy.url().should("include", `/manage/memberships/create/`);
     });
   });
 
@@ -33,10 +13,11 @@ describe("Verify 'Memberships' page features by ", function () {
     "creating a new valid group and deleting it-TA-61",
     { tags: ["e2e", "membership-group", "smoke"] },
     function () {
-      // Retrieve the uniqueMembershipName value from the Cypress.env() object
-      let uniqueMembershipName = Cypress.env("uniqueMembershipName");
-      // Populate the 'Membership Group Info' form
-      cy.populateMembershipGroupInfoForm(
+      // Generate a unique name
+      let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.deleteOldAndCreateNewMembershipGroup(
         uniqueMembershipName,
         this.testdata.testGroup1
       );
@@ -86,10 +67,11 @@ describe("Verify 'Memberships' page features by ", function () {
     "confirming that a newly created group shows up on the front end-TA-62",
     { tags: ["e2e", "membership-group"] },
     function () {
-      // Retrieve the uniqueMembershipName value from the Cypress.env() object
-      let uniqueMembershipName = Cypress.env("uniqueMembershipName");
-      // Populate the 'Membership Group Info' form
-      cy.populateMembershipGroupInfoForm(
+      // Generate a unique name
+      let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.deleteOldAndCreateNewMembershipGroup(
         uniqueMembershipName,
         this.testdata.testGroup1
       );
@@ -105,7 +87,9 @@ describe("Verify 'Memberships' page features by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup1.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(
+        this.testdata.testGroup1.membershipDescription
+      );
       // Click 'BUY PASSES'
       cy.chakraParagraphButtonByText("BUY PASSES").click({ force: true });
       // Ensure a modal window shows up
@@ -120,10 +104,11 @@ describe("Verify 'Memberships' page features by ", function () {
     "ensuring that a membership level can be added to a newly created group-TA-64",
     { tags: ["e2e", "membership-group", "smoke"] },
     function () {
-      // Retrieve the uniqueMembershipName value from the Cypress.env() object
-      let uniqueMembershipName = Cypress.env("uniqueMembershipName");
-      // Populate the 'Membership Group Info' form
-      cy.populateMembershipGroupInfoForm(
+      // Generate a unique name
+      let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.deleteOldAndCreateNewMembershipGroup(
         uniqueMembershipName,
         this.testdata.testGroup1
       );
@@ -166,10 +151,11 @@ describe("Verify 'Memberships' page features by ", function () {
     "checking that a membership benefit can be added to a newly created group-TA-65",
     { tags: ["e2e", "membership-group", "smoke"] },
     function () {
-      // Retrieve the uniqueMembershipName value from the Cypress.env() object
-      let uniqueMembershipName = Cypress.env("uniqueMembershipName");
-      // Populate the 'Membership Group Info' form
-      cy.populateMembershipGroupInfoForm(
+      // Generate a unique name
+      let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.deleteOldAndCreateNewMembershipGroup(
         uniqueMembershipName,
         this.testdata.testGroup1
       );
@@ -213,10 +199,11 @@ describe("Verify 'Memberships' page features by ", function () {
     "confirming that users can't buy more than a limited number of membership levels-TA-66",
     { tags: ["e2e", "membership-group", "smoke"] },
     function () {
-      // Retrieve the uniqueMembershipName value from the Cypress.env() object
-      let uniqueMembershipName = Cypress.env("uniqueMembershipName");
-      // Populate the 'Membership Group Info' form
-      cy.populateMembershipGroupInfoForm(
+      // Generate a unique name
+      let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.deleteOldAndCreateNewMembershipGroup(
         uniqueMembershipName,
         this.testdata.testGroup1
       );
@@ -254,7 +241,9 @@ describe("Verify 'Memberships' page features by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup1.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(
+        this.testdata.testGroup1.membershipDescription
+      );
       // Click 'BUY PASSES'
       cy.chakraParagraphButtonByText("BUY PASSES").click({ force: true });
       // Ensure a modal window shows up
@@ -278,10 +267,11 @@ describe("Verify 'Memberships' page features by ", function () {
     "checking the 'Group Stats' page initial values-TA-67",
     { tags: ["e2e", "membership-group"] },
     function () {
-      // Retrieve the uniqueMembershipName value from the Cypress.env() object
-      let uniqueMembershipName = Cypress.env("uniqueMembershipName");
-      // Populate the 'Membership Group Info' form
-      cy.populateMembershipGroupInfoForm(
+      // Generate a unique name
+      let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.deleteOldAndCreateNewMembershipGroup(
         uniqueMembershipName,
         this.testdata.testGroup1
       );
@@ -371,10 +361,11 @@ describe("Verify 'Memberships' page features by ", function () {
     "confirming that a correct 'Buy passes' button shows up-TA-88",
     { tags: ["e2e", "membership-group"] },
     function () {
-      // Retrieve the uniqueMembershipName value from the Cypress.env() object
-      let uniqueMembershipName = Cypress.env("uniqueMembershipName");
-      // Populate the 'Membership Group Info' form
-      cy.populateMembershipGroupInfoForm(
+      // Generate a unique name
+      let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.deleteOldAndCreateNewMembershipGroup(
         uniqueMembershipName,
         this.testdata.testGroup1
       );
@@ -390,7 +381,9 @@ describe("Verify 'Memberships' page features by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup1.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(
+        this.testdata.testGroup1.membershipDescription
+      );
       // Verify the 'BUY PASSES' button appearance
       cy.chakraParagraphButtonByText("BUY PASSES");
     }
@@ -400,10 +393,11 @@ describe("Verify 'Memberships' page features by ", function () {
     "confirming that a correct 'Buy memberships' button shows up-TA-88",
     { tags: ["e2e", "membership-group"] },
     function () {
-      // Retrieve the uniqueMembershipName value from the Cypress.env() object
-      let uniqueMembershipName = Cypress.env("uniqueMembershipName");
-      // Populate the 'Membership Group Info' form
-      cy.populateMembershipGroupInfoForm(
+      // Generate a unique name
+      let uniqueMembershipName = "Test-group-" + Math.floor(Date.now() / 1000);
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.deleteOldAndCreateNewMembershipGroup(
         uniqueMembershipName,
         this.testdata.testGroup2
       );
@@ -419,7 +413,9 @@ describe("Verify 'Memberships' page features by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup2.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(
+        this.testdata.testGroup2.membershipDescription
+      );
       // Verify the 'BUY MEMBERSHIPS' button appearance
       cy.chakraParagraphButtonByText("BUY MEMBERSHIPS");
     }

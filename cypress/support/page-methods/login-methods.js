@@ -83,7 +83,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
   cy.log('Going to confirm the folloing API: "/api/auth/profile/"')
   cy.wait("@profileLoaded")
     .its("response.statusCode")
-    .should("be.oneOf", [200, 204]);
+    .should("be.oneOf", [200, 204], "Unable to log in. See the response status code for details.");
   loginLocators
     .userFirstAndLastNames()
     .should("exist")
@@ -157,7 +157,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
       cy.wait(700);
       cy.wait("@profileLoaded")
         .its("response.statusCode")
-        .should("be.oneOf", [200, 201, 204]);
+        .should("be.oneOf", [200, 201, 204], "Unable to log in. See the response status code for details.");
       // Button arrow in the top right corner pointing down
       cy.get('button[aria-label="Main menu"] > span > svg')
         .should("exist")

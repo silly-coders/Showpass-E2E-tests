@@ -2,7 +2,7 @@ import { DashboardLocators } from "../element-locators/dashboard-locators";
 import { EventsAndFiltersLocators } from "../element-locators/events-and-filters-locators";
 const dashboardLocators = new DashboardLocators();
 const eventsAndFiltersLocators = new EventsAndFiltersLocators();
-
+// **************************************************************************
 /**
  * Method to verify event active filter text
  * @param eventName
@@ -11,7 +11,7 @@ Cypress.Commands.add("verifyEventActiveFilterText", (eventName) => {
   cy.log(`Going to verifyEventActiveFilterText(${eventName})`);
   eventsAndFiltersLocators.activeFilterText(eventName);
 });
-
+// **************************************************************************
 /**
  * Method to verify active filter by aria-label
  * @param ariaLabel
@@ -23,7 +23,7 @@ Cypress.Commands.add("verifyActiveFilterByAriaLabel", (ariaLabel) => {
     .scrollIntoView({ force: true })
     .should("be.visible");
 });
-
+// **************************************************************************
 /**
  * Method to click event card by index
  */
@@ -31,7 +31,7 @@ Cypress.Commands.add("clickEventCardByIndex", (eventIndex) => {
   cy.log(`Going to clickEventCardByIndex(${eventIndex})`);
   eventsAndFiltersLocators.getEventCard(eventIndex).click({ force: true });
 });
-
+// **************************************************************************
 /**
  * Method to verify the event card
  */
@@ -55,6 +55,7 @@ Cypress.Commands.add("verifyEventCardDetails", (eventDetails) => {
     .eq(1)
     .contains(eventDetails.eventTime);
 });
+// **************************************************************************
 /**
  * Method to verify event-1 PAGE details
  */
@@ -70,6 +71,7 @@ Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
     3: eventDetails.endTime,
     5: eventDetails.eventType,
   };
+  // **************************************************************************
   // Key in the object above is also the elemnt index in the DOM HTML
   for (let i = 0; i < Object.keys(textLabels).length; i++) {
     cy.log(
@@ -88,6 +90,7 @@ Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
       .should("contain.text", Object.values(textLabels).at(i));
   }
 });
+// **************************************************************************
 /**
  * Method to verify event-2 PAGE details
  */
@@ -179,6 +182,7 @@ Cypress.Commands.add("verifyEvent2PageDetails", (eventDetails) => {
     .should("be.visible")
     .should("contain.text", "Absolutely no refund.");
 });
+// **************************************************************************
 /**
  * Method to add tickets to the cart
  * @param totalTicketTypes (total number of ticket types)
@@ -207,6 +211,7 @@ Cypress.Commands.add(
     cy.wait(800);
   }
 );
+// **************************************************************************
 /**
  * Method to add tickets to the cart without API request validation
  * @param totalTicketTypes (total number of ticket types)
@@ -229,6 +234,7 @@ Cypress.Commands.add(
     cy.wait(800);
   }
 );
+// **************************************************************************
 /**
  * Method to remove all events from the 'Saved Events' page
  */
@@ -261,6 +267,7 @@ Cypress.Commands.add("removeAllSavedEvents", () => {
     }
   });
 });
+// **************************************************************************
 /**
  * Method to add events to the 'Saved Events' list
  * @param totalNumberOfEventsToAdd
@@ -293,6 +300,7 @@ Cypress.Commands.add(
     }
   }
 );
+// **************************************************************************
 /**
  * Click 'Showpass' logo on the top bar's left side
  */
@@ -547,6 +555,7 @@ Cypress.Commands.add(
       .should("contain.text", "Event Overview");
   }
 );
+// **************************************************************************
 /**
  * Method to verify purchased ticket event details
  */
@@ -609,3 +618,34 @@ Cypress.Commands.add(
       .should("contain.text", ticketValues.eventType);
   }
 );
+// **************************************************************************
+/**
+ * Method to navigate to Dashboard and create a new event
+ * @param userDetails
+ * @param uniqueEventName
+ * @param eventDetails
+ */
+Cypress.Commands.add(
+  "navigateToDashboardAndCreateNewEvent",
+  (userDetails, uniqueEventName, eventDetails) => {
+    cy.log("Going to navigateToDashboardAndCreateNewEvent");
+    cy.navigateToDashboard(userDetails);
+    // Intercept API
+    const customFeesApiRequest = "**/financials/custom-fees/";
+    cy.intercept(customFeesApiRequest).as("customFeesApiLoaded");
+    cy.clickHamburgerMenu();
+    cy.clickCreateEventButton();
+    cy.wait(700);
+    cy.wait("@customFeesApiLoaded")
+      .its("response.statusCode")
+      .should("be.oneOf", [200, 201, 204]);
+    // Ensure the page title shows up
+    cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
+    cy.createNewEventAngular(uniqueEventName, eventDetails);
+    // Click 'Showpass' logo to navigate to the 'Home' page
+    cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
+      .should("be.visible")
+      .click({ force: true });
+  }
+);
+// **************************************************************************

@@ -8,7 +8,6 @@ describe("Test existing event details by ", () => {
   beforeEach("navigate to Home page", function () {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
-      cy.navigateToHomePage();
     });
   });
   // ***************************************************************************
@@ -16,6 +15,7 @@ describe("Test existing event details by ", () => {
     "verifying 'event 1' CARD content-TA-38",
     { tags: ["e2e", "events"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
       cy.searchForAnEventByName(this.testdata.events.event1.eventName);
       cy.verifyEventCardDetails(this.testdata.events.event1);
@@ -26,6 +26,7 @@ describe("Test existing event details by ", () => {
     "verifying 'event 2' CARD content-TA-38",
     { tags: ["e2e", "events"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
       cy.searchForAnEventByName(this.testdata.events.event2.eventName);
       cy.verifyEventCardDetails(this.testdata.events.event2);
@@ -36,6 +37,7 @@ describe("Test existing event details by ", () => {
     "verifying the event-1 page details-TA-39",
     { tags: ["e2e", "events"] },
     function () {
+      cy.navigateToHomePage();
       cy.enterEventNameIntoSearchField(this.testdata.events.event1.eventName);
       cy.getSearchResultModalWindow();
       cy.selectSearchItemByItemName(this.testdata.events.event1.eventName);
@@ -47,6 +49,7 @@ describe("Test existing event details by ", () => {
     "verifying the event-2 page details-TA-39",
     { tags: ["e2e", "events"] },
     function () {
+      cy.navigateToHomePage();
       cy.enterEventNameIntoSearchField(this.testdata.events.event2.eventName);
       cy.getSearchResultModalWindow();
       cy.selectSearchItemByItemName(this.testdata.events.event2.eventName);
@@ -58,6 +61,7 @@ describe("Test existing event details by ", () => {
     "verifying event Help and Info modal appearance and content-TA-60",
     { tags: ["e2e", "events", "appearance"] },
     function () {
+      cy.navigateToHomePage();
       // Enter event name into the search input field
       cy.enterEventNameIntoSearchField(this.testdata.events.event1.eventName);
       // Wait for the modal window with search results
@@ -112,6 +116,7 @@ describe("Test existing event details by ", () => {
     "verifying that an assigned seat ticket can be added to cart-TA-75",
     { tags: ["e2e", "events"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForOrganization3and4);
       cy.visit(this.testdata.eventAssignedSeating.eventUrl);
       cy.get('button[class^="chakra-button"] > p')

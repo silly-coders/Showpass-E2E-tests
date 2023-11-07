@@ -15,24 +15,20 @@ describe("Test the mobile phone view by ", () => {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
       cy.navigateToHomePage();
+    });
+  });
+
+  // ***************************************************************************
+  it(
+    "ensuring that regular users can purchase event tickets-TA-78",
+    { tags: ["e2e", "orders", "mobile-view", "smoke"] },
+    function () {
       cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
-      cy.navigateToDashboard(this.testdata.regularUserForOrganization3and4);
-      // Intercept API
-      const customFeesApiRequest = "**/financials/custom-fees/";
-      cy.intercept(customFeesApiRequest).as("customFeesApiLoaded");
-      cy.clickHamburgerMenu();
-      cy.clickCreateEventButton();
-      cy.wait(700);
-      cy.wait("@customFeesApiLoaded")
-      .its("response.statusCode")
-      .should("be.oneOf", [200, 201, 204]);
-      // Ensure the page title shows up
-      cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
-      cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
-      // Click 'Showpass' logo to navigate to the 'Home' page
-      cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
-        .should("be.visible")
-        .click({ force: true });
+      cy.navigateToDashboardAndCreateNewEvent(
+        this.testdata.regularUserForOrganization3and4,
+        uniqueEventName,
+        this.testdata.testEvent1
+      );
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.signOut();
@@ -46,14 +42,6 @@ describe("Test the mobile phone view by ", () => {
         username: "User ForTesting",
       };
       cy.registerNewUserByProvidingUniqueEmail(userDetails);
-    });
-  });
-
-  // ***************************************************************************
-  it(
-    "ensuring that regular users can purchase event tickets-TA-78",
-    { tags: ["e2e", "orders", "mobile-view", "smoke"] },
-    function () {
       mobileScreenSizes.forEach((size) => {
         cy.fixture("testdata.json").then(function (testdata) {
           this.testdata = testdata;

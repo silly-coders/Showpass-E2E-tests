@@ -4,13 +4,7 @@ describe("Test popular cities options by ", () => {
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
-      const apiRequest = "**/envelope/*";
-      cy.intercept(apiRequest).as("pageLoaded");
       this.testdata = testdata;
-      cy.navigateToHomePage();
-      cy.wait("@pageLoaded")
-        .its("response.statusCode")
-        .should("be.oneOf", [200, 204]);
     });
   });
   // ***************************************************************************
@@ -18,6 +12,7 @@ describe("Test popular cities options by ", () => {
     "selecting a popular city and verifying page content-TA-55",
     { tags: ["e2e", "smoke"] },
     () => {
+      cy.navigateToHomePage();
       // TEST THE FOLLOWING CITIES
       let popularCities = ["Calgary", "Vancouver", "Toronto"];
       for (let city = 0; city < popularCities.length; city++) {
@@ -82,29 +77,57 @@ describe("Test popular cities options by ", () => {
     }
   );
   // ***************************************************************************
-  it("verifying event cards city names-TA-56", { tags: ["e2e", "smoke"] }, () => {
-    // TEST THE FOLLOWING CITIES
-    let popularCities = ["Calgary", "Vancouver", "Toronto"];
-    for (let city = 0; city < popularCities.length; city++) {
-      let cityLowerCase = popularCities.at(city).toLowerCase();
-      cy.getSwiperSlideByAttr("href", `/discover/${cityLowerCase}/`).click({
-        force: true,
-      });
-      cy.url().should("include", `/discover/${cityLowerCase}/`);
-      cy.getChakraBreadcrumbListItem(0).should("have.text", "Home");
-      cy.getChakraBreadcrumbListItem(1).should(
-        "have.text",
-        `${popularCities.at(city)}`
-      );
-      cy.getChakraTextLabelByText("Explore");
-      cy.getChakraTextLabelByText(`${popularCities.at(city)}`);
-      cy.getChakraButtonByText(`${popularCities.at(city)}`);
-      // Count total number of carousels across the page and verify all first event cards
-      cy.get("div[class='swiper-wrapper']")
-        .find('div[class="swiper-slide swiper-slide-active"]')
-        .then(($value) => {
+  it(
+    "verifying event cards city names-TA-56",
+    { tags: ["e2e", "smoke"] },
+    () => {
+      cy.navigateToHomePage();
+      // TEST THE FOLLOWING CITIES
+      let popularCities = ["Calgary", "Vancouver", "Toronto"];
+      for (let city = 0; city < popularCities.length; city++) {
+        let cityLowerCase = popularCities.at(city).toLowerCase();
+        cy.getSwiperSlideByAttr("href", `/discover/${cityLowerCase}/`).click({
+          force: true,
+        });
+        cy.url().should("include", `/discover/${cityLowerCase}/`);
+        cy.getChakraBreadcrumbListItem(0).should("have.text", "Home");
+        cy.getChakraBreadcrumbListItem(1).should(
+          "have.text",
+          `${popularCities.at(city)}`
+        );
+        cy.getChakraTextLabelByText("Explore");
+        cy.getChakraTextLabelByText(`${popularCities.at(city)}`);
+        cy.getChakraButtonByText(`${popularCities.at(city)}`);
+        // Count total number of carousels across the page and verify all first event cards
+        cy.get("div[class='swiper-wrapper']")
+          .find('div[class="swiper-slide swiper-slide-active"]')
+          .then(($value) => {
+            length = $value.length;
+            cy.log("Total number of carousels is: " + length);
+            for (let i = 0; i < length; i++) {
+              cy.log(
+                "Verifying city: " +
+                  popularCities.at(city) +
+                  " and event card #" +
+                  i +
+                  1
+              );
+              cy.get(`div[data-swiper-slide-index="${i}"]`)
+                .find('div[class^="chakra-skeleton"]:nth-child(3)')
+                .should("contain.text", popularCities.at(city));
+            }
+          });
+        // Verify city names on the 'Popular in ${City}' carousel's event cards
+        // Find a total number of cards in the 'Popular Cities' section (in the carousel)
+        cy.get(
+          'div[data-testid="top-events"] > div > div:nth-child(2) > div:nth-child(2) > div > div'
+        ).then(($value) => {
           length = $value.length;
-          cy.log("Total number of carousels is: " + length);
+          cy.log(
+            `Total number of "Popular in ${popularCities.at(
+              city
+            )}" cards is: ` + length
+          );
           for (let i = 0; i < length; i++) {
             cy.log(
               "Verifying city: " +
@@ -113,61 +136,40 @@ describe("Test popular cities options by ", () => {
                 i +
                 1
             );
-            cy.get(`div[data-swiper-slide-index="${i}"]`)
-              .find('div[class^="chakra-skeleton"]:nth-child(3)')
-              .should("contain.text", popularCities.at(city));
+            // Within the 'Popular in ${City}' carousel make sure the right city name shows up at the bottom of each card (ignore case)
+            cy.get('div[data-testid="top-events"]')
+              // Index '0' is the event name and index '1' is the city name on the card, hence .eq(1).
+              .find(
+                `div[data-swiper-slide-index="${i}"] > div > div > div > div > div[class^='chakra-skeleton'] > p`
+              )
+              .eq(1)
+              .contains(popularCities.at(city), { matchCase: false });
+            // Expose the next group of 5 event cards to verify city name
+            if (i % 5 == 0) {
+              // Click right arrow button
+              cy.clickButtonIfNotDisabled(
+                `button[class^="chakra-button"][aria-label="Popular in ${popularCities.at(
+                  city
+                )}"]`,
+                1
+              );
+            }
           }
         });
-      // Verify city names on the 'Popular in ${City}' carousel's event cards
-      // Find a total number of cards in the 'Popular Cities' section (in the carousel)
-      cy.get(
-        'div[data-testid="top-events"] > div > div:nth-child(2) > div:nth-child(2) > div > div'
-      ).then(($value) => {
-        length = $value.length;
-        cy.log(
-          `Total number of "Popular in ${popularCities.at(city)}" cards is: ` +
-            length
-        );
-        for (let i = 0; i < length; i++) {
-          cy.log(
-            "Verifying city: " +
-              popularCities.at(city) +
-              " and event card #" +
-              i +
-              1
-          );
-          // Within the 'Popular in ${City}' carousel make sure the right city name shows up at the bottom of each card (ignore case)
-          cy.get('div[data-testid="top-events"]')
-            // Index '0' is the event name and index '1' is the city name on the card, hence .eq(1).
-            .find(
-              `div[data-swiper-slide-index="${i}"] > div > div > div > div > div[class^='chakra-skeleton'] > p`
-            )
-            .eq(1)
-            .contains(popularCities.at(city), { matchCase: false });
-          // Expose the next group of 5 event cards to verify city name
-          if (i % 5 == 0) {
-            // Click right arrow button
-            cy.clickButtonIfNotDisabled(
-              `button[class^="chakra-button"][aria-label="Popular in ${popularCities.at(
-                city
-              )}"]`,
-              1
-            );
-          }
-        }
-      });
-      // Click 'Showpass' logo to reset the 'Home' page
-      cy.get('a[class^="chakra-link"][aria-label="showpass logo"]')
-        .should("exist")
-        .should("be.visible")
-        .click({ force: true });
+        // Click 'Showpass' logo to reset the 'Home' page
+        cy.get('a[class^="chakra-link"][aria-label="showpass logo"]')
+          .should("exist")
+          .should("be.visible")
+          .click({ force: true });
+      }
     }
-  });
+  );
   // ***************************************************************************
   it(
     "verifying that a popular city can be changed via drop-down list box-TA-57",
     { tags: ["e2e", "smoke"] },
     () => {
+      cy.navigateToHomePage();
       let popularCities = ["Calgary", "Vancouver", "Toronto"];
       let lastCityLowerCase =
         popularCities[popularCities.length - 1].toLowerCase();

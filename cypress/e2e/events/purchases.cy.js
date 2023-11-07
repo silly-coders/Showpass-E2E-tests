@@ -14,6 +14,7 @@ describe("Verify purchased tickets by ", () => {
     "ensuring that an event owner can purchase tickets with a single barcode-TA-68",
     { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
       cy.navigateToDashboard(this.testdata.regularUserForOrganization3and4);
       cy.clickHamburgerMenu();
@@ -72,6 +73,7 @@ describe("Verify purchased tickets by ", () => {
     "ensuring that regular users can purchase event tickets with a single barcode-TA-71",
     { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
       cy.navigateToDashboard(this.testdata.regularUserForOrganization3and4);
       cy.clickHamburgerMenu();
@@ -135,6 +137,7 @@ describe("Verify purchased tickets by ", () => {
     "ensuring that guests are able to purchase event tickets-TA-87",
     { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       cy.navigateToDashboard(this.testdata.userForSingleBarcodeTesting);
       cy.clickHamburgerMenu();
@@ -190,6 +193,7 @@ describe("Verify purchased tickets by ", () => {
     "ensuring that Interac can be used to purchase tickets-TA-90",
     { tags: ["e2e", "orders", "smoke"] },
     function () {
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       // Do not change event or event name as the tickets get added to this event in the after() hook
       let uniqueEventName = "verify-payment-event-1697684780";
@@ -253,6 +257,7 @@ describe("Verify purchased tickets by ", () => {
         phoneNumber: "8883331155",
         username: "User ForTesting",
       };
+      cy.navigateToHomePage();
       cy.registerNewUserByProvidingUniqueEmail(userDetails);
       let totalExpectedNumberOfEventDays = 5;
       // Do not change event or event name as the tickets get added to this event in the after() hook
@@ -378,6 +383,7 @@ describe("Verify purchased tickets by ", () => {
     { tags: ["e2e", "barcodes", "orders", "smoke"] },
     function () {
       cy.log("Going to replenish the event ticket stock (purchases.cy.js)");
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
       // Do not change event or event name as the tickets get added to this event for further testing
       let uniqueEventName = "verify-payment-event-1697684780";

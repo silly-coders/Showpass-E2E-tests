@@ -310,6 +310,7 @@ Cypress.Commands.add(
       .should("exist")
       .should("be.visible");
     cy.wait(3000);
+    Cypress.config("defaultCommandTimeout", 7000);
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
     ).should("not.exist");
@@ -329,7 +330,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "addTicketsToCartAndProceedToCheckout",
   (userDetails, numberOfTicketsForEachTicketType) => {
-    cy.log("Going to completeOrderAsGuestOnAngular()");
+    cy.log("Going to addTicketsToCartAndProceedToCheckout()");
     cy.get('button[class^="chakra-button"] > p')
       .contains("BUY TICKETS")
       .click({ force: true });

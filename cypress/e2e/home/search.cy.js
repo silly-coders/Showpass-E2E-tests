@@ -7,13 +7,7 @@ describe("Verify 'Home' page search by ", () => {
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
-      const apiRequest = "**/envelope/*";
-      cy.intercept(apiRequest).as("pageLoaded");
       this.testdata = testdata;
-      cy.navigateToHomePage();
-      cy.wait("@pageLoaded")
-        .its("response.statusCode")
-        .should("be.oneOf", [200, 204]);
     });
   });
   // ***************************************************************************
@@ -21,6 +15,7 @@ describe("Verify 'Home' page search by ", () => {
     "selecting tomorrow's events-TA-76",
     { tags: ["e2e", "smoke", "search-filters"] },
     () => {
+      cy.navigateToHomePage();
       // Click into the 'Date' field
       cy.get('p[class^="chakra-text"][data-testid="Text"]')
         .contains("Date")
@@ -61,6 +56,7 @@ describe("Verify 'Home' page search by ", () => {
     "selecting today's events-TA-77",
     { tags: ["e2e", "smoke", "search-filters"] },
     () => {
+      cy.navigateToHomePage();
       // Click into the 'Date' field
       cy.get('p[class^="chakra-text"][data-testid="Text"]')
         .contains("Date")

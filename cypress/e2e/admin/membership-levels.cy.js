@@ -7,22 +7,6 @@ describe("Verify 'Membership Levels' by ", function () {
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
-      cy.navigateToHomePage();
-      cy.logIntoPortal(this.testdata.userDetails);
-      // Navigate to the React version of the 'Memberships' page
-      cy.visit("/manage/memberships");
-      // Delete all existing published public groups
-      cy.deleteAllMembershipsGroupsIfTheyExist();
-      // Delete all membership drafts as well
-      cy.visit("/manage/memberships/?status=sp_membership_group_draft");
-      cy.deleteAllMembershipsGroupsIfTheyExist();
-      // Click the 'Membership' menu item on the left hand menu
-      cy.getChakraButtonLabelByText("Membership").click({ force: true });
-      // Select 'Create Group'
-      cy.getButtonByAttribute("href", "/manage/memberships/create/").click({
-        force: true,
-      });
-      cy.url().should("include", `/manage/memberships/create/`);
     });
   });
 
@@ -31,8 +15,9 @@ describe("Verify 'Membership Levels' by ", function () {
     "confirming checkout process-TA-85",
     { tags: ["e2e", "membership-group"] },
     function () {
-      // Populate the 'Membership Group Info' form
-      cy.populateMembershipGroupInfoForm(
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.deleteOldAndCreateNewMembershipGroup(
         uniqueMembershipName,
         this.testdata.testGroup2
       );
@@ -70,7 +55,9 @@ describe("Verify 'Membership Levels' by ", function () {
       // Verify group name in the header
       cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
       // Verify group description
-      cy.getEventOrGroupDescriptionByText(this.testdata.testGroup2.membershipDescription);
+      cy.getEventOrGroupDescriptionByText(
+        this.testdata.testGroup2.membershipDescription
+      );
       // Click 'BUY PASSES'
       cy.chakraParagraphButtonByText("BUY MEMBERSHIPS").click({ force: true });
       // Ensure a modal window shows up
