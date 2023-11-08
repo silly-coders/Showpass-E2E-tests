@@ -4,9 +4,16 @@ describe("Verify 'Credits' page by ", () => {
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
+      this.testdata = testdata;
+    });
+  });
+  // ***************************************************************************
+  it(
+    "checking the page overall appearance-TA-54",
+    { tags: ["e2e", "appearance"] },
+    function () {
       const apiRequest = "/api/user/financials/discounts/credits/";
       cy.intercept(apiRequest).as("pageLoaded");
-      this.testdata = testdata;
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
       cy.clickUsernameOnTopBar();
@@ -16,13 +23,6 @@ describe("Verify 'Credits' page by ", () => {
       cy.wait("@pageLoaded")
         .its("response.statusCode")
         .should("be.oneOf", [200, 204]);
-    });
-  });
-  // ***************************************************************************
-  it(
-    "checking the page overall appearance-TA-54",
-    { tags: ["e2e", "appearance"] },
-    function () {
       // Page headers and sub-headers
       cy.getH1HeaderByText("Credits");
       // 'Universal Credits' section

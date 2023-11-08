@@ -8,6 +8,13 @@ describe("Test the 'Saved Events' page by ", () => {
   beforeEach("before each spec", function () {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
+    });
+  });
+  // ***************************************************************************
+  it(
+    "verifying that new events can be added to 'Saved Events'-TA-42",
+    { tags: ["e2e", "events"] },
+    function () {
       const apiRequest = "/api/user/tickets/favorites/*";
       cy.intercept(apiRequest).as("pageLoaded");
       cy.navigateToHomePage();
@@ -18,13 +25,6 @@ describe("Test the 'Saved Events' page by ", () => {
       cy.wait("@pageLoaded")
         .its("response.statusCode")
         .should("be.oneOf", [200, 204]);
-    });
-  });
-// ***************************************************************************
-  it(
-    "verifying that new events can be added to 'Saved Events'-TA-42",
-    { tags: ["e2e", "events"] },
-    function () {
       cy.wait(1500); // Without the implicit wait it counts non-existent cards and then fails
       // This FOR loop is needed in case some events didn't get removed from the first time
       for (let i = 1; i < 3; i++) {
@@ -45,11 +45,13 @@ describe("Test the 'Saved Events' page by ", () => {
       let j = 1;
       for (let i = 0; i < eventsToTest.length; i++) {
         cy.log("EVENT_TO_TEST: " + eventsToTest.at(i));
-        cy.log('INDEX=1 is First Event Card Name, INDEX=4 is Second Event Card Name etc')
+        cy.log(
+          "INDEX=1 is First Event Card Name, INDEX=4 is Second Event Card Name etc"
+        );
         cy.verifySavedEventCardName(j, eventsToTest.at(i));
         j = j + 3;
       }
     }
   );
-// ***************************************************************************ß  
+  // ***************************************************************************ß
 });

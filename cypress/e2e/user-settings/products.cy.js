@@ -4,9 +4,16 @@ describe("Verify 'Products' page by ", () => {
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
+      this.testdata = testdata;
+    });
+  });
+  // ***************************************************************************
+  it(
+    "checking the 'Product' page details for consistency and correctness-TA-72",
+    { tags: ["e2e", "appearance"] },
+    function () {
       const apiRequest = "**/account/products*";
       cy.intercept(apiRequest).as("pageLoaded");
-      this.testdata = testdata;
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
       cy.clickUsernameOnTopBar();
@@ -16,13 +23,6 @@ describe("Verify 'Products' page by ", () => {
       cy.wait("@pageLoaded")
         .its("response.statusCode")
         .should("be.oneOf", [200, 204]);
-    });
-  });
-  // ***************************************************************************
-  it(
-    "checking the 'Product' page details for consistency and correctness-TA-72",
-    { tags: ["e2e", "appearance"] },
-    function () {
       // Page headers and sub-headers
       cy.getH1HeaderByText("Products");
       // Verify a list of products (product cards)
@@ -62,6 +62,17 @@ describe("Verify 'Products' page by ", () => {
     "checking each product item details-TA-73",
     { tags: ["e2e", "appearance"] },
     function () {
+      const apiRequest = "**/account/products*";
+      cy.intercept(apiRequest).as("pageLoaded");
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.clickUsernameOnTopBar();
+      // Navigate to the 'Products' page
+      cy.getDropDownItem("Products").click({ force: true });
+      cy.url().should("include", "/account/products");
+      cy.wait("@pageLoaded")
+        .its("response.statusCode")
+        .should("be.oneOf", [200, 204]);
       // Page headers and sub-headers
       cy.getH1HeaderByText("Products");
       let productItems = [
@@ -76,5 +87,5 @@ describe("Verify 'Products' page by ", () => {
       }
     }
   );
- // *************************************************************************** 
+  // ***************************************************************************
 });
