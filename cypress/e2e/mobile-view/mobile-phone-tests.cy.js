@@ -1,11 +1,8 @@
-let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
 // Verify ticket purchase process for all the mobile screen resolutions mentioned below
 const mobileScreenSizes = [
   [390, 844], // iPhone 12 Pro
   //[360, 740], // Samsung Galaxy S8+
 ];
-var uniqueUserEmail;
-let userDetails;
 
 describe("Test the mobile phone view by ", () => {
   beforeEach(function () {
@@ -13,8 +10,7 @@ describe("Test the mobile phone view by ", () => {
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
-      this.testdata = testdata;
-      cy.navigateToHomePage();
+      this.testdata = testdata;  
     });
   });
 
@@ -23,6 +19,8 @@ describe("Test the mobile phone view by ", () => {
     "ensuring that regular users can purchase event tickets-TA-78",
     { tags: ["e2e", "orders", "mobile-view", "smoke"] },
     function () {
+      let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
+      cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
       cy.navigateToDashboardAndCreateNewEvent(
         this.testdata.regularUserForOrganization3and4,
@@ -32,8 +30,8 @@ describe("Test the mobile phone view by ", () => {
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.signOut();
-      uniqueUserEmail = "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
-      userDetails = {
+      var uniqueUserEmail = "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+      let userDetails = {
         userEmail: uniqueUserEmail,
         userPassword: "!@Newuser2023",
         userFirstName: "User",

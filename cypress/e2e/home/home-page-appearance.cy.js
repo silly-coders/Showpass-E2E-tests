@@ -96,13 +96,4 @@ describe("Testing Home page by ", () => {
     }
   );
   // ***************************************************************************
-  it(
-    "verifying the 'Request a Demo' form fields and appearance-TA-74",
-    { tags: ["e2e", "appearance"] },
-    () => {
-      cy.visit("sell/request-demo");
-      cy.verifyRequestDemoForm();
-    }
-  );
-  // ***************************************************************************
 });

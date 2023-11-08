@@ -80,10 +80,14 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     .wait(700)
     .click({ force: true });
   cy.wait(700);
-  cy.log('Going to confirm the folloing API: "/api/auth/profile/"')
+  cy.log('Going to confirm the folloing API: "/api/auth/profile/"');
   cy.wait("@profileLoaded")
     .its("response.statusCode")
-    .should("be.oneOf", [200, 204], "Unable to log in. See the response status code for details.");
+    .should(
+      "be.oneOf",
+      [200, 204],
+      "Unable to log in. See the response status code for details."
+    );
   loginLocators
     .userFirstAndLastNames()
     .should("exist")
@@ -157,7 +161,11 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
       cy.wait(700);
       cy.wait("@profileLoaded")
         .its("response.statusCode")
-        .should("be.oneOf", [200, 201, 204], "Unable to log in. See the response status code for details.");
+        .should(
+          "be.oneOf",
+          [200, 201, 204],
+          "Unable to log in. See the response status code for details."
+        );
       // Button arrow in the top right corner pointing down
       cy.get('button[aria-label="Main menu"] > span > svg')
         .should("exist")
@@ -221,5 +229,64 @@ Cypress.Commands.add("loginOnlyIntoPortal", (userObject) => {
     .should("be.visible")
     .click({ force: true });
   cy.wait(700);
+});
+// *****************************************************************************
+/**
+ * Method to populate Email Address field on the Login modal window
+ * @argument emailAddress
+ */
+Cypress.Commands.add("populateEmailAddressField", (emailAddress) => {
+  cy.log("Going to populateEmailAddressField(emailAddress)");
+  loginLocators
+    .emailAddressInputField()
+    .should("exist")
+    .should("be.visible")
+    .clear({ force: true })
+    .type(emailAddress)
+    .wait(150);
+});
+// *****************************************************************************
+/**
+ * Method to populate Password field on the Login modal window
+ * @argument password
+ */
+Cypress.Commands.add("populatePasswordField", (password) => {
+  cy.log("Going to populatePasswordField(password)");
+  loginLocators
+    .passwordInputField()
+    .should("exist")
+    .should("be.visible")
+    .clear({ force: true })
+    .type(password)
+    .wait(150);
+});
+// *****************************************************************************
+/**
+ * Method to verify errors under the Email Address field on the Login modal window
+ * @argument expectedErrorMsg
+ */
+Cypress.Commands.add(
+  "verifyErrorUnderEmailAddressField",
+  (expectedErrorMsg) => {
+    cy.log("Going to verifyErrorUnderEmailAddressField(expectedErrorMsg)");
+    cy.get('div[class^="chakra-form__error-message"]')
+      .first()
+      .should("exist")
+      .should("be.visible")
+      .should("have.text", expectedErrorMsg);
+  }
+);
+// *****************************************************************************
+/**
+ * Method to verify errors under the Password field on the Login modal window
+ * @argument expectedErrorMsg
+ */
+Cypress.Commands.add("verifyErrorUnderPasswordField", (expectedErrorMsg) => {
+  cy.log("Going to verifyErrorUnderPasswordField(expectedErrorMsg)");
+  cy.get('div[class^="chakra-form__error-message"]')
+    .last()
+    .should("exist")
+    .should("be.visible")
+    .should("have.text", expectedErrorMsg);
 });
 // *****************************************************************************
