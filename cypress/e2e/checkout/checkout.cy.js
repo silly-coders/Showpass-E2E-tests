@@ -251,7 +251,7 @@ describe("Test checkout process by ", () => {
         .should("be.visible")
         .should("contain.text", "Thank you!");
       // Navigate to 'My Orders' page
-      cy.visit("/account/my-orders/");
+      cy.visit("/account/my-orders/").wait(900);
       // Click the first 'View Order' button at the very top
       cy.get('button[class^="chakra-button"] > div > div > span')
         .eq(0)

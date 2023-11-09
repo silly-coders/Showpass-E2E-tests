@@ -13,6 +13,7 @@ Cypress.Commands.add("navigateToHomePage", () => {
   const baseUrl = Cypress.config("baseUrl");
   cy.visit("/");
   cy.url().should("contain", baseUrl);
+  cy.wait(300);
 });
 /**
  * Method to click 'Log In' button on the 'Home' page

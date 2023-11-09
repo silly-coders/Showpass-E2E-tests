@@ -114,7 +114,7 @@ describe("Test the mobile phone view by ", () => {
           });
           cy.logIntoPortalInMobileView(userDetails);
           // Navigate to 'My Orders' page
-          cy.visit("/account/my-orders/");
+          cy.visit("/account/my-orders/").wait(900);
           // Click the first 'View Order' button at the very top
           cy.get('button[class^="chakra-button"] > div > div > span')
             .eq(0)

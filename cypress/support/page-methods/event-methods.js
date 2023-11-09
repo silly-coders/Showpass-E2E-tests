@@ -449,7 +449,9 @@ Cypress.Commands.add(
     cy.log("Going to createNewEventAngular");
     // Intercept API request
     const eventsApiRequest = "**/events/*";
+    const inventoryApiRequest = "**/stats/recurring-event-inventory/";
     cy.intercept(eventsApiRequest).as("eventsApiLoaded");
+    cy.intercept(inventoryApiRequest).as("inventoryApiLoaded");
     eventDetails.eventName = uniqueEventName;
     // Enter 'Event Name'
     cy.get('input[id="id_name"]')
@@ -549,6 +551,14 @@ Cypress.Commands.add(
     cy.wait("@eventsApiLoaded")
       .its("response.statusCode")
       .should("be.oneOf", [200, 201, 204]);
+    // Wait for the API response for **/stats/recurring-event-inventory/
+    cy.wait("@inventoryApiLoaded")
+      .its("response.statusCode")
+      .should(
+        "be.oneOf",
+        [200, 201, 204],
+        "Was not able to confirm that an event got created by verifying the following API request '**/stats/recurring-event-inventory/'"
+      );
     // Ensure the Event Overview page title shows up
     cy.get("div > h3")
       .should("be.visible")

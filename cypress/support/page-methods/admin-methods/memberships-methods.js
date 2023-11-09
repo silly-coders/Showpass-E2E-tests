@@ -88,6 +88,7 @@ Cypress.Commands.add(
     cy.wait("@membershipGroupLoaded")
       .its("response.statusCode")
       .should("be.oneOf", [201, 204]);
+    cy.wait(700);
     // Verify success message
     cy.verifyTopRightSuccessMessage("Saved");
     cy.clickButtonXtoCloseMessage();

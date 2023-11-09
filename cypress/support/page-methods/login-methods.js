@@ -48,7 +48,12 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     autoEnd: false,
     color: "green",
   });
+  const apiEnvelopBeforeLogin = "**/envelope/*";
+  cy.intercept(apiEnvelopBeforeLogin).as("envelopeLoaded");
   cy.clickLoginOnHomePage();
+  cy.wait("@envelopeLoaded")
+    .its("response.statusCode")
+    .should("be.oneOf", [200, 204], "Login modal window didn't get loaded");
   loginLocators
     .emailAddressInputField()
     .should("exist")
@@ -77,9 +82,9 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     .loginButtonOnLoginModalWindow()
     .should("exist")
     .should("be.visible")
-    .wait(700)
+    .wait(300)
     .click({ force: true });
-  cy.wait(700);
+  cy.wait(500);
   cy.log('Going to confirm the folloing API: "/api/auth/profile/"');
   cy.wait("@profileLoaded")
     .its("response.statusCode")
@@ -105,7 +110,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
 Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
   cy.log("Going to logIntoPortalInMobileView()");
   if (!userObject) throw new Error("You need to provide user credentials!");
-  cy.wait(900);
+  cy.wait(500);
   // Get the main menu modal window in mobile view
   cy.get('div[id="chakra-modal--body-1"] > div').then(($modal) => {
     if (
@@ -134,14 +139,14 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         .wait(150)
         .clear({ force: true })
         .type(userObject.userEmail)
-        .wait(300);
+        .wait(150);
       loginLocators
         .passwordInputField()
         .should("exist")
         .should("be.visible")
         .clear({ force: true })
         .type(userObject.userPassword)
-        .wait(300);
+        .wait(150);
       loginLocators
         .emailAddressInputField()
         .should("have.value", userObject.userEmail)
@@ -156,7 +161,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         .loginButtonOnLoginModalWindow()
         .should("exist")
         .should("be.visible")
-        .wait(700)
+        .wait(150)
         .click({ force: true });
       cy.wait(700);
       cy.wait("@profileLoaded")
