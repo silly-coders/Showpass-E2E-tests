@@ -57,7 +57,8 @@ Cypress.Commands.add("clickCreateAccountOnSignUpModalWindow", () => {
     .createAccountButtonOnSignupPage()
     .should("exist")
     .should("be.visible")
-    .click();
+    .click({force: true})
+    .wait(300);
 });
 
 /**

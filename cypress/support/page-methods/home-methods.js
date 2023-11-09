@@ -41,7 +41,8 @@ Cypress.Commands.add("clickCreateAccountOnHomePage", () => {
     .should("exist")
     .scrollIntoView({ force: true })
     .should("be.visible")
-    .click({ force: true });
+    .click({ force: true })
+    .wait(500);
 });
 /**
  * Method to select 'Profile' within the drop-down list on the 'Home' page

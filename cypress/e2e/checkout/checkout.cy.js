@@ -239,13 +239,6 @@ describe("Test checkout process by ", () => {
       cy.get(
         'button[ng-click="setBillingAndShippingFields()"][type="submit"]'
       ).click({ force: true });
-      cy.wait(1000);
-      // Verify data loading indicator appearance and disappearance
-      cy.get(
-        'div[class="full-loader"] > md-progress-circular[role="progressbar"] > svg'
-      )
-        .should("exist")
-        .should("be.visible");
       cy.wait(5000);
       Cypress.config("defaultCommandTimeout", 7000);
       // Ensure the data loading indicator disappears

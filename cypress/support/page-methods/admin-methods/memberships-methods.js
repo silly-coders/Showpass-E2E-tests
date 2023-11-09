@@ -349,7 +349,7 @@ Cypress.Commands.add(
       }
       cy.get("@btn").should("exist").scrollIntoView();
     }
-    cy.wait(500);
+    cy.wait(900);
   }
 );
 // *****************************************************************************
