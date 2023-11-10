@@ -146,4 +146,33 @@ describe("Test existing event details by ", () => {
     }
   );
   // ***************************************************************************
+  it(
+    "verifying restriction items on the front end-TA-100",
+    { tags: ["e2e", "events"] },
+    function () {
+      cy.navigateToHomePage();
+      cy.visit("/automation-event-restrictions-101120231100/").wait(900);
+      const restrictionItems = [
+        "All Ages",
+        "Ages 18+",
+        "Ages 19+",
+        "Ages 21+",
+        "No Re-Entry",
+        "No Outside Food or Drink",
+        "Early Arrival Recommended",
+        "Valid Government Issued ID Required",
+      ];
+      for (let i = 0; i < restrictionItems.length; i++) {
+        cy.log(`Going to verify: [${restrictionItems.at(i)}]`);
+        cy.get('div[data-testid="important-info-container"]')
+          .find('span[status="info"]')
+          .eq(i)
+          .should("exist")
+          .scrollIntoView({ force: true })
+          .should("be.visible")
+          .should("have.text", restrictionItems.at(i));
+      }
+    }
+  );
+  // ***************************************************************************
 });
