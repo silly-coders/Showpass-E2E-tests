@@ -619,7 +619,7 @@ Cypress.Commands.add(
     cy.get('button[class^="chakra-button"] > p')
       .contains("BUY TICKETS")
       .click({ force: true });
-    // Add 3 tickets from each ticket type (2 ticket types in total)
+    // Add 'numberOfTicketsForEachTicketType' tickets from each ticket type (2 ticket types in total)
     cy.addTicketsToCart(2, numberOfTicketsForEachTicketType);
     // Click 'Checkout' button
     cy.clickChakraButtonByText("CHECKOUT");

@@ -440,4 +440,75 @@ describe("Test checkout process by ", () => {
     }
   );
   // ***************************************************************************
+  it(
+    "verifying that guest info forms show up for each ticket added to cart-TA-101",
+    { tags: ["e2e", "appearance"] },
+    function () {
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      // Open an event directly
+      cy.visit(`/automation-event-restrictions-101120231100/`).wait(900);
+      // Click 'BUY TICKETS'
+      cy.get('button[data-testid="buy-button"] > p')
+        .eq(1)
+        .contains("BUY TICKETS")
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("be.visible")
+        .click({ force: true })
+        .wait(900);
+      // Add 1 ticket from each ticket type (2 types in total) to cart and proceed to checkout
+      // There will be 2 tickets in the cart
+      cy.addTicketsToCartAndProceedToCheckout(this.testdata.userDetails, 1);
+      // Click 'REVIEW' tab
+      cy.get('md-tab-item[role="tab"] > span')
+        .eq(3)
+        .contains("Review")
+        .should("exist")
+        .click({ force: true });
+      // *** Review page
+      // Verify the 'Review' header
+      cy.get('span[class^="md-title strong"]')
+        .contains("Review")
+        .should("be.visible");
+      // Click 'Next'
+      cy.clickNextButtonDuringCheckoutAngular();
+      // *** Purchase Info page ***
+      // Verify the 'Purchaser Info' header
+      cy.get('h2[class^="md-title strong"]')
+        .contains("Purchaser Info")
+        .should("be.visible");
+      // Enter 'Confirm Email'
+      cy.typeText(
+        'input[ng-model="confirmEmail"]',
+        0,
+        this.testdata.userDetails.userEmail
+      );
+      // Click 'Next'
+      cy.clickNextButtonDuringCheckoutAngular();
+      // Wait for the GUEST INFO form header appearance
+      cy.get('h3[class^="md-title strong"]')
+        .eq(1)
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("contain.text", "Automation-event-restrictions-101120231100");
+      // Confirm the number of GUEST INFO forms in total
+      // There are 4 similar fields on each form (j<4)
+      // There are 2 tickets in total added to cart (1 Regular and 1 VIP (i<2))
+      // Verify that each form contains 4 fields based on the 'name' attribute
+      let fieldNameAttrValue = ["first_name", "last_name", "phone", "email"];
+      for (let i = 0; i < 2; i++) {
+        for (let j = 0; j < 4; j++) {
+          cy.log("Going to verify the number of GUEST INFO forms and fields");
+          // Verify First Name fields
+          cy.get(`input[name^="${fieldNameAttrValue.at(j)}"]`)
+            .eq(i)
+            .should("exist")
+            .scrollIntoView({ force: true });
+          cy.wait(300);
+        }
+      }
+    }
+  );
+  // ***************************************************************************
 });

@@ -27,7 +27,7 @@ describe("Testing Home page by ", () => {
   // ***************************************************************************
   it(
     "verifying the 'Help & Support' column element appearance-TA-8",
-    { tags: ["e2e"] },
+    { tags: ["e2e", "appearance"] },
     () => {
       cy.helpAndSupportColumnAppearance();
     }
