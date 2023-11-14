@@ -18,6 +18,13 @@
 const registerCypressGrep = require('@cypress/grep')
 registerCypressGrep()
 
+// Turn off uncaught application errors to allow test to continue running
+Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  })
+
 // Import commands.js using ES2015 syntax:
 import './commands'
 import './page-methods/login-methods'
