@@ -311,6 +311,7 @@ Cypress.Commands.add("clickShowpassLogo", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// **************************************************************************
 /**
  * Method to verify SAVED event cards
  * @param index
@@ -335,6 +336,7 @@ Cypress.Commands.add("clickButtonxToRemoveFilterByArialabel", (ariaLabel) => {
     .getButtonxToRemoveSelecetedFilter(ariaLabel)
     .click({ force: true });
 });
+// **************************************************************************
 /**
  * Method to verify the 'No events available ...' message
  */
@@ -345,6 +347,7 @@ Cypress.Commands.add("verifyNoEventsAvailableMsg", () => {
     .should("exist")
     .should("be.visible");
 });
+// **************************************************************************
 /**
  * Method to select a preset date range
  * @param label
@@ -356,6 +359,7 @@ Cypress.Commands.add("selectDateRangeByLabel", (label) => {
     .getDateRangeButtonByLabel(label)
     .click({ force: true });
 });
+// **************************************************************************
 /**
  * Method to clear 'Date Range' selection
  */
@@ -363,6 +367,7 @@ Cypress.Commands.add("clearDateRangeSelection", () => {
   cy.log("Going to clearDateRangeSelection()");
   eventsAndFiltersLocators.getClearSelectionButtonForDateRange().click();
 });
+// **************************************************************************
 /**
  * Method to select a category
  */
@@ -378,6 +383,7 @@ Cypress.Commands.add("selectCategoryByText", (text) => {
     .scrollIntoView({ force: true })
     .click({ force: true });
 });
+// **************************************************************************
 /**
  * Method to select a tag
  */
@@ -388,6 +394,7 @@ Cypress.Commands.add("selectTagByText", (text) => {
   cy.get("@tags").click();
   cy.getChakraTextLabelByText(text).click();
 });
+// **************************************************************************
 /**
  * Method to verify the purchased 'Upcoming' event card details
  */
@@ -410,6 +417,7 @@ Cypress.Commands.add("verifyUpcomingPurchasedEventCard", (eventJSON) => {
     .getUpcomingPurchasedEventName(eventJSON.eventName)
     .should("be.visible");
 });
+// **************************************************************************
 /**
  * Method to open purchased event tickets
  */
@@ -426,6 +434,7 @@ Cypress.Commands.add("clickEventNameToSeePurchasedTickets", (eventJSON) => {
     .should("be.oneOf", [200, 204]);
   cy.getChakraButtonByText("Back");
 });
+// **************************************************************************
 /**
  * Method to navigate to the 'Upcoming' page
  */
@@ -440,6 +449,7 @@ Cypress.Commands.add("openUpcomingPage", () => {
     .should("be.oneOf", [200, 204]);
   cy.url().should("contain", "/account/upcoming/");
 });
+// **************************************************************************
 /**
  * Method to create a new unique event using Angular front-end
  */
@@ -656,6 +666,134 @@ Cypress.Commands.add(
     cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
       .should("be.visible")
       .click({ force: true });
+  }
+);
+// **************************************************************************
+/**
+ * Method to create a free admission event
+ */
+Cypress.Commands.add(
+  "createFreeAdmissionEventAngular",
+  (uniqueEventName, eventDetails) => {
+    cy.log("Going to createNewEventAngular");
+    // Intercept API request
+    const eventsApiRequest = "**/events/*";
+    const inventoryApiRequest = "**/stats/recurring-event-inventory/";
+    cy.intercept(eventsApiRequest).as("eventsApiLoaded");
+    cy.intercept(inventoryApiRequest).as("inventoryApiLoaded");
+    eventDetails.eventName = uniqueEventName;
+    // Enter 'Event Name'
+    cy.get('input[id="id_name"]')
+      .should("be.visible")
+      .type(eventDetails.eventName);
+    // Enter 'Desired event link/slug'
+    cy.get('input[id="id_slug"]')
+      .should("be.visible")
+      .type(eventDetails.eventName);
+    // TODO: Commented out the 'type description' action below cause it's flaky
+    // Enter event description
+    const getIframeBody = () => {
+      return cy
+        .get('iframe[id="ui-tinymce-1_ifr"]')
+        .eq(0)
+        .its("0.contentDocument.body")
+        .should("not.be.empty")
+        .then(cy.wrap);
+    };
+    getIframeBody().find("p").eq(0);
+    //.type(`New ${eventDetails.eventName} description.`);
+    // *****
+    // Add Categories
+    cy.get('div[name="categories"] > div > input[type="search"]')
+      .should("be.visible")
+      .click({ force: true });
+    cy.get('span[class="ui-select-choices-row-inner"] > span')
+      .eq(1)
+      .click({ force: true });
+    cy.get('div[name="categories"] > div > input[type="search"]')
+      .should("be.visible")
+      .click({ force: true });
+    cy.get('span[class="ui-select-choices-row-inner"] > span')
+      .eq(2)
+      .click({ force: true });
+    // Add Tags
+    cy.get('div[name="tags"] > div > input[type="search"]')
+      .should("be.visible")
+      .click({ force: true })
+      .type(`${eventDetails.eventName}{enter}`);
+    cy.get('div[name="tags"] > div > input[type="search"]')
+      .should("be.visible")
+      .click({ force: true })
+      .type("automation{enter}");
+    // Click Add Location
+    cy.get('div[class="input-group-btn location-buttons"] > a')
+      .eq(0)
+      .contains("Add location")
+      .click({ force: true });
+    // Ensure a dialog box shows up
+    cy.get('h4[class="modal-title"]').contains("Add Location");
+    // Enter address
+    cy.get('input[placeholder="Search for a venue or address."]')
+      .should("be.visible")
+      .type(eventDetails.eventLocation);
+    cy.wait(3000);
+    cy.get('a[ng-bind-html^="match.label"]').as("dropDownOption");
+    cy.get("@dropDownOption").eq(0).should("be.visible").click({ force: true });
+    cy.wait(1500);
+    // Click Save
+    cy.get('button[type="submit"]').as("saveButton");
+    cy.get("@saveButton").should("be.visible").click({ force: true });
+    cy.wait(1500);
+    // Ensure the dialog box disappeared
+    cy.get('h4[class="modal-title"]').should("not.exist");
+    // Add the first Ticket Type
+    cy.get('input[name="ticketTypeName0"]')
+      .should("be.visible")
+      .type(eventDetails.ticketType1);
+    cy.get('input[name="ticketTypeInventory0"]')
+      .should("be.visible")
+      .type(150000);
+    cy.get('input[name="ticketTypePrice0"]')
+      .should("be.visible")
+      .type(eventDetails.ticketPrice1);
+    // Publish event
+    cy.get('button[class^="btn btn-lg"] > i')
+      .eq(1)
+      .should("be.visible")
+      .click({ force: true });
+    cy.wait(1500);
+    // Wait for the API response for **/events/*
+    cy.wait("@eventsApiLoaded")
+      .its("response.statusCode")
+      .should("be.oneOf", [200, 201, 204]);
+    // Wait for the API response for **/stats/recurring-event-inventory/
+    cy.wait("@inventoryApiLoaded")
+      .its("response.statusCode")
+      .should(
+        "be.oneOf",
+        [200, 201, 204],
+        "Was not able to confirm that an event got created by verifying the following API request '**/stats/recurring-event-inventory/'"
+      );
+    // Ensure the Event Overview page title shows up
+    cy.get("div > h3")
+      .should("be.visible")
+      .should("contain.text", "Event Overview");
+    // Click 'Edit' to edit the event
+    cy.get('a[ui-sref="edit"]')
+      .first()
+      .should("exist")
+      .click({ force: true })
+      .wait(900);
+    // Click and open the 'Ticket Requirements' drop-down list
+    cy.get('select[ng-model="event.no_ticket_types"]')
+      // Select 'Free Event - Tickets Not Required' drop down item
+      .select("Free Event - Tickets Not Required", { force: true })
+      .wait(300);
+    // Click 'Save Event'
+    cy.get('button[ng-click="saveEvent()"]')
+      .should("exist")
+      .click({ force: true })
+      .wait(300);
   }
 );
 // **************************************************************************

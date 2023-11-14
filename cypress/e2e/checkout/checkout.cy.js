@@ -511,4 +511,47 @@ describe("Test checkout process by ", () => {
     }
   );
   // ***************************************************************************
+  it(
+    "verifying that a free admission event can be created-TA-102",
+    { tags: ["e2e"] },
+    function () {
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.userDetails);
+      cy.navigateToDashboard(this.testdata.userDetails);
+      cy.clickHamburgerMenu();
+      cy.clickCreateEventButton();
+      // Ensure the page title shows up
+      cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
+      let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
+      // Create a free admission event
+      cy.createFreeAdmissionEventAngular(
+        uniqueEventName,
+        this.testdata.testEvent1
+      );
+      // Click 'Showpass' logo to navigate to the 'Home' page
+      cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
+        .should("be.visible")
+        .click({ force: true });
+      // Log out
+      cy.clickMainMenuAndLogOut();
+      // Open just created event
+      cy.visit(`/s/events/all/?q=${uniqueEventName}`);
+      cy.url().should("contain", uniqueEventName);
+      // Click on the event card to open the event
+      cy.getChakraSkeletonItem()
+        .contains(uniqueEventName)
+        .click({ force: true });
+      cy.url().should("contain", uniqueEventName);
+      // Verify that it's a free admission event
+      cy.get('div[data-testid="price-range"] > p')
+        .eq(1)
+        .should("exist")
+        .should("contain.text", "Free");
+      // Verify the 'Tickets are not required for this event.' statement
+      cy.get('div[data-testid="card"] > div > h2')
+        .should("exist")
+        .should("contain.text", "Tickets are not required for this event.");
+    }
+  );
+  // ***************************************************************************
 });
