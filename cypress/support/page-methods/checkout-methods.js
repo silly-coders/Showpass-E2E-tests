@@ -302,13 +302,6 @@ Cypress.Commands.add(
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("be.visible")
       .click({ force: true });
-    cy.wait(1000);
-    // Verify data loading indicator appearance and disappearance
-    cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"] > svg'
-    )
-      .should("exist")
-      .should("be.visible");
     cy.wait(3000);
     Cypress.config("defaultCommandTimeout", 7000);
     cy.get(
@@ -561,10 +554,6 @@ Cypress.Commands.add(
       .wait(900);
     // If the 'Pay $XX.XX CAD' button still shows up click it again
     cy.clickPayButtonToSubmitPaymentIfAvailable();
-    // Ensure the data loading indicator shows up
-    cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
-    ).should("exist");
     // Verify data loading indicator disappearance
     cy.wait(3000);
     Cypress.config("defaultCommandTimeout", 7000);

@@ -71,8 +71,7 @@ Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
     3: eventDetails.endTime,
     5: eventDetails.eventType,
   };
-  // **************************************************************************
-  // Key in the object above is also the elemnt index in the DOM HTML
+  // Key in the object above is also the element index in the DOM HTML
   for (let i = 0; i < Object.keys(textLabels).length; i++) {
     cy.log(
       "Key: " +

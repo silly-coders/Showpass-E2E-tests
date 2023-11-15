@@ -96,4 +96,24 @@ describe("Testing Home page by ", () => {
     }
   );
   // ***************************************************************************
+  it(
+    "verifying the organization 'Contact Details' modal window appearance-TA-103",
+    { tags: ["e2e", "appearance"] },
+    () => {
+      cy.visit("/ta-event-1/");
+      // Click the 'QA team organization' link
+      cy.get('h3[data-testid="organizer"] > a')
+        .should("exist")
+        .click({ force: true });
+      let organizationDetails = {
+        href: "qa-team-organization",
+        venue: "QA team organization",
+        refundPolicy: "Absolutely no refund.",
+        contactName: "User ForTesting",
+        contactEmail: "qa+151@showpass.com",
+      };
+      cy.verifyContactDetailsModalWindow(organizationDetails);
+    }
+  );
+  // ***************************************************************************
 });
