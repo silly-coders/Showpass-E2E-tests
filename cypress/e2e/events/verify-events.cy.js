@@ -175,4 +175,58 @@ describe("Test existing event details by ", () => {
     }
   );
   // ***************************************************************************
+  it(
+    "verifying 'Event Info' modal window and element appearance-TA-104",
+    { tags: ["e2e", "events"] },
+    function () {
+      cy.navigateToHomePage();
+      // Navigate to the event page
+      cy.visit("/qa-assigned-seating-2/seating/").wait(900);
+      // Click 'Event Info'
+      cy.get('button[class^="chakra-button"][aria-label="Event Info"]')
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("have.text", "Event Info")
+        .click({ force: true })
+        .wait(300);
+      // ***** Begin verifying Event Info
+      let eventInfo = [
+        "QA assigned seating 2",
+        "Starts: Friday September 22nd, 2023",
+        "Ends: Tuesday October 16th, 2035",
+        "Starts: 9:00 PM MDT",
+        "Ends: 12:00 AM MDT",
+        "155 West Pender Street",
+        "155 W Pender St, Vancouver",
+        "Contact Information",
+        "Organizer Profile",
+        "Help & Info",
+        "Contact Us",
+        "Refund Policy",
+        "This venue hasn't specified a refund policy.",
+      ];
+      for (let i = 0; i < eventInfo.length; i++) {
+        cy.log(
+          `Going to verify the following element text: ${eventInfo.at(i)}`
+        );
+        cy.get(
+          'section[class^="chakra-modal__content"][aria-label="Event Info Account Modal"]'
+        )
+          .find('p[class^="chakra-text"]')
+          .contains(eventInfo.at(i))
+          .should("exist")
+          .scrollIntoView({ force: true })
+          .should("be.visible");
+      }
+      // Verify the (X) button appearance
+      cy.get(
+        'section[class^="chakra-modal__content"][aria-label="Event Info Account Modal"]'
+      )
+        .find('button[aria-label="Close"]')
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("be.visible");
+    }
+  );
+  // ***************************************************************************
 });
