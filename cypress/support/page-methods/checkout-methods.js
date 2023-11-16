@@ -402,6 +402,7 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
     .contains("Interac")
     .as("interacRadioButton");
   cy.get("@interacRadioButton").should("exist").scrollIntoView({ force: true });
+  cy.get("@interacRadioButton").click({force: true});
   cy.wait(500);
   // Ensure Interac text shows up
   cy.get('div[class^="text-center"] > p')
