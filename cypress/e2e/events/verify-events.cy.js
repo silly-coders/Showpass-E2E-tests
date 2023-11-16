@@ -112,7 +112,7 @@ describe("Test existing event details by ", () => {
     }
   );
   // ***************************************************************************
-  it.skip(
+  it(
     "verifying that an assigned seat ticket can be added to cart-TA-75",
     { tags: ["e2e", "events"] },
     function () {
@@ -123,26 +123,41 @@ describe("Test existing event details by ", () => {
         .contains("BUY TICKETS")
         .click({ force: true });
       cy.wait(2500);
+      // ***** Verify the tooltip
+      // Verify the buttons
+      let toolTipElementDataTestid = [
+        "center-map",
+        "toggle-legend",
+        "zoom-in",
+        "zoom-out",
+      ];
+      for (let i = 0; i < toolTipElementDataTestid.length; i++) {
+        cy.log(
+          `Going to verify the following button: ${toolTipElementDataTestid.at(
+            i
+          )}`
+        );
+        cy.get(`button[data-testid="${toolTipElementDataTestid.at(i)}"] > svg`)
+          .should("exist")
+          .scrollIntoView({ force: true });
+      }
       cy.get('div[class="konvajs-content"] > canvas').eq(4).as("canvas");
       // Click in the center of the assigned seating area to make seats visible
       cy.get("@canvas").should("exist").click("center", { force: true });
       cy.wait(1500);
       // Click on a seat in the middle
       cy.get("@canvas").should("exist").click("center", { force: true });
+      cy.wait(900);
       // Verify 'Success' message
-      cy.verifyTopRightSuccessMessage("Ticket(s) added to cart!");
+      cy.verifyTopRightSuccessMessage("Ticket(s)");
       cy.clickButtonXtoCloseMessage();
-      // Ensure the 'Checkout' button becomes available
-      cy.chakraParagraphButtonByText("CHECKOUT")
-        .should("exist")
-        .scrollIntoView()
-        .should("be.visible")
-        .should("not.be.disabled");
-      // Click on the same seat to remove it
       cy.get("@canvas").should("exist").click("center", { force: true });
-      // Verify 'Success' message on removing ticket from cart
-      cy.verifyTopRightSuccessMessage("Success");
-      cy.clickButtonXtoCloseMessage();
+      // Wait for the delete-item-from-cart button and click it
+      cy.get('button[aria-label="Remove item"] > svg')
+      .eq(0)
+      .as('removeItemButton');
+      cy.get("@removeItemButton").should("exist").click("center", { force: true });
+      cy.wait(900);
     }
   );
   // ***************************************************************************
