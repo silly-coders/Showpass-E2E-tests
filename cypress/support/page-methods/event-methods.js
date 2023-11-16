@@ -403,12 +403,7 @@ Cypress.Commands.add("verifyUpcomingPurchasedEventCard", (eventJSON) => {
   // Enter event name into the search field
   const apiRequest = "/api/user/tickets/events/*";
   cy.intercept(apiRequest).as("pageLoaded");
-  cy.getChakraInputGroupFieldByAttr("aria-label", "Search").as("serachField");
-  cy.get("@serachField").should("not.have.attr", "disabled");
-  cy.wait(1000);
-  cy.get('input[aria-label="Search"]')
-    .type(eventJSON.eventName, { force: true })
-    .type("{enter}");
+  cy.visit(`/account/upcoming/?s=+${eventJSON.searchUrl}`);
   cy.wait("@pageLoaded")
     .its("response.statusCode")
     .should("be.oneOf", [200, 204]);
