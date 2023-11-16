@@ -782,7 +782,10 @@ Cypress.Commands.add(
     cy.get('select[ng-model="event.no_ticket_types"]')
       // Select 'Free Event - Tickets Not Required' drop down item
       .select("Free Event - Tickets Not Required", { force: true })
-      .wait(300);
+      .wait(500);
+    // Verify that the 'Free Event - Tickets Not Required' drop-down value got selected
+    cy.get('option[label="Free Event - Tickets Not Required"][value="boolean:true"]')
+    .should('exist');
     // Click 'Save Event'
     cy.get('button[ng-click="saveEvent()"]')
       .should("exist")
