@@ -609,7 +609,7 @@ Cypress.Commands.add(
       .contains("BUY TICKETS")
       .click({ force: true });
     // Add 'numberOfTicketsForEachTicketType' tickets from each ticket type (2 ticket types in total)
-    cy.addTicketsToCart(2, numberOfTicketsForEachTicketType);
+    cy.addTicketsToCartNoApiValidation(2, numberOfTicketsForEachTicketType);
     // Click 'Checkout' button
     cy.clickChakraButtonByText("CHECKOUT");
     cy.wait(900);

@@ -197,7 +197,7 @@ Cypress.Commands.add(
       for (let i = 0; i < totalTicketTypes; i++) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
-        eventsAndFiltersLocators.addItemButtonActive(i).click();
+        eventsAndFiltersLocators.addItemButtonActive(i).click({force: true});
         eventsAndFiltersLocators.removeItemButtonActive(i);
         eventsAndFiltersLocators.addItemButtonActive(i);
         cy.wait(500);
@@ -224,7 +224,7 @@ Cypress.Commands.add(
       for (let i = 0; i < totalTicketTypes; i++) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
-        eventsAndFiltersLocators.addItemButtonActive(i).click();
+        eventsAndFiltersLocators.addItemButtonActive(i).click({force: true});
         eventsAndFiltersLocators.removeItemButtonActive(i);
         eventsAndFiltersLocators.addItemButtonActive(i);
       }

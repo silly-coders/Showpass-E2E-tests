@@ -12,7 +12,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that an event owner can purchase tickets with a single barcode-TA-68",
-    { tags: ["e2e", "barcodes", "orders", "smoke"] },
+    { tags: ["e2e", "barcodes", "orders", "smoke", "checkout"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
@@ -71,7 +71,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that regular users can purchase event tickets with a single barcode-TA-71",
-    { tags: ["e2e", "barcodes", "orders", "smoke"] },
+    { tags: ["e2e", "barcodes", "orders", "smoke", "checkout"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
@@ -135,7 +135,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that guests are able to purchase event tickets-TA-87",
-    { tags: ["e2e", "barcodes", "orders", "smoke"] },
+    { tags: ["e2e", "barcodes", "orders", "smoke", "checkout"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
@@ -191,7 +191,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "ensuring that Interac can be used to purchase tickets-TA-90",
-    { tags: ["e2e", "orders", "smoke"] },
+    { tags: ["e2e", "orders", "smoke", "checkout"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
@@ -245,7 +245,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "verifying that multiple day event tickets can be purchased-TA-93",
-    { tags: ["e2e", "orders", "smoke"] },
+    { tags: ["e2e", "orders", "smoke", "checkout"] },
     function () {
       var uniqueUserEmail =
         "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
@@ -380,7 +380,7 @@ describe("Verify purchased tickets by ", () => {
   // ***************************************************************************
   it(
     "replenishing event ticket stock (purchases.cy.js)",
-    { tags: ["e2e", "barcodes", "orders", "smoke"] },
+    { tags: ["e2e", "barcodes", "orders", "smoke", "checkout"] },
     function () {
       cy.log("Going to replenish the event ticket stock (purchases.cy.js)");
       cy.navigateToHomePage();

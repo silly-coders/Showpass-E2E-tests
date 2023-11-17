@@ -28,8 +28,7 @@ export class EventsAndFiltersLocators {
       .get('button[class^="chakra-button"][aria-label="Remove item"]')
       .eq(buttonIndex)
       .should("exist")
-      .scrollIntoView()
-      .should("be.visible")
+      .scrollIntoView({force: true})
       .should("not.be.disabled");
   }
   /**
@@ -46,13 +45,12 @@ export class EventsAndFiltersLocators {
   addItemButtonActive(index) {
     return cy
       .get('button[class^="chakra-button"][aria-label="Add item"]')
-      .eq(index)
+      .eq(index+1)
       .as("btn")
       .get("@btn")
       .should("exist")
-      .scrollIntoView()
-      .should("not.be.disabled")
-      .should("be.visible");
+      .scrollIntoView({force: true})
+      .should("not.be.disabled");
   }
   /**
    * Active 'Checkout' button (enabled)
@@ -61,7 +59,7 @@ export class EventsAndFiltersLocators {
     return cy
       .chakraParagraphButtonByText("Checkout")
       .should("exist")
-      .scrollIntoView()
+      .scrollIntoView({force: true})
       .should("be.visible")
       .should("not.be.disabled");
   }

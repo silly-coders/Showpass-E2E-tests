@@ -17,7 +17,7 @@ describe("Test the mobile phone view by ", () => {
   // ***************************************************************************
   it(
     "ensuring that regular users can purchase event tickets-TA-78",
-    { tags: ["e2e", "orders", "mobile-view", "smoke"] },
+    { tags: ["e2e", "orders", "mobile-view", "smoke", "checkout"] },
     function () {
       let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
       cy.navigateToHomePage();

@@ -14,7 +14,7 @@ describe("Test checkout process by ", () => {
   // ***************************************************************************
   it(
     "verifying that tickets can be selected and added to cart-TA-40",
-    { tags: ["e2e"] },
+    { tags: ["e2e", "checkout"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
@@ -32,7 +32,7 @@ describe("Test checkout process by ", () => {
   // ***************************************************************************
   it(
     "verifying that Interac is not available for purchases below 30 dollars-TA-92",
-    { tags: ["e2e"] },
+    { tags: ["e2e", "checkout"]},
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
@@ -124,7 +124,7 @@ describe("Test checkout process by ", () => {
   // ***************************************************************************
   it(
     "verifying 'One time - renewal frequency' membership group order details-TA-95",
-    { tags: ["e2e", "membership-group", "orders"] },
+    { tags: ["e2e", "membership-group", "orders", "checkout"] },
     function () {
       let uniqueMembershipName = "test-group-1698096389";
       cy.fixture("testdata.json").then(function (testdata) {
@@ -291,7 +291,7 @@ describe("Test checkout process by ", () => {
   // ***************************************************************************
   it(
     "replenishing membership group ticket stock (checkout.cy.js)",
-    { tags: ["e2e", "membership-group"] },
+    { tags: ["e2e", "membership-group", "checkout"] },
     function () {
       cy.fixture("testdata.json").then(function (testdata) {
         this.testdata = testdata;
@@ -377,7 +377,7 @@ describe("Test checkout process by ", () => {
   // ***************************************************************************
   it(
     "verifying that tickets can be removed from the Cart Summary-TA-97",
-    { tags: ["e2e"] },
+    { tags: ["e2e", "checkout"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
@@ -442,7 +442,7 @@ describe("Test checkout process by ", () => {
   // ***************************************************************************
   it(
     "verifying that guest info forms show up for each ticket added to cart-TA-101",
-    { tags: ["e2e", "appearance"] },
+    { tags: ["e2e", "appearance", "checkout"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
@@ -513,7 +513,7 @@ describe("Test checkout process by ", () => {
   // ***************************************************************************
   it(
     "verifying that a free admission event can be created-TA-102",
-    { tags: ["e2e"] },
+    { tags: ["e2e", "checkout"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
@@ -551,6 +551,133 @@ describe("Test checkout process by ", () => {
       cy.get('div[data-testid="card"] > div > h2')
         .should("exist")
         .should("contain.text", "Tickets are not required for this event.");
+    }
+  );
+  // ***************************************************************************
+  it(
+    "ensuring that ticket pricing and taxes during checkout are correct-TA-105",
+    { tags: ["e2e", "orders", "smoke", "checkout"] },
+    function () {
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
+      cy.navigateToDashboard(this.testdata.regularUserForOrganization3and4);
+      cy.clickHamburgerMenu();
+      cy.clickCreateEventButton();
+      // Ensure the page title shows up
+      cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
+      let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
+      cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
+      // Click 'Showpass' logo to navigate to the 'Home' page
+      cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
+        .should("be.visible")
+        .click({ force: true });
+      // Sign out
+      cy.clickUsernameOnTopBar();
+      cy.signOut();
+      // Open just created event
+      cy.visit(`/${uniqueEventName}/`);
+      cy.url().should("contain", uniqueEventName);
+      // ***** Begin verifying pricing and taxes
+      // Click 'BUY TICKETS'
+      cy.chakraParagraphButtonByText("BUY TICKETS")
+        .eq(0)
+        .click({ force: true });
+      // Wait for the 'Tickets' modal window
+      cy.get('header[class^="chakra-modal__header"] > div > div > p')
+        .first()
+        .should("have.text", "Tickets");
+      // ***** Verify the 'Regular admission' ticket pricing and taxes
+      cy.get('div[data-testid="ticket-types-card-container"]')
+        .first()
+        .find('h3[class^="chakra-heading"] > span')
+        .first()
+        .should("have.text", "$6.63");
+      // Left hand fee value
+      cy.get('div[data-testid="ticket-types-card-container"]')
+        .first()
+        .find('p[class^="chakra-text"] > span')
+        .first()
+        .should("have.text", "$5.50");
+      // Right hand fee value
+      cy.get('div[data-testid="ticket-types-card-container"]')
+        .first()
+        .find('p[class^="chakra-text"] > span')
+        .eq(1)
+        .should("have.text", "$1.13");
+      // ***** Verify the 'VIP' ticket pricing and taxes
+      cy.get('header[class^="chakra-modal__header"] > div > div > p')
+        .first()
+        .should("have.text", "Tickets");
+      // ***** Verify the 'Regular admission' ticket pricing and taxes
+      cy.get('div[data-testid="ticket-types-card-container"]')
+        .last()
+        .find('h3[class^="chakra-heading"] > span')
+        .first()
+        .should("have.text", "$11.82");
+      // Left hand fee value
+      cy.get('div[data-testid="ticket-types-card-container"]')
+        .last()
+        .find('p[class^="chakra-text"] > span')
+        .first()
+        .should("have.text", "$10.50");
+      // Right hand fee value
+      cy.get('div[data-testid="ticket-types-card-container"]')
+        .last()
+        .find('p[class^="chakra-text"] > span')
+        .eq(1)
+        .should("have.text", "$1.32");
+      // Add tickets to cart and proceed to checkout
+      cy.addTicketsToCartAndProceedToCheckoutWithLoginViaTabButtonAngular(
+        this.testdata.userForSingleBarcodeTesting,
+        1
+      );
+      // Click 'Next'
+      cy.clickNextButtonDuringCheckoutAngular();
+      // Click 'REVIEW' tab
+      cy.get('md-tab-item[role="tab"] > span')
+        .eq(3)
+        .contains("Review")
+        .should("exist")
+        .click({ force: true })
+        .wait(700)
+        .click({ force: true });
+      // *** Review page
+      // Verify the 'Review' header
+      cy.get('span[class^="md-title strong"]')
+        .contains("Review")
+        .should("exist")
+        .should("be.visible");
+      // ***** Verify pricing and taxes on the 'Review' page in AngularJS
+      // Regular admission ticket
+      cy.get('td[ng-if="!cart.basket.absorb_enabled"] > span')
+        .first()
+        .should("exist")
+        .should("have.text", "$5.50");
+      // VIP ticket
+      cy.get('td[ng-if="!cart.basket.absorb_enabled"] > span')
+        .last()
+        .should("exist")
+        .should("have.text", "$10.50");
+      // Verify Sub Total
+      cy.get('div[class="cart-breakdown"]')
+        .find(
+          `span[ng-bind="cart.basket.subtotal_1 | currencySymbol:paymentVenue.currency:'en'"]`
+        )
+        .should("exist")
+        .should("have.text", "$16.00");
+      // Verify Service Fees
+      cy.get('div[class="cart-breakdown"]')
+        .find(
+          `span[ng-bind="cart.getInternalFeesTotal() | currencySymbol:paymentVenue.currency:'en'"]`
+        )
+        .should("exist")
+        .should("have.text", "$2.45");
+      // Verify Grand Total
+      cy.get('div[class="cart-breakdown"]')
+        .find(`span[ng-if="!selectedPaymentPlan"]`)
+        .first()
+        .should("exist")
+        .should("have.text", "$18.45 CAD");
     }
   );
   // ***************************************************************************
