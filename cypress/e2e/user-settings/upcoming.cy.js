@@ -13,7 +13,7 @@ describe("Test existing event details by ", () => {
   });
   // ***************************************************************************
   it(
-    "verifying the 'Upcomig' page event-1-search-TA-41",
+    "verifying the 'Upcoming' page event-1-search-TA-41",
     { tags: ["e2e", "events"] },
     function () {
       cy.logIntoPortal(this.testdata.userForUpcoming);
@@ -31,7 +31,7 @@ describe("Test existing event details by ", () => {
   );
   // ***************************************************************************
   it(
-    "verifying the 'Upcomig' page event-2-search-TA-41",
+    "verifying the 'Upcoming' page event-2-search-TA-41",
     { tags: ["e2e", "events"] },
     function () {
       cy.logIntoPortal(this.testdata.userForUpcoming);

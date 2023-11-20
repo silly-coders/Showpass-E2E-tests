@@ -81,7 +81,7 @@ Cypress.Commands.add(
       .should("be.visible")
       .click({ force: true });
     cy.wait(5000);
-    Cypress.config("defaultCommandTimeout", 7000);
+    Cypress.config("defaultCommandTimeout", 9000);
     cy.log("Ensure the data loading indicator disappears");
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
@@ -303,7 +303,7 @@ Cypress.Commands.add(
       .should("be.visible")
       .click({ force: true });
     cy.wait(3000);
-    Cypress.config("defaultCommandTimeout", 7000);
+    Cypress.config("defaultCommandTimeout", 9000);
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
     ).should("not.exist");
@@ -556,7 +556,7 @@ Cypress.Commands.add(
     cy.clickPayButtonToSubmitPaymentIfAvailable();
     // Verify data loading indicator disappearance
     cy.wait(3000);
-    Cypress.config("defaultCommandTimeout", 7000);
+    Cypress.config("defaultCommandTimeout", 9000);
     // Ensure the data loading indicator disappears
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'

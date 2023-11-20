@@ -87,6 +87,14 @@
     "phoneNumber": "8885551100",
     "username": "User ForTesting"
   },
+  "regularUserForOrganization5": {
+    "userEmail": "qa+160@showpass.com",
+    "userPassword": "!@Newuser2023",
+    "userFirstName": "User",
+    "userLastName": "Fortesting",
+    "phoneNumber": "8885551100",
+    "username": "User Fortesting"
+  },
   "topRightHandDropDownList": {
     "stopImpersonate": "Stop Impersonate",
     "upcoming": "Upcoming",
