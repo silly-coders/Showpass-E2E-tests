@@ -67,7 +67,7 @@ Cypress.Commands.add(
       .eq(0)
       .should("be.visible")
       .click({ force: true });
-      cy.log("Enter Payment Information");
+    cy.log("Enter Payment Information");
     cy.wait(300);
     cy.typeText(
       'input[name="ccName"]',
@@ -86,7 +86,9 @@ Cypress.Commands.add(
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
     ).should("not.exist");
-    cy.log("Ensure the 'Thank you' message shows up after a payment is completed");
+    cy.log(
+      "Ensure the 'Thank you' message shows up after a payment is completed"
+    );
     cy.get('h1[class^="md-display"]')
       .should("exist")
       .should("be.visible")
@@ -402,7 +404,7 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
     .contains("Interac")
     .as("interacRadioButton");
   cy.get("@interacRadioButton").should("exist").scrollIntoView({ force: true });
-  cy.get("@interacRadioButton").click({force: true});
+  cy.get("@interacRadioButton").click({ force: true });
   cy.wait(500);
   // Ensure Interac text shows up
   cy.get('div[class^="text-center"] > p')
@@ -566,6 +568,7 @@ Cypress.Commands.add(
       .should("exist")
       .should("be.visible")
       .should("contain.text", "Thank you!");
+    cy.saveOrderIdInJson();
   }
 );
 // *********************************************************************
@@ -671,14 +674,49 @@ Cypress.Commands.add(
 Cypress.Commands.add("getEventOrGroupDescriptionByText", (descriptionText) => {
   cy.log(
     "Going to getEventOrGroupDescriptionByText with the following text: [ " +
-    descriptionText +
+      descriptionText +
       " ]"
   );
   return cy
     .get('div[data-testid="description-container"] > div > p')
     .eq(0)
     .should("exist")
-    .scrollIntoView({force: true})
+    .scrollIntoView({ force: true })
     .should("be.visible")
     .should("have.text", descriptionText);
 });
+
+// *********************************************************************
+/**
+ * Save Order ID in "fixtures/dynamic-values.json"
+ */
+Cypress.Commands.add("saveOrderIdInJson", () => {
+  cy.log("Going to saveOrderIdInJson()");
+  // Read and store the Order ID
+  cy.get(
+    'div[ng-if="paymentVenue.confirmation_email_is_enabled && invoice.transaction_id"] > p > strong'
+  ).as("orderId");
+  cy.get("@orderId")
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible");
+  cy.get("@orderId").then(($value) => {
+    const textValue = $value.text();
+    cy.log(`Current Order ID is: ${textValue}`);
+    // Save Order ID in the JSON file under fixtures
+    cy.writeFile("cypress/fixtures/dynamic-values.json", {
+      orderId: textValue,
+    });
+  });
+});
+// *********************************************************************
+/**
+ * Open order by Order ID
+ */
+Cypress.Commands.add("openOrderByOrderId", () => {
+  cy.readFile("cypress/fixtures/dynamic-values.json").then((value) => {
+    cy.log(`Going to open the following order: ${value.orderId}`);
+    cy.visit(`account/my-orders/${value.orderId}/`).wait(900);
+  });
+});
+// *********************************************************************

@@ -48,12 +48,7 @@ describe("Verify purchased tickets by ", () => {
       );
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/").wait(900);
-      // Click the first 'View Order' button at the very top
-      cy.get('button[class^="chakra-button"] > div > div > span')
-        .eq(0)
-        .contains("View Order")
-        .as("viewOrderButton");
-      cy.get("@viewOrderButton").click().wait(500);
+      cy.openOrderByOrderId();
       // Make sure the 'Back' button on the 'Order' page shows up
       cy.getChakraButtonByText("Back");
       // ***** Verify order details *****
@@ -97,15 +92,15 @@ describe("Verify purchased tickets by ", () => {
         .contains(uniqueEventName)
         .click({ force: true });
       cy.url().should("contain", uniqueEventName);
-     // Add tickets to cart and proceed to checkout
-     cy.addTicketsToCartAndProceedToCheckoutWithLoginViaTabButtonAngular(
-      this.testdata.userForOrganization3and4,
-      1
-    );
-    // Complete the order
-    cy.completeOrderWithSavedPaymentMethodOnAngular(
-      this.testdata.userForOrganization3and4
-    );
+      // Add tickets to cart and proceed to checkout
+      cy.addTicketsToCartAndProceedToCheckoutWithLoginViaTabButtonAngular(
+        this.testdata.userForOrganization3and4,
+        1
+      );
+      // Complete the order
+      cy.completeOrderWithSavedPaymentMethodOnAngular(
+        this.testdata.userForOrganization3and4
+      );
       // Click 'Showpass' logo to navigate to the 'Home' page
       cy.get('.container > [href="/"] > .logo')
         .should("exist")
@@ -113,12 +108,7 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true });
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/").wait(900);
-      // Click the first 'View Order' button at the very top
-      cy.get('button[class^="chakra-button"] > div > div > span')
-        .eq(0)
-        .contains("View Order")
-        .as("viewOrderButton");
-      cy.get("@viewOrderButton").click().wait(500);
+      cy.openOrderByOrderId();
       // Make sure the 'Back' button on the 'Order' page shows up
       cy.getChakraButtonByText("Back");
       // ***** Verify order details *****
@@ -220,14 +210,10 @@ describe("Verify purchased tickets by ", () => {
         .should("exist")
         .should("be.visible")
         .should("contain.text", "Thank you!");
+      cy.saveOrderIdInJson();
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/").wait(900);
-      // Click the first 'View Order' button at the very top
-      cy.get('button[class^="chakra-button"] > div > div > span')
-        .eq(0)
-        .contains("View Order")
-        .as("viewOrderButton");
-      cy.get("@viewOrderButton").click().wait(500);
+      cy.openOrderByOrderId();
       // Make sure the 'Back' button on the 'Order' page shows up
       cy.getChakraButtonByText("Back");
       // Verify order details
