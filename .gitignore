@@ -3,4 +3,3 @@ node_modules
 cypress/screenshots
 cypress/videos
 .vscode
-cypress/fixtures/dynamic-values.json
