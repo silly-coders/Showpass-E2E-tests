@@ -68,7 +68,6 @@ describe("Test popular cities options by ", () => {
             0
           );
         }
-        // Count total number of cards and verify
         cy.get('a[class^="chakra-link"][aria-label="showpass logo"]')
           .should("exist")
           .should("be.visible")

@@ -106,50 +106,21 @@ Cypress.Commands.add(
     cy.log("Going to populateCreditCardInformationFormInAngular()");
     cy.wait(300);
     cy.log("Populate Credit Card number");
-    const getIframeBody1 = () => {
-      return cy
-        .get('iframe[name*="privateStripeFrame"]')
-        .eq(1)
-        .its("0.contentDocument.body")
-        .should("not.be.empty")
-        .then(cy.wrap);
-    };
-    getIframeBody1()
-      .find('input[class^="InputElement"]')
-      .scrollIntoView({ force: true })
-      .type(" ", { force: true })
-      .type(creditCardDetails.cardNumber, { force: true });
-    cy.wait(300);
-    cy.log("Populate Expiry date");
-    const getIframeBody2 = () => {
-      return cy
-        .get('iframe[name*="privateStripeFrame"]')
-        .eq(2)
-        .its("0.contentDocument.body")
-        .should("not.be.empty")
-        .then(cy.wrap);
-    };
-    getIframeBody2()
-      .find('input[class^="InputElement"]')
-      .scrollIntoView({ force: true })
-      .type(" ", { force: true })
-      .type(creditCardDetails.expiry, { force: true });
-    cy.wait(300);
-    cy.log("Populate CVC number");
-    const getIframeBody3 = () => {
-      return cy
-        .get('iframe[name*="privateStripeFrame"]')
-        .eq(3)
-        .its("0.contentDocument.body")
-        .should("not.be.empty")
-        .then(cy.wrap);
-    };
-    getIframeBody3()
-      .find('input[class^="InputElement"]')
-      .scrollIntoView({ force: true })
-      .type(" ", { force: true })
-      .type(creditCardDetails.cvcNumber, { force: true });
-    cy.wait(300);
+
+    cy.get('div[class="__PrivateStripeElement"]')
+      .find('iframe[name*="privateStripeFrame"]')
+      .then(($value) => {
+        length = $value.length;
+        cy.log("Total number of iFrame input fields is: " + length);
+        // ***** If there are 4 iFrame input fields
+        if (length == 4) {
+          cy.populateIframePaymentFieldsBasedOnIndex(1, creditCardDetails);
+        }
+        // ***** If there are only 3 iFrame input field
+        if (length == 3) {
+          cy.populateIframePaymentFieldsBasedOnIndex(0, creditCardDetails);
+        }
+      });
   }
 );
 // *********************************************************************
@@ -314,6 +285,64 @@ Cypress.Commands.add(
       .should("exist")
       .should("be.visible")
       .should("contain.text", "Thank you!");
+  }
+);
+// *********************************************************************
+/**
+ * Method to populate iFrame payment fields based on field index
+ * @param index
+ * @param creditCardDetails
+ */
+Cypress.Commands.add(
+  "populateIframePaymentFieldsBasedOnIndex",
+  (index, creditCardDetails) => {
+    cy.log(
+      `Going to start populating fields from cy.get('iframe[name*="privateStripeFrame"]').eq(${index})`
+    );
+    const getIframeBody1 = () => {
+      return cy
+        .get('iframe[name*="privateStripeFrame"]')
+        .eq(index)
+        .its("0.contentDocument.body")
+        .should("not.be.empty")
+        .then(cy.wrap);
+    };
+    getIframeBody1()
+      .find('input[class^="InputElement"]')
+      .scrollIntoView({ force: true })
+      .type(" ", { force: true })
+      .type(creditCardDetails.cardNumber, { force: true });
+    cy.wait(300);
+    cy.log("Populate Expiry date");
+    const getIframeBody2 = () => {
+      return cy
+        .get('iframe[name*="privateStripeFrame"]')
+        .eq(index + 1)
+        .its("0.contentDocument.body")
+        .should("not.be.empty")
+        .then(cy.wrap);
+    };
+    getIframeBody2()
+      .find('input[class^="InputElement"]')
+      .scrollIntoView({ force: true })
+      .type(" ", { force: true })
+      .type(creditCardDetails.expiry, { force: true });
+    cy.wait(300);
+    cy.log("Populate CVC number");
+    const getIframeBody3 = () => {
+      return cy
+        .get('iframe[name*="privateStripeFrame"]')
+        .eq(index + 2)
+        .its("0.contentDocument.body")
+        .should("not.be.empty")
+        .then(cy.wrap);
+    };
+    getIframeBody3()
+      .find('input[class^="InputElement"]')
+      .scrollIntoView({ force: true })
+      .type(" ", { force: true })
+      .type(creditCardDetails.cvcNumber, { force: true });
+    cy.wait(300);
   }
 );
 // *********************************************************************
