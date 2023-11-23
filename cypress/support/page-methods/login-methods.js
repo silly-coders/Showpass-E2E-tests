@@ -53,7 +53,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
   cy.clickLoginOnHomePage();
   cy.wait("@envelopeLoaded")
     .its("response.statusCode")
-    .should("be.oneOf", [200, 204], "Login modal window didn't get loaded");
+    .should("be.oneOf", [200, 204], "Checking if the Login modal window got loaded");
   loginLocators
     .emailAddressInputField()
     .should("exist")
@@ -169,7 +169,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         .should(
           "be.oneOf",
           [200, 201, 204],
-          "Unable to log in. See the response status code for details."
+          "Verifying response status code."
         );
       // Button arrow in the top right corner pointing down
       cy.get('button[aria-label="Main menu"] > span > svg')

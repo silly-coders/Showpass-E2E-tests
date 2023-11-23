@@ -240,10 +240,9 @@ describe("Test checkout process by ", () => {
         'button[ng-click="setBillingAndShippingFields()"][type="submit"]'
       ).click({ force: true });
       cy.wait(5000);
-      Cypress.config("defaultCommandTimeout", 7000);
       // Ensure the data loading indicator disappears
       cy.get(
-        'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
+        'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
       ).should("not.exist");
       // Ensure the order confirmation page shows up
       cy.get('h1[class^="md-display"]')
@@ -678,6 +677,72 @@ describe("Test checkout process by ", () => {
         .first()
         .should("exist")
         .should("have.text", "$18.45 CAD");
+    }
+  );
+  // ***************************************************************************
+  it(
+    "verifying an error message when tickets can't be pruchased at the same time-TA-107",
+    { tags: ["e2e", "checkout"] },
+    function () {
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.regularUserForOrganization3and4);
+      cy.navigateToDashboard(this.testdata.regularUserForOrganization3and4);
+      cy.clickHamburgerMenu();
+      cy.clickCreateEventButton();
+      // Ensure the page title shows up
+      cy.get('span[class="title"]').contains("Basic Info").should("be.visible");
+      let uniqueEventName = "automation-event-" + Math.floor(Date.now() / 1000);
+      cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
+      // Click 'Showpass' logo to navigate to the 'Home' page
+      cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
+        .should("be.visible")
+        .click({ force: true });
+      // Sign out
+      cy.clickUsernameOnTopBar();
+      cy.signOut();
+      // Open just created event
+      cy.visit(`/${uniqueEventName}/`);
+      cy.url().should("contain", uniqueEventName);
+      // Click 'BUY TICKETS'
+      cy.chakraParagraphButtonByText("BUY TICKETS")
+        .eq(0)
+        .click({ force: true });
+      // Wait for the 'Tickets' modal window
+      cy.get('header[class^="chakra-modal__header"] > div > div > p')
+        .first()
+        .should("have.text", "Tickets");
+      // Add tickets to cart
+      cy.addTicketsToCart(2, 1);
+      // Close modal window by clicking (X)
+      cy.get('button[class^="chakra-modal__close-btn"][aria-label="Close"]')
+        .should("exist")
+        .click({ force: true });
+      // Go to Home page by clicking Showpass logo
+      cy.get('img[alt="showpass"]').should("be.visible").click({ force: true });
+      // Open another event
+      cy.visit("/automation-event-3/");
+      cy.url().should("contain", "/automation-event-3/");
+      // Click 'BUY TICKETS'
+      cy.chakraParagraphButtonByText("BUY TICKETS")
+        .eq(0)
+        .click({ force: true });
+      // Click 'Add item' button (+) to add a ticket to cart
+      cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+      cy.get('button[class^="chakra-button"][aria-label="Add item"]')
+        .first()
+        .should("exist")
+        .click();
+      // Verify the error message content
+      cy.get('div[status="error"][class^="css"] > div > div > p')
+        .first()
+        .as("errorMsg");
+      cy.get("@errorMsg")
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should(
+          "contain.text",
+          "Sorry, you have items in your cart that cannot be purchased at the same time. Please finish your current purchase or clear your cart and try again."
+        );
     }
   );
   // ***************************************************************************

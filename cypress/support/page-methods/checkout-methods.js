@@ -81,10 +81,9 @@ Cypress.Commands.add(
       .should("be.visible")
       .click({ force: true });
     cy.wait(5000);
-    Cypress.config("defaultCommandTimeout", 9000);
     cy.log("Ensure the data loading indicator disappears");
     cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
     ).should("not.exist");
     cy.log(
       "Ensure the 'Thank you' message shows up after a payment is completed"
@@ -276,9 +275,8 @@ Cypress.Commands.add(
       .should("be.visible")
       .click({ force: true });
     cy.wait(3000);
-    Cypress.config("defaultCommandTimeout", 9000);
     cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
     ).should("not.exist");
     // Ensure the 'Thank you' message shows up after a payment is completed
     cy.get('h1[class^="md-display"]')
@@ -500,10 +498,9 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   cy.wait(700);
   // Verify data loading indicator disappearance
   cy.wait(3000);
-  Cypress.config("defaultCommandTimeout", 7000);
   // Ensure the data loading indicator disappears
   cy.get(
-    'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
+    'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
   ).should("not.exist");
 });
 // *********************************************************************
@@ -587,10 +584,9 @@ Cypress.Commands.add(
     cy.clickPayButtonToSubmitPaymentIfAvailable();
     // Verify data loading indicator disappearance
     cy.wait(3000);
-    Cypress.config("defaultCommandTimeout", 9000);
     // Ensure the data loading indicator disappears
     cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"]'
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
     ).should("not.exist");
     // Ensure the 'Thank you' message shows up after a payment is completed
     cy.get('h1[class^="md-display"]')
