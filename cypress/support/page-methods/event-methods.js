@@ -197,7 +197,7 @@ Cypress.Commands.add(
       for (let i = 0; i < totalTicketTypes; i++) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
-        eventsAndFiltersLocators.addItemButtonActive(i).click({force: true});
+        eventsAndFiltersLocators.addItemButtonActive(i).click();
         eventsAndFiltersLocators.removeItemButtonActive(i);
         eventsAndFiltersLocators.addItemButtonActive(i);
         cy.wait(500);
@@ -224,7 +224,7 @@ Cypress.Commands.add(
       for (let i = 0; i < totalTicketTypes; i++) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
-        eventsAndFiltersLocators.addItemButtonActive(i).click({force: true});
+        eventsAndFiltersLocators.addItemButtonActive(i).click({ force: true });
         eventsAndFiltersLocators.removeItemButtonActive(i);
         eventsAndFiltersLocators.addItemButtonActive(i);
       }
@@ -784,8 +784,9 @@ Cypress.Commands.add(
       .select("Free Event - Tickets Not Required", { force: true })
       .wait(500);
     // Verify that the 'Free Event - Tickets Not Required' drop-down value got selected
-    cy.get('option[label="Free Event - Tickets Not Required"][value="boolean:true"]')
-    .should('exist');
+    cy.get(
+      'option[label="Free Event - Tickets Not Required"][value="boolean:true"]'
+    ).should("exist");
     // Click 'Save Event'
     cy.get('button[ng-click="saveEvent()"]')
       .should("exist")

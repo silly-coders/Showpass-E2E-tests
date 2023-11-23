@@ -28,7 +28,7 @@ export class EventsAndFiltersLocators {
       .get('button[class^="chakra-button"][aria-label="Remove item"]')
       .eq(buttonIndex)
       .should("exist")
-      .scrollIntoView({force: true})
+      .scrollIntoView({ force: true })
       .should("not.be.disabled");
   }
   /**
@@ -45,11 +45,11 @@ export class EventsAndFiltersLocators {
   addItemButtonActive(index) {
     return cy
       .get('button[class^="chakra-button"][aria-label="Add item"]')
-      .eq(index+1)
+      .eq(index)
       .as("btn")
       .get("@btn")
       .should("exist")
-      .scrollIntoView({force: true})
+      .scrollIntoView({ force: true })
       .should("not.be.disabled");
   }
   /**
@@ -59,7 +59,7 @@ export class EventsAndFiltersLocators {
     return cy
       .chakraParagraphButtonByText("Checkout")
       .should("exist")
-      .scrollIntoView({force: true})
+      .scrollIntoView({ force: true })
       .should("be.visible")
       .should("not.be.disabled");
   }
@@ -158,26 +158,20 @@ export class EventsAndFiltersLocators {
    * Get Upcoming purchased event name
    */
   getUpcomingPurchasedEventName(eventName) {
-  return cy
-      .get(
-        'div[id="upcoming-event-info-container"] > div > p'
-      )
+    return cy
+      .get('div[id="upcoming-event-info-container"] > div > p')
       .eq(0) // event name has index zero in the DOM
       .contains(eventName)
-      .should("exist")
-      ;
-}
+      .should("exist");
+  }
   /**
    * Get Upcoming purchased event name
    */
   getUpcomingPurchasedEventStartDate(eventStartDate) {
     return cy
-        .get(
-          'div[id="upcoming-event-info-container"] > div > p'
-        )
-        .eq(1) // event start date has index 1 in the DOM
-        .contains(eventStartDate)
-        .should("exist")
-        ;
+      .get('div[id="upcoming-event-info-container"] > div > p')
+      .eq(1) // event start date has index 1 in the DOM
+      .contains(eventStartDate)
+      .should("exist");
   }
 }

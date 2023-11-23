@@ -32,7 +32,7 @@ describe("Test checkout process by ", () => {
   // ***************************************************************************
   it(
     "verifying that Interac is not available for purchases below 30 dollars-TA-92",
-    { tags: ["e2e", "checkout"]},
+    { tags: ["e2e", "checkout"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
