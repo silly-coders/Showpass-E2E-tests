@@ -17,6 +17,10 @@ describe("Test various events by ", function () {
         cy.logIntoPortal(this.testdata.userDetails);
         cy.visit(this.testdata.events.event1.eventUrl);
         cy.reload();
+        // Ensure the event main page got loaded
+        cy.get('img[alt="Event image"]', {timeout:9000})
+        .should('exist')
+        .should('be.visible');
         cy.verifyEvent1ApiPayload(eventPayload);
       });
     }
@@ -31,6 +35,10 @@ describe("Test various events by ", function () {
         cy.logIntoPortal(this.testdata.userDetails);
         cy.visit(this.testdata.events.event2.eventUrl);
         cy.reload();
+        // Ensure the event main page got loaded
+        cy.get('img[alt="Event image"]', {timeout:9000})
+        .should('exist')
+        .should('be.visible');
         cy.verifyEvent2ApiPayload(eventPayload);
       });
     }
