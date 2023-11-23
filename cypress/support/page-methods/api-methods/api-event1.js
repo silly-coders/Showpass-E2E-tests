@@ -5,7 +5,7 @@ Cypress.Commands.add("verifyEvent1ApiPayload", (event1) => {
     url: "/api/user/tickets/favorites/39434/check-event/",
   }).then((response) => {
     expect(response.status).to.eq(200);
-    cy.wait(1500);
+    cy.wait(700);
     // Event
     expect(response.body.event.id).to.eq(event1.event.id);
     expect(response.body.event.slug).to.eq(event1.event.slug);

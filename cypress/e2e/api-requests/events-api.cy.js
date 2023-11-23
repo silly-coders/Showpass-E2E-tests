@@ -16,6 +16,7 @@ describe("Test various events by ", function () {
         cy.navigateToHomePage();
         cy.logIntoPortal(this.testdata.userDetails);
         cy.visit(this.testdata.events.event1.eventUrl);
+        cy.reload();
         cy.verifyEvent1ApiPayload(eventPayload);
       });
     }
@@ -29,6 +30,7 @@ describe("Test various events by ", function () {
         cy.navigateToHomePage();
         cy.logIntoPortal(this.testdata.userDetails);
         cy.visit(this.testdata.events.event2.eventUrl);
+        cy.reload();
         cy.verifyEvent2ApiPayload(eventPayload);
       });
     }

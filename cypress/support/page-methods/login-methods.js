@@ -91,7 +91,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     .should(
       "be.oneOf",
       [200, 204],
-      "Unable to log in. See the response status code for details."
+      "Verifying the response status code after logging in."
     );
   loginLocators
     .userFirstAndLastNames()
