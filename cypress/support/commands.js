@@ -330,6 +330,7 @@ Cypress.Commands.add("getH1HeaderByText", (itemText) => {
     .get(`h1[class^="css"]`)
     .contains(itemText)
     .should("exist")
+    .scrollIntoView({force: true})
     .should("be.visible");
 });
 /**
