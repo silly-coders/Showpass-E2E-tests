@@ -18,9 +18,7 @@ describe("Test checkout process by ", () => {
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.enterEventNameIntoSearchField(this.testdata.events.event3.eventName);
-      cy.getSearchResultModalWindow();
-      cy.selectSearchItemByItemName(this.testdata.events.event3.eventName);
+      cy.visit(this.testdata.events.event3.eventUrl);
       // Click 'BUY TICKETS'
       cy.chakraParagraphButtonByText("BUY TICKETS")
         .eq(0)

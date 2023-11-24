@@ -330,7 +330,7 @@ Cypress.Commands.add(
   (totalTicketTypes, numberOfTicketsForEach) => {
     cy.log("Going to addMembershipLevelsToCart()");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
-      for (let i = 0; i < totalTicketTypes; i++) {
+      for (let i = 0; i < totalTicketTypes*2; i+=2) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         cy.get('button[class^="chakra-button"][aria-label="Add item"]')

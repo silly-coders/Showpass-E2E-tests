@@ -61,7 +61,7 @@ describe("Test the mobile phone view by ", () => {
             .should("be.visible")
             .click({ force: true });
           // Add 3 tickets from each ticket type (2 ticket types in total)
-          cy.addTicketsToCart(2, 1);
+          cy.addTicketsToCartInMobileView(2, 1);
           // Click 'Checkout' button
           cy.clickChakraButtonByText("CHECKOUT");
           // ******* To avoid unexpected failures the test will log in again

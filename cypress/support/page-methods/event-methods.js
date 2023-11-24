@@ -194,7 +194,7 @@ Cypress.Commands.add(
     //const apiRequest1 = "/api/user/tickets/baskets/";
     //cy.intercept(apiRequest1).as("apiRequest1");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
-      for (let i = 0; i < totalTicketTypes; i++) {
+      for (let i = 0; i < totalTicketTypes*2; i+=2) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         eventsAndFiltersLocators.addItemButtonActive(i).click();
@@ -221,7 +221,7 @@ Cypress.Commands.add(
   (totalTicketTypes, numberOfTicketsForEach) => {
     cy.log("Going to addTicketsToCartNoApiValidation()");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
-      for (let i = 0; i < totalTicketTypes; i++) {
+      for (let i = 0; i < totalTicketTypes*2; i+=2) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         eventsAndFiltersLocators.addItemButtonActive(i).click({ force: true });
@@ -792,6 +792,30 @@ Cypress.Commands.add(
       .should("exist")
       .click({ force: true })
       .wait(300);
+  }
+);
+// **************************************************************************
+/**
+ * Method to add tickets to the cart in MOBILE view
+ * @param totalTicketTypes (total number of ticket types)
+ * @param numberOfTicketsForEach (how many tickets to add from each type)
+ */
+Cypress.Commands.add(
+  "addTicketsToCartInMobileView",
+  (totalTicketTypes, numberOfTicketsForEach) => {
+    cy.log("Going to addTicketsToCartInMobileView()");
+    for (let j = 1; j <= numberOfTicketsForEach; j++) {
+      for (let i = 1; i < totalTicketTypes*2; i+=2) {
+        cy.wait(500);
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+        eventsAndFiltersLocators.addItemButtonActive(i).click();
+        eventsAndFiltersLocators.removeItemButtonActive(i);
+        eventsAndFiltersLocators.addItemButtonActive(i);
+        cy.wait(500);
+      }
+    }
+    cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+    cy.wait(800);
   }
 );
 // **************************************************************************

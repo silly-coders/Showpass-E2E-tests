@@ -24,6 +24,7 @@ export class EventsAndFiltersLocators {
    * Minus sign (-) to remove item from cart (enabled)
    */
   removeItemButtonActive(buttonIndex) {
+    cy.log(`('button[class^="chakra-button"][aria-label="Remove item"]').eq(${buttonIndex})`);
     return cy
       .get('button[class^="chakra-button"][aria-label="Remove item"]')
       .eq(buttonIndex)
@@ -43,6 +44,7 @@ export class EventsAndFiltersLocators {
    * Plus sign (+) to add item to cart (disabled)
    */
   addItemButtonActive(index) {
+    cy.log(`('button[class^="chakra-button"][aria-label="Add item"]').eq(${index})`);
     return cy
       .get('button[class^="chakra-button"][aria-label="Add item"]')
       .eq(index)
