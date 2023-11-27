@@ -53,7 +53,11 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
   cy.clickLoginOnHomePage();
   cy.wait("@envelopeLoaded")
     .its("response.statusCode")
-    .should("be.oneOf", [200, 204], "Checking if the Login modal window got loaded");
+    .should(
+      "be.oneOf",
+      [200, 204],
+      "Checking if the Login modal window got loaded"
+    );
   loginLocators
     .emailAddressInputField()
     .should("exist")
@@ -93,6 +97,8 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
       [200, 204],
       "Verifying the response status code after logging in."
     );
+  // If error message shows up after loggin in report it
+  cy.verifyIfErrorShowsUpAfterLoggingIn();
   loginLocators
     .userFirstAndLastNames()
     .should("exist")
@@ -166,11 +172,9 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
       cy.wait(700);
       cy.wait("@profileLoaded")
         .its("response.statusCode")
-        .should(
-          "be.oneOf",
-          [200, 201, 204],
-          "Verifying response status code."
-        );
+        .should("be.oneOf", [200, 201, 204], "Verifying response status code.");
+      // If error message shows up after loggin in report it
+      cy.verifyIfErrorShowsUpAfterLoggingIn();
       // Button arrow in the top right corner pointing down
       cy.get('button[aria-label="Main menu"] > span > svg')
         .should("exist")
@@ -234,6 +238,8 @@ Cypress.Commands.add("loginOnlyIntoPortal", (userObject) => {
     .should("be.visible")
     .click({ force: true });
   cy.wait(700);
+  // If error message shows up after loggin in report it
+  cy.verifyIfErrorShowsUpAfterLoggingIn();
 });
 // *****************************************************************************
 /**
