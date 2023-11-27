@@ -11,22 +11,18 @@ describe("Verify destructive profile updates by ", () => {
       cy.navigateToHomePage();
     });
   });
-// ***************************************************************************
+  // ***************************************************************************
   it(
     "changing user's current password-TA-29",
     { tags: ["e2e", "smoke"] },
     function () {
       // Sign in using the new password
       cy.clickLoginOnHomePage();
-      cy.getInputElementByAttr("placeholder", "Email Address")
-        .should("exist")
-        .should("be.visible")
-        .type(this.testdata.userForUpdates.emailForPwdChange);
-      cy.getInputElementByAttr("placeholder", "Password")
-        .should("exist")
-        .should("be.visible")
-        .type(this.testdata.userForUpdates.userPassword);
-      cy.clickLogInButtonOnModalWindow();
+      let userDetails = {
+        userEmail: this.testdata.userForUpdates.emailForPwdChange,
+        userPassword: this.testdata.userForUpdates.userPassword,
+      };
+      cy.loginOnlyIntoPortal(userDetails);
       cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPasswordButton();
@@ -45,15 +41,7 @@ describe("Verify destructive profile updates by ", () => {
       cy.signOut();
       // Sign in using the new password
       cy.clickLoginOnHomePage();
-      cy.getInputElementByAttr("placeholder", "Email Address")
-        .should("exist")
-        .should("be.visible")
-        .type(this.testdata.userForUpdates.emailForPwdChange);
-      cy.getInputElementByAttr("placeholder", "Password")
-        .should("exist")
-        .should("be.visible")
-        .type(this.testdata.userDetails.userPassword);
-      cy.clickLogInButtonOnModalWindow();
+      cy.loginOnlyIntoPortal(userDetails);
       cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPasswordButton();
@@ -70,7 +58,7 @@ describe("Verify destructive profile updates by ", () => {
       cy.clickButtonXtoCloseMessage();
     }
   );
-// ***************************************************************************
+  // ***************************************************************************
   it("updating user's email-TA-30", { tags: ["e2e", "smoke"] }, function () {
     cy.logIntoPortal(this.testdata.userForUpdates);
     cy.clickUsernameOnTopBar();
@@ -107,7 +95,7 @@ describe("Verify destructive profile updates by ", () => {
     );
     cy.clickButtonXtoCloseMessage();
   });
-// ***************************************************************************
+  // ***************************************************************************
   it(
     "verifying that 'Personal Info' can be updated-TA-34",
     { tags: ["e2e", "smoke"] },
@@ -166,5 +154,5 @@ describe("Verify destructive profile updates by ", () => {
         .should("be.visible");
     }
   );
-// ***************************************************************************  
+  // ***************************************************************************
 });

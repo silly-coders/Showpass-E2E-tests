@@ -35,6 +35,7 @@ Cypress.Commands.add("getSessionStorage", (key) => {
   cy.log(`Going to getSessionStorage(${key})`);
   cy.window().then((window) => window.sessionStorage.getItem(key));
 });
+// *****************************************************************************
 /**
  * Method to set session storage
  */
@@ -44,6 +45,7 @@ Cypress.Commands.add("setSessionStorage", (key, value) => {
     window.sessionStorage.setItem(key, value);
   });
 });
+// *****************************************************************************
 /*
  * Wait for the API amplitude success
  */
@@ -52,6 +54,7 @@ Cypress.Commands.add("waitForApiAmplitudeSuccess", () => {
   cy.intercept("https://api.amplitude.com/").as("amplitude");
   cy.wait("@amplitude");
 });
+// *****************************************************************************
 /**
  * Get QR code by index
  * @param index
@@ -63,6 +66,7 @@ Cypress.Commands.add("getQrCodeByIndex", (index) => {
     .eq(index)
     .should("exist");
 });
+// *****************************************************************************
 /**
  * Get data loading indicator (chakra-spinner)
  */
@@ -70,6 +74,7 @@ Cypress.Commands.add("getChakraSpinnerLoadingIndicator", () => {
   cy.log(`Requested element: getChakraSpinnerLoadingIndicator`);
   return cy.get(".chakra-spinner");
 });
+// *****************************************************************************
 /**
  * Get locator by data-testid
  * @param dataTestId
@@ -78,6 +83,7 @@ Cypress.Commands.add("getByDataTestId", (dataTestId) => {
   cy.log(`Requested element: [data-testid="${dataTestId}"]`);
   return cy.get(`[data-testid="${dataTestId}"]`).should("exist");
 });
+// *****************************************************************************
 /*
  * 'Save' button
  */
@@ -89,6 +95,7 @@ Cypress.Commands.add("getSaveButton", () => {
     .scrollIntoView()
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get 'Phone' input field by 'Placeholder'
  * @param placeholder
@@ -103,6 +110,7 @@ Cypress.Commands.add("getPhoneInputFieldByPlaceholder", (placeholder) => {
     .scrollIntoView()
     .should("be.visible");
 });
+// *****************************************************************************
 /*
  * Click 'Save' button
  */
@@ -116,6 +124,7 @@ Cypress.Commands.add("clickSaveButton", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /*
  * Click 'Log In' button on a modal window
  */
@@ -128,6 +137,7 @@ Cypress.Commands.add("clickLogInButtonOnModalWindow", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /*
  * Click (X) button to close top right message
  */
@@ -141,6 +151,7 @@ Cypress.Commands.add("clickButtonXtoCloseMessage", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Verify top right 'Success' message content
  * @param messageText
@@ -158,6 +169,7 @@ Cypress.Commands.add("verifyTopRightSuccessMessage", (messageText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Verify top right 'Error' message content
  * @param messageText
@@ -176,6 +188,7 @@ Cypress.Commands.add("verifyTopRightErrorMessage", (messageText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a drop-down menu item by it's text
  * @param itemText
@@ -190,6 +203,7 @@ Cypress.Commands.add("getDropDownItem", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a chakra-button by text
  * @param itemText
@@ -205,6 +219,7 @@ Cypress.Commands.add("getChakraButtonByText", (itemText) => {
     .scrollIntoView({ force: true })
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a chakra-accordion-button by text
  * @param itemText
@@ -220,6 +235,7 @@ Cypress.Commands.add("getChakraAccordionButtonByText", (itemText) => {
     .scrollIntoView({ force: true })
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Click a chakra button by text
  * @param itemText
@@ -230,6 +246,7 @@ Cypress.Commands.add("clickChakraButtonByText", (itemText) => {
   );
   cy.getChakraButtonByText(itemText).click({ force: true });
 });
+// *****************************************************************************
 /**
  * Get a chakra-button by an attribute
  * @param attrType
@@ -244,6 +261,7 @@ Cypress.Commands.add("getChakraButtonByAttribute", (attrType, attrValue) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get chakra-paragraph-button by text
  * @param buttonText
@@ -257,6 +275,7 @@ Cypress.Commands.add("chakraParagraphButtonByText", (buttonText) => {
     .should("exist")
     .scrollIntoView({ force: true });
 });
+// *****************************************************************************
 /**
  * Get a left side menu item by its text
  * @param itemText
@@ -269,6 +288,7 @@ Cypress.Commands.add("getLeftSideMenuItemByText", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a 'chakra' form label by its text
  * @param itemText
@@ -281,6 +301,7 @@ Cypress.Commands.add("getChakraFormLabel", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a paragraph sub-header by text
  * @param itemText
@@ -293,6 +314,7 @@ Cypress.Commands.add("getParagraphSubHeaderByText", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a 'chakra-form-label by index and text
  * @param elementIndex
@@ -312,6 +334,7 @@ Cypress.Commands.add(
       .should("be.visible");
   }
 );
+// *****************************************************************************
 /**
  * Get image by the 'alt' attribute
  * @param altAttr
@@ -320,6 +343,7 @@ Cypress.Commands.add("getImageByAlt", (altAttr) => {
   cy.log(`Going to getImageByAlt element: ${altAttr}`);
   return cy.get(`img[alt="${altAttr}"]`).should("exist").should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get h1 header by text
  * @param itemText
@@ -333,6 +357,7 @@ Cypress.Commands.add("getH1HeaderByText", (itemText) => {
     .scrollIntoView({ force: true })
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get chakra-skeleton-h1 header by text
  * @param itemText
@@ -345,6 +370,7 @@ Cypress.Commands.add("getChakraSkeletonH1HeaderByText", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a chakra-header-h3 by text
  * @param itemText
@@ -359,6 +385,7 @@ Cypress.Commands.add("getChakraHeaderH3", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get h3-href header by text
  * @param itemText
@@ -371,6 +398,7 @@ Cypress.Commands.add("getH3HrefHeaderByText", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get h2 header by text
  * @param itemText
@@ -383,6 +411,7 @@ Cypress.Commands.add("getH2HeaderByText", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a chakra-header-h2 by text
  * @param itemText
@@ -397,6 +426,7 @@ Cypress.Commands.add("getChakraHeaderH2", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get h2 chakra-text
  * @param itemText
@@ -409,6 +439,7 @@ Cypress.Commands.add("getH2ChakraTextByText", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get h4 chakra-text
  * @param itemText
@@ -421,6 +452,7 @@ Cypress.Commands.add("getH4ChakraTextByText", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a 'swiper-slide' by a particular attribute
  * @param attrType
@@ -435,6 +467,7 @@ Cypress.Commands.add("getSwiperSlideByAttr", (attrType, attrValue) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a 'chakra-input' field by a particular attribute
  * @param attrType
@@ -449,6 +482,7 @@ Cypress.Commands.add("getChakraInputFieldByAttr", (attrType, attrValue) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a 'chakra-link' button by any attribute
  * @param attrType
@@ -463,6 +497,7 @@ Cypress.Commands.add("getChakraLinkButtonByAttr", (attrType, attrValue) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a 'chakra-input_group' field by a particular attribute
  * @param attrType
@@ -483,6 +518,7 @@ Cypress.Commands.add(
       .should("be.visible");
   }
 );
+// *****************************************************************************
 /**
  * Verify a 'chakra-input' field value
  * @param attrType
@@ -501,6 +537,7 @@ Cypress.Commands.add(
       .should("be.visible");
   }
 );
+// *****************************************************************************
 /**
  * Get a 'chakra-form-error-message' inline validation by index and text
  * @param elementIndex
@@ -520,6 +557,7 @@ Cypress.Commands.add(
       .should("be.visible");
   }
 );
+// *****************************************************************************
 /**
  * Get an 'input-element' by a particular attribute
  * @param attrType
@@ -535,6 +573,7 @@ Cypress.Commands.add("getInputElementByAttr", (attrType, attrValue) => {
     .scrollIntoView()
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Clear a chakra-input-field by providing a field attribute
  * @param attrType
@@ -550,6 +589,7 @@ Cypress.Commands.add("clearInputFieldByAttr", (attrType, attrValue) => {
     .should("be.visible")
     .clear({ force: true });
 });
+// *****************************************************************************
 /**
  * Get selected drop-down value by id and text
  * @param id
@@ -565,6 +605,7 @@ Cypress.Commands.add("getSelectedDropDownValueByText", (id, itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get chakra-switch-input by its index on the page
  * @param index
@@ -579,6 +620,7 @@ Cypress.Commands.add("getChakraSwitchSelectorByIndex", (index) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Verify that chakra-switch selector is enabled
  * @param index
@@ -592,6 +634,7 @@ Cypress.Commands.add("verifyChakraSwitchSelectorIsEnabled", (index) => {
     .should("be.visible")
     .should("have.attr", "data-checked");
 });
+// *****************************************************************************
 /**
  * Verify that chakra-switch selector is disabled
  * @param index
@@ -605,6 +648,7 @@ Cypress.Commands.add("verifyChakraSwitchSelectorIsDisabled", (index) => {
     .should("be.visible")
     .should("not.have.attr", "data-checked");
 });
+// *****************************************************************************
 /**
  * Get chakra-text by the label index on the page
  * Once identified the text verification can be performed
@@ -619,6 +663,7 @@ Cypress.Commands.add("getChakraTextLabelByIndex", (index) => {
     .scrollIntoView({ force: true })
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get chakra-text by the label text
  * @param text
@@ -631,6 +676,7 @@ Cypress.Commands.add("getChakraTextLabelByText", (text) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get an iFrame body by name
  * @param title
@@ -639,6 +685,7 @@ Cypress.Commands.add("getIframeBody", (title) => {
   cy.log(`Going to getIframeBody with title: ${title}`);
   return cy.get(`iframe[title="${title}"]`).then(cy.wrap);
 });
+// *****************************************************************************
 /**
  * Get chakra-form error message by text
  * @param errorText
@@ -651,6 +698,7 @@ Cypress.Commands.add("getInlineError", (errorText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Click the 'Cancel' button
  */
@@ -662,6 +710,7 @@ Cypress.Commands.add("clickCancelButton", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Verify that an element does NOT exist
  * @param elementLocator
@@ -679,6 +728,7 @@ Cypress.Commands.add(
     return cy.get(elementLocator).eq(elementIndex).should("not.exist");
   }
 );
+// *****************************************************************************
 /**
  * Check if a chakra-switch selector is NOT enabled and enable it
  * @param index
@@ -704,6 +754,7 @@ Cypress.Commands.add(
       });
   }
 );
+// *****************************************************************************
 /**
  * Click the 'Log Out' button
  */
@@ -712,6 +763,7 @@ Cypress.Commands.add("signOut", () => {
   cy.getDropDownItem("Log Out").click({ force: true });
   homeLocators.searchEventsInputField().should("exist").should("be.visible");
 });
+// *****************************************************************************
 /**
  * Verify input field attribute and its value
  * @param attrType
@@ -731,6 +783,7 @@ Cypress.Commands.add(
       .should("have.attr", fieldValueToCheck, attrValueToCheck);
   }
 );
+// *****************************************************************************
 /**
  * Verify 'Showpass' logo appearance
  */
@@ -738,6 +791,7 @@ Cypress.Commands.add("verifyShowpassLogoAppearance", () => {
   cy.log("Going to verifyShowpassLogoAppearance()");
   cy.get('img[alt="showpass"]').should("exist").should("be.visible");
 });
+// *****************************************************************************
 /**
  * Verify 'Universal QR Code' appearance
  */
@@ -745,6 +799,7 @@ Cypress.Commands.add("verifyQrCodeAppearance", () => {
   cy.log("Going to verifyQrCodeAppearance()");
   cy.get('img[alt="Universal QR Code"]').should("exist").should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a chakra-skeleton paragraph item text
  */
@@ -757,6 +812,7 @@ Cypress.Commands.add("getChakraSkeletonItem", () => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Verify 'chakra-skeleton' item text by item index
  * @param itemText
@@ -773,6 +829,7 @@ Cypress.Commands.add("verifyChakraSkeletonItemText", (itemIndex, itemText) => {
     .should("be.visible")
     .should("contain", itemText);
 });
+// *****************************************************************************
 /**
  * 'Search location or event' input field within the 'Search' and 'Date' section
  */
@@ -785,6 +842,7 @@ Cypress.Commands.add("getSearchLocationOrEventInputField", () => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Method to enter event name into the 'Search location or event' field
  * @param eventName
@@ -803,6 +861,7 @@ Cypress.Commands.add(
     }
   }
 );
+// *****************************************************************************
 /**
  * Method to enter a custom value into combobox
  * @param text
@@ -817,6 +876,7 @@ Cypress.Commands.add("inputCustomValueIntoCombobox", (elementIndex, text) => {
   cy.get("@combobox").eq(elementIndex).click().type(text);
   cy.get("@combobox").eq(elementIndex).type("{enter}");
 });
+// *****************************************************************************
 /**
  * Get a chakra-breadcrumb-list-item by index on the page
  * @param index
@@ -831,6 +891,7 @@ Cypress.Commands.add("getChakraBreadcrumbListItem", (index) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Click a button if not disabled
  * @param buttonLocator
@@ -858,6 +919,7 @@ Cypress.Commands.add("clickButtonIfNotDisabled", (buttonLocator, index) => {
       }
     });
 });
+// *****************************************************************************
 /**
  * Get chakra-modal window
  */
@@ -868,6 +930,7 @@ Cypress.Commands.add("getChakraModalWindow", () => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get chakra-modal-header
  */
@@ -878,6 +941,7 @@ Cypress.Commands.add("getChakraModalHeader", () => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Method to delete an existing credit card
  *
@@ -912,6 +976,7 @@ Cypress.Commands.add("deleteCreditCardIfExists", () => {
     }
   });
 });
+// *****************************************************************************
 /**
  * Get a chakra-button-label by text
  * @param itemText
@@ -925,6 +990,7 @@ Cypress.Commands.add("getChakraButtonLabelByText", (itemText) => {
     .scrollIntoView({ force: true })
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a button by an attribute
  * @param attrType
@@ -940,6 +1006,7 @@ Cypress.Commands.add("getButtonByAttribute", (attrType, attrValue) => {
     .scrollIntoView({ force: true })
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Select li-option by text
  * @param itemText
@@ -954,6 +1021,7 @@ Cypress.Commands.add("selectOptionByText", (itemText) => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Get a pre-container-editor to input text
  */
@@ -961,6 +1029,7 @@ Cypress.Commands.add("getPreContainerEditor", () => {
   cy.log(`Going to getPreContainerEditor()`);
   return cy.get(".ql-editor").should("exist").should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a chakra-tab-button by text
  * @param itemText
@@ -973,6 +1042,7 @@ Cypress.Commands.add("getChakraTabButtonByText", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Get a gridcell-text
  * @param itemText
@@ -989,6 +1059,7 @@ Cypress.Commands.add("getGridcellLabelByText", (gridcellIndex, itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Store a value in the Cypress.env object
  * @param key
@@ -1000,6 +1071,7 @@ Cypress.Commands.add("storeValueInCypressEnvBasedOnKey", (key, value) => {
   );
   Cypress.env(key, value);
 });
+// *****************************************************************************
 /**
  * Get a radio button
  * @param attrType
@@ -1015,6 +1087,7 @@ Cypress.Commands.add("getRadioButtonByAttribute", (attrType, attrValue) => {
     .scrollIntoView({ force: true })
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Click 'X' button to close a chakra-modal window
  */
@@ -1026,6 +1099,7 @@ Cypress.Commands.add("closeModalWindowByClickingX", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Get invoice header when watching purchased tickets
  */
@@ -1038,6 +1112,7 @@ Cypress.Commands.add("getTicketInvoiceHeader", () => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Method to click a button if it exists based on locator | index | text
  * @param elementLocator
@@ -1066,6 +1141,7 @@ Cypress.Commands.add(
     });
   }
 );
+// *****************************************************************************
 /**
  * Get chakra modal header
  * @param itemText
@@ -1080,6 +1156,7 @@ Cypress.Commands.add("getChakraModalHeader", (itemText) => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Click main menu and log out
  */
@@ -1098,6 +1175,7 @@ Cypress.Commands.add("clickMainMenuAndLogOut", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Custom type text command
  * @param elementLocator
@@ -1118,6 +1196,7 @@ Cypress.Commands.add("typeText", (elementLocator, elementIndex, text) => {
     .scrollIntoView({ force: true });
   cy.get(elementLocator).eq(elementIndex).clear({ force: true }).type(text);
 });
+// *****************************************************************************
 /**
  * Verify if there is an error after logging in
  */
@@ -1134,3 +1213,4 @@ Cypress.Commands.add("verifyIfErrorShowsUpAfterLoggingIn", () => {
     }
   });
 });
+// *****************************************************************************
