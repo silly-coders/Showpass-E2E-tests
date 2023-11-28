@@ -208,6 +208,7 @@ Cypress.Commands.add(
     }
     cy.getChakraSpinnerLoadingIndicator().should("not.exist");
     cy.wait(800);
+    cy.getChakraSpinnerLoadingIndicator().should("not.exist");
   }
 );
 // **************************************************************************
@@ -231,6 +232,7 @@ Cypress.Commands.add(
     }
     cy.getChakraSpinnerLoadingIndicator().should("not.exist");
     cy.wait(800);
+    cy.getChakraSpinnerLoadingIndicator().should("not.exist");
   }
 );
 // **************************************************************************
@@ -816,6 +818,7 @@ Cypress.Commands.add(
     }
     cy.getChakraSpinnerLoadingIndicator().should("not.exist");
     cy.wait(800);
+    cy.getChakraSpinnerLoadingIndicator().should("not.exist");
   }
 );
 // **************************************************************************

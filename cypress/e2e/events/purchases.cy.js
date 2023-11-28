@@ -42,6 +42,8 @@ describe("Verify purchased tickets by ", () => {
         this.testdata.regularUserForOrganization3and4,
         1
       );
+      // Verify if tickets were properly added to cart
+      cy.throwErrorIfNoTicketsInCart();
       // Complete the order
       cy.completeOrderWithSavedPaymentMethodOnAngular(
         this.testdata.regularUserForOrganization3and4
@@ -97,6 +99,8 @@ describe("Verify purchased tickets by ", () => {
         this.testdata.userForOrganization3and4,
         1
       );
+      // Verify if tickets were properly added to cart
+      cy.throwErrorIfNoTicketsInCart();
       // Complete the order
       cy.completeOrderWithSavedPaymentMethodOnAngular(
         this.testdata.userForOrganization3and4
@@ -169,6 +173,8 @@ describe("Verify purchased tickets by ", () => {
       cy.addTicketsToCart(2, 1);
       // Click 'Checkout' button
       cy.clickChakraButtonByText("CHECKOUT");
+      // Verify if tickets were properly added to cart
+      cy.throwErrorIfNoTicketsInCart();
       // Wait for the next page
       cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
       // Complete the order

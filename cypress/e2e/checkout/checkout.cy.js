@@ -1,11 +1,8 @@
 describe("Test checkout process by ", () => {
-  before(function () {
+  beforeEach("navigate to Home page", function () {
     cy.clearAllSessionStorage();
     cy.clearLocalStorage();
     cy.clearCookies();
-  });
-
-  beforeEach("navigate to Home page", function () {
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
     });
@@ -60,6 +57,8 @@ describe("Test checkout process by ", () => {
         this.testdata.userForSingleBarcodeTesting,
         1
       );
+      // Verify if tickets were properly added to cart
+      cy.throwErrorIfNoTicketsInCart();
       // Click 'Next'
       cy.clickNextButtonDuringCheckoutAngular();
       // Click 'REVIEW' tab
@@ -154,6 +153,8 @@ describe("Test checkout process by ", () => {
         // Click 'Checkout' button
         cy.clickChakraButtonByText("CHECKOUT");
       });
+      // Verify if tickets were properly added to cart
+      cy.throwErrorIfNoTicketsInCart();
       // Complete the order
       // Click 'REVIEW' tab
       cy.get('md-tab-item[role="tab"] > span')
@@ -240,7 +241,8 @@ describe("Test checkout process by ", () => {
       cy.wait(5000);
       // Ensure the data loading indicator disappears
       cy.get(
-        'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
+        'div[class="full-loader"] > md-progress-circular[role="progressbar"]',
+        { timeout: 9000 }
       ).should("not.exist");
       // Ensure the order confirmation page shows up
       cy.get('h1[class^="md-display"]')
@@ -457,6 +459,8 @@ describe("Test checkout process by ", () => {
       // Add 1 ticket from each ticket type (2 types in total) to cart and proceed to checkout
       // There will be 2 tickets in the cart
       cy.addTicketsToCartAndProceedToCheckout(this.testdata.userDetails, 1);
+      // Verify if tickets were properly added to cart
+      cy.throwErrorIfNoTicketsInCart();
       // Click 'REVIEW' tab
       cy.get('md-tab-item[role="tab"] > span')
         .eq(3)

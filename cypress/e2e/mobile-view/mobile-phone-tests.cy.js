@@ -10,7 +10,7 @@ describe("Test the mobile phone view by ", () => {
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
-      this.testdata = testdata;  
+      this.testdata = testdata;
     });
   });
 
@@ -30,7 +30,8 @@ describe("Test the mobile phone view by ", () => {
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.signOut();
-      var uniqueUserEmail = "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+      var uniqueUserEmail =
+        "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
       let userDetails = {
         userEmail: uniqueUserEmail,
         userPassword: "!@Newuser2023",
@@ -92,6 +93,8 @@ describe("Test the mobile phone view by ", () => {
               cy.visit("/checkout/");
             }
           });
+          // Verify if tickets were properly added to cart
+          cy.throwErrorIfNoTicketsInCart();
           // Wait for the next page
           cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should(
             "be.visible"

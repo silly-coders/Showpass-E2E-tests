@@ -7,6 +7,8 @@ Cypress.Commands.add(
   "completeOrderOnAngular",
   (userDetails, creditCardDetails) => {
     cy.log("Going to completeOrderOnAngular()");
+    // Verify if items were properly added to cart
+    cy.throwErrorIfNoTicketsInCart();
     cy.log("Click 'Check out as a guest' if the button shows up");
     cy.clickButtonIfAvailableBasedOnLocatorIndexText(
       `button[ng-click="beginGuestCheckout(); amplitudeEvent.track('Checkout: Guest Checkout')"] > span`,
@@ -83,7 +85,8 @@ Cypress.Commands.add(
     cy.wait(5000);
     cy.log("Ensure the data loading indicator disappears");
     cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]',
+      { timeout: 9000 }
     ).should("not.exist");
     cy.log(
       "Ensure the 'Thank you' message shows up after a payment is completed"
@@ -128,6 +131,8 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add("goThroughCheckoutBeforePayment", (userDetails) => {
   cy.log("Going to goThroughCheckoutBeforePayment()");
+  // Verify if items were properly added to cart
+  cy.throwErrorIfNoTicketsInCart();
   cy.log("Click 'Check out as a guest' if the button shows up");
   cy.clickButtonIfAvailableBasedOnLocatorIndexText(
     `button[ng-click="beginGuestCheckout(); amplitudeEvent.track('Checkout: Guest Checkout')"] > span`,
@@ -179,6 +184,8 @@ Cypress.Commands.add(
   "completeOrderAsGuestOnAngular",
   (userDetails, creditCardDetails) => {
     cy.log("Going to completeOrderAsGuestOnAngular()");
+    // Verify if items were properly added to cart
+    cy.throwErrorIfNoTicketsInCart();
     cy.log("Click 'Check out as a guest' if the button shows up");
     cy.clickButtonIfAvailableBasedOnLocatorIndexText(
       `button[ng-click="beginGuestCheckout(); amplitudeEvent.track('Checkout: Guest Checkout')"] > span`,
@@ -276,7 +283,8 @@ Cypress.Commands.add(
       .click({ force: true });
     cy.wait(3000);
     cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]',
+      { timeout: 9000 }
     ).should("not.exist");
     // Ensure the 'Thank you' message shows up after a payment is completed
     cy.get('h1[class^="md-display"]')
@@ -382,6 +390,8 @@ Cypress.Commands.add(
         cy.visit("/checkout/");
       }
     });
+    // Verify if items were properly added to cart
+    cy.throwErrorIfNoTicketsInCart();
     // Wait for the cart timer to show up
     cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
   }
@@ -394,6 +404,8 @@ Cypress.Commands.add(
  */
 Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   cy.log("Going to completeOrderWithInteracPayment()");
+  // Verify if items were properly added to cart
+  cy.throwErrorIfNoTicketsInCart();
   // Click 'Next'
   cy.clickNextButtonDuringCheckoutAngular();
   // Click 'REVIEW' tab
@@ -500,7 +512,8 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   cy.wait(3000);
   // Ensure the data loading indicator disappears
   cy.get(
-    'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
+    'div[class="full-loader"] > md-progress-circular[role="progressbar"]',
+    { timeout: 9000 }
   ).should("not.exist");
 });
 // *********************************************************************
@@ -529,6 +542,8 @@ Cypress.Commands.add(
   "completeOrderWithSavedPaymentMethodOnAngular",
   (userDetails) => {
     cy.log("Going to completeOrderWithSavedPaymentMethodOnAngular()");
+    // Verify if items were properly added to cart
+    cy.throwErrorIfNoTicketsInCart();
     // *** More Events page
     // Click 'Next'
     cy.clickNextButtonDuringCheckoutAngular();
@@ -586,7 +601,8 @@ Cypress.Commands.add(
     cy.wait(3000);
     // Ensure the data loading indicator disappears
     cy.get(
-      'div[class="full-loader"] > md-progress-circular[role="progressbar"]', { timeout: 9000 }
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]',
+      { timeout: 9000 }
     ).should("not.exist");
     // Ensure the 'Thank you' message shows up after a payment is completed
     cy.get('h1[class^="md-display"]')
@@ -641,6 +657,9 @@ Cypress.Commands.add(
     // Click 'Checkout' button
     cy.clickChakraButtonByText("CHECKOUT");
     cy.wait(900);
+    cy.url().should("include", "/checkout/");
+    // Verify if tickets were properly added to cart
+    cy.throwErrorIfNoTicketsInCart();
     // *******
     // If 'Login' button still shows up in AngularJS log into the app
     cy.get("body").then(($body) => {
@@ -661,6 +680,8 @@ Cypress.Commands.add(
           .scrollIntoView({ force: true })
           .should("be.visible")
           .click({ force: true });
+        // Verify if tickets were properly added to cart
+        cy.throwErrorIfNoTicketsInCart();
         // Enter email
         cy.get('input[name="email"][ng-model="loginData.email"]')
           .should("exist")
@@ -687,6 +708,8 @@ Cypress.Commands.add(
       }
       cy.wait(900);
     });
+    // Verify if items were properly added to cart
+    cy.throwErrorIfNoTicketsInCart();
     // Wait for the cart timer to show up
     cy.get('span[ng-if="cart.timer.info.totalSeconds"]').should("be.visible");
   }
@@ -742,6 +765,26 @@ Cypress.Commands.add("openOrderByOrderId", () => {
   cy.readFile("cypress/fixtures/dynamic-values.json").then((value) => {
     cy.log(`Going to open the following order: ${value.orderId}`);
     cy.visit(`account/my-orders/${value.orderId}/`).wait(900);
+  });
+});
+// *********************************************************************
+/**
+ * If no tickets in cart throw an error
+ */
+Cypress.Commands.add("throwErrorIfNoTicketsInCart", () => {
+  cy.log("Going to throwErrorIfNoTicketsInCart()");
+  cy.get("body").then(($body) => {
+    if (
+      $body.find(
+        "div[ng-if='!ticketTypesNotAdded.length'] > h3[class^='md-display']"
+      ).length
+    ) {
+      cy.log("For some reason the cart is still empty after adding tickets");
+      // Throw an error if the cart is still empty
+      throw new Error(
+        "For some reason the cart is still empty after adding ticket(s)!"
+      );
+    }
   });
 });
 // *********************************************************************
