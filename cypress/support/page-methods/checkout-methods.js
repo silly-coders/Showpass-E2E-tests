@@ -531,7 +531,7 @@ Cypress.Commands.add("clickNextButtonDuringCheckoutAngular", () => {
     .scrollIntoView({ force: true })
     .wait(300)
     .click({ force: true });
-  cy.get(300);
+  cy.wait(500);
 });
 // *********************************************************************
 /**
