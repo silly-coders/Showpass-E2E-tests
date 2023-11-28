@@ -19,6 +19,7 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
           let totalCount = Cypress.$(value).length;
           cy.log(`Found in total ${totalCount} "Delete group" buttons.`);
           for (let i = 0; i < totalCount; i++) {
+            cy.log('Going to delete group #: ' + i+1);
             cy.get(
               'button[class^="chakra-button"][aria-label="Delete membership level"]'
             )
@@ -27,7 +28,9 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
               .click({ force: true });
             cy.wait(500);
             // Confirm deletion on the 'Delete Membership Group' confirmation
+            cy.log('Confirm deletion on the "Delete Membership Group" confirmation dialog box');
             cy.getChakraModalWindow();
+            // Verify modal header text: "Delete Membership Group"
             cy.get('header[id^="chakra-modal--header"]').should(
               "contain.text",
               "Delete Membership Group"

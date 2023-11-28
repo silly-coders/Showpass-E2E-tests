@@ -31,24 +31,28 @@ describe("Test the 'Saved Events' page by ", () => {
         cy.removeAllSavedEvents();
       }
       let eventsToTest = [
-        this.testdata.events.event1.eventName,
-        this.testdata.events.event2.eventName,
+        this.testdata.events.event1.eventUrl,
+        this.testdata.events.event2.eventUrl,
       ];
       for (let i = 0; i < eventsToTest.length; i++) {
         cy.clickShowpassLogo();
-        cy.searchForAnEventByName(eventsToTest.at(i));
+        cy.visit(eventsToTest.at(i)).wait(700);
         cy.clickHeartIconToSaveEvents(1);
         cy.wait(500);
       }
       // Navigate to the 'Saved Events' page
       cy.visit("/account/saved-events/");
+      let eventName = [
+        this.testdata.events.event1.eventName,
+        this.testdata.events.event2.eventName,
+      ];
       let j = 1;
-      for (let i = 0; i < eventsToTest.length; i++) {
-        cy.log("EVENT_TO_TEST: " + eventsToTest.at(i));
+      for (let i = 0; i < eventName.length; i++) {
+        cy.log("EVENT_TO_TEST: " + eventName.at(i));
         cy.log(
           "INDEX=1 is First Event Card Name, INDEX=4 is Second Event Card Name etc"
         );
-        cy.verifySavedEventCardName(j, eventsToTest.at(i));
+        cy.verifySavedEventCardName(j, eventName.at(i));
         j = j + 3;
       }
     }
