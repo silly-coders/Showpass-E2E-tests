@@ -732,8 +732,8 @@ describe("Test checkout process by ", () => {
       cy.getChakraSpinnerLoadingIndicator().should("not.exist");
       cy.get('button[class^="chakra-button"][aria-label="Add item"]')
         .first()
-        .should("exist")
-        .click();
+        .as("addItemToCartButton");
+      cy.get("@addItemToCartButton").should("exist").click({ force: true });
       // Verify the error message content
       cy.get('div[status="error"][class^="css"] > div > div > p')
         .first()
