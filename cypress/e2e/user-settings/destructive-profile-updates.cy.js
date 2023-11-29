@@ -38,7 +38,7 @@ describe("Verify destructive profile updates by ", () => {
       );
       cy.clickButtonXtoCloseMessage();
       cy.clickUsernameOnTopBar();
-      cy.signOut();
+      cy.clickLogOutButton();
       // Sign in using the new password
       cy.clickLoginOnHomePage();
       cy.loginOnlyIntoPortal(userDetails);

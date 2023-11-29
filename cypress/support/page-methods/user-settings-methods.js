@@ -1,6 +1,6 @@
 import { UserSettingLocators } from "../element-locators/user-settings-locators";
 const userSettingLocators = new UserSettingLocators();
-
+// *****************************************************************************
 /**
  * Click the 'Payment' button under 'Profile'
  */
@@ -12,6 +12,7 @@ Cypress.Commands.add("clickPaymentButton", () => {
     .should("be.visible")
     .click();
 });
+// *****************************************************************************
 /**
  * Click the 'Notifications' button under 'Profile'
  */
@@ -23,6 +24,7 @@ Cypress.Commands.add("clickNotificationsButton", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Click the 'Email' button under 'Profile'
  */
@@ -36,6 +38,7 @@ Cypress.Commands.add("clickEmailButton", () => {
     // An additional click is needed as the form doesn't show up
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Click the 'My Orders' button
  */
@@ -49,6 +52,7 @@ Cypress.Commands.add("clickMyOrdersButton", () => {
     // An additional click is needed as the form doesn't show up
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Click the 'Password' button under 'Profile'
  */
@@ -60,6 +64,7 @@ Cypress.Commands.add("clickPasswordButton", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Click the 'Personal Info' button under 'Profile'
  */
@@ -71,6 +76,7 @@ Cypress.Commands.add("clickPersonalInfoButton", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Click the 'Add payment method' button
  */
@@ -82,6 +88,7 @@ Cypress.Commands.add("clickAddPaymentMethodButton", () => {
     .should("be.visible")
     .click({ force: true });
 });
+// *****************************************************************************
 /**
  * Verify 'Card Information' form element appearance
  */
@@ -110,6 +117,7 @@ Cypress.Commands.add("verifyCardInfoFormAppearance", () => {
     .should("exist")
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Verify 'Card Information' form inline errors
  */
@@ -121,6 +129,7 @@ Cypress.Commands.add("verifyCardInfoInlineErrors", () => {
   cy.getInlineError("Expiry is required");
   cy.getInlineError("Security code is required");
 });
+// *****************************************************************************
 /**
  * Verify 'Billing Address' form element appearance
  */
@@ -148,6 +157,7 @@ Cypress.Commands.add("verifyBillingAddressFormAppearance", () => {
   cy.getChakraFormLabel("Postal Code");
   cy.getChakraInputFieldByAttr("id", "address_zip");
 });
+// *****************************************************************************
 /**
  * Verify 'Billing Address' form inline errors
  */
@@ -159,6 +169,7 @@ Cypress.Commands.add("verifyBillingAddressInlineErrors", () => {
   cy.getInlineError("Country is required");
   cy.getInlineError("Postal code is required");
 });
+// *****************************************************************************
 /**
  * Populate 'Billing Address' form
  */
@@ -206,6 +217,7 @@ Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
     userAddress.city
   );
 });
+// *****************************************************************************
 /**
  * Populate 'Card Information' form
  * @param creditCardDetails
@@ -254,7 +266,7 @@ Cypress.Commands.add("populateCardInformationForm", (creditCardDetails) => {
     .find('input[class^="InputElement"]')
     .type(creditCardDetails.cvcNumber);
 });
-
+// *****************************************************************************
 /**
  * iFrame with Stripe
  * @todo to polish this method so that it can be used going forward
@@ -281,6 +293,7 @@ Cypress.Commands.add("getStripeCardField", (selector, attempts = 0) => {
       }
     });
 });
+// *****************************************************************************
 /**
  * Verify that 'Notifications' toggle can be turned on and off
  */
@@ -292,13 +305,14 @@ Cypress.Commands.add("verifyNotificationSelectors", (elementIndex) => {
   cy.verifyChakraSwitchSelectorIsEnabled(elementIndex);
   cy.log("Finished verifyNotificationSelectors()");
 });
+// *****************************************************************************
 /**
  * Turn on disabled notifications and save changes
  */
 Cypress.Commands.add("turnOnDisabledNotifications", () => {
   cy.log("Going to turnOnDisabledNotifications()");
 });
-
+// *****************************************************************************
 /**
  * Toggle chakra-switch-selector
  */
@@ -306,6 +320,7 @@ Cypress.Commands.add("toggleSwitchSelector", (elementIndex) => {
   cy.log("Going to toggleSwitchSelector()");
   cy.getChakraSwitchSelectorByIndex(elementIndex).click({ force: true });
 });
+// *****************************************************************************
 /**
  * Verify all labels on the 'Notifications' page
  * @param elementIndex
@@ -317,15 +332,13 @@ Cypress.Commands.add(
     cy.log("Going to verifyToggleLabelsOnNotificationsPage()");
     cy.log("Verifying the following label text: " + elementLabel);
     cy.getChakraTextLabelByIndex(elementIndex)
-    .should("exist")
+      .should("exist")
       .scrollIntoView({ force: true })
       .should("be.visible")
-    .should(
-      "have.text",
-      elementLabel
-    );
+      .should("have.text", elementLabel);
   }
 );
+// *****************************************************************************
 /**
  * Verify each notification label within a section (without section header)
  * @param elementIndex
@@ -344,6 +357,7 @@ Cypress.Commands.add(
       .should("have.text", elementLabel);
   }
 );
+// *****************************************************************************
 /**
  * Verify 'Notifications' page sections' headers
  */
@@ -360,6 +374,7 @@ Cypress.Commands.add(
       .should("have.text", elementLabel);
   }
 );
+// *****************************************************************************
 /**
  * Verify 'Password' form element appearance
  */
@@ -378,6 +393,7 @@ Cypress.Commands.add("verifyPasswordFormAppearance", () => {
   // Verify password progress bar appearance
   userSettingLocators.getPasswordStrengthProgressBar();
 });
+// *****************************************************************************
 /**
  * Verify 'Password' form inline validation
  */
@@ -392,6 +408,7 @@ Cypress.Commands.add("verifyPasswordFormInlineValidation", () => {
     cy.getChakraInlineValidationError(i, inlineValidationErrors.at(i));
   }
 });
+// *****************************************************************************
 /**
  * Populate 'Old', 'New' and 'Confirm' password field at 'Profile'.
  */
@@ -419,6 +436,7 @@ Cypress.Commands.add(
     );
   }
 );
+// *****************************************************************************
 /**
  * Clear 'Old', 'New' and 'Confirm' password fields
  */
@@ -433,6 +451,7 @@ Cypress.Commands.add("clearOldNewAndConfirmPwdFields", () => {
     cy.clearInputFieldByAttr("placeholder", fieldPlaceholders.at(i));
   }
 });
+// *****************************************************************************
 /**
  * Verify 'Email' form overall appearance
  */
@@ -451,6 +470,7 @@ Cypress.Commands.add("verifyEmailFormAppearance", (emailAddress) => {
   cy.getChakraInputFieldByAttr("value", emailAddress);
   cy.getSaveButton();
 });
+// *****************************************************************************
 /**
  * Verify 'My Showpass' page element appearance
  */
@@ -464,6 +484,7 @@ Cypress.Commands.add("verifyMyShowpassPageAppearance", () => {
     .should("be.visible");
   cy.verifyQrCodeAppearance();
 });
+// *****************************************************************************
 /**
  * Get 'Transfer' button on the event ticket page
  * @param index
@@ -476,6 +497,7 @@ Cypress.Commands.add("getTransferButtonByIndex", (index) => {
     .scrollIntoView()
     .should("be.visible");
 });
+// *****************************************************************************
 /**
  * Method to verify product item details
  * @param productItems
@@ -514,3 +536,4 @@ Cypress.Commands.add("verifyProductItemsDetails", (productItem) => {
   cy.getChakraButtonByText("Back").should("be.visible").click({ force: true });
   cy.wait(500);
 });
+// *****************************************************************************

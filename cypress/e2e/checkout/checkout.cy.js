@@ -574,7 +574,7 @@ describe("Test checkout process by ", () => {
         .click({ force: true });
       // Sign out
       cy.clickUsernameOnTopBar();
-      cy.signOut();
+      cy.clickLogOutButton();
       // Open just created event
       cy.visit(`/${uniqueEventName}/`);
       cy.url().should("contain", uniqueEventName);
@@ -701,7 +701,7 @@ describe("Test checkout process by ", () => {
         .click({ force: true });
       // Sign out
       cy.clickUsernameOnTopBar();
-      cy.signOut();
+      cy.clickLogOutButton();
       // Open just created event
       cy.visit(`/${uniqueEventName}/`);
       cy.url().should("contain", uniqueEventName);

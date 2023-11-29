@@ -85,7 +85,7 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true });
       // Sign out
       cy.clickUsernameOnTopBar();
-      cy.signOut();
+      cy.clickLogOutButton();
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
       cy.url().should("contain", uniqueEventName);
@@ -146,7 +146,7 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true });
       // Sign out
       cy.clickUsernameOnTopBar();
-      cy.signOut();
+      cy.clickLogOutButton();
       var uniqueUserEmail =
         "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
       let userDetails = {

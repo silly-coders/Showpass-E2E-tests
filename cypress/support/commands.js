@@ -758,8 +758,8 @@ Cypress.Commands.add(
 /**
  * Click the 'Log Out' button
  */
-Cypress.Commands.add("signOut", () => {
-  cy.log("Going to signOut()");
+Cypress.Commands.add("clickLogOutButton", () => {
+  cy.log("Going to clickLogOutButton()");
   cy.getDropDownItem("Log Out").click({ force: true });
   homeLocators.searchEventsInputField().should("exist").should("be.visible");
 });

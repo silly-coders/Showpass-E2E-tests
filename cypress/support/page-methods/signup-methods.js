@@ -4,7 +4,7 @@ import { SignupLocators } from "../element-locators/signup-locators";
 const homeLocators = new HomeLocators();
 const loginLocators = new LoginLocators();
 const signupLocators = new SignupLocators();
-
+// *****************************************************************************
 /**
  * Method to verify 'Sign-Up' modal window overall appearance
  */
@@ -47,7 +47,7 @@ Cypress.Commands.add("verifySignupModalWindowAppearance", () => {
   signupLocators.privacyPolicyLink().should("exist").should("be.visible");
   signupLocators.termsOfServiceLink().should("exist").should("be.visible");
 });
-
+// *****************************************************************************
 /**
  * Method to click 'Create Account' on the 'Sign-Up' modal window
  */
@@ -57,10 +57,10 @@ Cypress.Commands.add("clickCreateAccountOnSignUpModalWindow", () => {
     .createAccountButtonOnSignupPage()
     .should("exist")
     .should("be.visible")
-    .click({force: true})
+    .click({ force: true })
     .wait(300);
 });
-
+// *****************************************************************************
 /**
  * Method to register a new user
  */
@@ -110,6 +110,7 @@ Cypress.Commands.add("registerNewUser", (userDetails) => {
     .should("be.oneOf", [201, 204]);
   homeLocators.accountCreatedMessage().should("exist").should("be.visible");
 });
+// *****************************************************************************
 /**
  * Method to register a new user
  * @param userDetails
@@ -163,3 +164,4 @@ Cypress.Commands.add("registerNewUserByProvidingUniqueEmail", (userDetails) => {
   cy.clickCreateAccountOnSignUpModalWindow();
   homeLocators.accountCreatedMessage().should("exist").should("be.visible");
 });
+// *****************************************************************************

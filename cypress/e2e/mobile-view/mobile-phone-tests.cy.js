@@ -29,7 +29,7 @@ describe("Test the mobile phone view by ", () => {
       );
       // Sign out
       cy.clickUsernameOnTopBar();
-      cy.signOut();
+      cy.clickLogOutButton();
       var uniqueUserEmail =
         "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
       let userDetails = {
@@ -139,27 +139,7 @@ describe("Test the mobile phone view by ", () => {
             .should("exist")
             .scrollIntoView({ force: true })
             .should("be.visible");
-          // Open main menu and sign out
-          cy.getChakraButtonByAttribute("aria-label", "Main menu").click({
-            force: true,
-          });
-          // Sign out
-          cy.get(
-            'div[class^="chakra-modal__body"] > div > button[class^="chakra-button"]'
-          )
-            .eq(9)
-            .contains("Log Out")
-            .should("exist")
-            .scrollIntoView({ force: true })
-            .should("be.visible")
-            .click({ force: true });
-          cy.wait(700);
-          cy.get(
-            'div[class^="chakra-modal__body"] > div > button[class^="chakra-button"]'
-          ).should("not.exist");
-          cy.getChakraButtonByAttribute("aria-label", "Main menu").should(
-            "be.visible"
-          );
+          cy.signOutIfLoggedIn();
         });
       });
     }

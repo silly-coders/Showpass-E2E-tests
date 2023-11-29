@@ -50,6 +50,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
   });
   const apiEnvelopBeforeLogin = "**/envelope/*";
   cy.intercept(apiEnvelopBeforeLogin).as("envelopeLoaded");
+  cy.signOutIfLoggedIn();
   cy.clickLoginOnHomePage();
   cy.wait("@envelopeLoaded")
     .its("response.statusCode")
@@ -299,5 +300,45 @@ Cypress.Commands.add("verifyErrorUnderPasswordField", (expectedErrorMsg) => {
     .should("exist")
     .should("be.visible")
     .should("have.text", expectedErrorMsg);
+});
+// *****************************************************************************
+/**
+ * Method to sign out on the Home page
+ */
+Cypress.Commands.add("signOutIfLoggedIn", () => {
+  cy.log("Going to check if signing out is possible");
+  // If 'Main Menu' shows up that means you are logged in, sign out then
+  cy.get("body").then(($body) => {
+    if (
+      $body.find(
+        cy.get('button[class^="chakra-button"][aria-label="Main menu"]')
+      ).length
+    ) {
+      cy.log("Currently logged in. Going to sign out.");
+      // Open main menu and sign out
+      cy.getChakraButtonByAttribute("aria-label", "Main menu")
+        .click({
+          force: true,
+        })
+        .wait(300);
+      // Click the 'Log out' button
+      cy.get(
+        'div[class^="chakra-modal__body"] > div > button[class^="chakra-button"]'
+      )
+        .eq(9)
+        .contains("Log Out")
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("be.visible")
+        .click({ force: true });
+      cy.wait(700);
+      // Ensure the Log In button shows up now
+      cy.get('button[class^="chakra-button"] > span')
+        .contains("Log In")
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("be.visible");
+    }
+  });
 });
 // *****************************************************************************
