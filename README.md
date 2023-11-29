@@ -20,14 +20,14 @@ https://github.com/showpass/Showpass-E2E-tests
 
 Command Line execution examples: (https://docs.cypress.io/guides/guides/command-line#cypress-run-headed)
 
-npx cypress run —headed (all tests with the browser shown)
-npx cypress run --spec "cypress/e2e/user-settings/profile.cy.js"
-npx cypress run --spec "cypress/e2e/api-requests/transactions-api.cy.js"
-npx cypress run --spec "cypress/e2e/events/barcodes.cy.js"
-npx cypress run --env grepTags=e2e
-npx cypress run --env grepTags=smoke
-npx cypress run --env grepTags=events
-npx cypress run --env grepTags=appearance
-npx cypress run --env grepTags=barcodes
-npx cypress run --env grepTags=search-filters
-npx cypress run --env grepTags=membership-group
+1.  npx cypress run —headed (all tests with the browser shown)
+2.  npx cypress run --spec "cypress/e2e/user-settings/profile.cy.js"
+3.  npx cypress run --spec "cypress/e2e/api-requests/transactions-api.cy.js"
+4.  npx cypress run --spec "cypress/e2e/events/barcodes.cy.js"
+5.  npx cypress run --env grepTags=e2e
+6.  npx cypress run --env grepTags=smoke
+7.  npx cypress run --env grepTags=events
+8.  npx cypress run --env grepTags=appearance
+9.  npx cypress run --env grepTags=barcodes
+10. npx cypress run --env grepTags=search-filters
+11. npx cypress run --env grepTags=membership-group
