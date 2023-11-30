@@ -661,6 +661,10 @@ Cypress.Commands.add(
     // Verify if tickets were properly added to cart
     cy.throwErrorIfNoTicketsInCart();
     // *******
+    // Wait for the cart timer to show up
+    cy.get('span[ng-if="cart.timer.info.totalSeconds"]')
+    .should("exist")
+    .should("be.visible");
     // If 'Login' button still shows up in AngularJS log into the app
     cy.get("body").then(($body) => {
       if (
