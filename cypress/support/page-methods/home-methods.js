@@ -406,12 +406,12 @@ Cypress.Commands.add(
       .should("exist")
       .should("contain.text", organizationDetails.venue);
     // Verify Refund Policy label
-    cy.get('div[id="default-modal-body-id"]')
+    cy.get('div[id^="chakra-modal--body"]')
       .find('div[class^="css"] > p')
       .eq(1)
       .should("contain.text", "Refund Policy");
     // Verify Refund Policy value
-    cy.get('div[id="default-modal-body-id"]')
+    cy.get('div[id^="chakra-modal--body"]')
       .find('div[class^="css"] > p')
       .eq(2)
       .should("contain.text", organizationDetails.refundPolicy);
