@@ -418,6 +418,9 @@ describe("Test checkout process by ", () => {
           .should("be.visible")
           .click({ force: true })
           .wait(500);
+          cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+          cy.wait(500);
+          cy.getChakraSpinnerLoadingIndicator().should("not.exist");
       }
       cy.log('Verify that the "There are no items in your cart" text shows up');
       cy.get('div[class^="chakra-modal__body"] > div > p')
