@@ -184,6 +184,19 @@ describe("Test My Orders by ", () => {
         "Payment",
         "**** **** **** 4242",
       ];
+      // Verify 'Download Receipt' button appearance
+      cy.get('button[class^="chakra-button"] > p')
+        .contains("Download Receipt")
+        .should("exist")
+        .should("not.be.disabled")
+        .scrollIntoView({ force: true })
+        .should("be.visible");
+      // There should be 1 button in total
+      cy.get('button[class^="chakra-button"] > p').then((value) => {
+        let totalCount = Cypress.$(value).length;
+        expect(totalCount).to.eq(1);
+      });
+      // Verify order receipt labels - second block
       for (let i = 0; i < orderReceiptLabelsSecondBlock.length; i++) {
         cy.log(
           "Verifying the following text: " + orderReceiptLabelsSecondBlock.at(i)
@@ -283,4 +296,5 @@ describe("Test My Orders by ", () => {
       }
     }
   );
+  // ***************************************************************************
 });
