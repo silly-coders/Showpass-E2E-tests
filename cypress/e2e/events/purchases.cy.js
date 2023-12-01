@@ -5,7 +5,6 @@ describe("Verify purchased tickets by ", () => {
     cy.clearCookies();
     cy.fixture("testdata.json").then(function (testdata) {
       this.testdata = testdata;
-      cy.navigateToHomePage();
     });
   });
 

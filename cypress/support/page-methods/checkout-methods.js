@@ -663,8 +663,8 @@ Cypress.Commands.add(
     // *******
     // Wait for the cart timer to show up
     cy.get('span[ng-if="cart.timer.info.totalSeconds"]')
-    .should("exist")
-    .should("be.visible");
+      .should("exist")
+      .should("be.visible");
     // If 'Login' button still shows up in AngularJS log into the app
     cy.get("body").then(($body) => {
       if (
@@ -792,3 +792,52 @@ Cypress.Commands.add("throwErrorIfNoTicketsInCart", () => {
   });
 });
 // *********************************************************************
+/**
+ * Enter and apply a discount at checkout
+ * @param discountCode
+ */
+Cypress.Commands.add("typeInAndApplyDiscountCode", (discountCode) => {
+  cy.log("Going to typeInAndApplyDiscountCode");
+  // Click 'ENTER PROMO, DISCOUNT OR CREDIT CODE'
+  cy.get('button[ng-click="focusDiscount()"]')
+    .contains("Enter Promo, Discount or Credit Code")
+    .should("exist")
+    .click({ force: true });
+  // Make sure the 'Enter Code' input field shows up
+  cy.get('input[ng-model="discountCheck.code"][focus-me="focusCode"]')
+    .should("exist")
+    .scrollIntoView({ force: true });
+  // Clear the field
+  cy.get('input[ng-model="discountCheck.code"][focus-me="focusCode"]').clear();
+  // Input the discount code
+  cy.get('input[ng-model="discountCheck.code"][focus-me="focusCode"]').type(
+    discountCode
+  );
+  // Ensure the 'Apply Code' button is active and click it
+  cy.get(
+    `button[ng-click="amplitudeEvent.track('Checkout: Apply Discount Code Button')"]`
+  )
+    .should("exist")
+    .should("not.be.disabled")
+    .click({ force: true })
+    .wait(700);
+  // Ensure the 'Apply Code' button disappeared
+  cy.get(
+    `button[ng-click="amplitudeEvent.track('Checkout: Apply Discount Code Button')"]`
+  ).should("not.exist");
+});
+// *********************************************************************
+/**
+ * Ensure the discount application green section shows up
+ */
+Cypress.Commands.add("verifyGreenDiscountAppliedSectionAppearance", () => {
+  cy.log("Going to verifyGreenDiscountAppliedSectionAppearance");
+  cy.get(
+    'div[ng-if="cart.basket.discount && !cart.basket.discounts_applied.length"]'
+  )
+    .should("exist")
+    .scrollIntoView({ force: true });
+  // Ensure the 'Remove discount' button shows uo
+  cy.get('button[class="cart-remove-discount-button"]').should("exist");
+});
+// *****************************************************************************
