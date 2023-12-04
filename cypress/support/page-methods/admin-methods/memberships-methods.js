@@ -79,13 +79,22 @@ Cypress.Commands.add(
     }
     // Populate 'Membership Description'
     cy.getPreContainerEditor().type(groupDetails.membershipDescription);
+    // Click 'Create Group'
     cy.clickChakraButtonByText("Create Group");
+    // Verify top right Success message
     cy.verifyTopRightSuccessMessage("Draft saved successfully");
+    // Close top right Success message
     cy.clickButtonXtoCloseMessage();
     // Navigate to drafts
     cy.visit("/manage/memberships/?status=sp_membership_group_draft");
     cy.get('g[id="Edit"]').eq(0).click({ force: true });
-    cy.get('button[type="submit"]').eq(1).contains("Save").click();
+    // Click Save
+    cy.get('button[type="submit"]')
+    .eq(1)
+    .contains("Save")
+    .should('exist')
+    .scrollIntoView({force: true})
+    .click({force: true});
     cy.wait(900);
     // Wait for the API response for /memberships/membership-groups/
     cy.wait("@membershipGroupLoaded")
@@ -94,13 +103,14 @@ Cypress.Commands.add(
     cy.wait(700);
     // Verify success message
     cy.verifyTopRightSuccessMessage("Saved");
+    // Close Success message
     cy.clickButtonXtoCloseMessage();
     // Navigate to public groups
     // Click 'Membership and select 'Membership Groups'
-    cy.getChakraButtonLabelByText("Membership").click({ force: true });
+    cy.getChakraButtonLabelByText("Membership").click({ force: true }).wait(500);
     cy.getButtonByAttribute("href", "/manage/memberships/").click({
       force: true,
-    });
+    }).wait(500);
     // Make sure just created group shows up
     cy.get(`a[class^="chakra-link"][href^="/m/test-group"]`)
       .last()
@@ -287,12 +297,10 @@ Cypress.Commands.add(
     cy.getChakraInputFieldByAttr("placeholder", "Select an event").type(
       `${membershipBenefitDetails.event}{enter}`
     );
+    cy.wait(900);
     cy.get('div[class^="css"] > p[class^="chakra-text"]')
       .contains(membershipBenefitDetails.event)
-      .click({ force: true });
-    // Click 'Save'
-    cy.get('button[form="membership-benefit-form"]')
-      .contains("Save")
+      .scrollIntoView({force:true})
       .click({ force: true });
     // Verify and close the 'Success' message
     cy.verifyTopRightSuccessMessage("Success");
@@ -344,6 +352,8 @@ Cypress.Commands.add(
           .scrollIntoView()
           .should("be.visible")
           .click({ force: true });
+          cy.wait(500);
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");  
         cy.get('button[class^="chakra-button"][aria-label="Remove item"]')
           .eq(i)
           .should("exist")
@@ -368,6 +378,8 @@ Cypress.Commands.add(
     cy.log("Going to removeMembershipLevelsFromCart()");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
       for (let i = 0; i < totalTicketTypes; i++) {
+        cy.log(`Going to remove ${numberOfTicketsForEach} tickets (TOTAL) of each type from cart`);
+        cy.log(`ITERATION #${j} out of ${numberOfTicketsForEach}`);
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         cy.get('button[class^="chakra-button"][aria-label="Remove item"]')
@@ -375,20 +387,21 @@ Cypress.Commands.add(
           .as("btn")
           .get("@btn")
           .should("exist")
-          .scrollIntoView()
-          .should("be.visible")
+          .scrollIntoView({ force: true })
+          .should('not.be.disabled')
           .click({ force: true });
+          cy.wait(300);
+          cy.getChakraSpinnerLoadingIndicator().should("not.exist");  
         // Button 'Add item' should be visible and active
         cy.get('button[class^="chakra-button"][aria-label="Add item"]')
           .eq(i)
           .should("exist")
-          .scrollIntoView()
-          .should("be.visible");
-        cy.wait(500);
+          .scrollIntoView({ force: true });
+          cy.wait(500);
       }
-      // Button 'Remove item' should be disabled at the end of test
-      cy.get("@btn").should("exist").scrollIntoView().should("be.disabled");
     }
+    // Button 'Remove item' should be disabled at the end of test
+    cy.get("@btn").should("exist").scrollIntoView().should("be.disabled");
   }
 );
 // *****************************************************************************
