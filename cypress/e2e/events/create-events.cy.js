@@ -23,4 +23,5 @@ describe("Create a new event by", () => {
       cy.createNewEventAngular(uniqueEventName, this.testdata.testEvent1);
     }
   );
+  // ***************************************************************************
 });

@@ -20,4 +20,5 @@ describe("Testing login inputs by ", () => {
       cy.verifySuccessfulLoginApiResponse(this.testdata.userDetails);
     }
   );
+  // ***************************************************************************
 });

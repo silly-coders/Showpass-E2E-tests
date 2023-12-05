@@ -14,7 +14,7 @@ describe("Test popular cities options by ", () => {
     () => {
       cy.navigateToHomePage();
       // TEST THE FOLLOWING CITIES
-      let popularCities = ["Calgary", "Vancouver", "Toronto"];
+      let popularCities = ["Calgary", "Vancouver", "Toronto", "Edmonton"];
       for (let city = 0; city < popularCities.length; city++) {
         let cityLowerCase = popularCities.at(city).toLowerCase();
         cy.getSwiperSlideByAttr("href", `/discover/${cityLowerCase}/`).click({
@@ -217,4 +217,5 @@ describe("Test popular cities options by ", () => {
       }
     }
   );
+  // ***************************************************************************
 });

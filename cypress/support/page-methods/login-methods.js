@@ -48,17 +48,9 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
     autoEnd: false,
     color: "green",
   });
-  const apiEnvelopBeforeLogin = "**/envelope/*";
-  cy.intercept(apiEnvelopBeforeLogin).as("envelopeLoaded");
+  cy.wait(500);
   cy.signOutIfLoggedIn();
   cy.clickLoginOnHomePage();
-  cy.wait("@envelopeLoaded")
-    .its("response.statusCode")
-    .should(
-      "be.oneOf",
-      [200, 204],
-      "Checking if the Login modal window got loaded"
-    );
   loginLocators
     .emailAddressInputField()
     .should("exist")

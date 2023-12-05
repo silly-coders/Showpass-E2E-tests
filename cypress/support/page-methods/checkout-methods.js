@@ -85,6 +85,8 @@ Cypress.Commands.add(
     cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
       .should("be.visible")
       .click({ force: true });
+    cy.wait(500);
+    cy.pressEnterToSubmitPaymentIfPayButtonIsStillThere();
     cy.wait(5000);
     cy.log("Ensure the data loading indicator disappears");
     cy.get(
@@ -291,6 +293,8 @@ Cypress.Commands.add(
       .should("be.visible")
       .click({ force: true });
     cy.wait(3000);
+    cy.pressEnterToSubmitPaymentIfPayButtonIsStillThere();
+    cy.wait(500);
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]',
       { timeout: 9000 }
@@ -606,12 +610,9 @@ Cypress.Commands.add(
       .should("exist")
       .scrollIntoView({ force: true })
       .wait(700);
-    cy.get('button[ng-click="setBillingAndShippingFields()"][type="submit"]')
-      .should("be.visible")
-      .click({ force: true })
-      .wait(900);
-    // If the 'Pay $XX.XX CAD' button still shows up click it again
+    // If the 'Pay $XX.XX CAD' button still shows up press Enter to submit payment
     cy.clickPayButtonToSubmitPaymentIfAvailable();
+    cy.pressEnterToSubmitPaymentIfPayButtonIsStillThere();
     // Verify data loading indicator disappearance
     cy.wait(3000);
     // Ensure the data loading indicator disappears
@@ -648,7 +649,39 @@ Cypress.Commands.add("clickPayButtonToSubmitPaymentIfAvailable", () => {
       cy.get(
         'button[ng-click="setBillingAndShippingFields()"][type="submit"]'
       ).as("payButton");
-      cy.get("@payButton").should("be.visible").click({ force: true });
+      cy.get("@payButton")
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should("be.visible")
+        .click({ force: true });
+    }
+  });
+});
+// *********************************************************************
+/**
+ * Method to press Enter to submit payment ('Pay $XX.XX CAD' button) if it's available
+ */
+Cypress.Commands.add("pressEnterToSubmitPaymentIfPayButtonIsStillThere", () => {
+  // If the 'Pay $XX.XX CAD' button still shows up click it again
+  cy.log("Going to pressEnterToSubmitPaymentIfPayButtonIsStillThere()");
+  cy.wait(500);
+  cy.get("body").then(($body) => {
+    if (
+      $body.find(
+        'button[ng-click="setBillingAndShippingFields()"][type="submit"] > span > span[ng-show="!cart.isFree() && !isWaitlistBasket"]'
+      ).length
+    ) {
+      cy.log(
+        "'Pay $XX.XX CAD' button still shows up. Going to press Enter to submit payment again."
+      );
+      // Press Enter to submit payment
+      cy.get(
+        'button[ng-click="setBillingAndShippingFields()"][type="submit"]'
+      ).as("payButton");
+      cy.get("@payButton")
+        .should("exist");
+      cy.get("@payButton").type("{enter}");
+      cy.log("Pressed Enter to submit payment");
     }
   });
 });

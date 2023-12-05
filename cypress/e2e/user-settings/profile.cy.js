@@ -8,7 +8,7 @@ describe("Verify user's profile by ", () => {
       cy.navigateToHomePage();
     });
   });
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "checking the 'Card Information' form appearance-TA-16",
     { tags: ["e2e", "appearance"] },
@@ -23,7 +23,7 @@ describe("Verify user's profile by ", () => {
       cy.clickCancelButton();
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "checking the 'Billing Address' form appearance-TA-16",
     { tags: ["e2e", "appearance"] },
@@ -38,7 +38,7 @@ describe("Verify user's profile by ", () => {
       cy.clickCancelButton();
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "verifying that a 'Billing Address' form can be populated-TA-21",
     { tags: ["e2e", "smoke"] },
@@ -52,7 +52,7 @@ describe("Verify user's profile by ", () => {
       cy.clickCancelButton();
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "adding and deleting a new payment method-TA-17-18",
     { tags: ["e2e", "smoke"] },
@@ -73,7 +73,7 @@ describe("Verify user's profile by ", () => {
       cy.clickButtonXtoCloseMessage();
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "verifying that notifications can be turned on and off-TA-22",
     { tags: ["e2e", "smoke"] },
@@ -90,7 +90,7 @@ describe("Verify user's profile by ", () => {
       cy.clickSaveButton();
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "verifying selector labels on the 'Notifications' page-TA-23",
     { tags: ["e2e", "smoke"] },
@@ -135,7 +135,7 @@ describe("Verify user's profile by ", () => {
       }
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "verifying that notifications toggles disappear once 'All Notifications' selector is off-TA-24",
     { tags: ["e2e", "smoke"] },
@@ -164,7 +164,7 @@ describe("Verify user's profile by ", () => {
       }
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "verifying that updated notifications can be saved-TA-25",
     { tags: ["e2e", "smoke"] },
@@ -215,7 +215,7 @@ describe("Verify user's profile by ", () => {
       cy.verifyChakraSwitchSelectorIsEnabled(0);
     }
   );
-  //---------------------------------------------------------------------
+  // ***************************************************************************
   it(
     "verifying 'Password' form appearance-TA-27",
     { tags: ["e2e", "appearance"] },
@@ -399,4 +399,5 @@ describe("Verify user's profile by ", () => {
       cy.clickButtonXtoCloseMessage();
     }
   );
+  // ***************************************************************************
 });

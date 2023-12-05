@@ -16,4 +16,5 @@ describe("Testing Login modal window by ", () => {
       cy.verifyLoginModalWindowAppearance();
     }
   );
+  // ***************************************************************************
 });

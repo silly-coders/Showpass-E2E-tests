@@ -81,6 +81,7 @@ Cypress.Commands.add(
     );
   }
 );
+// *****************************************************************************
 /**
  * Method to assert order item groups
  * @param groupsInTotal
@@ -128,6 +129,7 @@ Cypress.Commands.add(
     }
   }
 );
+// *****************************************************************************
 /**
  * Method to assert order billing address
  * @param responseBody
@@ -158,6 +160,7 @@ Cypress.Commands.add(
     );
   }
 );
+// *****************************************************************************
 /**
  * Method to assert discrete items within the order transaction payload
  * @param responseBody
@@ -281,7 +284,7 @@ Cypress.Commands.add("verifyOrder987Payload", (expectedPayload) => {
     }
   });
 });
-// **************************************************************
+// *****************************************************************************
 /**
  * Method to verify purchased ticket items payload
  * Transaction ID: 1e-d67b-428a-9748-d638af16e987
@@ -311,7 +314,7 @@ Cypress.Commands.add(
     }
   }
 );
-// **************************************************************
+// *****************************************************************************
 /**
  * Method to verify invoice items
  * Transaction ID: 1e-d67b-428a-9748-d638af16e987
@@ -343,7 +346,7 @@ Cypress.Commands.add(
     }
   }
 );
-// ***************************************************************************************************************************
+// *****************************************************************************
 // Transaction: order 31-0341-465e-a1a7-910944b23fff
 /**
  * Method to verify the following transaction 31-0341-465e-a1a7-910944b23fff
@@ -380,7 +383,7 @@ Cypress.Commands.add("verifyOrder23fffPayload", (expectedPayload) => {
     }
   });
 });
-// **************************************************************
+// *****************************************************************************
 /**
  * Method to verify purchased ticket items payload
  * Transaction: order 31-0341-465e-a1a7-910944b23fff
@@ -419,7 +422,7 @@ Cypress.Commands.add(
     }
   }
 );
-// **************************************************************
+// *****************************************************************************
 /**
  * Method to verify invoice items
  * Transaction: order 31-0341-465e-a1a7-910944b23fff
@@ -461,4 +464,4 @@ Cypress.Commands.add(
     }
   }
 );
-// **************************************************************
+// *****************************************************************************
