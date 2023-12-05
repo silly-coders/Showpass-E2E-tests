@@ -19,7 +19,7 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
           let totalCount = Cypress.$(value).length;
           cy.log(`Found in total ${totalCount} "Delete group" buttons.`);
           for (let i = 0; i < totalCount; i++) {
-            cy.log('Going to delete group #: ' + i+1);
+            cy.log("Going to delete group #: " + i + 1);
             cy.get(
               'button[class^="chakra-button"][aria-label="Delete membership level"]'
             )
@@ -28,7 +28,9 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
               .click({ force: true });
             cy.wait(500);
             // Confirm deletion on the 'Delete Membership Group' confirmation
-            cy.log('Confirm deletion on the "Delete Membership Group" confirmation dialog box');
+            cy.log(
+              'Confirm deletion on the "Delete Membership Group" confirmation dialog box'
+            );
             cy.getChakraModalWindow();
             // Verify modal header text: "Delete Membership Group"
             cy.get('header[id^="chakra-modal--header"]').should(
@@ -90,11 +92,11 @@ Cypress.Commands.add(
     cy.get('g[id="Edit"]').eq(0).click({ force: true });
     // Click Save
     cy.get('button[type="submit"]')
-    .eq(1)
-    .contains("Save")
-    .should('exist')
-    .scrollIntoView({force: true})
-    .click({force: true});
+      .eq(1)
+      .contains("Save")
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .click({ force: true });
     cy.wait(900);
     // Wait for the API response for /memberships/membership-groups/
     cy.wait("@membershipGroupLoaded")
@@ -107,10 +109,14 @@ Cypress.Commands.add(
     cy.clickButtonXtoCloseMessage();
     // Navigate to public groups
     // Click 'Membership and select 'Membership Groups'
-    cy.getChakraButtonLabelByText("Membership").click({ force: true }).wait(500);
-    cy.getButtonByAttribute("href", "/manage/memberships/").click({
-      force: true,
-    }).wait(500);
+    cy.getChakraButtonLabelByText("Membership")
+      .click({ force: true })
+      .wait(500);
+    cy.getButtonByAttribute("href", "/manage/memberships/")
+      .click({
+        force: true,
+      })
+      .wait(500);
     // Make sure just created group shows up
     cy.get(`a[class^="chakra-link"][href^="/m/test-group"]`)
       .last()
@@ -300,7 +306,7 @@ Cypress.Commands.add(
     cy.wait(900);
     cy.get('div[class^="css"] > p[class^="chakra-text"]')
       .contains(membershipBenefitDetails.event)
-      .scrollIntoView({force:true})
+      .scrollIntoView({ force: true })
       .click({ force: true });
     // Verify and close the 'Success' message
     cy.verifyTopRightSuccessMessage("Success");
@@ -341,7 +347,7 @@ Cypress.Commands.add(
   (totalTicketTypes, numberOfTicketsForEach) => {
     cy.log("Going to addMembershipLevelsToCart()");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
-      for (let i = 0; i < totalTicketTypes*2; i+=2) {
+      for (let i = 0; i < totalTicketTypes * 2; i += 2) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         cy.get('button[class^="chakra-button"][aria-label="Add item"]')
@@ -352,8 +358,8 @@ Cypress.Commands.add(
           .scrollIntoView()
           .should("be.visible")
           .click({ force: true });
-          cy.wait(500);
-        cy.getChakraSpinnerLoadingIndicator().should("not.exist");  
+        cy.wait(500);
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         cy.get('button[class^="chakra-button"][aria-label="Remove item"]')
           .eq(i)
           .should("exist")
@@ -378,7 +384,9 @@ Cypress.Commands.add(
     cy.log("Going to removeMembershipLevelsFromCart()");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
       for (let i = 0; i < totalTicketTypes; i++) {
-        cy.log(`Going to remove ${numberOfTicketsForEach} tickets (TOTAL) of each type from cart`);
+        cy.log(
+          `Going to remove ${numberOfTicketsForEach} tickets (TOTAL) of each type from cart`
+        );
         cy.log(`ITERATION #${j} out of ${numberOfTicketsForEach}`);
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
@@ -388,16 +396,16 @@ Cypress.Commands.add(
           .get("@btn")
           .should("exist")
           .scrollIntoView({ force: true })
-          .should('not.be.disabled')
+          .should("not.be.disabled")
           .click({ force: true });
-          cy.wait(300);
-          cy.getChakraSpinnerLoadingIndicator().should("not.exist");  
+        cy.wait(300);
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         // Button 'Add item' should be visible and active
         cy.get('button[class^="chakra-button"][aria-label="Add item"]')
           .eq(i)
           .should("exist")
           .scrollIntoView({ force: true });
-          cy.wait(500);
+        cy.wait(500);
       }
     }
     // Button 'Remove item' should be disabled at the end of test
@@ -413,25 +421,23 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "deleteOldAndCreateNewMembershipGroup",
   (uniqueMembershipName, testGroupDetails) => {
-  cy.log("Going to deleteOldAndCreateNewMembershipGroup()");  
-  // Navigate to the React version of the 'Memberships' page
-  cy.visit("/manage/memberships");
-  // Delete all existing published public groups
-  cy.deleteAllMembershipsGroupsIfTheyExist();
-  // Delete all membership drafts as well
-  cy.visit("/manage/memberships/?status=sp_membership_group_draft");
-  cy.deleteAllMembershipsGroupsIfTheyExist();
-  // Click the 'Membership' menu item on the left hand menu
-  cy.getChakraButtonLabelByText("Membership").click({ force: true });
-  // Select 'Create Group'
-  cy.getButtonByAttribute("href", "/manage/memberships/create/").click({
-    force: true,
-  });
-  cy.url().should("include", `/manage/memberships/create/`);
-  // Populate the 'Membership Group Info' form
-  cy.populateMembershipGroupInfoForm(
-    uniqueMembershipName,
-    testGroupDetails
-  );
-  });  
-  // *****************************************************************************
+    cy.log("Going to deleteOldAndCreateNewMembershipGroup()");
+    // Navigate to the React version of the 'Memberships' page
+    cy.visit("/manage/memberships");
+    // Delete all existing published public groups
+    cy.deleteAllMembershipsGroupsIfTheyExist();
+    // Delete all membership drafts as well
+    cy.visit("/manage/memberships/?status=sp_membership_group_draft");
+    cy.deleteAllMembershipsGroupsIfTheyExist();
+    // Click the 'Membership' menu item on the left hand menu
+    cy.getChakraButtonLabelByText("Membership").click({ force: true });
+    // Select 'Create Group'
+    cy.getButtonByAttribute("href", "/manage/memberships/create/").click({
+      force: true,
+    });
+    cy.url().should("include", `/manage/memberships/create/`);
+    // Populate the 'Membership Group Info' form
+    cy.populateMembershipGroupInfoForm(uniqueMembershipName, testGroupDetails);
+  }
+);
+// *****************************************************************************

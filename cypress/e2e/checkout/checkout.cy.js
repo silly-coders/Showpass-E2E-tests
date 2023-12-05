@@ -69,6 +69,9 @@ describe("Test checkout process by ", () => {
         .click({ force: true })
         .wait(700)
         .click({ force: true });
+      // Check if you are still on the 'More Events' page
+      // and if yes then navigate to the 'Review page
+      cy.navigateToReviewPageIfStillOnMoreEventsPage();
       // *** Review page
       // Verify the 'Review' header
       cy.get('span[class^="md-title strong"]')
@@ -162,6 +165,9 @@ describe("Test checkout process by ", () => {
         .contains("Review")
         .should("exist")
         .click({ force: true });
+      // Check if you are still on the 'More Events' page
+      // and if yes then navigate to the 'Review page
+      cy.navigateToReviewPageIfStillOnMoreEventsPage();
       // *** Review page
       // Verify the 'Review' header
       cy.get('span[class^="md-title strong"]')
@@ -418,9 +424,9 @@ describe("Test checkout process by ", () => {
           .should("be.visible")
           .click({ force: true })
           .wait(500);
-          cy.getChakraSpinnerLoadingIndicator().should("not.exist");
-          cy.wait(500);
-          cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+        cy.wait(500);
+        cy.getChakraSpinnerLoadingIndicator().should("not.exist");
       }
       cy.log('Verify that the "There are no items in your cart" text shows up');
       cy.get('div[class^="chakra-modal__body"] > div > p')
@@ -470,6 +476,9 @@ describe("Test checkout process by ", () => {
         .contains("Review")
         .should("exist")
         .click({ force: true });
+      // Check if you are still on the 'More Events' page
+      // and if yes then navigate to the 'Review page
+      cy.navigateToReviewPageIfStillOnMoreEventsPage();
       // *** Review page
       // Verify the 'Review' header
       cy.get('span[class^="md-title strong"]')
@@ -645,6 +654,9 @@ describe("Test checkout process by ", () => {
         .click({ force: true })
         .wait(700)
         .click({ force: true });
+      // Check if you are still on the 'More Events' page
+      // and if yes then navigate to the 'Review page
+      cy.navigateToReviewPageIfStillOnMoreEventsPage();
       // *** Review page
       // Verify the 'Review' header
       cy.get('span[class^="md-title strong"]')

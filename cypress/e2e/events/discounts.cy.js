@@ -44,6 +44,9 @@ describe("Verify discounts by ", () => {
         .click({ force: true })
         .wait(700)
         .click({ force: true });
+      // Check if you are still on the 'More Events' page
+      // and if yes then navigate to the 'Review page
+      cy.navigateToReviewPageIfStillOnMoreEventsPage();
       // Apply the 'GIVEMEDISCOUNT-301120231600' discount
       cy.typeInAndApplyDiscountCode(discountCode);
       // Verify that the green section with an applied discount appears
