@@ -51,6 +51,8 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
   cy.wait(500);
   cy.signOutIfLoggedIn();
   cy.clickLoginOnHomePage();
+  cy.wait(700);
+  cy.url().should('contain', '/accounts/login/');
   loginLocators
     .emailAddressInputField()
     .should("exist")
@@ -131,6 +133,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         autoEnd: false,
         color: "green",
       });
+      cy.url().should('contain', '/accounts/login/');
       loginLocators
         .emailAddressInputField()
         .should("exist")
@@ -204,7 +207,8 @@ Cypress.Commands.add("loginOnlyIntoPortal", (userObject) => {
     autoEnd: false,
     color: "green",
   });
-  cy.wait(500);
+  cy.wait(700);
+  cy.url().should('contain', '/accounts/login/');
   loginLocators
     .emailAddressInputField()
     .should("exist")
