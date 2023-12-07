@@ -532,4 +532,117 @@ describe("Verify purchased tickets by ", () => {
     }
   );
   // ***************************************************************************
+  it(
+    "ensuring that tickets in staging with a SINGLE barcode contain all event data-TA-121",
+    { tags: ["e2e", "barcodes", "orders", "smoke", "checkout"] },
+    function () {
+      cy.navigateToHomePage();
+      let uniqueEventName = "verify-payment-event-1697684780/";
+      // Open the event
+      cy.visit(`/${uniqueEventName}/`);
+      cy.url().should("contain", uniqueEventName);
+      // Click 'Buy tickets'
+      cy.chakraParagraphButtonByText("BUY TICKETS")
+        .eq(0)
+        .click({ force: true });
+      // Add tickets to cart
+      cy.log("Add 1 ticket from each ticket type (2 ticket types in total)");
+      cy.addTicketsToCart(2, 1);
+      // Click 'Checkout' button
+      cy.clickChakraButtonByText("CHECKOUT");
+      // NOTE: !!! There is a limit on how many credit card transactions a user can make
+      // As such we will be using a new unique user each time we purchase a tiket
+      var uniqueUserEmail =
+        "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+      let userDetails = {
+        userEmail: uniqueUserEmail,
+        userPassword: "!@Newuser2023",
+        userFirstName: "User",
+        userLastName: "ForTesting",
+        phoneNumber: "8883331155",
+        username: "User ForTesting",
+      };
+      // Complete order as a guest
+      cy.completeOrderAsGuestOnAngular(
+        userDetails,
+        this.testdata.visaDebitForTesting
+      );
+      // Save the staging-order href value in cypress/fixtures/dynamic-values.json for later
+      cy.get(
+        'a[class^="md-button md-raised md-primary"][ng-href*="/account/my-orders/invoice-staging/"]'
+      )
+        .invoke("attr", "ng-href")
+        .then((href) => {
+          cy.log(`Going to save the URL in "dynamic-values.json": [${href}]`);
+          // Save href value in the JSON file
+          cy.writeFile("cypress/fixtures/dynamic-values.json", {
+            stagingOrderHref: href,
+          });
+        });
+      // Remove the 'target' attribute from the 'Add to wallet' button to open URL in the same tab and then click the button
+      cy.get(
+        'a[class^="md-button md-raised md-primary"][ng-href*="/account/my-orders/invoice-staging/"]'
+      )
+        .should("exist")
+        .invoke("removeAttr", "target")
+        .click({ force: true })
+        .wait(900);
+      // Open order URL taken from cypress/fixtures/dynamic-values.json
+      cy.readFile("cypress/fixtures/dynamic-values.json").then((value) => {
+        cy.log(`Going to open the following order: ${value.stagingOrderHref}`);
+        cy.visit(value.stagingOrderHref).wait(900);
+        cy.visit(value.stagingOrderHref).wait(900);
+        cy.url().should("contain", "/account/my-orders/");
+      });
+      // Save the order transaction ID in cypress/fixtures/dynamic-values.json for later
+      // Trim the full text value by keeping only the ID itself
+      cy.get('div[class^="css"] > h1[class^="css"]')
+        .eq(0)
+        .as("orderPageHeader");
+      cy.get("@orderPageHeader")
+        .should("exist")
+        .then(($value) => {
+          const textValue = $value.text();
+          // Keep the ID only
+          let stagingOrderId = textValue.substring(textValue.indexOf(" ") + 1);
+          cy.log(`Current Order transaction ID is: ${stagingOrderId}`);
+          cy.url().should("contain", `/account/my-orders/${stagingOrderId}`);
+          // Save Order transaction ID in the JSON file under fixtures
+          cy.writeFile("cypress/fixtures/dynamic-values.json", {
+            stagingOrderId: stagingOrderId,
+          });
+        });
+      // *** Ticket details validation
+      // Verify the main grey section with the barcode and other event details
+      let eventDetails = [
+        "Name on Ticket",
+        "User ForTesting",
+        "Barcode",
+        "Items",
+        "Regular admission",
+        "verify-payment-event-1697684780",
+        "Starts",
+        "19th Oct, 2023 | 9:00 PM MDT",
+        "Ends",
+        "15th Oct, 2035 | 10:00 PM MDT",
+        "VIP",
+      ];
+      for (let i = 0; i < eventDetails.length; i++) {
+        cy.log(`Going to verify the following text: ${eventDetails.at(i)}`);
+        cy.get('div[data-testid="invoice-barcode"]')
+          .find('div[class^="css"] > p[class^="chakra-text"]')
+          .contains(eventDetails.at(i))
+          .should("exist");
+      }
+      // Verify the barcode presence
+      cy.get('div[class^="css"] > canvas[aria-label="qr code icon"]').should(
+        "exist"
+      );
+      cy.get('div[data-testid="invoice-barcode"] > div')
+        .eq(1)
+        .find('span[status="info"]')
+        .contains("Order Barcode");
+    }
+  );
+  // ***************************************************************************
 });
