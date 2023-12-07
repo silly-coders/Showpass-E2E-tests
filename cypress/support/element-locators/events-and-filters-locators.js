@@ -29,7 +29,6 @@ export class EventsAndFiltersLocators {
       .get('button[class^="chakra-button"][aria-label="Remove item"]')
       .eq(buttonIndex)
       .should("exist")
-      .scrollIntoView({ force: true })
       .should("not.be.disabled");
   }
   /**
@@ -51,7 +50,6 @@ export class EventsAndFiltersLocators {
       .as("btn")
       .get("@btn")
       .should("exist")
-      .scrollIntoView({ force: true })
       .should("not.be.disabled");
   }
   /**

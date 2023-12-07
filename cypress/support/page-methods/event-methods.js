@@ -671,7 +671,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "createFreeAdmissionEventAngular",
   (uniqueEventName, eventDetails) => {
-    cy.log("Going to createNewEventAngular");
+    cy.log("Going to createFreeAdmissionEventAngular");
     // Intercept API request
     const eventsApiRequest = "**/events/*";
     const inventoryApiRequest = "**/stats/recurring-event-inventory/";
@@ -819,6 +819,41 @@ Cypress.Commands.add(
     cy.getChakraSpinnerLoadingIndicator().should("not.exist");
     cy.wait(800);
     cy.getChakraSpinnerLoadingIndicator().should("not.exist");
+  }
+);
+// **************************************************************************
+/**
+ * Method to replenishing event ticket stock
+ * @param userDetails
+ * @param eventName
+ */
+Cypress.Commands.add(
+  "replenishEventTicketStock",
+  (userDetails, eventName) => {
+    cy.log(`Going to replenishEventTicketStock() for event: ${eventName}`);
+    cy.navigateToHomePage();
+    cy.logIntoPortal(userDetails);
+    // Do not change event or event name as the tickets get added to this event for further testing
+    cy.visit(`/dashboard/events/${eventName}/manage/#/edit`);
+    cy.wait(3000);
+    // Add more tickets to the first ticket type
+    cy.get('input[name="ticketTypeInventory0"]')
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .should("be.visible")
+      .clear({ force: true })
+      .type(1500000);
+    // Add more tickets to the first ticket type
+    cy.get('input[name="ticketTypeInventory1"]')
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .should("be.visible")
+      .clear({ force: true })
+      .type(150000);
+    // Click Save
+    cy.get('button[ng-click="saveEvent()"]').as("saveButton");
+    cy.get("@saveButton").should("exist").click({ force: true });
+    cy.wait(1000);
   }
 );
 // **************************************************************************

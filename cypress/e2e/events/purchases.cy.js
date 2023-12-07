@@ -370,34 +370,165 @@ describe("Verify purchased tickets by ", () => {
   );
   // ***************************************************************************
   it(
-    "replenishing event ticket stock (purchases.cy.js)",
+    "replenishing event ticket stock for TA-90 (purchases.cy.js)",
     { tags: ["e2e", "barcodes", "orders", "smoke", "checkout"] },
     function () {
       cy.log("Going to replenish the event ticket stock (purchases.cy.js)");
+      cy.replenishEventTicketStock(
+        this.testdata.userForSingleBarcodeTesting,
+        "verify-payment-event-1697684780"
+      );
+    }
+  );
+  // ***************************************************************************
+  it(
+    "ensuring that tickets in staging with multiple barcodes contain all crucial event data-TA-120",
+    { tags: ["e2e", "barcodes", "orders", "smoke", "checkout"] },
+    function () {
       cy.navigateToHomePage();
-      cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
-      // Do not change event or event name as the tickets get added to this event for further testing
-      let uniqueEventName = "verify-payment-event-1697684780";
-      cy.visit(`/dashboard/events/${uniqueEventName}/manage/#/edit`);
-      cy.wait(3000);
-      // Add more tickets to the first ticket type
-      cy.get('input[name="ticketTypeInventory0"]')
+      let uniqueEventName = "automation-event-1701885025";
+      // Open the event
+      cy.visit(`/s/events/all/?q=${uniqueEventName}`);
+      cy.url().should("contain", uniqueEventName);
+      // Click on the event card to open the event
+      cy.getChakraSkeletonItem()
+        .contains(uniqueEventName)
+        .click({ force: true });
+      cy.url().should("contain", uniqueEventName);
+      // Click 'Buy tickets'
+      cy.chakraParagraphButtonByText("BUY TICKETS")
+        .eq(0)
+        .click({ force: true });
+      // Add tickets to cart
+      cy.log("Add 1 ticket from each ticket type (2 ticket types in total)");
+      cy.addTicketsToCart(2, 1);
+      // Click 'Checkout' button
+      cy.clickChakraButtonByText("CHECKOUT");
+      // NOTE: !!! There is a limit on how many credit card transactions a user can make
+      // As such we will be using a new unique user each time we purchase a tiket
+      var uniqueUserEmail =
+        "qa+" + Math.floor(Date.now() / 1000) + "@showpass.com";
+      let userDetails = {
+        userEmail: uniqueUserEmail,
+        userPassword: "!@Newuser2023",
+        userFirstName: "User",
+        userLastName: "ForTesting",
+        phoneNumber: "8883331155",
+        username: "User ForTesting",
+      };
+      // Complete order as a guest
+      cy.completeOrderAsGuestOnAngular(
+        userDetails,
+        this.testdata.visaDebitForTesting
+      );
+      // Save the staging-order href value in cypress/fixtures/dynamic-values.json for later
+      cy.get(
+        'a[class^="md-button md-raised md-primary"][ng-href*="/account/my-orders/invoice-staging/"]'
+      )
+        .invoke("attr", "ng-href")
+        .then((href) => {
+          cy.log(`Going to save the URL in "dynamic-values.json": [${href}]`);
+          // Save href value in the JSON file
+          cy.writeFile("cypress/fixtures/dynamic-values.json", {
+            stagingOrderHref: href,
+          });
+        });
+      // Remove the 'target' attribute from the 'Add to wallet' button to open URL in the same tab and then click the button
+      cy.get(
+        'a[class^="md-button md-raised md-primary"][ng-href*="/account/my-orders/invoice-staging/"]'
+      )
         .should("exist")
-        .scrollIntoView({ force: true })
-        .should("be.visible")
-        .clear({ force: true })
-        .type(1500000);
-      // Add more tickets to the first ticket type
-      cy.get('input[name="ticketTypeInventory1"]')
+        .invoke("removeAttr", "target")
+        .click({ force: true })
+        .wait(900);
+      // Open order URL taken from cypress/fixtures/dynamic-values.json
+      cy.readFile("cypress/fixtures/dynamic-values.json").then((value) => {
+        cy.log(`Going to open the following order: ${value.stagingOrderHref}`);
+        cy.visit(value.stagingOrderHref).wait(900);
+        cy.visit(value.stagingOrderHref).wait(900);
+        cy.url().should("contain", "/account/my-orders/");
+      });
+      // Save the order transaction ID in cypress/fixtures/dynamic-values.json for later
+      // Trim the full text value by keeping only the ID itself
+      cy.get('div[class^="css"] > h1[class^="css"]')
+        .eq(0)
+        .as("orderPageHeader");
+      cy.get("@orderPageHeader")
         .should("exist")
-        .scrollIntoView({ force: true })
-        .should("be.visible")
-        .clear({ force: true })
-        .type(150000);
-      // Click Save
-      cy.get('button[ng-click="saveEvent()"]').as("saveButton");
-      cy.get("@saveButton").should("exist").click({ force: true });
-      cy.wait(1000);
+        .then(($value) => {
+          const textValue = $value.text();
+          // Keep the ID only
+          let stagingOrderId = textValue.substring(textValue.indexOf(" ") + 1);
+          cy.log(`Current Order transaction ID is: ${stagingOrderId}`);
+          cy.url().should("contain", `/account/my-orders/${stagingOrderId}`);
+          // Save Order transaction ID in the JSON file under fixtures
+          cy.writeFile("cypress/fixtures/dynamic-values.json", {
+            stagingOrderId: stagingOrderId,
+          });
+        });
+      // *** Ticket details validation
+      // Verify the following elements existance
+      let elementlocators = {
+        ticketheader: 'div[data-testid="invoice-header"] > p',
+        barcodeQrCode: 'div[data-testid^="ticket-barcode"]',
+        nameOnTicket: 'p[data-testid="name-on-ticket"]',
+        barcodeIdText: 'p[data-testid="barcode-text"]',
+        ticketCategory: 'p[data-testid="ticket-type-name"]',
+      };
+      for (let i = 0; i < Object.keys(elementlocators).length; i++) {
+        cy.log(
+          `Going to verify this element now: ${Object.keys(elementlocators).at(
+            i
+          )}`
+        );
+        cy.log(
+          `FOUND IN TOTAL ${
+            Object.keys(elementlocators).length
+          } elements with locator: ${Object.values(elementlocators).at(i)}`
+        );
+        cy.get(Object.values(elementlocators).at(i))
+          .should("exist")
+          .should("have.lengthOf", 2);
+        cy.log(
+          "Key: " +
+            Object.keys(elementlocators).at(i) +
+            ", Value: " +
+            Object.values(elementlocators).at(i)
+        );
+      }
+      for (let j = 0; j < 2; j++) {
+        // Verify header on all tickets
+        cy.get(Object.values(elementlocators).at(0))
+          .eq(j)
+          .should("exist")
+          .should("contain.text", uniqueEventName.toLowerCase());
+        // Verify name on all tickets
+        cy.get(Object.values(elementlocators).at(2))
+          .eq(j)
+          .should("exist")
+          .should("contain.text", userDetails.username);
+      }
+      // Verify all ticket categories
+      cy.get(Object.values(elementlocators).at(4))
+        .should("exist")
+        .should("contain.text", "VIP");
+      cy.get(Object.values(elementlocators).at(4))
+        .should("exist")
+        .should("contain.text", "Regular admission");
+    }
+  );
+  // ***************************************************************************
+  it(
+    "replenishing event ticket stock for TA-120 (multiple barcodes in staging)",
+    { tags: ["e2e", "barcodes", "orders", "smoke", "checkout"] },
+    function () {
+      cy.log(
+        "Going to replenish the 'automation-event-1701885025' event ticket stock (purchases.cy.js)"
+      );
+      cy.replenishEventTicketStock(
+        this.testdata.regularUserForOrganization5,
+        "automation-event-1701885025"
+      );
     }
   );
   // ***************************************************************************

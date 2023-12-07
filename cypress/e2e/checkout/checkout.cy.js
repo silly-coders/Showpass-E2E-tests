@@ -391,7 +391,7 @@ describe("Test checkout process by ", () => {
       cy.chakraParagraphButtonByText("BUY TICKETS")
         .eq(0)
         .click({ force: true });
-      cy.log("Add 3 tickets from each ticket type (2 ticket types in total)");
+      cy.log("Add 1 ticket from each ticket type (2 ticket types in total)");
       cy.addTicketsToCart(2, 1);
       cy.log("Click 'View Cart'");
       cy.get('footer[class^="chakra-modal__footer"] > div > button')

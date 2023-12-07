@@ -192,6 +192,11 @@ Cypress.Commands.add(
   "completeOrderAsGuestOnAngular",
   (userDetails, creditCardDetails) => {
     cy.log("Going to completeOrderAsGuestOnAngular()");
+    // Make sure the data loading indicator disappeared
+    cy.get(
+      'div[class="full-loader"] > md-progress-circular[role="progressbar"]',
+      { timeout: 9000 }
+    ).should("not.exist");
     // Verify if items were properly added to cart
     cy.throwErrorIfNoTicketsInCart();
     cy.log("Click 'Check out as a guest' if the button shows up");
@@ -293,8 +298,8 @@ Cypress.Commands.add(
       .should("be.visible")
       .click({ force: true });
     cy.wait(3000);
-    cy.pressEnterToSubmitPaymentIfPayButtonIsStillThere();
-    cy.wait(500);
+    //cy.pressEnterToSubmitPaymentIfPayButtonIsStillThere();
+    //cy.wait(500);
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]',
       { timeout: 9000 }
