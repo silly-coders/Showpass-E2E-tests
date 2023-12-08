@@ -26,9 +26,7 @@ Cypress.Commands.add(
       .should("exist")
       .click({ force: true });
     cy.wait(700);
-    // Check if you are still on the 'More Events' page
-    // and if yes then navigate to the 'Review page
-    cy.navigateToReviewPageIfStillOnMoreEventsPage();
+    cy.navigateToReviewPageIfStillNotThere();
     // *** Review page
     cy.log("Verify the 'Review' header");
     cy.get('span[class^="md-title strong"]')
@@ -156,9 +154,7 @@ Cypress.Commands.add("goThroughCheckoutBeforePayment", (userDetails) => {
     .click({ force: true })
     .wait(300)
     .click({ force: true });
-  // Check if you are still on the 'More Events' page
-  // and if yes then navigate to the 'Review page
-  cy.navigateToReviewPageIfStillOnMoreEventsPage();
+  cy.navigateToReviewPageIfStillNotThere();
   // *** Review page
   // Verify the 'Review' header
   cy.get('span[class^="md-title strong"]')
@@ -217,9 +213,7 @@ Cypress.Commands.add(
       .click({ force: true })
       .wait(300)
       .click({ force: true });
-    // Check if you are still on the 'More Events' page
-    // and if yes then navigate to the 'Review page
-    cy.navigateToReviewPageIfStillOnMoreEventsPage();
+    cy.navigateToReviewPageIfStillNotThere();
     // *** Review page
     // Verify the 'Review' header
     cy.get('span[class^="md-title strong"]')
@@ -432,9 +426,7 @@ Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
     .contains("Review")
     .should("exist")
     .click({ force: true });
-  // Check if you are still on the 'More Events' page
-  // and if yes then navigate to the 'Review page
-  cy.navigateToReviewPageIfStillOnMoreEventsPage();
+  cy.navigateToReviewPageIfStillNotThere();
   // *** Review page
   // Verify the 'Review' header
   cy.get('span[class^="md-title strong"]')
@@ -575,9 +567,7 @@ Cypress.Commands.add(
       .should("exist")
       .click({ force: true });
     cy.wait(700);
-    // Check if you are still on the 'More Events' page
-    // and if yes then navigate to the 'Review page
-    cy.navigateToReviewPageIfStillOnMoreEventsPage();
+    cy.navigateToReviewPageIfStillNotThere();
     // *** Review page
     // Verify the 'Review' header
     cy.get('span[class^="md-title strong"]')
@@ -897,19 +887,18 @@ Cypress.Commands.add("verifyGreenDiscountAppliedSectionAppearance", () => {
 /**
  * Check and navigate to the Review page from the More Events page
  */
-Cypress.Commands.add("navigateToReviewPageIfStillOnMoreEventsPage", () => {
-  cy.log("Going to navigateToReviewPageIfStillOnMoreEventsPage");
+Cypress.Commands.add("navigateToReviewPageIfStillNotThere", () => {
+  cy.log("Going to navigateToReviewPageIfStillNotThere");
   cy.wait(700);
-  // Check if you are still on the 'More Events' page
-  // and if yes then navigate to the 'Review page
   cy.get("body").then(($body) => {
-    if (
+    // Navigate to the 'Review' page if still not there
+    if (!(
       $body.find(
-        'md-tab-item[class="md-tab ng-scope ng-isolate-scope md-ink-ripple md-active"][aria-controls="tab-content-2"]'
-      ).length
+        'md-tab-item[class="md-tab ng-scope ng-isolate-scope md-ink-ripple md-active"][aria-controls="tab-content-4"]'
+      ).length)
     ) {
       cy.log(
-        "Looks like I'm still on the More Events page. Going to navigate to the Review page."
+        "Looks like I'm still not on the Review page. Going to navigate there."
       );
       // Click 'REVIEW' tab
       cy.get('md-tab-item[role="tab"] > span')

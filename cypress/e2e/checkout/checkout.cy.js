@@ -69,9 +69,7 @@ describe("Test checkout process by ", () => {
         .click({ force: true })
         .wait(700)
         .click({ force: true });
-      // Check if you are still on the 'More Events' page
-      // and if yes then navigate to the 'Review page
-      cy.navigateToReviewPageIfStillOnMoreEventsPage();
+      cy.navigateToReviewPageIfStillNotThere();
       // *** Review page
       // Verify the 'Review' header
       cy.get('span[class^="md-title strong"]')
@@ -165,9 +163,7 @@ describe("Test checkout process by ", () => {
         .contains("Review")
         .should("exist")
         .click({ force: true });
-      // Check if you are still on the 'More Events' page
-      // and if yes then navigate to the 'Review page
-      cy.navigateToReviewPageIfStillOnMoreEventsPage();
+      cy.navigateToReviewPageIfStillNotThere();
       // *** Review page
       // Verify the 'Review' header
       cy.get('span[class^="md-title strong"]')
@@ -476,9 +472,7 @@ describe("Test checkout process by ", () => {
         .contains("Review")
         .should("exist")
         .click({ force: true });
-      // Check if you are still on the 'More Events' page
-      // and if yes then navigate to the 'Review page
-      cy.navigateToReviewPageIfStillOnMoreEventsPage();
+      cy.navigateToReviewPageIfStillNotThere();
       // *** Review page
       // Verify the 'Review' header
       cy.get('span[class^="md-title strong"]')
@@ -654,9 +648,7 @@ describe("Test checkout process by ", () => {
         .click({ force: true })
         .wait(700)
         .click({ force: true });
-      // Check if you are still on the 'More Events' page
-      // and if yes then navigate to the 'Review page
-      cy.navigateToReviewPageIfStillOnMoreEventsPage();
+      cy.navigateToReviewPageIfStillNotThere();
       // *** Review page
       // Verify the 'Review' header
       cy.get('span[class^="md-title strong"]')
@@ -760,6 +752,10 @@ describe("Test checkout process by ", () => {
           "contain.text",
           "Sorry, you have items in your cart that cannot be purchased at the same time. Please finish your current purchase or clear your cart and try again."
         );
+        cy.get("@errorMsg")
+        .should("exist")
+        .scrollIntoView({ force: true })
+        .should('be.visible');
     }
   );
   // ***************************************************************************
