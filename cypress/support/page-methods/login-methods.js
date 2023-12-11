@@ -121,7 +121,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
     ) {
       // Click 'Log In'
       cy.get(
-        'div[id="chakra-modal--body-1"] > div > button[class^="chakra-button"][paint="primary"]'
+        'button[data-testid="navbar-mobile-modal-login-button"]'
       )
         .contains("Log In")
         .click({ force: true });
@@ -178,6 +178,16 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
       // Click the top right arrow button which is the main menu button
       cy.get('button[aria-label="Main menu"] > span > svg').click({
         force: true,
+      });
+      // If the Login button still shows up after loggin in - throw an error
+      cy.get('div[id="chakra-modal--body-1"] > div').then(($modal) => {
+        if (
+          $modal.find(
+            'button[data-testid="navbar-mobile-modal-login-button"]' // Then find the 'Log In' button
+          ).length
+        ) {
+          throw new Error("Was NOT able to log in for some reason.");
+        }
       });
       // Verify user name on a modal window after logging in
       cy.log("Going to verify user name on a modal window after logging in");

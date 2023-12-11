@@ -11,15 +11,27 @@ describe("Verify discounts by ", () => {
 
   // ***************************************************************************
   it(
-    "ensuring that GIVEMEDISCOUNT-301120231600 is getting applied at checkout-TA-",
+    "ensuring that GIVEMEDISCOUNT-301120231600 is getting applied at checkout-TA-119",
     { tags: ["e2e", "checkout"] },
     function () {
       let discountCode = "GIVEMEDISCOUNT-301120231600";
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userForSingleBarcodeTesting);
+      cy.wait(700);
+      const apiUpcomingEvents =
+        "/api/public/venues/qa-team-organization/upcoming-events/*";
+      cy.intercept(apiUpcomingEvents).as("apiUpcomingEvents");
       // Open the event
       cy.visit(`/event-2-do-not-modify/`);
       cy.url().should("contain", "/event-2-do-not-modify/");
+      cy.wait(300);
+      cy.wait("@apiUpcomingEvents")
+        .its("response.statusCode")
+        .should(
+          "be.oneOf",
+          [200, 204],
+          "Verifying the Upcoming Events response status code."
+        );
       // Click 'BUY TICKETS'
       cy.chakraParagraphButtonByText("BUY TICKETS")
         .eq(0)

@@ -172,6 +172,7 @@ Cypress.Commands.add("verifyBillingAddressInlineErrors", () => {
 // *****************************************************************************
 /**
  * Populate 'Billing Address' form
+ * @param userAddress
  */
 Cypress.Commands.add("populateBillingAddressForm", (userAddress) => {
   cy.log("Going to populateBillingAddressForm()");
@@ -296,6 +297,7 @@ Cypress.Commands.add("getStripeCardField", (selector, attempts = 0) => {
 // *****************************************************************************
 /**
  * Verify that 'Notifications' toggle can be turned on and off
+ * @param elementIndex
  */
 Cypress.Commands.add("verifyNotificationSelectors", (elementIndex) => {
   cy.log("Going to verifyNotificationSelectors()");
@@ -315,6 +317,7 @@ Cypress.Commands.add("turnOnDisabledNotifications", () => {
 // *****************************************************************************
 /**
  * Toggle chakra-switch-selector
+ * @param elementIndex
  */
 Cypress.Commands.add("toggleSwitchSelector", (elementIndex) => {
   cy.log("Going to toggleSwitchSelector()");
@@ -360,6 +363,8 @@ Cypress.Commands.add(
 // *****************************************************************************
 /**
  * Verify 'Notifications' page sections' headers
+ * @param elementIndex
+ * @param elementLabel
  */
 Cypress.Commands.add(
   "verifyNotificationsPageSectionsHeaders",
@@ -411,6 +416,9 @@ Cypress.Commands.add("verifyPasswordFormInlineValidation", () => {
 // *****************************************************************************
 /**
  * Populate 'Old', 'New' and 'Confirm' password field at 'Profile'.
+ * @param oldPwd
+ * @param newPwd
+ * @param confirmPwd
  */
 Cypress.Commands.add(
   "populateOldNewAndConfirmPwdFields",

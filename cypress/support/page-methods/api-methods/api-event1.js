@@ -1,4 +1,8 @@
 // Test Automation event 1
+/**
+ * Method to verify Event-1 API payload
+ * @param event1
+ */
 Cypress.Commands.add("verifyEvent1ApiPayload", (event1) => {
   cy.request({
     method: "GET",

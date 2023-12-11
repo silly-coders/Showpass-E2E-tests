@@ -30,6 +30,7 @@ const loginLocators = new LoginLocators();
 
 /**
  * Method to get session storage
+ * @param key
  */
 Cypress.Commands.add("getSessionStorage", (key) => {
   cy.log(`Going to getSessionStorage(${key})`);
@@ -38,6 +39,8 @@ Cypress.Commands.add("getSessionStorage", (key) => {
 // *****************************************************************************
 /**
  * Method to set session storage
+ * @param key
+ * @param value
  */
 Cypress.Commands.add("setSessionStorage", (key, value) => {
   cy.log(`Going to setSessionStorage(${key}, ${value})`);
@@ -1210,6 +1213,23 @@ Cypress.Commands.add("verifyIfErrorShowsUpAfterLoggingIn", () => {
       ).length
     ) {
       throw new Error("Unable to log in due to an error.");
+    }
+  });
+});
+// *****************************************************************************
+/**
+ * Click an element ONLY if it's visible
+ * @param elementLocator
+ */
+Cypress.Commands.add("pressEnterOnlyIfElementIsVisible", (elementLocator) => {
+  cy.log("Going to pressEnterOnlyIfElementIsVisible");
+  cy.get(`${elementLocator}`).then(($button) => {
+    if ($button.is(":visible")) {
+      cy.log(
+        `Found that the [${elementLocator}] element is visible. Going to press Enter.`
+      );
+      cy.get(`${elementLocator}`).type("{enter}");
+      cy.log("Pressed the Enter button");
     }
   });
 });

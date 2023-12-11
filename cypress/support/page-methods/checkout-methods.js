@@ -98,6 +98,8 @@ Cypress.Commands.add(
       .should("exist")
       .should("be.visible")
       .should("contain.text", "Thank you!");
+    // Save the Order/Transaction ID in cypress/fixtures/dynamic-values.json
+    cy.saveOrderIdInJson();
   }
 );
 // *********************************************************************
@@ -131,6 +133,7 @@ Cypress.Commands.add(
 // *********************************************************************
 /**
  * Method to go through checkout after adding tickets to the cart
+ * @param userDetails
  */
 Cypress.Commands.add("goThroughCheckoutBeforePayment", (userDetails) => {
   cy.log("Going to goThroughCheckoutBeforePayment()");
@@ -183,6 +186,8 @@ Cypress.Commands.add("goThroughCheckoutBeforePayment", (userDetails) => {
 // *********************************************************************
 /**
  * Method to complete an order as A GUEST after adding tickets to the cart
+ * @param userDetails
+ * @param creditCardDetails
  */
 Cypress.Commands.add(
   "completeOrderAsGuestOnAngular",
@@ -292,8 +297,8 @@ Cypress.Commands.add(
       .should("be.visible")
       .click({ force: true });
     cy.wait(3000);
-    //cy.pressEnterToSubmitPaymentIfPayButtonIsStillThere();
-    //cy.wait(500);
+    cy.pressEnterToSubmitPaymentIfPayButtonIsStillThere();
+    cy.wait(500);
     cy.get(
       'div[class="full-loader"] > md-progress-circular[role="progressbar"]',
       { timeout: 9000 }
@@ -412,7 +417,6 @@ Cypress.Commands.add(
 /**
  * Method to complete an order with Interac payment
  * @param userDetails
- * @param creditCardDetails
  */
 Cypress.Commands.add("completeOrderWithInteracPayment", (userDetails) => {
   cy.log("Going to completeOrderWithInteracPayment()");
@@ -667,16 +671,16 @@ Cypress.Commands.add("pressEnterToSubmitPaymentIfPayButtonIsStillThere", () => {
       ).length
     ) {
       cy.log(
-        "'Pay $XX.XX CAD' button still shows up. Going to press Enter to submit payment again."
+        "'Pay $XX.XX CAD' button still exists. Going to check if it's visible and press Enter to submit payment again."
       );
-      // Press Enter to submit payment
+      // Press Enter to submit payment if the button is visible
       cy.get(
         'button[ng-click="setBillingAndShippingFields()"][type="submit"]'
       ).as("payButton");
-      cy.get("@payButton")
-        .should("exist");
-      cy.get("@payButton").type("{enter}");
-      cy.log("Pressed Enter to submit payment");
+      cy.get("@payButton").should("exist");
+      cy.pressEnterOnlyIfElementIsVisible(
+        'button[ng-click="setBillingAndShippingFields()"][type="submit"]'
+      );
     }
   });
 });
@@ -892,10 +896,10 @@ Cypress.Commands.add("navigateToReviewPageIfStillNotThere", () => {
   cy.wait(700);
   cy.get("body").then(($body) => {
     // Navigate to the 'Review' page if still not there
-    if (!(
-      $body.find(
+    if (
+      !$body.find(
         'md-tab-item[class="md-tab ng-scope ng-isolate-scope md-ink-ripple md-active"][aria-controls="tab-content-4"]'
-      ).length)
+      ).length
     ) {
       cy.log(
         "Looks like I'm still not on the Review page. Going to navigate there."

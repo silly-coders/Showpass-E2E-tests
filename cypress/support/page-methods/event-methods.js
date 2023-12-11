@@ -26,6 +26,7 @@ Cypress.Commands.add("verifyActiveFilterByAriaLabel", (ariaLabel) => {
 // **************************************************************************
 /**
  * Method to click event card by index
+ * @param eventIndex
  */
 Cypress.Commands.add("clickEventCardByIndex", (eventIndex) => {
   cy.log(`Going to clickEventCardByIndex(${eventIndex})`);
@@ -34,6 +35,7 @@ Cypress.Commands.add("clickEventCardByIndex", (eventIndex) => {
 // **************************************************************************
 /**
  * Method to verify the event card
+ * @param eventDetails
  */
 Cypress.Commands.add("verifyEventCardDetails", (eventDetails) => {
   cy.log("Going to verifyEventCardDetails()");
@@ -58,6 +60,7 @@ Cypress.Commands.add("verifyEventCardDetails", (eventDetails) => {
 // **************************************************************************
 /**
  * Method to verify event-1 PAGE details
+ * @param eventDetails
  */
 Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
   cy.log("Going to verifyEventPageDetails()");
@@ -92,6 +95,7 @@ Cypress.Commands.add("verifyEvent1PageDetails", (eventDetails) => {
 // **************************************************************************
 /**
  * Method to verify event-2 PAGE details
+ * @param eventDetails
  */
 Cypress.Commands.add("verifyEvent2PageDetails", (eventDetails) => {
   cy.log("Going to verifyEventPageDetails()");
@@ -398,6 +402,7 @@ Cypress.Commands.add("selectTagByText", (text) => {
 // **************************************************************************
 /**
  * Method to verify the purchased 'Upcoming' event card details
+ * @param eventJSON
  */
 Cypress.Commands.add("verifyUpcomingPurchasedEventCard", (eventJSON) => {
   cy.log("Going to verifyUpcomingPurchasedEventCard");
@@ -416,6 +421,7 @@ Cypress.Commands.add("verifyUpcomingPurchasedEventCard", (eventJSON) => {
 // **************************************************************************
 /**
  * Method to open purchased event tickets
+ * @param eventJSON
  */
 Cypress.Commands.add("clickEventNameToSeePurchasedTickets", (eventJSON) => {
   cy.log("Going to openPurchasedTickets");
@@ -448,6 +454,8 @@ Cypress.Commands.add("openUpcomingPage", () => {
 // **************************************************************************
 /**
  * Method to create a new unique event using Angular front-end
+ * @param uniqueEventName
+ * @param eventDetails
  */
 Cypress.Commands.add(
   "createNewEventAngular",
@@ -574,6 +582,8 @@ Cypress.Commands.add(
 // **************************************************************************
 /**
  * Method to verify purchased ticket event details
+ * @param ticketIndex
+ * @param ticketValues
  */
 Cypress.Commands.add(
   "verifyTicketEventDetails",

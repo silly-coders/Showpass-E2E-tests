@@ -392,6 +392,7 @@ Cypress.Commands.add("verifyRequestDemoForm", () => {
 // **************************************************************************
 /**
  * Verify the 'Contact Details' modal window
+ * @param organizationDetails
  */
 Cypress.Commands.add(
   "verifyContactDetailsModalWindow",

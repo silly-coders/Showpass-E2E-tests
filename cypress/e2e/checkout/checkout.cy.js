@@ -15,7 +15,19 @@ describe("Test checkout process by ", () => {
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
+      cy.wait(700);
+      const apiUpcomingEvents =
+        "/api/public/venues/qa-team-organization/upcoming-events/*";
+      cy.intercept(apiUpcomingEvents).as("apiUpcomingEvents");
       cy.visit(this.testdata.events.event3.eventUrl);
+      cy.wait(300);
+      cy.wait("@apiUpcomingEvents")
+        .its("response.statusCode")
+        .should(
+          "be.oneOf",
+          [200, 204],
+          "Verifying the Upcoming Events response status code."
+        );
       // Click 'BUY TICKETS'
       cy.chakraParagraphButtonByText("BUY TICKETS")
         .eq(0)
@@ -251,14 +263,12 @@ describe("Test checkout process by ", () => {
         .should("exist")
         .should("be.visible")
         .should("contain.text", "Thank you!");
+      // Save the Order/Transaction ID in cypress/fixtures/dynamic-values.json
+      cy.saveOrderIdInJson();
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/").wait(900);
-      // Click the first 'View Order' button at the very top
-      cy.get('button[class^="chakra-button"] > div > div > span')
-        .eq(0)
-        .contains("View Order")
-        .as("viewOrderButton");
-      cy.get("@viewOrderButton").click().wait(500);
+      // Retrieve Order ID from cypress/fixtures/dynamic-values.json
+      cy.openOrderByOrderId();
       // Make sure the 'Back' button on the 'Order' page shows up
       cy.getChakraButtonByText("Back");
       // ***** Verify order details *****
@@ -728,9 +738,20 @@ describe("Test checkout process by ", () => {
         .click({ force: true });
       // Go to Home page by clicking Showpass logo
       cy.get('img[alt="showpass"]').should("be.visible").click({ force: true });
+      const apiUpcomingEvents =
+        "/api/public/venues/qa-team-organization/upcoming-events/*";
+      cy.intercept(apiUpcomingEvents).as("apiUpcomingEvents");
       // Open another event
       cy.visit("/automation-event-3/");
       cy.url().should("contain", "/automation-event-3/");
+      cy.wait(300);
+      cy.wait("@apiUpcomingEvents")
+        .its("response.statusCode")
+        .should(
+          "be.oneOf",
+          [200, 204],
+          "Verifying the Upcoming Events response status code."
+        );
       // Click 'BUY TICKETS'
       cy.chakraParagraphButtonByText("BUY TICKETS")
         .eq(0)
@@ -752,10 +773,10 @@ describe("Test checkout process by ", () => {
           "contain.text",
           "Sorry, you have items in your cart that cannot be purchased at the same time. Please finish your current purchase or clear your cart and try again."
         );
-        cy.get("@errorMsg")
+      cy.get("@errorMsg")
         .should("exist")
         .scrollIntoView({ force: true })
-        .should('be.visible');
+        .should("be.visible");
     }
   );
   // ***************************************************************************

@@ -47,6 +47,8 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
 // *****************************************************************************
 /**
  * Populate the 'Membership Group Info' form
+ * @param uniqueMembershipName
+ * @param groupDetails
  */
 Cypress.Commands.add(
   "populateMembershipGroupInfoForm",
@@ -128,6 +130,8 @@ Cypress.Commands.add(
 // *****************************************************************************
 /**
  * Populate the 'Add new Membership Level' form
+ * @param uniqueMembershipName
+ * @param membershipLevel
  */
 Cypress.Commands.add(
   "populateNewMembershipLevelForm",
@@ -168,6 +172,7 @@ Cypress.Commands.add(
 // *****************************************************************************
 /**
  * Populate the 'Create Benefit - Event Scan Access' form
+ * @param membershipBenefitDetails
  */
 Cypress.Commands.add(
   "populateBenefitEventScanAccessForm",
@@ -211,6 +216,7 @@ Cypress.Commands.add(
 );
 /**
  * Verify the 'Event Scan Access' benefit type values show up in the table grid
+ * @param membershipBenefitDetails
  */
 Cypress.Commands.add(
   "verifyEventScanAccessValuesShowUpInGrid",
@@ -231,6 +237,7 @@ Cypress.Commands.add(
 // *****************************************************************************
 /**
  * Populate the 'Create Benefit - Daily Scan Access' form
+ * @param membershipBenefitDetails
  */
 Cypress.Commands.add(
   "populateBenefitDailyScanAccessForm",
@@ -262,6 +269,7 @@ Cypress.Commands.add(
 // *****************************************************************************
 /**
  * Populate the 'Create Benefit - Event Scan Access' form
+ * @param membershipBenefitDetails
  */
 Cypress.Commands.add(
   "populateBenefitDiscountForm",

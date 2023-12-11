@@ -31,6 +31,8 @@ Cypress.Commands.add(
 /**
  * Method to assert invoice items values
  * @param index
+ * @param responseBody
+ * @param expectedPayload
  */
 Cypress.Commands.add(
   "assertInvoiceItemsValues",

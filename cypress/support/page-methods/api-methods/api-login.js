@@ -1,6 +1,10 @@
 
 // cy.intercept('GET', '**/events/*').as('getEvents')
-
+/**
+ * Method to log in via API
+ * @param user
+ * @todo The method still needs some tweaking and the final touches
+ */
 Cypress.Commands.add("loginViaApi", (user) => {
   cy.request({
     method: "POST",
@@ -17,6 +21,10 @@ Cypress.Commands.add("loginViaApi", (user) => {
   });
 });
 
+/**
+ * Method to verify successful Login API response
+ * @param user
+ */
 Cypress.Commands.add("verifySuccessfulLoginApiResponse", (user) => {
   cy.request({
     method: "GET",

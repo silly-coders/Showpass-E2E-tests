@@ -1,4 +1,9 @@
 // Purchased ongoing events on the 'Upcoming' page
+/**
+ * Verify a particular event name via API
+ * @param eventId
+ * @param expectedJSON
+ */
 Cypress.Commands.add(
   "verifyParticularEventNameViaApi",
   (eventId, expectedJSON) => {
@@ -12,6 +17,11 @@ Cypress.Commands.add(
   }
 );
 // *****************************************************************************
+/**
+ * Method to verify Event-1 purchased item details through API
+ * @param slug
+ * @param expectedJSON
+ */
 Cypress.Commands.add(
   "verifyPurchasedItemDetailsApi_event_1",
   (slug, expectedJSON) => {
@@ -92,6 +102,11 @@ Cypress.Commands.add(
   }
 );
 // *****************************************************************************
+/**
+ * Method to verify Event-2 purchased item details through API
+ * @param slug
+ * @param expectedJSON
+ */
 Cypress.Commands.add(
   "verifyPurchasedItemDetailsApi_event_2",
   (slug, expectedJSON) => {
