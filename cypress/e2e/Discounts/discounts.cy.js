@@ -12,7 +12,7 @@ describe("Verify discounts by ", () => {
   // ***************************************************************************
   it(
     "ensuring that GIVEMEDISCOUNT-301120231600 is getting applied at checkout-TA-119",
-    { tags: ["e2e", "checkout"] },
+    { tags: ["e2e", "checkout", "discounts"] },
     function () {
       let discountCode = "GIVEMEDISCOUNT-301120231600";
       cy.navigateToHomePage();
