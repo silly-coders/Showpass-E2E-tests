@@ -1224,11 +1224,11 @@ Cypress.Commands.add("verifyIfErrorShowsUpAfterLoggingIn", () => {
 Cypress.Commands.add("pressEnterOnlyIfElementIsVisible", (elementLocator) => {
   cy.log("Going to pressEnterOnlyIfElementIsVisible");
   cy.get(`${elementLocator}`).then(($button) => {
-    if ($button.is(":visible")) {
+    if ($button.is(":visible") && $button.is(":enabled")) {
       cy.log(
-        `Found that the [${elementLocator}] element is visible. Going to press Enter.`
+        `Found that the [${elementLocator}] element is visible and enabled. Going to press Enter.`
       );
-      cy.get(`${elementLocator}`).type("{enter}");
+      cy.get(`${elementLocator}`).type("{enter}", {force: true});
       cy.log("Pressed the Enter button");
     }
   });

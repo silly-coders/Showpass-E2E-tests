@@ -198,7 +198,7 @@ Cypress.Commands.add(
     //const apiRequest1 = "/api/user/tickets/baskets/";
     //cy.intercept(apiRequest1).as("apiRequest1");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
-      for (let i = 0; i < totalTicketTypes*2; i+=2) {
+      for (let i = 0; i < totalTicketTypes * 2; i += 2) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         eventsAndFiltersLocators.addItemButtonActive(i).click();
@@ -226,7 +226,7 @@ Cypress.Commands.add(
   (totalTicketTypes, numberOfTicketsForEach) => {
     cy.log("Going to addTicketsToCartNoApiValidation()");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
-      for (let i = 0; i < totalTicketTypes*2; i+=2) {
+      for (let i = 0; i < totalTicketTypes * 2; i += 2) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         eventsAndFiltersLocators.addItemButtonActive(i).click({ force: true });
@@ -688,6 +688,34 @@ Cypress.Commands.add(
     cy.intercept(eventsApiRequest).as("eventsApiLoaded");
     cy.intercept(inventoryApiRequest).as("inventoryApiLoaded");
     eventDetails.eventName = uniqueEventName;
+    // Open 'Advanced Settings' and select the free admission event option
+    // Click 'Show Advanced Settings'
+    cy.get('a[ng-click="advancedForm = !advancedForm"]')
+      .contains("Show Advanced Settings")
+      .should("exist")
+      .scrollIntoView({ force: true })
+      .click({ force: true });
+    // Ensure the Hide Advanced Settings menu appears
+    cy.get('a[ng-click="advancedForm = !advancedForm"]')
+      .contains("Hide Advanced Settings")
+      .should("exist")
+      .scrollIntoView({ force: true });
+    // Scroll the Ticket Types header into view
+    cy.get('div[class^="simple-header"] > span[class="title"]')
+      .contains("Ticket Types")
+      .should("exist")
+      .scrollIntoView({ force: true });
+    // Select 'Free Event - Tickets Not Required'
+    // Click and open the 'Ticket Requirements' drop-down list
+    cy.get('select[ng-model="event.no_ticket_types"]')
+      // Select 'Free Event - Tickets Not Required' drop down item
+      .select("Free Event - Tickets Not Required", { force: true })
+      .wait(500);
+    // Verify that the 'Free Event - Tickets Not Required' drop-down value got selected
+    cy.get(
+      'option[label="Free Event - Tickets Not Required"][value="boolean:true"]'
+    ).should("exist");
+
     // Enter 'Event Name'
     cy.get('input[id="id_name"]')
       .should("be.visible")
@@ -752,16 +780,6 @@ Cypress.Commands.add(
     cy.wait(1500);
     // Ensure the dialog box disappeared
     cy.get('h4[class="modal-title"]').should("not.exist");
-    // Add the first Ticket Type
-    cy.get('input[name="ticketTypeName0"]')
-      .should("be.visible")
-      .type(eventDetails.ticketType1);
-    cy.get('input[name="ticketTypeInventory0"]')
-      .should("be.visible")
-      .type(150000);
-    cy.get('input[name="ticketTypePrice0"]')
-      .should("be.visible")
-      .type(eventDetails.ticketPrice1);
     // Publish event
     cy.get('button[class^="btn btn-lg"] > i')
       .eq(1)
@@ -784,26 +802,6 @@ Cypress.Commands.add(
     cy.get("div > h3")
       .should("be.visible")
       .should("contain.text", "Event Overview");
-    // Click 'Edit' to edit the event
-    cy.get('a[ui-sref="edit"]')
-      .first()
-      .should("exist")
-      .click({ force: true })
-      .wait(900);
-    // Click and open the 'Ticket Requirements' drop-down list
-    cy.get('select[ng-model="event.no_ticket_types"]')
-      // Select 'Free Event - Tickets Not Required' drop down item
-      .select("Free Event - Tickets Not Required", { force: true })
-      .wait(500);
-    // Verify that the 'Free Event - Tickets Not Required' drop-down value got selected
-    cy.get(
-      'option[label="Free Event - Tickets Not Required"][value="boolean:true"]'
-    ).should("exist");
-    // Click 'Save Event'
-    cy.get('button[ng-click="saveEvent()"]')
-      .should("exist")
-      .click({ force: true })
-      .wait(300);
   }
 );
 // **************************************************************************
@@ -817,7 +815,7 @@ Cypress.Commands.add(
   (totalTicketTypes, numberOfTicketsForEach) => {
     cy.log("Going to addTicketsToCartInMobileView()");
     for (let j = 1; j <= numberOfTicketsForEach; j++) {
-      for (let i = 1; i < totalTicketTypes*2; i+=2) {
+      for (let i = 1; i < totalTicketTypes * 2; i += 2) {
         cy.wait(500);
         cy.getChakraSpinnerLoadingIndicator().should("not.exist");
         eventsAndFiltersLocators.addItemButtonActive(i).click();
@@ -837,33 +835,30 @@ Cypress.Commands.add(
  * @param userDetails
  * @param eventName
  */
-Cypress.Commands.add(
-  "replenishEventTicketStock",
-  (userDetails, eventName) => {
-    cy.log(`Going to replenishEventTicketStock() for event: ${eventName}`);
-    cy.navigateToHomePage();
-    cy.logIntoPortal(userDetails);
-    // Do not change event or event name as the tickets get added to this event for further testing
-    cy.visit(`/dashboard/events/${eventName}/manage/#/edit`);
-    cy.wait(3000);
-    // Add more tickets to the first ticket type
-    cy.get('input[name="ticketTypeInventory0"]')
-      .should("exist")
-      .scrollIntoView({ force: true })
-      .should("be.visible")
-      .clear({ force: true })
-      .type(1500000);
-    // Add more tickets to the first ticket type
-    cy.get('input[name="ticketTypeInventory1"]')
-      .should("exist")
-      .scrollIntoView({ force: true })
-      .should("be.visible")
-      .clear({ force: true })
-      .type(150000);
-    // Click Save
-    cy.get('button[ng-click="saveEvent()"]').as("saveButton");
-    cy.get("@saveButton").should("exist").click({ force: true });
-    cy.wait(1000);
-  }
-);
+Cypress.Commands.add("replenishEventTicketStock", (userDetails, eventName) => {
+  cy.log(`Going to replenishEventTicketStock() for event: ${eventName}`);
+  cy.navigateToHomePage();
+  cy.logIntoPortal(userDetails);
+  // Do not change event or event name as the tickets get added to this event for further testing
+  cy.visit(`/dashboard/events/${eventName}/manage/#/edit`);
+  cy.wait(3000);
+  // Add more tickets to the first ticket type
+  cy.get('input[name="ticketTypeInventory0"]')
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .clear({ force: true })
+    .type(1500000);
+  // Add more tickets to the first ticket type
+  cy.get('input[name="ticketTypeInventory1"]')
+    .should("exist")
+    .scrollIntoView({ force: true })
+    .should("be.visible")
+    .clear({ force: true })
+    .type(150000);
+  // Click Save
+  cy.get('button[ng-click="saveEvent()"]').as("saveButton");
+  cy.get("@saveButton").should("exist").click({ force: true });
+  cy.wait(1000);
+});
 // **************************************************************************
