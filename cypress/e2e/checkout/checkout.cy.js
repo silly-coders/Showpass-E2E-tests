@@ -58,7 +58,7 @@ describe("Test checkout process by ", () => {
       cy.clickMainMenuAndLogOut();
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // Click on the event card to open the event
       cy.getChakraSkeletonItem()
         .contains(uniqueEventName)
@@ -145,7 +145,7 @@ describe("Test checkout process by ", () => {
         // Navigate to the group name to view its front-end page and be able to purchased membership
         cy.visit(`/m/${uniqueMembershipName.toLowerCase()}/`);
         // Verify that URL contains the group name
-        cy.url().should("include", uniqueMembershipName.toLowerCase());
+        cy.url().should("include", uniqueMembershipName.toLowerCase()).wait(700);
         // Verify group name in the header
         cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
         // Verify group description
@@ -316,8 +316,7 @@ describe("Test checkout process by ", () => {
         cy.intercept(profileApiRequest).as("userProfileLoaded");
         // PLEASE PAY ATTENTION BEFORE CHANGING THIS MEMBERSHIP GROUP
         let uniqueMembershipName = "test-group-1698096389";
-        cy.visit(`/dashboard/memberships/`);
-        cy.wait(900);
+        cy.visit(`/dashboard/memberships/`).wait(900);
         // Wait for the API response for /memberships/membership-groups/
         cy.wait("@userProfileLoaded")
           .its("response.statusCode")
@@ -392,7 +391,7 @@ describe("Test checkout process by ", () => {
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.userDetails);
-      cy.visit(`/automation-event-3/`).wait(500);
+      cy.visit(`/automation-event-3/`).wait(700);
       cy.log("Click 'BUY TICKETS'");
       cy.chakraParagraphButtonByText("BUY TICKETS")
         .eq(0)
@@ -553,7 +552,7 @@ describe("Test checkout process by ", () => {
       cy.clickMainMenuAndLogOut();
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // Click on the event card to open the event
       cy.getChakraSkeletonItem()
         .contains(uniqueEventName)
@@ -591,9 +590,10 @@ describe("Test checkout process by ", () => {
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.clickLogOutButton();
+      cy.wait(700);
       // Open just created event
       cy.visit(`/${uniqueEventName}/`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // ***** Begin verifying pricing and taxes
       // Click 'BUY TICKETS'
       cy.chakraParagraphButtonByText("BUY TICKETS")
@@ -721,7 +721,7 @@ describe("Test checkout process by ", () => {
       cy.clickLogOutButton();
       // Open just created event
       cy.visit(`/${uniqueEventName}/`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // Click 'BUY TICKETS'
       cy.chakraParagraphButtonByText("BUY TICKETS")
         .eq(0)

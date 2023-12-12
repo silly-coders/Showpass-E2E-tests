@@ -815,7 +815,7 @@ Cypress.Commands.add("saveOrderIdInJson", () => {
 Cypress.Commands.add("openOrderByOrderId", () => {
   cy.readFile("cypress/fixtures/dynamic-values.json").then((value) => {
     cy.log(`Going to open the following order: ${value.orderId}`);
-    cy.visit(`account/my-orders/${value.orderId}/`).wait(900);
+    cy.visit(`account/my-orders/${value.orderId}/`).wait(700);
   });
 });
 // *********************************************************************

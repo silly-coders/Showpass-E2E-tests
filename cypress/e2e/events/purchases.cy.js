@@ -30,7 +30,7 @@ describe("Verify purchased tickets by ", () => {
       cy.clickMainMenuAndLogOut();
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // Click on the event card to open the event
       cy.getChakraSkeletonItem()
         .contains(uniqueEventName)
@@ -87,7 +87,7 @@ describe("Verify purchased tickets by ", () => {
       cy.clickLogOutButton();
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // Click on the event card to open the event
       cy.getChakraSkeletonItem()
         .contains(uniqueEventName)
@@ -159,7 +159,7 @@ describe("Verify purchased tickets by ", () => {
       cy.registerNewUserByProvidingUniqueEmail(userDetails);
       // Navigate to the web portal and find just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // Click on the event card to open the event
       cy.getChakraSkeletonItem()
         .contains(uniqueEventName)
@@ -194,7 +194,7 @@ describe("Verify purchased tickets by ", () => {
       let uniqueEventName = "verify-payment-event-1697684780";
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // Click on the event card to open the event
       cy.getChakraSkeletonItem()
         .contains(uniqueEventName)
@@ -255,7 +255,7 @@ describe("Verify purchased tickets by ", () => {
       let uniqueEventName = "Test-multiple-days-event";
       // Open just created event
       cy.visit(`/s/events/all/?q=${uniqueEventName.toLowerCase()}`);
-      cy.url().should("contain", uniqueEventName.toLowerCase());
+      cy.url().should("contain", uniqueEventName.toLowerCase()).wait(700);
       // Click on the event card to open the event
       cy.getChakraSkeletonItem()
         .contains(uniqueEventName)
@@ -389,7 +389,7 @@ describe("Verify purchased tickets by ", () => {
       let uniqueEventName = "automation-event-1701885025";
       // Open the event
       cy.visit(`/s/events/all/?q=${uniqueEventName}`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // Click on the event card to open the event
       cy.getChakraSkeletonItem()
         .contains(uniqueEventName)
@@ -540,7 +540,7 @@ describe("Verify purchased tickets by ", () => {
       let uniqueEventName = "verify-payment-event-1697684780/";
       // Open the event
       cy.visit(`/${uniqueEventName}/`);
-      cy.url().should("contain", uniqueEventName);
+      cy.url().should("contain", uniqueEventName).wait(700);
       // Click 'Buy tickets'
       cy.chakraParagraphButtonByText("BUY TICKETS")
         .eq(0)

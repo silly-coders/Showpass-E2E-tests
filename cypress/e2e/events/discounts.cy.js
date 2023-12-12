@@ -23,8 +23,7 @@ describe("Verify discounts by ", () => {
       cy.intercept(apiUpcomingEvents).as("apiUpcomingEvents");
       // Open the event
       cy.visit(`/event-2-do-not-modify/`);
-      cy.url().should("contain", "/event-2-do-not-modify/");
-      cy.wait(300);
+      cy.url().should("contain", "/event-2-do-not-modify/").wait(700);
       cy.wait("@apiUpcomingEvents")
         .its("response.statusCode")
         .should(

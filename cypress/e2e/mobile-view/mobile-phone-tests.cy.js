@@ -49,7 +49,7 @@ describe("Test the mobile phone view by ", () => {
           cy.viewport(size[0], size[1]);
           //cy.viewport(390, 844); // iPhone 12 PRO view in browser
           cy.visit(`/s/events/all/?q=${uniqueEventName}`);
-          cy.url().should("contain", uniqueEventName);
+          cy.url().should("contain", uniqueEventName).wait(700);
           // Click on the event card to open the event
           cy.getChakraSkeletonItem()
             .contains(uniqueEventName)

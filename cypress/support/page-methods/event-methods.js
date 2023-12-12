@@ -410,7 +410,7 @@ Cypress.Commands.add("verifyUpcomingPurchasedEventCard", (eventJSON) => {
   // Enter event name into the search field
   const apiRequest = "/api/user/tickets/events/*";
   cy.intercept(apiRequest).as("pageLoaded");
-  cy.visit(`/account/upcoming/?s=+${eventJSON.searchUrl}`);
+  cy.visit(`/account/upcoming/?s=+${eventJSON.searchUrl}`).wait(700);
   cy.wait("@pageLoaded")
     .its("response.statusCode")
     .should("be.oneOf", [200, 204]);
