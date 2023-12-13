@@ -52,6 +52,7 @@ import './page-methods/checkout-methods'
 import './page-methods/api-methods/api-upcoming-events'
 import './page-methods/api-methods/api-transactions'
 import './page-methods/admin-methods/memberships-methods'
+import './page-methods/discounts-appearance-methods'
 // *********************************************************************
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

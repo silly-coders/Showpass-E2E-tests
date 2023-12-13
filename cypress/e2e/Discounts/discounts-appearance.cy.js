@@ -11,7 +11,7 @@ describe("Verify Discounts pages appearance by ", () => {
   // ***************************************************************************
   it(
     "ensuring that 'Discount Codes' pages elements are present-TA-123-1",
-    { tags: ["e2e", "discounts"] },
+    { tags: ["e2e", "discounts", "appearance"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.regularUserForOrganization5).wait(700);
@@ -72,7 +72,7 @@ describe("Verify Discounts pages appearance by ", () => {
   // ***************************************************************************
   it(
     "ensuring that 'Bulk Discounts' pages elements are present-TA-123-2",
-    { tags: ["e2e", "discounts"] },
+    { tags: ["e2e", "discounts", "appearance"] },
     function () {
       cy.navigateToHomePage();
       cy.logIntoPortal(this.testdata.regularUserForOrganization5).wait(700);
@@ -109,6 +109,44 @@ describe("Verify Discounts pages appearance by ", () => {
         "aria-labelledby",
         "search-events-label"
       );
+    }
+  );
+  // ***************************************************************************
+  it(
+    "ensuring that the 'Create discount' page content is correct-TA-124",
+    { tags: ["e2e", "discounts", "appearance"] },
+    function () {
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.regularUserForOrganization5).wait(700);
+      cy.visit("/manage/events/discounts/").wait(700);
+      // Verify Discounts header
+      cy.get('div[class="page-content"] > p[class^="chakra-text"]')
+        .should("exist")
+        .should("have.text", "Discounts");
+      // Click the 'Create discount' page
+      cy.getByDataTestId("create-discount-link")
+        .scrollIntoView({ force: true })
+        .click({ force: true });
+      // Wait for the 'Discounts' (go-back) button/link
+      cy.get('a[class^="chakra-link"] > div')
+        .contains("Discounts")
+        .should("exist", { timeout: 7000 })
+        .scrollIntoView({ force: true })
+        .should("be.visible");
+      // Verify the 'Discount Type' section
+      cy.verifyDiscountTypeSection();
+      // Verify the 'Discount Amount' sections
+      cy.verifyDiscountAmountSection();
+      // Verify the 'Amount off entire order' section
+      cy.verifyAmountOffEntireOrderSection();
+      // Verify the 'Limits' section
+      cy.verifyLimitsSection();
+      // Verify the 'Active dates' section
+      cy.verifyActiveDatesSection();
+      // Verify the 'Accepted Locations' section
+      cy.verifyAcceptedLocationsSection();
+      // Verify the 'Cancel' and 'Save' buttons
+      cy.verifyDiscountsFormCancelAndSaveButtons();
     }
   );
   // ***************************************************************************

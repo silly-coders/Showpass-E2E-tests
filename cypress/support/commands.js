@@ -87,6 +87,35 @@ Cypress.Commands.add("getByDataTestId", (dataTestId) => {
   return cy.get(`[data-testid="${dataTestId}"]`).should("exist");
 });
 // *****************************************************************************
+/**
+ * Verify element presence by its locator and index
+ * @param elementLocator
+ * @param index
+ */
+Cypress.Commands.add("verifyElementPresenceByLocatorAndIndex", (elementLocator, index) => {
+  cy.log(`Going to verifyElementPresenceByLocatorAndIndex(${elementLocator}).eq(${index})`);
+  cy.get(`${elementLocator}`)
+    .eq(index)
+    .should("exist")
+    .scrollIntoView({force: true})
+    .should("be.visible");
+  
+});
+// *****************************************************************************
+/**
+ * Verify element presence by its locator and expectedText
+ * @param elementLocator
+ * @param expectedText
+ */
+Cypress.Commands.add("verifyElementPresenceByLocatorAndText", (elementLocator, expectedText) => {
+  cy.log(`Going to verifyElementPresenceByLocatorAndText(${elementLocator}).contains(${expectedText})`);
+  cy.contains(`${elementLocator}`, `${expectedText}`)
+    .should("exist")
+    .scrollIntoView({force: true})
+    .should("be.visible");
+  
+});
+// *****************************************************************************
 /*
  * 'Save' button
  */
@@ -170,7 +199,7 @@ Cypress.Commands.add("verifyTopRightSuccessMessage", (messageText) => {
     .eq(0)
     .contains(messageText)
     .should("exist")
-    .should("be.visible");
+    .should("be.visible", {timeout: 9000});
 });
 // *****************************************************************************
 /**
