@@ -276,7 +276,9 @@ Cypress.Commands.add("clickChakraButtonByText", (itemText) => {
   cy.log(
     `Going to click the following button: button[class^="chakra-button"].contains(${itemText})`
   );
-  cy.getChakraButtonByText(itemText).click({ force: true });
+  cy.getChakraButtonByText(itemText)
+  .should('not.be.disabled')
+  .click({ force: true });
 });
 // *****************************************************************************
 /**

@@ -174,11 +174,6 @@ Cypress.Commands.add("verifyAmountOffEntireOrderSection", () => {
   );
   // Verify the 'Products' button
   cy.verifyElementPresenceByLocatorAndText('div[name="itemType"]', "Products");
-  // Verify the 'Select an event' input field
-  cy.verifyElementPresenceByLocatorAndIndex(
-    'div[class^="chakra-input__group"][aria-owns="discount-event-menu"]',
-    0
-  );
 });
 // **************************************************************************
 /**

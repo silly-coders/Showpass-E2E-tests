@@ -186,7 +186,7 @@ Cypress.Commands.add(
     cy.selectOptionByText(membershipBenefitDetails.benefitType);
     // Input event name
     cy.getChakraInputFieldByAttr("placeholder", "Select an event").type(
-      `${membershipBenefitDetails.event}{enter}`
+      `${membershipBenefitDetails.event}`
     );
     cy.get('div[class^="css"] > p[class^="chakra-text"]')
       .contains(membershipBenefitDetails.event)
@@ -309,13 +309,17 @@ Cypress.Commands.add(
     });
     // Search Event
     cy.getChakraInputFieldByAttr("placeholder", "Select an event").type(
-      `${membershipBenefitDetails.event}{enter}`
+      `${membershipBenefitDetails.event}`
     );
     cy.wait(900);
     cy.get('div[class^="css"] > p[class^="chakra-text"]')
       .contains(membershipBenefitDetails.event)
       .scrollIntoView({ force: true })
       .click({ force: true });
+    // Click Save
+    cy.contains('button[type="submit"][form="membership-benefit-form"]', 'Save')
+    .should('exist')
+    .click({force: true});
     // Verify and close the 'Success' message
     cy.verifyTopRightSuccessMessage("Success");
     cy.clickButtonXtoCloseMessage();
