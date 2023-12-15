@@ -93,12 +93,12 @@ Cypress.Commands.add("getByDataTestId", (dataTestId) => {
  * @param index
  */
 Cypress.Commands.add("verifyElementPresenceByLocatorAndIndex", (elementLocator, index) => {
-  cy.log(`Going to verifyElementPresenceByLocatorAndIndex(${elementLocator}).eq(${index})`);
+  cy.log(`Looking for element (${elementLocator}).eq(${index})`);
   cy.get(`${elementLocator}`)
     .eq(index)
-    .should("exist")
+    .should("exist", {timeout: 5000})
     .scrollIntoView({force: true})
-    .should("be.visible");
+    .should("be.visible", {timeout: 5000});
   
 });
 // *****************************************************************************
@@ -108,11 +108,11 @@ Cypress.Commands.add("verifyElementPresenceByLocatorAndIndex", (elementLocator, 
  * @param expectedText
  */
 Cypress.Commands.add("verifyElementPresenceByLocatorAndText", (elementLocator, expectedText) => {
-  cy.log(`Going to verifyElementPresenceByLocatorAndText(${elementLocator}).contains(${expectedText})`);
+  cy.log(`Looking for element: (${elementLocator}).contains(${expectedText})`);
   cy.contains(`${elementLocator}`, `${expectedText}`)
-    .should("exist")
+    .should("exist", {timeout: 5000})
     .scrollIntoView({force: true})
-    .should("be.visible");
+    .should("be.visible", {timeout: 5000});
   
 });
 // *****************************************************************************
