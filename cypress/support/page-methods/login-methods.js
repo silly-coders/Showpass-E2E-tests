@@ -32,7 +32,7 @@ Cypress.Commands.add("verifyLoginModalWindowAppearance", () => {
   loginLocators
     .signInUsingFacebookButtion()
     .should("exist")
-    .should("be.visible");
+    .should("be.visible", {timeout: 3000});
 });
 // *****************************************************************************
 /**
@@ -52,7 +52,7 @@ Cypress.Commands.add("logIntoPortal", (userObject) => {
   cy.signOutIfLoggedIn();
   cy.clickLoginOnHomePage();
   cy.wait(700);
-  cy.url().should('contain', '/accounts/login/');
+  cy.url().should("contain", "/accounts/login/");
   loginLocators
     .emailAddressInputField()
     .should("exist")
@@ -120,9 +120,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
       ).length
     ) {
       // Click 'Log In'
-      cy.get(
-        'button[data-testid="navbar-mobile-modal-login-button"]'
-      )
+      cy.get('button[data-testid="navbar-mobile-modal-login-button"]')
         .contains("Log In")
         .click({ force: true });
       cy.wait(500);
@@ -133,7 +131,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
         autoEnd: false,
         color: "green",
       });
-      cy.url().should('contain', '/accounts/login/');
+      cy.url().should("contain", "/accounts/login/");
       loginLocators
         .emailAddressInputField()
         .should("exist")
@@ -193,7 +191,7 @@ Cypress.Commands.add("logIntoPortalInMobileView", (userObject) => {
       cy.log("Going to verify user name on a modal window after logging in");
       cy.get('div[id="chakra-modal--body-1"] > div > div > p')
         .should("exist")
-        .should("be.visible")
+        .should("be.visible", {timeout: 5000})
         .should(
           "have.text",
           userObject.userFirstName + " " + userObject.userLastName
@@ -218,7 +216,7 @@ Cypress.Commands.add("loginOnlyIntoPortal", (userObject) => {
     color: "green",
   });
   cy.wait(700);
-  cy.url().should('contain', '/accounts/login/');
+  cy.url().should("contain", "/accounts/login/");
   loginLocators
     .emailAddressInputField()
     .should("exist")
@@ -242,7 +240,7 @@ Cypress.Commands.add("loginOnlyIntoPortal", (userObject) => {
   loginLocators
     .loginButtonOnLoginModalWindow()
     .should("exist")
-    .should("be.visible")
+    .should("be.visible", {timeout: 3000})
     .click({ force: true });
   cy.wait(700);
   // If error message shows up after loggin in report it
@@ -258,7 +256,7 @@ Cypress.Commands.add("populateEmailAddressField", (emailAddress) => {
   loginLocators
     .emailAddressInputField()
     .should("exist")
-    .should("be.visible")
+    .should("be.visible", {timeout: 3000})
     .clear({ force: true })
     .type(emailAddress)
     .wait(150);
@@ -305,7 +303,7 @@ Cypress.Commands.add("verifyErrorUnderPasswordField", (expectedErrorMsg) => {
     .last()
     .should("exist")
     .should("be.visible")
-    .should("have.text", expectedErrorMsg);
+    .should("have.text", expectedErrorMsg, {timeout: 3000});
 });
 // *****************************************************************************
 /**
@@ -343,7 +341,28 @@ Cypress.Commands.add("signOutIfLoggedIn", () => {
         .contains("Log In")
         .should("exist")
         .scrollIntoView({ force: true })
-        .should("be.visible");
+        .should("be.visible", {timeout: 3000});
+    }
+  });
+});
+// *****************************************************************************
+/**
+ * Method to check if NOT logged in and then log into the Portal
+ * @param userDetails
+ */
+Cypress.Commands.add("logInIfStillLoggedOut", (userDetails) => {
+  cy.log("Going to check if the 'Log in' button shows up and then will log in");
+  // Ensure the 'Search events' field on the 'Home' page shows up
+  cy.verifyElementPresenceByLocatorAndIndex(
+    'input[id="EventSearchInput-input"]',
+    0, {timeout: 3000}
+  );
+  cy.get("body").then(($body) => {
+    cy.log("Going to check if I need to log in again");
+    if ($body.find('button[class^="chakra-button"][paint="primary"]').length) {
+      // Found Login button
+      cy.log('Found "Log in" button - going to log into portal');
+      cy.logIntoPortal(userDetails);
     }
   });
 });

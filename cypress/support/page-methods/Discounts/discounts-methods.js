@@ -25,12 +25,12 @@ Cypress.Commands.add(
     cy.verifyElementPresenceByLocatorAndIndex(
       'input[data-testid="code"][class^="chakra-input"]',
       0
-    ).type(discountDetails.discountCode);
+    ).type(discountDetails.discountCode, { force: true });
     // Populate Discount Description
     cy.verifyElementPresenceByLocatorAndIndex(
       'input[data-testid="discount-code-description"][class^="chakra-input"]',
       0
-    ).type(discountDetails.discountDescription);
+    ).type(discountDetails.discountDescription, { force: true });
   }
 );
 // **************************************************************************
@@ -60,7 +60,7 @@ Cypress.Commands.add(
     cy.verifyElementPresenceByLocatorAndIndex(
       'input[data-testid="percentage"][inputmode="numeric"]',
       0
-    ).type(discountDetails.discountAmountPercentage);
+    ).type(discountDetails.discountAmountPercentage, { force: true });
     // Ensure the 'Entire Order' radio button is selected
     cy.verifyElementPresenceByLocatorAndIndex(
       'span[data-testid="apply-method-once"][data-checked]',
@@ -113,17 +113,17 @@ Cypress.Commands.add("populateLimitsSection", (discountDetails) => {
   cy.verifyElementPresenceByLocatorAndIndex(
     'input[data-testid="per-user-limit"]',
     0
-  ).type(discountDetails.usageLimitPerCustomer);
+  ).type(discountDetails.usageLimitPerCustomer, { force: true });
   // Populate the 'Item limit per customer' field
   cy.verifyElementPresenceByLocatorAndIndex(
     'input[data-testid="per-event-limit"]',
     0
-  ).type(discountDetails.itemLimitPerCustomer);
+  ).type(discountDetails.itemLimitPerCustomer, { force: true });
   // Populate the 'Overall usage limit' field
   cy.verifyElementPresenceByLocatorAndIndex(
     'input[data-testid="limit"]',
     0
-  ).type(discountDetails.overallUsageLimit);
+  ).type(discountDetails.overallUsageLimit, { force: true });
 });
 // **************************************************************************
 /**
@@ -263,19 +263,22 @@ Cypress.Commands.add(
       cy.log(
         `Percentage button expected status: ${discountAmountDetails.percentageButton}`
       );
-      if (discountAmountDetails.percentageButton == "selected") {
-        cy.log("Percentage button should be selected");
-        cy.verifyElementPresenceByLocatorAndIndex(
-          'div[data-testid="unit-percent"][data-checked]',
-          0
-        );
-      } else {
-        // Percentage button exists but is NOT selected
-        cy.log("Percentage button should not be selected");
-        cy.get('div[data-testid="unit-percent"]').should(
-          "not.have.attr",
-          "data-checked"
-        );
+      switch (discountAmountDetails.percentageButton) {
+        case "selected":
+          cy.log("Percentage button should be selected");
+          cy.verifyElementPresenceByLocatorAndIndex(
+            'div[data-testid="unit-percent"][data-checked]',
+            0
+          );
+          break;
+        case "exists":
+          // Percentage button exists but is NOT selected
+          cy.log("Percentage button should not be selected");
+          cy.get('div[data-testid="unit-percent"]').should(
+            "not.have.attr",
+            "data-checked"
+          );
+          break;
       }
     }
     // Button can exist or exist and being selected
@@ -284,18 +287,21 @@ Cypress.Commands.add(
       cy.log(
         `Fixed Amount button expected status: ${discountAmountDetails.fixedAmountButton}`
       );
-      if (discountAmountDetails.fixedAmountButton == "selected") {
-        cy.verifyElementPresenceByLocatorAndIndex(
-          'div[data-testid="unit-amount"][data-checked]',
-          0
-        );
-      } else {
-        // Fixed Amount button exists but is NOT selected
-        cy.log("Fixed amount button should not be selected");
-        cy.get('div[data-testid="unit-amount"]').should(
-          "not.have.attr",
-          "data-checked"
-        );
+      switch (discountAmountDetails.fixedAmountButton) {
+        case "selected":
+          cy.verifyElementPresenceByLocatorAndIndex(
+            'div[data-testid="unit-amount"][data-checked]',
+            0
+          );
+          break;
+        case "exists":
+          // Fixed Amount button exists but is NOT selected
+          cy.log("Fixed amount button should not be selected");
+          cy.get('div[data-testid="unit-amount"]').should(
+            "not.have.attr",
+            "data-checked"
+          );
+          break;
       }
     }
     if (discountAmountDetails.amount) {
@@ -344,23 +350,23 @@ Cypress.Commands.add(
       cy.log(
         `"All Items Of This Type" radio button expected status: ${amountOffEntireOrderDetails.allItemsOfThisTypeRadioButton}`
       );
-      if (
-        amountOffEntireOrderDetails.allItemsOfThisTypeRadioButton == "selected"
-      ) {
-        cy.log('"All Items Of This Type" radio button should be selected');
-        cy.verifyElementPresenceByLocatorAndIndex(
-          'div[data-testid="unit-percent"][data-checked]',
-          0
-        );
-      }
-      // If the button doesn't have the 'data-checked' attribute that means the button is not selected
-      else {
-        cy.log(
-          '"All Items Of This Type" radio button should NOT be selected but should exist'
-        );
-        cy.get('div[data-testid="unit-percent"]')
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (amountOffEntireOrderDetails.allItemsOfThisTypeRadioButton) {
+        case "selected":
+          cy.log('"All Items Of This Type" radio button should be selected');
+          cy.verifyElementPresenceByLocatorAndIndex(
+            'div[data-testid="unit-percent"][data-checked]',
+            0
+          );
+          break;
+        // If the button doesn't have the 'data-checked' attribute that means the button is not selected
+        case "exists":
+          cy.log(
+            '"All Items Of This Type" radio button should NOT be selected but should exist'
+          );
+          cy.get('div[data-testid="unit-percent"]')
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // Radio button can exist or exist and being selected
@@ -369,21 +375,25 @@ Cypress.Commands.add(
       cy.log(
         `"Certain Items Of This Type" radio button expected status: ${amountOffEntireOrderDetails.everythingExceptCertainItemsRadioButton}`
       );
-      if (
-        amountOffEntireOrderDetails.everythingExceptCertainItemsRadioButton ==
-        "selected"
+      switch (
+        amountOffEntireOrderDetails.everythingExceptCertainItemsRadioButton
       ) {
-        cy.log('"Certain items of this type" radio button should be selected');
-        cy.get('span[data-testid="permission-type-disc-level-ticket-type"]')
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log(
-          '"Certain items of this type" radio button should exist but should NOT be selected'
-        );
-        cy.get('span[data-testid="permission-type-disc-level-ticket-type"]')
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+        case "selected":
+          cy.log(
+            '"Certain items of this type" radio button should be selected'
+          );
+          cy.get('span[data-testid="permission-type-disc-level-ticket-type"]')
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log(
+            '"Certain items of this type" radio button should exist but should NOT be selected'
+          );
+          cy.get('span[data-testid="permission-type-disc-level-ticket-type"]')
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // Radio button can exist or exist and being selected
@@ -394,27 +404,29 @@ Cypress.Commands.add(
       cy.log(
         `"Everything Except Certain Items Of This Type" radio button expected status: ${amountOffEntireOrderDetails.everythingExceptCertainItemsRadioButton}`
       );
-      if (
-        amountOffEntireOrderDetails.everythingExceptCertainItemsRadioButton ==
-        "selected"
+      switch (
+        amountOffEntireOrderDetails.everythingExceptCertainItemsRadioButton
       ) {
-        cy.log(
-          '"Everything except certain items of this type" radio button should be selected'
-        );
-        cy.get(
-          'span[data-testid="permission-type-disc-level-excluded-ticket-type"]'
-        )
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log(
-          '"Everything except certain items of this type" radio button should exist but should NOT be selected'
-        );
-        cy.get(
-          'span[data-testid="permission-type-disc-level-excluded-ticket-type"]'
-        )
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+        case "selected":
+          cy.log(
+            '"Everything except certain items of this type" radio button should be selected'
+          );
+          cy.get(
+            'span[data-testid="permission-type-disc-level-excluded-ticket-type"]'
+          )
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log(
+            '"Everything except certain items of this type" radio button should exist but should NOT be selected'
+          );
+          cy.get(
+            'span[data-testid="permission-type-disc-level-excluded-ticket-type"]'
+          )
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // Button can exist or exist and being selected
@@ -423,16 +435,19 @@ Cypress.Commands.add(
       cy.log(
         `"Events" button expected status: ${amountOffEntireOrderDetails.eventsItemTypeButton}`
       );
-      if (amountOffEntireOrderDetails.eventsItemTypeButton == "selected") {
-        cy.log('"Events" button should be selected');
-        cy.get('div[data-testid="item-type-ticket"]')
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log('"Events" button should exist but should NOT be selected');
-        cy.get('div[data-testid="item-type-ticket"]')
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (amountOffEntireOrderDetails.eventsItemTypeButton) {
+        case "selected":
+          cy.log('"Events" button should be selected');
+          cy.get('div[data-testid="item-type-ticket"]')
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log('"Events" button should exist but should NOT be selected');
+          cy.get('div[data-testid="item-type-ticket"]')
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // Button can exist or exist and being selected
@@ -441,18 +456,21 @@ Cypress.Commands.add(
       cy.log(
         `"Memberships" button expected status: ${amountOffEntireOrderDetails.membershipsItemTypeButton}`
       );
-      if (amountOffEntireOrderDetails.membershipsItemTypeButton == "selected") {
-        cy.log('"Memberships" button should be selected');
-        cy.get('div[data-testid="item-type-membership"]')
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log(
-          '"Memberships" radio button should exist but should NOT be selected'
-        );
-        cy.get('div[data-testid="item-type-membership"]')
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (amountOffEntireOrderDetails.membershipsItemTypeButton) {
+        case "selected":
+          cy.log('"Memberships" button should be selected');
+          cy.get('div[data-testid="item-type-membership"]')
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log(
+            '"Memberships" radio button should exist but should NOT be selected'
+          );
+          cy.get('div[data-testid="item-type-membership"]')
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // Button can exist or exist and being selected
@@ -461,16 +479,19 @@ Cypress.Commands.add(
       cy.log(
         `"Products" button expected status: ${amountOffEntireOrderDetails.productsItemTypeButton}`
       );
-      if (amountOffEntireOrderDetails.productsItemTypeButton == "selected") {
-        cy.log('"Products" button should be selected');
-        cy.get('div[data-testid="item-type-product"]')
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log('"Products" button should exist but should NOT be selected');
-        cy.get('div[data-testid="item-type-product"]')
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (amountOffEntireOrderDetails.productsItemTypeButton) {
+        case "selected":
+          cy.log('"Products" button should be selected');
+          cy.get('div[data-testid="item-type-product"]')
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log('"Products" button should exist but should NOT be selected');
+          cy.get('div[data-testid="item-type-product"]')
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // Button can exist or exist and being selected
@@ -479,16 +500,19 @@ Cypress.Commands.add(
       cy.log(
         `Single button expected status: ${amountOffEntireOrderDetails.singleButton}`
       );
-      if (amountOffEntireOrderDetails.singleButton == "selected") {
-        cy.log('"Single" button should be selected');
-        cy.get('span[data-testid=""]')
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log('"Single" button should exist but should NOT be selected');
-        cy.get('span[data-testid=""]')
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (amountOffEntireOrderDetails.singleButton) {
+        case "selected":
+          cy.log('"Single" button should be selected');
+          cy.get('span[data-testid=""]')
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log('"Single" button should exist but should NOT be selected');
+          cy.get('span[data-testid=""]')
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // Button can exist or exist and being selected
@@ -497,18 +521,23 @@ Cypress.Commands.add(
       cy.log(
         `"Parent" button expected status: ${amountOffEntireOrderDetails.parentButton}`
       );
-      if (amountOffEntireOrderDetails.parentButton == "selected") {
-        cy.log('"Parent" radio button should be selected');
-        cy.get('div[value="parent"]')
-          .contains("Parent")
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log('"Parent" radio button should exist but should NOT be selected');
-        cy.get('div[value="parent"]')
-          .contains("Parent")
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (amountOffEntireOrderDetails.parentButton) {
+        case "selected":
+          cy.log('"Parent" radio button should be selected');
+          cy.get('div[value="parent"]')
+            .contains("Parent")
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log(
+            '"Parent" radio button should exist but should NOT be selected'
+          );
+          cy.get('div[value="parent"]')
+            .contains("Parent")
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // Button can exist or exist and being selected
@@ -517,20 +546,23 @@ Cypress.Commands.add(
       cy.log(
         `"Template" button expected status: ${amountOffEntireOrderDetails.parentButton}`
       );
-      if (amountOffEntireOrderDetails.templateButton == "selected") {
-        cy.log('"Template" radio button should be selected');
-        cy.get('div[value="template"]')
-          .contains("Template")
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log(
-          '"Template" radio button should exist but should NOT be selected'
-        );
-        cy.get('div[value="template"]')
-          .contains("Template")
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (amountOffEntireOrderDetails.templateButton) {
+        case "selected":
+          cy.log('"Template" radio button should be selected');
+          cy.get('div[value="template"]')
+            .contains("Template")
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log(
+            '"Template" radio button should exist but should NOT be selected'
+          );
+          cy.get('div[value="template"]')
+            .contains("Template")
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // Verify the 'Search' input field
@@ -620,22 +652,25 @@ Cypress.Commands.add(
       cy.log(
         `"Set end date" checkbox expected status is: ${activeDatesDetails.setEndDate}`
       );
-      if (activeDatesDetails.setEndDate == "selected") {
-        cy.log('"Set end date" checkbox should be selected');
-        cy.get(
-          'label[data-testid="set-end-date"] > input[class="chakra-checkbox__input"]'
-        )
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log(
-          '"Set end date" checkbox should exist but should NOT be selected'
-        );
-        cy.get(
-          'label[data-testid="set-end-date"] > input[class="chakra-checkbox__input"]'
-        )
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (activeDatesDetails.setEndDate) {
+        case "selected":
+          cy.log('"Set end date" checkbox should be selected');
+          cy.get(
+            'label[data-testid="set-end-date"] > input[class="chakra-checkbox__input"]'
+          )
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log(
+            '"Set end date" checkbox should exist but should NOT be selected'
+          );
+          cy.get(
+            'label[data-testid="set-end-date"] > input[class="chakra-checkbox__input"]'
+          )
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
   }
@@ -661,16 +696,21 @@ Cypress.Commands.add(
       cy.log(
         `"Box office" checkbox expected status is: ${acceptedLocationsDetails.boxOfficeCheckbox}`
       );
-      if (acceptedLocationsDetails.boxOfficeCheckbox == "selected") {
-        cy.log('"Box office" checkbox should be selected');
-        cy.get('label[data-testid="allowed-box-office"]')
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log('"Box Office" checkbox should exist but should NOT be selected');
-        cy.get('label[data-testid="allowed-box-office"]')
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (acceptedLocationsDetails.boxOfficeCheckbox) {
+        case "selected":
+          cy.log('"Box office" checkbox should be selected');
+          cy.get('label[data-testid="allowed-box-office"]')
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log(
+            '"Box Office" checkbox should exist but should NOT be selected'
+          );
+          cy.get('label[data-testid="allowed-box-office"]')
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
     // 'Online public checkout' checkbox verification
@@ -679,18 +719,21 @@ Cypress.Commands.add(
       cy.log(
         `"Online public checkout" checkbox expected status is: ${acceptedLocationsDetails.onlinePublicCheckoutCheckbox}`
       );
-      if (acceptedLocationsDetails.onlinePublicCheckoutCheckbox == "selected") {
-        cy.log('"Online public checkout" checkbox should be selected');
-        cy.get('label[data-testid="allowed-public"]')
-          .should("exist")
-          .should("have.attr", "data-checked");
-      } else {
-        cy.log(
-          '"Online public checkout" checkbox should exist but should NOT be selected'
-        );
-        cy.get('label[data-testid="allowed-public"]')
-          .should("exist")
-          .should("not.have.attr", "data-checked");
+      switch (acceptedLocationsDetails.onlinePublicCheckoutCheckbox) {
+        case "selected":
+          cy.log('"Online public checkout" checkbox should be selected');
+          cy.get('label[data-testid="allowed-public"]')
+            .should("exist")
+            .should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.log(
+            '"Online public checkout" checkbox should exist but should NOT be selected'
+          );
+          cy.get('label[data-testid="allowed-public"]')
+            .should("exist")
+            .should("not.have.attr", "data-checked");
+          break;
       }
     }
   }

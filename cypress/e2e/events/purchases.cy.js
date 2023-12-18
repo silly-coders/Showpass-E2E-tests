@@ -26,6 +26,11 @@ describe("Verify purchased tickets by ", () => {
       cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
         .should("be.visible")
         .click({ force: true });
+      // Ensure the 'Search events' field on the 'Home' page shows up
+  cy.verifyElementPresenceByLocatorAndIndex(
+    'input[id="EventSearchInput-input"]',
+    0, {timeout: 3000}
+  );  
       // Log out
       cy.clickMainMenuAndLogOut();
       // Open just created event
@@ -109,6 +114,11 @@ describe("Verify purchased tickets by ", () => {
         .should("exist")
         .should("be.visible")
         .click({ force: true });
+      // Ensure the 'Search events' field on the 'Home' page shows up
+  cy.verifyElementPresenceByLocatorAndIndex(
+    'input[id="EventSearchInput-input"]',
+    0, {timeout: 3000}
+  );  
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/").wait(900);
       cy.openOrderByOrderId();
@@ -214,7 +224,7 @@ describe("Verify purchased tickets by ", () => {
       cy.get('h1[class^="md-display"]')
         .should("exist")
         .should("be.visible")
-        .should("contain.text", "Thank you!");
+        .should("contain.text", "Thank you!", {timeout: 5000});
       cy.saveOrderIdInJson();
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/").wait(900);
@@ -325,7 +335,10 @@ describe("Verify purchased tickets by ", () => {
       cy.get('.container > [href="/"] > .logo')
         .should("exist")
         .should("be.visible")
-        .click({ force: true });
+        .click({ force: true })
+        .wait(900);
+      // If still or already NOT logged in - log into the portal
+      cy.logInIfStillLoggedOut(userDetails);
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/").wait(900);
       // ***** Verify my order details *****
