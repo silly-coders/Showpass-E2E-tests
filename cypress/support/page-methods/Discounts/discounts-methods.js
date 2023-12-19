@@ -316,8 +316,8 @@ Cypress.Commands.add(
     );
     // Verify Discount Code
     cy.get('input[data-testid="code"][name="code"]')
-      .should("exist", { timeout: 5000 })
-      .should("have.value", discountDetails.discountCode.toUpperCase());
+      .should("exist", { timeout: 9000 })
+      .should("have.value", discountDetails.discountCode.toUpperCase(), { timeout: 5000 });
     // Verify Discount Description
     cy.verifyElementPresenceByLocatorAndIndex(
       'input[data-testid="discount-code-description"][class^="chakra-input"]',

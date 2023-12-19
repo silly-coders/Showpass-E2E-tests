@@ -454,6 +454,8 @@ describe("Verify purchased tickets by ", () => {
         .invoke("removeAttr", "target")
         .click({ force: true })
         .wait(900);
+      // Click on the Showpass logo to move to the Home page
+      cy.verifyShowpassLogoAppearance().first().click({force: true});  
       // Open order URL taken from cypress/fixtures/dynamic-values.json
       cy.readFile("cypress/fixtures/dynamic-values.json").then((value) => {
         cy.log(`Going to open the following order: ${value.stagingOrderHref}`);
@@ -600,6 +602,8 @@ describe("Verify purchased tickets by ", () => {
         .invoke("removeAttr", "target")
         .click({ force: true })
         .wait(900);
+      // Click on the Showpass logo to move to the Home page
+      cy.verifyShowpassLogoAppearance().first().click({force: true});
       // Open order URL taken from cypress/fixtures/dynamic-values.json
       cy.readFile("cypress/fixtures/dynamic-values.json").then((value) => {
         cy.log(`Going to open the following order: ${value.stagingOrderHref}`);
