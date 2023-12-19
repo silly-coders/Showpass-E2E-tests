@@ -6,11 +6,11 @@
 Cypress.Commands.add(
   "populateDiscountTypeDiscountCodeSection",
   (discountDetails) => {
-    if (!discountDetails)
-      throw new Error("Discount details weren't provided! Need them.");
     cy.log(
       "***** Going to populateDiscountTypeDiscountCodeSection(discountDetails) *****"
     );
+    if (!discountDetails)
+      throw new Error("Discount details weren't provided! Need them.");
     // Verify the Discounts page header
     cy.verifyElementPresenceByLocatorAndText(
       'span[class^="chakra-text"]',
@@ -41,11 +41,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "populateDiscountAmountPercentageEntireOrderSection",
   (discountDetails) => {
-    if (!discountDetails)
-      throw new Error("Discount details weren't provided! Need them.");
     cy.log(
       "***** Going to populateDiscountAmountPercentageEntireOrderSection(discountDetails) *****"
     );
+    if (!discountDetails)
+      throw new Error("Discount details weren't provided! Need them.");
     // Verify the Discounts page header
     cy.verifyElementPresenceByLocatorAndText(
       'span[class^="chakra-text"]',
@@ -70,14 +70,79 @@ Cypress.Commands.add(
 );
 // **************************************************************************
 /**
+ * Method to populate the Discount Amount - 'Fixed Amount' section
+ * Choose either one: entireOrder | individualItems
+ * @param discountDetails
+ * @param discountDetails.amountOff (entireOrder | individualItems)
+ */
+Cypress.Commands.add(
+  "populateFixedAmountOnDiscountAmountSection",
+  (discountDetails) => {
+    cy.log(
+      "***** Going to populateDiscountAmountPercentageEntireOrderSection(discountDetails) *****"
+    );
+    if (!discountDetails.discountAmountPercentage || !discountDetails.amountOff)
+      throw new Error(
+        "Discount 'Amount' or 'Amount Off' weren't provided! Need them."
+      );
+    // Verify the Discounts page header
+    cy.verifyElementPresenceByLocatorAndText(
+      'span[class^="chakra-text"]',
+      "Discounts"
+    );
+    // Click the 'Fixed Amount' button
+    cy.verifyElementPresenceByLocatorAndIndex(
+      'div[data-testid="unit-amount"]',
+      0
+    ).click({ force: true });
+    // Type a Discount Amount
+    cy.verifyElementPresenceByLocatorAndIndex(
+      'input[data-testid="amount"][inputmode="numeric"]',
+      0
+    ).type(discountDetails.discountAmountPercentage, { force: true });
+    // Select either 'Entire order' or 'Individual items'
+    switch (discountDetails.amountOff) {
+      case "entireOrder":
+        cy.log('Going to click the "Entire order" radio button');
+        cy.verifyElementPresenceByLocatorAndIndex(
+          'span[data-testid="apply-method-once"]',
+          0
+        ).click({ force: true });
+        // Verify the 'Entire order' radio button got selected
+        cy.verifyElementPresenceByLocatorAndIndex(
+          'span[data-testid="apply-method-once"]',
+          0
+        ).should("have.attr", "data-checked");
+        break;
+      case "individualItems":
+        cy.log('Going to click the "Individual items" radio button');
+        cy.verifyElementPresenceByLocatorAndIndex(
+          'span[data-testid="apply-method-to-each"]',
+          0
+        ).click({ force: true });
+        // Verify the 'Individual items' radio button got selected
+        cy.verifyElementPresenceByLocatorAndIndex(
+          'span[data-testid="apply-method-to-each"]',
+          0
+        ).should("have.attr", "data-checked");
+    }
+  }
+);
+// **************************************************************************
+/**
  * Method to populate the Amount off entire order - for an event 'On All items of this type' section
+ * @param discountDetails.itemType ('events' | 'memberships' | 'products')
  */
 Cypress.Commands.add(
   "populateEventAmountOffEntireOrderForAllItemsSection",
-  () => {
+  (discountDetails) => {
     cy.log(
       "***** Going to populateEventAmountOffEntireOrderForAllItemsSection() *****"
     );
+    if (!discountDetails.itemType)
+      throw new Error(
+        "Item type wasn't provided! Need it - 'events' | 'memberships' | 'products'"
+      );
     // Verify the Discounts page header
     cy.verifyElementPresenceByLocatorAndText(
       'span[class^="chakra-text"]',
@@ -88,11 +153,28 @@ Cypress.Commands.add(
       'span[data-testid="permission-type-disc-level-venue"]',
       0
     ).click({ force: true });
-    // Click the 'Events' item type button
-    cy.verifyElementPresenceByLocatorAndText(
-      'div[data-testid="item-type-ticket"]',
-      "Events"
-    ).click({ force: true });
+    switch (discountDetails.itemType) {
+      // Click the 'Events' item type button
+      case "events":
+        cy.verifyElementPresenceByLocatorAndText(
+          'div[data-testid="item-type-ticket"]',
+          "Events"
+        ).click({ force: true });
+        break;
+      // Click the 'Memberships' item type button
+      case "memberships":
+        cy.verifyElementPresenceByLocatorAndText(
+          'div[data-testid="item-type-membership"]',
+          "Memberships"
+        ).click({ force: true });
+        break;
+      // Click the 'Products' button
+      case "products":
+        cy.verifyElementPresenceByLocatorAndText(
+          'div[data-testid="item-type-product"]',
+          "Products"
+        ).click({ force: true });
+    }
   }
 );
 // **************************************************************************
@@ -101,9 +183,9 @@ Cypress.Commands.add(
  * @param discountDetails
  */
 Cypress.Commands.add("populateLimitsSection", (discountDetails) => {
+  cy.log("***** Going to populateLimitsSection(discountDetails) *****");
   if (!discountDetails)
     throw new Error("Discount details weren't provided! Need them.");
-  cy.log("***** Going to populateLimitsSection(discountDetails) *****");
   // Verify the Discounts page header
   cy.verifyElementPresenceByLocatorAndText(
     'span[class^="chakra-text"]',
@@ -165,7 +247,7 @@ Cypress.Commands.add(
       code: discountDetails.discountCode.toUpperCase(),
       type: discountDetails.type,
       description: discountDetails.discountDescription,
-      discountAmount: `${discountDetails.discountAmountPercentage}.00%`,
+      discountAmount: `${discountDetails.discountAmountPercentage}`,
       totalLimit: discountDetails.overallUsageLimit,
       limitPerUser: discountDetails.usageLimitPerCustomer,
       limitPerItem: discountDetails.itemLimitPerCustomer,
@@ -222,11 +304,11 @@ Cypress.Commands.add("openDiscountCodeEntryByRowIndex", (rowIndex) => {
 Cypress.Commands.add(
   "verifyDiscountTypeSectionOfExistingForm",
   (discountDetails) => {
-    if (!discountDetails)
-      throw new Error("Discount details weren't provided! Need them.");
     cy.log(
       "***** Going to verifyDiscountTypeSectionOfExistingForm(discountDetails) *****"
     );
+    if (!discountDetails)
+      throw new Error("Discount details weren't provided! Need them.");
     // Verify the Discounts page header
     cy.verifyElementPresenceByLocatorAndText(
       'span[class^="chakra-text"]',
@@ -251,11 +333,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "verifyDiscountAmountSectionOfExistingForm",
   (discountAmountDetails) => {
-    if (!discountAmountDetails)
-      throw new Error("Discount Amount details weren't provided! Need them.");
     cy.log(
       "***** Going to verifyDiscountAmountSectionOfExistingForm(discountAmountDetails) *****"
     );
+    if (!discountAmountDetails)
+      throw new Error("Discount Amount details weren't provided! Need them.");
     // Button can exist or exist and being selected
     if (discountAmountDetails.percentageButton) {
       cy.log('Now verifying the "Percentage" button.');
@@ -304,28 +386,54 @@ Cypress.Commands.add(
           break;
       }
     }
-    if (discountAmountDetails.amount) {
-      cy.log('Now verifying the "Amount" value.');
+    if (discountAmountDetails.percentage) {
+      cy.log('Verifying the "Percentage" value.');
       cy.verifyElementPresenceByLocatorAndIndex(
         'input[data-testid="percentage"]',
         0
-      ).should("have.value", `${discountAmountDetails.amount}.00`);
+      ).should("have.value", `${discountAmountDetails.percentage}`);
+    }
+    if (discountAmountDetails.amount) {
+      cy.log('Verifying the "Amount" value.');
+      cy.verifyElementPresenceByLocatorAndIndex(
+        'input[data-testid="amount"]',
+        0
+      ).should("have.value", `${discountAmountDetails.amount}`);
     }
     // Radio button can exist or exist and being selected
     if (discountAmountDetails.entireOrderRadioButton) {
       cy.log('Now verifying the "Entire Order" radio button.');
-      cy.verifyElementPresenceByLocatorAndIndex(
-        'span[data-testid="apply-method-once"][data-checked]',
-        0
-      );
+      switch (discountAmountDetails.entireOrderRadioButton) {
+        case "selected":
+          cy.verifyElementPresenceByLocatorAndIndex(
+            'span[data-testid="apply-method-once"]',
+            0
+          ).should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.verifyElementPresenceByLocatorAndIndex(
+            'span[data-testid="apply-method-once"]',
+            0
+          ).should("not.have.attr", "data-checked");
+      }
     }
     // Radio button can exist or exist and being selected
     if (discountAmountDetails.individualItemsRadioButton) {
       cy.log('Now verifying the "Individual Items" radio button.');
-      cy.verifyElementPresenceByLocatorAndIndex(
-        'span[data-testid="apply-method-to-each"][data-checked]',
-        0
-      );
+      switch (discountAmountDetails.individualItemsRadioButton) {
+        case "selected":
+          cy.verifyElementPresenceByLocatorAndIndex(
+            'span[data-testid="apply-method-to-each"]',
+            0
+          ).should("have.attr", "data-checked");
+          break;
+        case "exists":
+          cy.verifyElementPresenceByLocatorAndIndex(
+            'span[data-testid="apply-method-to-each"]',
+            0
+          ).should("not.have.attr", "data-checked");
+          break;
+      }
     }
   }
 );
@@ -337,13 +445,13 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "verifyAmountOffEntireOrderSectionOfExistingForm",
   (amountOffEntireOrderDetails) => {
+    cy.log(
+      "***** Going to verifyAmountOffEntireOrderSectionOfExistingForm(amountOffEntireOrderDetails) *****"
+    );
     if (!amountOffEntireOrderDetails)
       throw new Error(
         "Amount Off Entire Order details weren't provided! Need them."
       );
-    cy.log(
-      "***** Going to verifyAmountOffEntireOrderSectionOfExistingForm(amountOffEntireOrderDetails) *****"
-    );
     // Radio button can exist or exist and being selected
     if (amountOffEntireOrderDetails.allItemsOfThisTypeRadioButton) {
       cy.log('Now verifying the "All items of this type" radio button.');
@@ -354,16 +462,16 @@ Cypress.Commands.add(
         case "selected":
           cy.log('"All Items Of This Type" radio button should be selected');
           cy.verifyElementPresenceByLocatorAndIndex(
-            'div[data-testid="unit-percent"][data-checked]',
+            'span[data-testid="permission-type-disc-level-venue"]',
             0
-          );
+          ).should("have.attr", "data-checked");
           break;
         // If the button doesn't have the 'data-checked' attribute that means the button is not selected
         case "exists":
           cy.log(
             '"All Items Of This Type" radio button should NOT be selected but should exist'
           );
-          cy.get('div[data-testid="unit-percent"]')
+          cy.get('span[data-testid="permission-type-disc-level-venue"]')
             .should("exist")
             .should("not.have.attr", "data-checked");
           break;
@@ -591,11 +699,11 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "verifyLimitsSectionOfExistingForm",
   (limitsSectionDetails) => {
-    if (!limitsSectionDetails)
-      throw new Error("'Limits' section details weren't provided! Need them.");
     cy.log(
       "***** Going to verifyLimitsSectionOfExistingForm(limitsSectionDetails) *****"
     );
+    if (!limitsSectionDetails)
+      throw new Error("'Limits' section details weren't provided! Need them.");
     // Verify the section header existence
     cy.verifyElementPresenceByLocatorAndText(
       'p[class^="chakra-text"][data-testid="heading"]',
@@ -640,13 +748,13 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "verifyActiveDatesSectionOfExistingForm",
   (activeDatesDetails) => {
+    cy.log(
+      "***** Going to verifyActiveDatesSectionOfExistingForm(activeDatesDetails) *****"
+    );
     if (!activeDatesDetails)
       throw new Error(
         "'Active dates' section details weren't provided! Need them."
       );
-    cy.log(
-      "***** Going to verifyActiveDatesSectionOfExistingForm(activeDatesDetails) *****"
-    );
     if (activeDatesDetails.setEndDate) {
       cy.log('Verifying the "Set end date" checkbox');
       cy.log(
@@ -683,13 +791,13 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   "verifyActiveDatesSectionOfExistingForm",
   (acceptedLocationsDetails) => {
+    cy.log(
+      "***** Going to verifyActiveDatesSectionOfExistingForm(acceptedLocationsDetails) *****"
+    );
     if (!acceptedLocationsDetails)
       throw new Error(
         "'Accepted Locations' section details weren't provided! Need them."
       );
-    cy.log(
-      "***** Going to verifyActiveDatesSectionOfExistingForm(acceptedLocationsDetails) *****"
-    );
     // 'Box office' checkbox verification
     if (acceptedLocationsDetails.boxOfficeCheckbox) {
       cy.log('Verifying the "Box office" checkbox');
@@ -738,4 +846,17 @@ Cypress.Commands.add(
     }
   }
 );
+// **************************************************************************
+/**
+ * Method to click 'Save' a discount form
+ */
+Cypress.Commands.add("clickSaveDiscountForm", () => {
+  cy.log("***** Going to clickSaveDiscountForm() *****");
+  cy.get('button[data-testid="discounts-form-submit-button"]')
+    .should("exist")
+    .should("not.be.disabled")
+    .scrollIntoView({ force: true })
+    .click({ force: true })
+    .wait(900);
+});
 // **************************************************************************
