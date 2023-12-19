@@ -10,7 +10,7 @@ describe("Verify that", () => {
 
   // ***************************************************************************
   it(
-    "a single event discount code can be created based on the price percentage and applied for all order items-TA-115",
+    "a single event discount code can be created based on the price percentage and applied to all order items-TA-115",
     { tags: ["e2e", "discounts", "appearance"] },
     function () {
       let uniqueDiscountName =
@@ -48,6 +48,7 @@ describe("Verify that", () => {
       // Verify 'Success' message
       cy.verifyTopRightSuccessMessage("Success");
       cy.clickButtonXtoCloseMessage();
+      // ***** VERIFICATION BEGINS HERE *****
       // Verify discount details in grid
       cy.verifyDiscountDetailsInGridColumns(discountDetails);
       // Open just created Discount code
@@ -93,7 +94,7 @@ describe("Verify that", () => {
   );
   // ***************************************************************************
   it(
-    "a single event discount code can be created as an amount and applied for all order items-TA-112",
+    "a single event discount code can be created as an amount and applied to all order items-TA-112",
     { tags: ["e2e", "discounts", "appearance"] },
     function () {
       let uniqueDiscountName =
@@ -136,6 +137,7 @@ describe("Verify that", () => {
       // Verify 'Success' message
       cy.verifyTopRightSuccessMessage("Success");
       cy.clickButtonXtoCloseMessage();
+      // ***** VERIFICATION BEGINS HERE *****
       // Verify discount details in grid
       cy.verifyDiscountDetailsInGridColumns(discountDetails);
       // Open just created Discount code
@@ -166,6 +168,97 @@ describe("Verify that", () => {
         usageLimitPerCustomerValue: "25",
         itemLimitPerCustomerValue: "3",
         overallUsageLimitValue: "7",
+      };
+      cy.verifyLimitsSectionOfExistingForm(limitsSectionDetails);
+      // Verify the 'Active dates' section
+      let activeDatesDetails = {
+        setEndDate: "exists",
+      };
+      cy.verifyActiveDatesSectionOfExistingForm(activeDatesDetails);
+      // Verify the 'Accepted Locations' section
+      let acceptedLocationsDetails = {
+        boxOfficeCheckbox: "selected",
+        onlinePublicCheckoutCheckbox: "selected",
+      };
+      cy.verifyActiveDatesSectionOfExistingForm(acceptedLocationsDetails);
+    }
+  );
+  // ***************************************************************************
+  it(
+    "a 'Single Discount Code' can be created as an 'Amount' and applied to 'Individual Items'-TA-127",
+    { tags: ["e2e", "discounts", "appearance"] },
+    function () {
+      let uniqueDiscountName =
+        Math.floor(Date.now() / 1000) + "-automation-discount";
+      let discountDetails = {
+        discountCode: uniqueDiscountName,
+        discountDescription: `Discount description for ${uniqueDiscountName}.`,
+        discountAmountPercentage: "$5.25",
+        usageLimitPerCustomer: 0,
+        itemLimitPerCustomer: 0,
+        overallUsageLimit: 0,
+        type: "Regular",
+        amountOff: "individualItems",
+        itemType: "events",
+      };
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.regularUserForOrganization5).wait(700);
+      cy.visit("/manage/events/discounts/").wait(700);
+      // Verify Discounts header
+      cy.get('div[class="page-content"] > p[class^="chakra-text"]')
+        .should("exist")
+        .should("have.text", "Discounts");
+      // Click 'Create discount'
+      cy.verifyElementPresenceByLocatorAndText(
+        'button[data-testid="create-discount-link"]',
+        "Create discount"
+      ).click({ force: true });
+      // Populate 'Discount Code' and 'Discount Description'
+      cy.populateDiscountTypeDiscountCodeSection(discountDetails);
+      // Populate 'Discount Amount'
+      cy.populateFixedAmountOnDiscountAmountSection(discountDetails);
+      // Populate event 'Amount off entire order'
+      cy.populateEventAmountOffEntireOrderForAllItemsSection(discountDetails);
+      // Populate 'Limits'
+      cy.populateLimitsSection(discountDetails);
+      // Populate 'Accepted Locations'
+      cy.checkAcceptedLocationsCheckboxes();
+      // Click Save to submit the form
+      cy.clickSaveDiscountForm();
+      // Verify 'Success' message
+      cy.verifyTopRightSuccessMessage("Success");
+      cy.clickButtonXtoCloseMessage();
+      // ***** VERIFICATION BEGINS HERE *****
+      // Verify discount details in grid
+      cy.verifyDiscountDetailsInGridColumns(discountDetails);
+      // Open just created Discount code
+      cy.openDiscountCodeEntryByRowIndex("0");
+      // Verify the discount details
+      cy.verifyDiscountTypeSectionOfExistingForm(discountDetails);
+      // Verify the 'Discount Amount' section details
+      let discountAmountDetails = {
+        fixedAmountButton: "selected",
+        percentageButton: "exists",
+        amount: "5.25",
+        entireOrderRadioButton: "exists",
+        individualItemsRadioButton: "selected",
+      };
+      cy.verifyDiscountAmountSectionOfExistingForm(discountAmountDetails);
+      // Verify the 'Amount off entire order'
+      let amountOffEntireOrderDetails = {
+        allItemsOfThisTypeRadioButton: "selected",
+        eventsItemTypeButton: "selected",
+        membershipsItemTypeButton: "exists",
+        productsItemTypeButton: "exists",
+      };
+      cy.verifyAmountOffEntireOrderSectionOfExistingForm(
+        amountOffEntireOrderDetails
+      );
+      // Verify the 'Limits' section details
+      let limitsSectionDetails = {
+        usageLimitPerCustomerValue: "0",
+        itemLimitPerCustomerValue: "0",
+        overallUsageLimitValue: "0",
       };
       cy.verifyLimitsSectionOfExistingForm(limitsSectionDetails);
       // Verify the 'Active dates' section
