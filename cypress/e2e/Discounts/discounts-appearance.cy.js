@@ -150,4 +150,49 @@ describe("Verify Discounts pages appearance by ", () => {
     }
   );
   // ***************************************************************************
+  it(
+    "ensuring correct inline validation errors show up-TA-129",
+    { tags: ["e2e", "discounts", "appearance"] },
+    function () {
+      cy.navigateToHomePage();
+      cy.logIntoPortal(this.testdata.regularUserForOrganization5).wait(700);
+      cy.visit("/manage/events/discounts/").wait(700);
+      // Verify Discounts header
+      cy.get('div[class="page-content"] > p[class^="chakra-text"]')
+        .should("exist")
+        .should("have.text", "Discounts");
+      // Click the 'Create discount' page
+      cy.getByDataTestId("create-discount-link")
+        .scrollIntoView({ force: true })
+        .click({ force: true });
+      // Wait for the 'Discounts' (go-back) button/link
+      cy.get('a[class^="chakra-link"] > div')
+        .contains("Discounts")
+        .should("exist", { timeout: 7000 })
+        .scrollIntoView({ force: true })
+        .should("be.visible");
+      // Click 'Save' to submit the form
+      cy.clickSaveDiscountForm();
+      // Verify error messages
+      let errorMessages = {
+        discountCodeErrror: "Discount code is required",
+        discountDescriptionError: "Discount description is required",
+        discountAmountError: "Discount amount is required",
+        acceptedLocationsError: "Accepted locations is required",
+      };
+      for (let i = 0; i < Object.keys(errorMessages).length; i++) {
+        cy.log(
+          "Verifying the following errorKey: " +
+            Object.keys(errorMessages).at(i) +
+            ", errorValue: " +
+            Object.values(errorMessages).at(i)
+        );
+        cy.verifyElementPresenceByLocatorAndIndex(
+          'div[id*="-feedback"][class^="chakra-form__error-message"]',
+          i
+        ).should("have.text", Object.values(errorMessages).at(i));
+      }
+    }
+  );
+  // ***************************************************************************
 });
