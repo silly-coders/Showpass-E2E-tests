@@ -132,50 +132,129 @@ Cypress.Commands.add(
 /**
  * Method to populate the Amount off entire order - for an event 'On All items of this type' section
  * @param discountDetails.itemType ('events' | 'memberships' | 'products')
+ * @param discountDetails.amountOffItemsOn ('allItemsOfThisType' | 'certainItemsOfThisType' | 'everythingExceptCertainItems')
+ * @param discountDetails.singleOrParentOrTemplate ('single' | 'parent' | 'template')
  */
 Cypress.Commands.add(
-  "populateEventAmountOffEntireOrderForAllItemsSection",
+  "populateAmountOffEntireOrderSection",
   (discountDetails) => {
-    cy.log(
-      "***** Going to populateEventAmountOffEntireOrderForAllItemsSection() *****"
-    );
+    cy.log("***** Going to populateAmountOffEntireOrderSection() *****");
     if (!discountDetails.itemType)
       throw new Error(
         "Item type wasn't provided! Need it - 'events' | 'memberships' | 'products'"
+      );
+    if (!discountDetails.amountOffItemsOn)
+      throw new Error(
+        "'Amount Off Items On...' wasn't provided! Need it - 'allItemsOfThisType' | 'certainItemsOfThisType' | 'everythingExceptCertainItems'"
+      );
+    if (!discountDetails.amountOffItemsOn)
+      throw new Error(
+        "'Single or Parent or Template' wasn't provided! Need it - 'single' | 'parent' | 'template'"
       );
     // Verify the Discounts page header
     cy.verifyElementPresenceByLocatorAndText(
       'span[class^="chakra-text"]',
       "Discounts"
     );
-    // Click the 'All items of this type' radio button
-    cy.verifyElementPresenceByLocatorAndIndex(
-      'span[data-testid="permission-type-disc-level-venue"]',
-      0
-    ).click({ force: true });
-    switch (discountDetails.itemType) {
-      // Click the 'Events' item type button
-      case "events":
-        cy.verifyElementPresenceByLocatorAndText(
-          'div[data-testid="item-type-ticket"]',
-          "Events"
-        ).click({ force: true });
-        break;
-      // Click the 'Memberships' item type button
-      case "memberships":
-        cy.verifyElementPresenceByLocatorAndText(
-          'div[data-testid="item-type-membership"]',
-          "Memberships"
-        ).click({ force: true });
-        break;
-      // Click the 'Products' button
-      case "products":
-        cy.verifyElementPresenceByLocatorAndText(
-          'div[data-testid="item-type-product"]',
-          "Products"
-        ).click({ force: true });
+    // *** For 'All items of this type' ***
+    if (discountDetails.amountOffItemsOn == "allItemsOfThisType") {
+      cy.log('Going to click the "All Items Of This Type" radio button');
+      // Click the 'All items of this type' radio button
+      cy.verifyElementPresenceByLocatorAndIndex(
+        'span[data-testid="permission-type-disc-level-venue"]',
+        0
+      ).click({ force: true });
+      switch (discountDetails.itemType) {
+        // Click the 'Events' item type button
+        case "events":
+          cy.verifyElementPresenceByLocatorAndText(
+            'div[data-testid="item-type-ticket"]',
+            "Events"
+          ).click({ force: true });
+          break;
+        // Click the 'Memberships' item type button
+        case "memberships":
+          cy.verifyElementPresenceByLocatorAndText(
+            'div[data-testid="item-type-membership"]',
+            "Memberships"
+          ).click({ force: true });
+          break;
+        // Click the 'Products' button
+        case "products":
+          cy.verifyElementPresenceByLocatorAndText(
+            'div[data-testid="item-type-product"]',
+            "Products"
+          ).click({ force: true });
+      }
     }
-  }
+      // *** For 'Certain items of this type' ***
+      if (discountDetails.amountOffItemsOn == "certainItemsOfThisType") {
+        cy.log('Going to click the "Certain Items Of This Type" radio button');
+        // Click the 'Certain items of this type' radio button
+        cy.verifyElementPresenceByLocatorAndIndex(
+          'span[data-testid="permission-type-disc-level-ticket-type"]',
+          0
+        ).click({ force: true });
+        // Ensure the radio button got selected
+        cy.verifyElementPresenceByLocatorAndIndex(
+          'span[data-testid="permission-type-disc-level-ticket-type"]',
+          0
+        ).should("have.attr", "data-checked");
+        switch (discountDetails.itemType) {
+          // Click the 'Events' item type button
+          case "events":
+            cy.verifyElementPresenceByLocatorAndText(
+              'div[data-testid="item-type-ticket"]',
+              "Events"
+            ).click({ force: true });
+            break;
+          // Click the 'Memberships' item type button
+          case "memberships":
+            cy.verifyElementPresenceByLocatorAndText(
+              'div[data-testid="item-type-membership"]',
+              "Memberships"
+            ).click({ force: true });
+            break;
+          // Click the 'Products' button
+          case "products":
+            cy.verifyElementPresenceByLocatorAndText(
+              'div[data-testid="item-type-product"]',
+              "Products"
+            ).click({ force: true });
+        }
+      }
+      // *** For 'Everything except certain items of this type' ***
+      if (discountDetails.amountOffItemsOn == "everythingExceptCertainItems") {
+        cy.log('Going to click the "Everything Except Certain Items Of This Type" radio button');
+        // Click the 'Everything except certain items of this type' radio button
+        cy.verifyElementPresenceByLocatorAndIndex(
+          'span[data-testid="permission-type-disc-level-excluded-ticket-type"]',
+          0
+        ).click({ force: true });
+        switch (discountDetails.itemType) {
+          // Click the 'Events' item type button
+          case "events":
+            cy.verifyElementPresenceByLocatorAndText(
+              'div[data-testid="item-type-ticket"]',
+              "Events"
+            ).click({ force: true });
+            break;
+          // Click the 'Memberships' item type button
+          case "memberships":
+            cy.verifyElementPresenceByLocatorAndText(
+              'div[data-testid="item-type-membership"]',
+              "Memberships"
+            ).click({ force: true });
+            break;
+          // Click the 'Products' button
+          case "products":
+            cy.verifyElementPresenceByLocatorAndText(
+              'div[data-testid="item-type-product"]',
+              "Products"
+            ).click({ force: true });
+        }
+      }
+    }
 );
 // **************************************************************************
 /**
@@ -317,7 +396,9 @@ Cypress.Commands.add(
     // Verify Discount Code
     cy.get('input[data-testid="code"][name="code"]')
       .should("exist", { timeout: 9000 })
-      .should("have.value", discountDetails.discountCode.toUpperCase(), { timeout: 5000 });
+      .should("have.value", discountDetails.discountCode.toUpperCase(), {
+        timeout: 5000,
+      });
     // Verify Discount Description
     cy.verifyElementPresenceByLocatorAndIndex(
       'input[data-testid="discount-code-description"][class^="chakra-input"]',

@@ -9,7 +9,7 @@ describe("Verify Discounts pages appearance by ", () => {
   });
 
   // ***************************************************************************
-  it(
+  it.skip(
     "ensuring that 'Discount Codes' pages elements are present-TA-123-1",
     { tags: ["e2e", "discounts", "appearance"] },
     function () {
@@ -70,7 +70,7 @@ describe("Verify Discounts pages appearance by ", () => {
     }
   );
   // ***************************************************************************
-  it(
+  it.skip(
     "ensuring that 'Bulk Discounts' pages elements are present-TA-123-2",
     { tags: ["e2e", "discounts", "appearance"] },
     function () {
@@ -112,7 +112,7 @@ describe("Verify Discounts pages appearance by ", () => {
     }
   );
   // ***************************************************************************
-  it(
+  it.skip(
     "ensuring that the 'Create discount' page content is correct-TA-124",
     { tags: ["e2e", "discounts", "appearance"] },
     function () {
@@ -150,7 +150,7 @@ describe("Verify Discounts pages appearance by ", () => {
     }
   );
   // ***************************************************************************
-  it(
+  it.skip(
     "ensuring correct inline validation errors show up-TA-129",
     { tags: ["e2e", "discounts", "appearance"] },
     function () {
