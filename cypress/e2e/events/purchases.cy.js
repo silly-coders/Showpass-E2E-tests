@@ -27,10 +27,11 @@ describe("Verify purchased tickets by ", () => {
         .should("be.visible")
         .click({ force: true });
       // Ensure the 'Search events' field on the 'Home' page shows up
-  cy.verifyElementPresenceByLocatorAndIndex(
-    'input[id="EventSearchInput-input"]',
-    0, {timeout: 3000}
-  );  
+      cy.verifyElementPresenceByLocatorAndIndex(
+        'input[id="EventSearchInput-input"]',
+        0,
+        { timeout: 3000 }
+      );
       // Log out
       cy.clickMainMenuAndLogOut();
       // Open just created event
@@ -87,6 +88,12 @@ describe("Verify purchased tickets by ", () => {
       cy.get('a[class="navbar-brand"] > img[class="logo-nav"]')
         .should("be.visible")
         .click({ force: true });
+      // Ensure the 'Search events' field on the 'Home' page shows up
+      cy.verifyElementPresenceByLocatorAndIndex(
+        'input[id="EventSearchInput-input"]',
+        0,
+        { timeout: 3000 }
+      );
       // Sign out
       cy.clickUsernameOnTopBar();
       cy.clickLogOutButton();
@@ -115,10 +122,11 @@ describe("Verify purchased tickets by ", () => {
         .should("be.visible")
         .click({ force: true });
       // Ensure the 'Search events' field on the 'Home' page shows up
-  cy.verifyElementPresenceByLocatorAndIndex(
-    'input[id="EventSearchInput-input"]',
-    0, {timeout: 3000}
-  );  
+      cy.verifyElementPresenceByLocatorAndIndex(
+        'input[id="EventSearchInput-input"]',
+        0,
+        { timeout: 3000 }
+      );
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/").wait(900);
       cy.openOrderByOrderId();
@@ -224,7 +232,7 @@ describe("Verify purchased tickets by ", () => {
       cy.get('h1[class^="md-display"]')
         .should("exist")
         .should("be.visible")
-        .should("contain.text", "Thank you!", {timeout: 5000});
+        .should("contain.text", "Thank you!", { timeout: 5000 });
       cy.saveOrderIdInJson();
       // Navigate to 'My Orders' page
       cy.visit("/account/my-orders/").wait(900);
@@ -455,7 +463,7 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true })
         .wait(900);
       // Click on the Showpass logo to move to the Home page
-      cy.verifyShowpassLogoAppearance().first().click({force: true});  
+      cy.verifyShowpassLogoAppearance().first().click({ force: true });
       // Open order URL taken from cypress/fixtures/dynamic-values.json
       cy.readFile("cypress/fixtures/dynamic-values.json").then((value) => {
         cy.log(`Going to open the following order: ${value.stagingOrderHref}`);
@@ -603,7 +611,7 @@ describe("Verify purchased tickets by ", () => {
         .click({ force: true })
         .wait(900);
       // Click on the Showpass logo to move to the Home page
-      cy.verifyShowpassLogoAppearance().first().click({force: true});
+      cy.verifyShowpassLogoAppearance().first().click({ force: true });
       // Open order URL taken from cypress/fixtures/dynamic-values.json
       cy.readFile("cypress/fixtures/dynamic-values.json").then((value) => {
         cy.log(`Going to open the following order: ${value.stagingOrderHref}`);
