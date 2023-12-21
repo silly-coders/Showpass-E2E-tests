@@ -23,6 +23,7 @@ describe("Verify destructive profile updates by ", () => {
         userPassword: this.testdata.userForUpdates.userPassword,
       };
       cy.loginOnlyIntoPortal(userDetails);
+      cy.logInIfStillLoggedOut(userDetails);
       cy.clickUsernameOnTopBar();
       cy.selectProfileDropDownItem();
       cy.clickPasswordButton();

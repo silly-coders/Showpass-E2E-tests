@@ -369,7 +369,7 @@ describe("Verify 'Memberships' page features by ", function () {
         uniqueMembershipName,
         this.testdata.testGroup1
       );
-      // Click the group name to view its front-end page and be able to purchased membership
+      // Click the group name to view its front-end page and be able to purchase membership
       cy.get(
         `p[class^="chakra-text"] > a[target="_parent"][href='/m/${uniqueMembershipName.toLowerCase()}/']`
       )

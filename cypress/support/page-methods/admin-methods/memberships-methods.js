@@ -3,7 +3,11 @@
  */
 Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
   cy.log("Going to deleteAllMembershipsGroupsIfTheyExist()");
-  cy.wait(500);
+  // Wait for the 'Published' button-tab to show up
+  cy.verifyElementPresenceByLocatorAndText(
+    'button[class^="chakra-tabs__tab"][data-index="0"]',
+    "Published"
+  );
   cy.get("body").then(($body) => {
     if (
       $body.find(
@@ -26,7 +30,6 @@ Cypress.Commands.add("deleteAllMembershipsGroupsIfTheyExist", () => {
               .last()
               .scrollIntoView({ force: true })
               .click({ force: true });
-            cy.wait(500);
             // Confirm deletion on the 'Delete Membership Group' confirmation
             cy.log(
               'Confirm deletion on the "Delete Membership Group" confirmation dialog box'
@@ -114,7 +117,10 @@ Cypress.Commands.add(
     cy.getChakraButtonLabelByText("Membership")
       .click({ force: true })
       .wait(500);
-    cy.getButtonByAttribute("href", "/manage/memberships/")
+    cy.verifyElementPresenceByLocatorAndIndex(
+      'button[href="/manage/memberships/"]',
+      0
+    )
       .click({
         force: true,
       })
@@ -317,9 +323,9 @@ Cypress.Commands.add(
       .scrollIntoView({ force: true })
       .click({ force: true });
     // Click Save
-    cy.contains('button[type="submit"][form="membership-benefit-form"]', 'Save')
-    .should('exist')
-    .click({force: true});
+    cy.contains('button[type="submit"][form="membership-benefit-form"]', "Save")
+      .should("exist")
+      .click({ force: true });
     // Verify and close the 'Success' message
     cy.verifyTopRightSuccessMessage("Success");
     cy.clickButtonXtoCloseMessage();
@@ -416,10 +422,14 @@ Cypress.Commands.add(
         cy.get('button[class^="chakra-button"][aria-label="Add item"]')
           .eq(i)
           .should("exist")
-          .scrollIntoView({ force: true });
+          .should("not.be.disabled", { timeout: 5000 });
         cy.wait(500);
       }
     }
+    // Ensure the data loading indicator doesn't show up
+    cy.getChakraSpinnerLoadingIndicator().should("not.exist", {
+      timeout: 5000,
+    });
     // Button 'Remove item' should be disabled at the end of test
     cy.get("@btn").should("exist").scrollIntoView().should("be.disabled");
   }
@@ -444,10 +454,13 @@ Cypress.Commands.add(
     // Click the 'Membership' menu item on the left hand menu
     cy.getChakraButtonLabelByText("Membership").click({ force: true });
     // Select 'Create Group'
-    cy.getButtonByAttribute("href", "/manage/memberships/create/").click({
-      force: true,
+    cy.verifyElementPresenceByLocatorAndIndex(
+      'button[href="/manage/memberships/create/"]',
+      0
+    ).click({ force: true });
+    cy.url().should("include", `/manage/memberships/create/`, {
+      timeout: 3000,
     });
-    cy.url().should("include", `/manage/memberships/create/`);
     // Populate the 'Membership Group Info' form
     cy.populateMembershipGroupInfoForm(uniqueMembershipName, testGroupDetails);
   }

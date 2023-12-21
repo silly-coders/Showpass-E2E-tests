@@ -961,8 +961,8 @@ Cypress.Commands.add("getChakraModalWindow", () => {
   cy.log(`Going to getChakraModalWindow()`);
   return cy
     .get('section[class^="chakra-modal__content"]')
-    .should("exist")
-    .should("be.visible");
+    .should("exist", {timeout: 3000})
+    .should("be.visible", {timeout: 3000});
 });
 // *****************************************************************************
 /**
