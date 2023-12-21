@@ -90,14 +90,12 @@ describe("Test checkout process by ", () => {
       // Verify that the order amount is below $30
       cy.get('strong > span[ng-if="!selectedPaymentPlan"]').then(($value) => {
         let orderAmountString = $value.text().trim();
+        // Keep only number
         let orderAmount = parseFloat(orderAmountString.replace(/\$/g, ""));
         cy.log(`The order amount is ${orderAmount}`);
         if (orderAmount > 29.99) {
-          cy.log(
-            "Looks like the order amount is larger than $30. Can't verify the 'Interac' button absense. Finishing the test."
-          );
           throw new Error(
-            "Looks like the order amount is larger than $30. Can't verify the 'Interac' button absense. Finishing the test."
+            "Order amount is larger than $30. Can't verify the 'Interac' button absence. Make the amount less than $30 and run the test again."
           );
         } else {
           // Click 'Next'
@@ -145,7 +143,9 @@ describe("Test checkout process by ", () => {
         // Navigate to the group name to view its front-end page and be able to purchased membership
         cy.visit(`/m/${uniqueMembershipName.toLowerCase()}/`);
         // Verify that URL contains the group name
-        cy.url().should("include", uniqueMembershipName.toLowerCase()).wait(700);
+        cy.url()
+          .should("include", uniqueMembershipName.toLowerCase())
+          .wait(700);
         // Verify group name in the header
         cy.getChakraSkeletonH1HeaderByText(uniqueMembershipName);
         // Verify group description
@@ -564,7 +564,7 @@ describe("Test checkout process by ", () => {
         .should("exist")
         .should("contain.text", "Free");
       // Verify the 'Tickets are not required for this event.' statement
-      cy.get('div[data-testid="card"] > div > h2')
+      cy.get('div[id="description"] > div[data-testid="card"] > div > h2')
         .should("exist")
         .should("contain.text", "Tickets are not required for this event.");
     }

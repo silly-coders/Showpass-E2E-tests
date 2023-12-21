@@ -293,7 +293,7 @@ describe("Verify purchased tickets by ", () => {
         "Verifying that a number of recurring events (available event days) is correct."
       );
       cy.get('div[data-testid="recurring-timeslot-modal"]')
-        .find('div[data-testid="card"]')
+        .find('button[data-testid="child-event-card"]')
         .then(($value) => {
           let totalEventDaysCount = $value.length;
           expect(totalEventDaysCount).to.equal(
@@ -306,7 +306,7 @@ describe("Verify purchased tickets by ", () => {
         cy.log(`Going to add event day # ${i + 1} to cart.`);
         // Click the event day card
         cy.get('div[data-testid="recurring-timeslot-modal"]')
-          .find('div[data-testid="card"]')
+          .find('button[data-testid="child-event-card"]')
           .eq(i)
           .should("exist")
           .scrollIntoView({ force: true })
@@ -326,7 +326,7 @@ describe("Verify purchased tickets by ", () => {
           .click({ force: true });
         cy.wait(700);
         // Ensure you are on the 'Select a Date' modal window
-        cy.get('div[data-testid="card"]')
+        cy.get('button[data-testid="child-event-card"]')
           .first()
           .should("exist")
           .scrollIntoView({ force: true })
